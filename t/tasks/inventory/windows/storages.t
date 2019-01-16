@@ -285,6 +285,22 @@ my %tests = (
             SERIAL       => '6177c38f7f15954bc0aecde5929afc0a',
         },
     ],
+    'win10-crypt' => [
+        {
+            DESCRIPTION  => 'Lecteur de disque',
+            DISKSIZE     => 488382,
+            FIRMWARE     => 'AACA4100',
+            INTERFACE    => 'SCSI',
+            MANUFACTURER => '(Lecteurs de disque standard)',
+            MODEL        => 'KXG50ZNV512G NVMe TOSHIBA 512GB',
+            NAME         => '\\\\.\\PHYSICALDRIVE0',
+            SCSI_COID    => '0',
+            SCSI_LUN     => '0',
+            SCSI_UNID    => '0',
+            SERIAL       => '0000_A5B0_0000_0010_0008_0E02_0037_E465.',
+            TYPE         => 'Fixed hard disk media'
+        }
+    ],
 );
 
 plan tests => (2 * scalar keys %tests) + 1;
