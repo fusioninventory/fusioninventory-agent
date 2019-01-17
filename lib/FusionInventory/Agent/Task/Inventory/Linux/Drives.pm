@@ -175,10 +175,7 @@ sub _getFilesystems {
                 # Add cryptsetup status to filesystem
                 $filesystem->{ENCRYPTION}  = $cryptsetup{$name}->{TYPE};
                 $filesystem->{ENCRYPTED}   = 'Yes';
-                my ($keysize) = $cryptsetup{$name}->{KEYSIZE} =~ /^(\d+)/;
-                $filesystem->{ENCRYPTALGO} = $keysize ?
-                    $cryptsetup{$name}->{CIPHER}.'_'.$keysize :
-                    $cryptsetup{$name}->{CIPHER};
+                $filesystem->{ENCRYPTALGO} = $cryptsetup{$name}->{CIPHER};
 
                 last;
             }
