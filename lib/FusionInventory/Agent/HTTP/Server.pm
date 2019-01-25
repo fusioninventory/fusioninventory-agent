@@ -14,6 +14,7 @@ use URI;
 
 use FusionInventory::Agent::Version;
 use FusionInventory::Agent::Logger;
+use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Network;
 
 my $log_prefix = "[http server] ";
@@ -28,10 +29,53 @@ sub new {
         htmldir   => $params{htmldir},
         ip        => $params{ip},
         port      => $params{port} || 62354,
+        listeners => {},
     };
     bless $self, $class;
 
     $self->setTrustedAddresses(%params);
+
+    # Load any Server sub-module as plugin
+    my @plugins = ();
+    my ($sub_modules_path) = $INC{module2file(__PACKAGE__)} =~ /(.*)\.pm/;
+    foreach my $file (File::Glob::bsd_glob("$sub_modules_path/*.pm")) {
+        if ($OSNAME eq 'MSWin32') {
+            $file =~ s{\\}{/}g;
+            $sub_modules_path =~ s{\\}{/}g;
+        }
+
+        my ($name) = $file =~ m{$sub_modules_path/(\S+)\.pm$};
+        next unless $name;
+
+        # Don't load Plugin base class
+        next if $name eq "Plugin";
+
+        $self->{logger}->debug($log_prefix . "Trying to load $name Server plugin");
+
+        my $module = __PACKAGE__ . "::" . $name;
+        $module->require();
+        if ($EVAL_ERROR) {
+            $self->{logger}->debug($log_prefix . "Failed to load $name Server plugin: $EVAL_ERROR");
+            next;
+        }
+
+        my $plugin = $module->new(server => $self)
+            or next;
+
+        $plugin->init();
+        if ($plugin->disabled()) {
+            $self->{logger}->debug($log_prefix . "disabled $name Server plugin loaded");
+        } else {
+            $self->{logger}->debug($log_prefix . "$name Server plugin loaded");
+        }
+
+        push @plugins, $plugin;
+    }
+
+    # Sort and store loaded plugins
+    @plugins = sort { $b->priority() <=> $a->priority() } @plugins
+        if @plugins > 1;
+    $self->{_plugins} = \@plugins;
 
     return $self;
 }
@@ -88,6 +132,17 @@ sub _handle {
                 last SWITCH;
             }
 
+            # plugins request
+            foreach my $plugin (@{$self->{_plugins}}) {
+                next if $plugin->disabled();
+                if ($plugin->urlMatch($path)) {
+                    $status = $plugin->handle($client, $request, $clientIp);
+                    last SWITCH if $status;
+                } else {
+                    $self->{logger}->debug($log_prefix."NoMatch");
+                }
+            }
+
             # now request
             if ($path =~ m{^/now(?:/(\S*))?$}) {
                 $status = $self->_handle_now($client, $request, $clientIp, $1);
@@ -108,6 +163,48 @@ sub _handle {
                 last SWITCH;
             }
 
+            $logger->error($log_prefix . "unknown path: $path");
+            $client->send_error(400);
+            $status = 400;
+        }
+    }
+
+    $logger->debug($log_prefix . "response status $status");
+
+    $client->close();
+}
+
+sub _handle_plugins {
+    my ($self, $client, $request, $clientIp, $plugins) = @_;
+
+    my $logger = $self->{logger};
+
+    if (!$request) {
+        $client->close();
+        return;
+    }
+
+    my $path = $request->uri()->path();
+    $logger->debug($log_prefix . "request $path from client $clientIp");
+
+    my $method = $request->method();
+    my $status = 0;
+    if ($method ne 'GET') {
+        $logger->error($log_prefix . "invalid request type: $method");
+        $client->send_error(400);
+        $status = 400;
+    } else {
+        foreach my $plugin (@{$plugins}) {
+            next if $plugin->disabled();
+            if ($plugin->urlMatch($path)) {
+                $status = $plugin->handle($client, $request, $clientIp);
+                last if $status;
+            } else {
+                $self->{logger}->debug($log_prefix."NoMatch");
+            }
+        }
+
+        unless ($status) {
             $logger->error($log_prefix . "unknown path: $path");
             $client->send_error(400);
             $status = 400;
@@ -324,6 +421,40 @@ sub init {
         $log_prefix . "HTTPD service started on port $self->{port}"
     );
 
+    # Load any plugin configuration and fix plugins list handled on main port
+    my %plugins = map { $_->name() => $_ } @{$self->{_plugins}};
+    foreach my $plugin (@{$self->{_plugins}}) {
+
+        next if $plugin->disabled();
+
+        # Add a port listener if a plugin uses a dedicated port
+        my $port = $plugin->port();
+        if ($port && $port != $self->{port}) {
+            if ($self->{listeners}->{$port}) {
+                push @{$self->{listeners}->{$port}->{plugins}}, $plugin;
+            } else {
+                my $listener = HTTP::Daemon->new(
+                        LocalAddr => $self->{ip},
+                        LocalPort => $self->{port},
+                        Reuse     => 1,
+                        Timeout   => 1,
+                        Blocking  => 0
+                );
+                if (!$listener) {
+                    $logger->error($log_prefix . "failed to start the HTTPD service on port $port for ".$plugin->name()." plugin");
+                    $plugin->disable();
+                } else {
+                    $self->{listeners}->{$port} = {
+                        listener    => $listener,
+                        plugins     => [ $plugin ],
+                    };
+                }
+            }
+            delete $plugins{$plugin->name()};
+        }
+    }
+    $self->{_plugins} = [ values(%plugins) ];
+
     return 1;
 }
 
@@ -336,6 +467,15 @@ sub needToRestart {
     # Restart httpd daemon if ip or port changed
     return 1 if ($params{ip} && (!$self->{ip} || $params{ip} ne $self->{ip}));
     return 1 if ($params{port} && (!$self->{port} || $params{port} ne $self->{port}));
+
+    # Reload any plugin configuration and check if port or status has changed
+    foreach my $plugin (@{$self->{_plugins}}) {
+        my $port = $plugin>port();
+        my $disabled = $plugin->disabled();
+        $plugin->init();
+        return 1 if $port != $plugin>port();
+        return 1 if $disabled != $plugin->disabled();
+    }
 
     # Logger may have changed, but then resetting logger ref is sufficient
     $self->{logger} = $params{logger};
@@ -355,10 +495,15 @@ sub stop {
 
     return unless $self->{listener};
 
+    foreach my $port (keys(%{$self->{listeners}})) {
+        $self->{listeners}->{$port}->{listener}->shutdown(2);
+        delete $self->{listeners}->{$port};
+    }
     $self->{listener}->shutdown(2);
 
     $self->{logger}->debug($log_prefix . "HTTPD service stopped");
 
+    delete $self->{_plugins};
     delete $self->{listener};
 }
 
@@ -366,6 +511,16 @@ sub handleRequests {
     my ($self) = @_;
 
     return unless $self->{listener}; # init() call failed
+
+    # First try to handle plugin requests on dedicated ports
+    foreach my $port (keys(%{$self->{listeners}})) {
+        my ($client, $socket) = $self->{listeners}->{$port}->{listener}->accept();
+        next unless $socket;
+        my (undef, $iaddr) = sockaddr_in($socket);
+        my $clientIp = inet_ntoa($iaddr);
+        my $request = $client->get_request();
+        $self->_handle_plugins($client, $request, $clientIp, $self->{listeners}->{$port}->{plugins});
+    }
 
     my ($client, $socket) = $self->{listener}->accept();
     return unless $socket;
