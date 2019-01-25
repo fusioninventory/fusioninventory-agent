@@ -112,7 +112,7 @@ sub _loadFromBackend {
         if ($backend eq 'file') {
             # Handle loadedConfs to avoid loops
             $self->{loadedConfs} = {};
-            $self->_loadFromFile({
+            $self->loadFromFile({
                 file => $confFile
             });
             delete $self->{loadedConfs};
@@ -185,7 +185,7 @@ sub confdir {
     return $self->{_confdir};
 }
 
-sub _loadFromFile {
+sub loadFromFile {
     my ($self, $params) = @_;
     my $file = $params->{file} ?
         $params->{file} : $self->{_confdir} . '/agent.cfg';
@@ -230,7 +230,9 @@ sub _loadFromFile {
                 $val =~ s/\s*#.+$//;
             }
 
-            if (exists $default->{$key}) {
+            if ($params->{defaults} && exists $params->{defaults}->{$key}) {
+                $self->{$key} = $val;
+            } elsif (!$params->{defaults} && exists $default->{$key}) {
                 $self->{$key} = $val;
             } elsif (lc($key) eq 'include') {
                 $self->_includeDirective($val, $file);
@@ -273,10 +275,10 @@ sub _includeDirective {
         foreach my $cfg ( sort glob("$include/*.cfg") ) {
             # Skip missing or non-readable file
             next unless -f $cfg && -r $cfg;
-            $self->_loadFromFile({ file => $cfg });
+            $self->loadFromFile({ file => $cfg });
         }
     } elsif ( -f $include && -r $include ) {
-        $self->_loadFromFile({ file => $include });
+        $self->loadFromFile({ file => $include });
     }
 }
 
