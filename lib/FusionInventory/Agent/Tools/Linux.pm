@@ -240,6 +240,12 @@ sub getDevicesFromProc {
             last;
         }
 
+        # Support disk size from /sys/block
+        my $size_by_sectors = _getValueFromSysProc($logger, $name, 'size');
+        if ($size_by_sectors) {
+            $device->{DISKSIZE} = int($size_by_sectors * 512 / 1_000_000);
+        }
+
         # Check removable capacity as HintAuto via udiskctl while available
         if ($udisksctl && $device->{TYPE} eq 'disk') {
             my $hintauto = getFirstMatch(
