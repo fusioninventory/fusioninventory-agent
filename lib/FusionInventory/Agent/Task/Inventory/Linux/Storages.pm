@@ -83,7 +83,7 @@ sub _getDevices {
             $device->{SERIALNUMBER}
         );
 
-        if (!$device->{MANUFACTURER} or $device->{MANUFACTURER} eq 'ATA') {
+        if (!$device->{MANUFACTURER} || $device->{MANUFACTURER} eq 'ATA') {
             $device->{MANUFACTURER} = getCanonicalManufacturer(
                 $device->{MODEL}
             );
