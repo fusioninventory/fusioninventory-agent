@@ -912,6 +912,17 @@ sub getAgentMemorySize {
         }
     };
 
+    # Don't forget to close Process Handle
+    eval {
+        my $apiCloseHandle = Win32::API->new(
+            'kernel32',
+            'CloseHandle',
+            'I',
+            'I'
+        );
+        $ph = $apiCloseHandle->Call($ph);
+    };
+
     return $size;
 }
 
