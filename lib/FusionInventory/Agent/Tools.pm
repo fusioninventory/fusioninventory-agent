@@ -355,7 +355,7 @@ sub getFirstLine {
     my $result = <$handle>;
     close $handle;
 
-    chomp $result if $result;
+    chomp $result if defined $result;
     return $result;
 }
 
@@ -371,7 +371,7 @@ sub getLastLine {
     }
     close $handle;
 
-    chomp $result if $result;
+    chomp $result if defined $result;
     return $result;
 }
 
