@@ -232,10 +232,12 @@ sub _getType {
             file => '/proc/scsi/scsi',
             logger => $logger
         );
-        $result = _matchPatterns($handle);
-        close $handle;
+        if ($handle) {
+            $result = _matchPatterns($handle);
+            close $handle;
+            return $result if $result;
+        }
     }
-    return $result if $result;
 
     # systemd based container like lxc
 
@@ -251,11 +253,11 @@ sub _getType {
     }
     # OpenVZ
     if (-f '/proc/self/status') {
-        my $handle = getFileHandle(
+        my @selfstatus = getAllLines(
             file => '/proc/self/status',
             logger => $logger
         );
-        while (my $line = <$handle>) {
+        foreach my $line (@selfstatus) {
             my ($key, $value) = split(/:/, $line);
             $result = "Virtuozzo" if $key eq 'envID' && $value > 0;
         }

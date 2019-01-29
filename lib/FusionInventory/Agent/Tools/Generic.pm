@@ -373,6 +373,7 @@ sub _loadEDIDDatabase {
        next unless $line =~ /^([A-Z]{3}) __ (.*)$/;
        $EDIDVendors->{$1} = $2;
    }
+    close $handle;
 
    return;
 }

@@ -78,6 +78,7 @@ sub _runOnWindows {
     while(my $line = readline($fd)) {
         $buf .= $line;
     }
+    close $fd;
     $logger->debug2("Run: ".$buf);
 
     my $errMsg = '';

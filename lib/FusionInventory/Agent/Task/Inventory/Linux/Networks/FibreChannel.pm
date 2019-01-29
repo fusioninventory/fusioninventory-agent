@@ -60,6 +60,8 @@ sub _getInterfacesFromFcHost {
         }
     }
 
+    close $handle;
+
     return @interfaces;
 }
 

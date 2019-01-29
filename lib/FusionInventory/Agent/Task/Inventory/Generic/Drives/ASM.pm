@@ -86,6 +86,8 @@ sub _getDisksGroups {
         };
     }
 
+    close $handle;
+
     return \@groups;
 }
 

@@ -57,6 +57,7 @@ sub doInventory {
             next unless /^(\S+)\s=\s"(.*)"/;
             $info{$1} = $2;
         }
+        close $handle;
         next unless $info{Serial};
 
         my $date;
@@ -94,6 +95,7 @@ sub _getTransmitLicenses {
             $in = "VERSION";
         }
     }
+    close $handle;
 
     return unless $val{KEY};
 

@@ -558,6 +558,7 @@ sub getInterfacesFromIp {
             };
         }
     }
+    close $handle;
 
     if (@addresses) {
         push @interfaces, @addresses;
