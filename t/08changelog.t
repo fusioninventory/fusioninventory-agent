@@ -21,6 +21,7 @@ open (my $handle, '<', 'Changes') or die "unable to open Change file: $ERRNO";
 
 # read third line
 my $line = <$handle>;
+close $handle;
 like(
     $line,
     qr/$FusionInventory::Agent::VERSION \w{3}, \d{1,2} \w{3} \d{4}$/,
