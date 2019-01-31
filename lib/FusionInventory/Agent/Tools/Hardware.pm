@@ -10,7 +10,6 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Network;
 use FusionInventory::Agent::Tools::SNMP;
 use FusionInventory::Agent::SNMP::Device;
-use Data::Dumper;
 
 our @EXPORT = qw(
     getDeviceInfo
