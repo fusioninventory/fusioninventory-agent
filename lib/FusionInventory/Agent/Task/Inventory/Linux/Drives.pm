@@ -169,6 +169,7 @@ sub _getFilesystems {
                         next unless ($line =~ /^\s*(.*):\s*(.*)$/);
                         $cryptsetup{$name}->{uc($1)} = $2;
                     }
+                    close $handle;
                 }
                 next unless $cryptsetup{$name};
 
