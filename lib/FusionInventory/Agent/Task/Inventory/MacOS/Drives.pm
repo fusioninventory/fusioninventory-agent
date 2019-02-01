@@ -62,9 +62,9 @@ sub doInventory {
             $logger->debug("FileVault 2 is enabled");
             my ($rootfs) = grep { $_->{TYPE} eq '/' } values(%filesystems);
             if ($rootfs) {
-                $rootfs->{ENCRYPTED}   = 'Yes';
-                $rootfs->{ENCRYPTION}  = 'FileVault 2';
-                $rootfs->{ENCRYPTALGO} = 'XTS_AES_128';
+                $rootfs->{ENCRYPT_STATUS} = 'Yes';
+                $rootfs->{ENCRYPT_NAME}   = 'FileVault 2';
+                $rootfs->{ENCRYPT_ALGO}   = 'XTS_AES_128';
             }
         } else {
             $logger->debug("FileVault 2 is disabled");

@@ -174,10 +174,10 @@ sub _getDrives {
         my $encrypted = defined($object->{ProtectionStatus}) ?
             $object->{ProtectionStatus} : 2 ;
 
-        $seen{$id}->{ENCRYPTION}  = 'BitLocker';
-        $seen{$id}->{ENCRYPTALGO} = $encryptAlgo ;
-        $seen{$id}->{ENCRYPTED}   = $encrypted == 0 ? 'No'  :
-                                    $encrypted == 1 ? 'Yes' : 'Unknown' ;
+        $seen{$id}->{ENCRYPT_NAME}   = 'BitLocker';
+        $seen{$id}->{ENCRYPT_ALGO}   = $encryptAlgo ;
+        $seen{$id}->{ENCRYPT_STATUS} = $encrypted == 0 ? 'No'  :
+                                       $encrypted == 1 ? 'Yes' : 'Unknown' ;
     }
 
     return @drives;

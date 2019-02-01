@@ -173,9 +173,9 @@ sub _getFilesystems {
                 next unless $cryptsetup{$name};
 
                 # Add cryptsetup status to filesystem
-                $filesystem->{ENCRYPTION}  = $cryptsetup{$name}->{TYPE};
-                $filesystem->{ENCRYPTED}   = 'Yes';
-                $filesystem->{ENCRYPTALGO} = $cryptsetup{$name}->{CIPHER};
+                $filesystem->{ENCRYPT_NAME}   = $cryptsetup{$name}->{TYPE};
+                $filesystem->{ENCRYPT_STATUS} = 'Yes';
+                $filesystem->{ENCRYPT_ALGO}   = $cryptsetup{$name}->{CIPHER};
 
                 last;
             }

@@ -321,9 +321,9 @@ my %tests = (
             TOTAL       => 486815,
             TYPE        => 'Local Disk',
             VOLUMN      => 'Windows',
-            ENCRYPTION  => 'BitLocker',
-            ENCRYPTALGO => 'AES_256',
-            ENCRYPTED   => 'Yes'
+            ENCRYPT_NAME   => 'BitLocker',
+            ENCRYPT_ALGO   => 'AES_256',
+            ENCRYPT_STATUS => 'Yes'
         },
         {
             CREATEDATE  => undef,
