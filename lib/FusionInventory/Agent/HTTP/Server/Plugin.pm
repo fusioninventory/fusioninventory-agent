@@ -63,7 +63,8 @@ sub name {
     return $self->{name};
 }
 
-# Defaults must be a key-value pair list ref is a config file is to be read
+# Defaults must be a key-value pair list ref if and only if a config file
+# is to be read while config_file() method returns a config filename
 sub defaults {
     return {};
 }
