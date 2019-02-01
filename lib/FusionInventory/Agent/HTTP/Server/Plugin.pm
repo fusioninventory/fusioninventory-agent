@@ -79,7 +79,7 @@ sub port {
 # A plugin can be disabled by configuration or by server
 sub disabled {
     my ($self, $yesno) = @_;
-    return $self->{disabled} ? 1 : 0 ;
+    return ($self->{disabled} && $self->{disabled} !~ /^0|no$/i) ? 1 : 0 ;
 }
 
 sub disable {
