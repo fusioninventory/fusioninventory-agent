@@ -121,6 +121,48 @@ sub urlMatch {}
 
 sub handle {}
 
+sub rate_limited {
+    my ($self, $clientIp) = @_;
+
+    my $maxrate = $self->config('maxrate');
+    my $maxrate_period = $self->config('maxrate_period') || 3600;
+
+    return unless $clientIp && $maxrate;
+
+    my $now = time;
+
+    $self->{_rate_limitation}->{$clientIp} = []
+        unless ($self->{_rate_limitation} && $self->{_rate_limitation}->{$clientIp});
+
+    my $tries = $self->{_rate_limitation}->{$clientIp};
+
+    # First cleanup old tries
+    while (@{$tries} && $tries->[0] < $now - $maxrate_period) {
+        shift @{$tries};
+    }
+
+    # Keep try timestamp unless still limited and in the same second
+    push @{$tries}, $now
+        unless (@{$tries} > $maxrate && $tries->[-1] == $now);
+
+    if (@{$tries} > $maxrate) {
+        my $limit_log = $self->{_rate_limitation_log} || 0;
+        # Also limit logging on heavy load
+        if ($limit_log < $now - 10) {
+            $self->info("request rate limitation applied for remote $clientIp");
+            if ($self->{_rate_limitation_log_filter}) {
+                $self->info("$self->{_rate_limitation_log_filter} limited requests not logged");
+            }
+            $self->{_rate_limitation_log_filter} = 0;
+            $self->{_rate_limitation_log} = $now;
+        } else {
+            $self->{_rate_limitation_log_filter} ++;
+        }
+        return 1;
+    }
+    return 0;
+}
+
 1;
 __END__
 
