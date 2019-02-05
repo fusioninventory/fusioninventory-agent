@@ -41,6 +41,7 @@ my $default = {
     'httpd-ip'                => undef,
     'httpd-port'              => 62354,
     'httpd-trust'             => [],
+    'listen'                  => undef,
     'scan-homedirs'           => undef,
     'scan-profiles'           => undef,
     'server'                  => undef,
@@ -456,6 +457,18 @@ sub getTargets {
             );
             push @targets, $server, $scheduler;
         }
+    }
+
+    # Only add listener target if no other target has been defined and
+    # httpd daemon is enabled. And anyway only one listener should be enabled
+    if ($self->{listen} && !@targets && !$self->{'no-httpd'}) {
+        FusionInventory::Agent::Target::Listener->require();
+        push @targets,
+            FusionInventory::Agent::Target::Listener->new(
+                logger     => $params{logger},
+                delaytime  => $self->{delaytime},
+                basevardir => $params{vardir},
+            );
     }
 
     return \@targets;
