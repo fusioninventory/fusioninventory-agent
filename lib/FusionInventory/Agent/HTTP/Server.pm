@@ -64,7 +64,7 @@ sub new {
 
         $plugin->init();
         if ($plugin->disabled()) {
-            $self->{logger}->debug($log_prefix . "disabled $name Server plugin loaded");
+            $self->{logger}->debug($log_prefix . "Disabled $name Server plugin loaded");
         } else {
             $self->{logger}->debug($log_prefix . "$name Server plugin loaded");
         }
