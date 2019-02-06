@@ -13,7 +13,7 @@ This is FusionInventory Agent {$version}<br />
 The current status is {$status}<br />
 
 {
-    if ($trust) {
+    if ($trust && (@server_targets||@local_targets)) {
         $OUT .= '<a href="/now">Force an Inventory</a>';
     } else {
         '';
