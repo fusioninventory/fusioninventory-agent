@@ -251,14 +251,14 @@ sub loadFromFile {
             } else {
                 $include =~ s/\s*#.+$//;
             }
-            $self->_includeDirective($include, $file);
+            $self->_includeDirective($include, $file, $params->{defaults});
         }
     }
     close $handle;
 }
 
 sub _includeDirective {
-    my ($self, $include, $currentconfig) = @_;
+    my ($self, $include, $currentconfig, $defaults) = @_;
 
     # Make include path absolute, relatively to current file basedir
     unless (File::Spec->file_name_is_absolute($include)) {
@@ -276,10 +276,10 @@ sub _includeDirective {
         foreach my $cfg ( sort glob("$include/*.cfg") ) {
             # Skip missing or non-readable file
             next unless -f $cfg && -r $cfg;
-            $self->loadFromFile({ file => $cfg });
+            $self->loadFromFile({ file => $cfg, defaults => $defaults });
         }
     } elsif ( -f $include && -r $include ) {
-        $self->loadFromFile({ file => $include });
+        $self->loadFromFile({ file => $include, defaults => $defaults });
     }
 }
 
