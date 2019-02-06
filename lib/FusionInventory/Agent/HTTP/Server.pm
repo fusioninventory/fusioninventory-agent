@@ -138,8 +138,6 @@ sub _handle {
                 if ($plugin->urlMatch($path)) {
                     $status = $plugin->handle($client, $request, $clientIp);
                     last SWITCH if $status;
-                } else {
-                    $self->{logger}->debug($log_prefix."NoMatch");
                 }
             }
 
@@ -185,7 +183,7 @@ sub _handle_plugins {
     }
 
     my $path = $request->uri()->path();
-    $logger->debug($log_prefix . "request $path from client $clientIp");
+    $logger->debug($log_prefix . "request $path from client $clientIp via plugin");
 
     my $method = $request->method();
     my $status = 0;
@@ -432,6 +430,7 @@ sub init {
         if ($port && $port != $self->{port}) {
             if ($self->{listeners}->{$port}) {
                 push @{$self->{listeners}->{$port}->{plugins}}, $plugin;
+                $logger->debug($log_prefix . "HTTPD ".$plugin->name()." plugin also used on port $port");
             } else {
                 my $listener = HTTP::Daemon->new(
                         LocalAddr => $self->{ip},
@@ -448,9 +447,12 @@ sub init {
                         listener    => $listener,
                         plugins     => [ $plugin ],
                     };
+                    $logger->debug($log_prefix . "HTTPD ".$plugin->name()." plugin also started on port $port");
                 }
             }
             delete $plugins{$plugin->name()};
+        } elsif ($port) {
+            $logger->debug($log_prefix . "HTTPD ".$plugin->name()." plugin also used on main port $self->{port}");
         }
     }
     $self->{_plugins} = [ values(%plugins) ];
