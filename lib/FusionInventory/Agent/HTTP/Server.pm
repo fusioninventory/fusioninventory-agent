@@ -248,10 +248,18 @@ sub _handle_root {
         grep { $_->isType('local') }
         $self->{agent}->getTargets();
 
+    my @httpd_plugins = map { @{$_->{plugins}} } values(%{$self->{listeners}});
+    push @httpd_plugins, @{$self->{_plugins}};
+    my @listening_plugins =
+        map { { port => $_->config('port'), name => $_->name() } }
+        grep { ! $_->disabled() }
+        @httpd_plugins;
+
     my $hash = {
         version        => $FusionInventory::Agent::Version::VERSION,
         trust          => $self->_isTrusted($clientIp),
         status         => $self->{agent}->getStatus(),
+        httpd_plugins  => \@listening_plugins,
         server_targets => \@server_targets,
         local_targets  => \@local_targets
     };

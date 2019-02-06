@@ -47,5 +47,17 @@ The current status is {$status}<br />
     }
 }
 
+{
+    if ($trust && @httpd_plugins) {
+        $OUT .=  "HTTPD plugins listening ports:\n";
+        foreach my $plugin (@httpd_plugins) {
+           $OUT .= "<li>$plugin->{port}: $plugin->{name}</li>\n";
+        }
+        $OUT .=  "</ul>\n";
+    } else {
+        '';
+    }
+}
+
 </body>
 </html>
