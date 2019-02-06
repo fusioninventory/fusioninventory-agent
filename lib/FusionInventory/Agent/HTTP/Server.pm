@@ -434,7 +434,7 @@ sub init {
             } else {
                 my $listener = HTTP::Daemon->new(
                         LocalAddr => $self->{ip},
-                        LocalPort => $self->{port},
+                        LocalPort => $port,
                         Reuse     => 1,
                         Timeout   => 1,
                         Blocking  => 0
