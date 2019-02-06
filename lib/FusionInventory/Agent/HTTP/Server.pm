@@ -197,8 +197,6 @@ sub _handle_plugins {
             if ($plugin->urlMatch($path)) {
                 $status = $plugin->handle($client, $request, $clientIp);
                 last if $status;
-            } else {
-                $self->{logger}->debug($log_prefix."NoMatch");
             }
         }
 
