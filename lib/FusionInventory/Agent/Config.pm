@@ -208,7 +208,7 @@ sub loadFromFile {
 
     my $handle;
     if (!open $handle, '<', $file) {
-        warn "Config: Failed to open $file: $ERRNO";
+        warn "Config: Failed to open $file: $ERRNO\n";
         return;
     }
 
@@ -224,7 +224,7 @@ sub loadFromFile {
             if ($val =~ /^(['"])([^\1]*)\1/) {
                 my ($quote, $extract) = ( $1, $2 );
                 $val =~ s/\s*#.+$//;
-                warn "We may have been confused for $key quoted value, our extracted value: '$extract'"
+                warn "We may have been confused for $key quoted value, our extracted value: '$extract'\n"
                     if ($val ne "$quote$extract$quote");
                 $val = $extract ;
             } else {
@@ -238,14 +238,14 @@ sub loadFromFile {
             } elsif (lc($key) eq 'include') {
                 $self->_includeDirective($val, $file);
             } else {
-                warn "unknown configuration directive $key";
+                warn "unknown configuration directive $key\n";
             }
         } elsif ($line =~ /^\s*include\s+(.+)$/i) {
             my $include = $1;
             if ($include =~ /^(['"])([^\1]*)\1/) {
                 my ($quote, $extract) = ( $1, $2 );
                 $include =~ s/\s*#.+$//;
-                warn "We may have been confused for include quoted path, our extracted path: '$extract'"
+                warn "We may have been confused for include quoted path, our extracted path: '$extract'\n"
                     if ($include ne "$quote$extract$quote");
                 $include = $extract ;
             } else {
