@@ -61,7 +61,8 @@ sub request {
 
     # Save current timeout to restore it before leaving
     my $current_timeout = $self->{ua}->timeout();
-    $self->{ua}->timeout($timeout);
+    $self->{ua}->timeout($timeout)
+        if defined($timeout);
 
     my $url = $request->uri();
     my $scheme = $url->scheme();
