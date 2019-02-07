@@ -92,6 +92,12 @@ sub log_prefix {
     return "[http server plugin] ";
 }
 
+sub error {
+    my ($self, $message) = @_;
+    return unless $self->{logger};
+    $self->{logger}->error( $self->log_prefix() . $message );
+}
+
 sub info {
     my ($self, $message) = @_;
     return unless $self->{logger};
@@ -226,6 +232,10 @@ Initializes a plugin, by default, this loads a configuration file if defined and
 =head2 $plugin->config($name)
 
 Returns the loaded configuration value for the given value name.
+
+=head2 $plugin->error($message)
+
+Log error level message using log_prefix
 
 =head2 $plugin->info($message)
 
