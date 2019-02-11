@@ -10,6 +10,7 @@ inventory:
 * win32 antivirus support update:
  - nicer product name report for ESET
  - report expiration date for ESET
+* Fix #582: Add other Acer monitors support
 
 netdiscovery/netinventory:
 * Add BlueCoat proxy appliance serialnumber support
