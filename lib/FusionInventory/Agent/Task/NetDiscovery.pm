@@ -417,9 +417,12 @@ sub _scanAddressByPing {
 
     my %device = ();
 
+    # Avoid an error as Net::Ping::VERSION may contain underscore
+    my ($NetPingVersion) = split('_',$Net::Ping::VERSION);
+
     if ($np->ping($params{ip})) {
         $device{DNSHOSTNAME} = $params{ip};
-    } elsif ($Net::Ping::VERSION >= 2.67) {
+    } elsif ($NetPingVersion >= 2.67) {
         $type = 'timestamp';
         $np->message_type($type);
         if ($np->ping($params{ip})) {
