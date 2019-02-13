@@ -47,9 +47,6 @@ sub _parseVzlist {
     my $confctid_template = $params{ctid_template} ||
         "/etc/vz/conf/__XXX__.conf";
 
-    # no service containers in glpi
-    my $line = <$handle>;
-
     my $hostID = $inventory->getHardware('UUID') || '';
 
     my %status_list = (
