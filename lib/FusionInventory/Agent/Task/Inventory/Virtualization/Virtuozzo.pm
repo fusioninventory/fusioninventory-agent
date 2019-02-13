@@ -7,6 +7,7 @@ use parent 'FusionInventory::Agent::Task::Inventory::Module';
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Network;
+use FusionInventory::Agent::Tools::Virtualization;
 
 sub isEnabled {
     # Avoid duplicated entry with libvirt
@@ -21,25 +22,55 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
+    foreach my $vz (_parseVzlist(%params)) {
+        $inventory->addEntry(
+            section => 'VIRTUALMACHINES',
+            entry => $vz
+        );
+    }
+}
+
+sub _parseVzlist {
+    my (%params) = @_;
+
+    my $inventory = $params{inventory};
+    my $logger    = $params{logger};
+
     my $handle = getFileHandle(
         command => 'vzlist --all --no-header -o hostname,ctid,cpulimit,status,ostemplate',
-        logger  => $logger
+        %params
     );
 
     return unless $handle;
+
+    my $vzlist;
+    my $confctid_template = $params{ctid_template} ||
+        "/etc/vz/conf/__XXX__.conf";
 
     # no service containers in glpi
     my $line = <$handle>;
 
     my $hostID = $inventory->getHardware('UUID') || '';
 
+    my %status_list = (
+        'stopped'   => STATUS_OFF,
+        'running'   => STATUS_RUNNING,
+        'paused'    => STATUS_PAUSED,
+        'mounted'   => STATUS_OFF,
+        'suspended' => STATUS_PAUSED,
+        'unknown'   => STATUS_OFF,
+    );
+
     while (my $line = <$handle>) {
 
         chomp $line;
         my ($name, $ctid, $cpus, $status, $subsys) = split(/[ \t]+/, $line);
 
+        my $ctid_conf = $confctid_template;
+        $ctid_conf =~ s/__XXX__/$ctid/;
+
         my $memory = getFirstMatch(
-            file    => "/etc/vz/conf/$ctid.conf",
+            file    => $ctid_conf,
             pattern => qr/^SLMMEMORYLIMIT="\d+:(\d+)"$/,
             logger  => $logger,
         );
@@ -47,7 +78,7 @@ sub doInventory {
             $memory = $memory / 1024 / 1024;
         } else {
             $memory = getFirstMatch(
-                file    => "/etc/vz/conf/$ctid.conf",
+                file    => $ctid_conf,
                 pattern => qr/^PRIVVMPAGES="\d+:(\d+)"$/,
                 logger  => $logger,
             );
@@ -55,7 +86,7 @@ sub doInventory {
                 $memory = $memory * 4 / 1024;
             } else {
                 $memory = getFirstMatch(
-                    file    => "/etc/vz/conf/$ctid.conf",
+                    file    => $ctid_conf,
                     pattern => qr/^PHYSPAGES="\d+:(\d+\w{0,1})"$/,
                     logger  => $logger,
                 );
@@ -78,23 +109,21 @@ sub doInventory {
         # unique only for the local hosts
         my $uuid = $hostID . '-' . $ctid;
 
-        $inventory->addEntry(
-            section => 'VIRTUALMACHINES',
-            entry => {
-                NAME      => $name,
-                VCPU      => $cpus,
-                UUID      => $uuid,
-                MEMORY    => $memory,
-                STATUS    => $status,
-                SUBSYSTEM => $subsys,
-                VMTYPE    => "Virtuozzo",
-                MAC       => _getMACs($ctid, $logger)
-            }
-        );
-
+        push @{$vzlist}, {
+            NAME      => $name,
+            VCPU      => $cpus,
+            UUID      => $uuid,
+            MEMORY    => $memory,
+            STATUS    => $status_list{$status} || STATUS_OFF,
+            SUBSYSTEM => $subsys,
+            VMTYPE    => "Virtuozzo",
+            MAC       => _getMACs($ctid, $logger)
+        };
     }
 
     close $handle;
+
+    return $vzlist;
 }
 
 sub _getMACs {
