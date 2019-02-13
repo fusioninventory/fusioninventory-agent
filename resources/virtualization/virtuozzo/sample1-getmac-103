@@ -1,0 +1,5 @@
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+2: venet0: <BROADCAST,POINTOPOINT,NOARP,UP,LOWER_UP> mtu 1500 qdisc noqueue state UNKNOWN
+    link/ether 52:54:00:95:1f:77 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.0.177/24 brd 192.168.0.255 scope global dynamic

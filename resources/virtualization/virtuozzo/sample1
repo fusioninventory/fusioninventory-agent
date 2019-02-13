@@ -1,0 +1,4 @@
+vz1.mydomain.com 101 0 running debian-8.0-x86_64-minimal
+vz2.mydomain.com 102 0 running debian-8.0-x86_64-minimal
+vz3.mydomain.com 103 0 running debian-8.0-x86_64-minimal
+vz4.mydomain.com 104 0 stopped debian-8.0-x86_64-minimal
