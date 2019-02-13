@@ -106,16 +106,26 @@ sub _parseVzlist {
         # unique only for the local hosts
         my $uuid = $hostID . '-' . $ctid;
 
-        push @{$vzlist}, {
+        $status = $status_list{$status} || STATUS_OFF;
+
+        my $container = {
             NAME      => $name,
             VCPU      => $cpus,
             UUID      => $uuid,
             MEMORY    => $memory,
-            STATUS    => $status_list{$status} || STATUS_OFF,
+            STATUS    => $status,
             SUBSYSTEM => $subsys,
             VMTYPE    => "Virtuozzo",
-            MAC       => _getMACs($ctid, $logger)
         };
+
+        my $mac = _getMACs(
+            status  => $status,
+            ctid    => $ctid,
+            logger  => $logger
+        );
+        $container->{MAC} = $mac if $mac;
+
+        push @{$vzlist}, $container;
     }
 
     close $handle;
@@ -124,11 +134,14 @@ sub _parseVzlist {
 }
 
 sub _getMACs {
-    my ($ctid, $logger) = @_;
+    my (%params) = @_;
+
+    # Don't try to run a command in a not running container
+    return unless $params{status} && $params{status} eq STATUS_RUNNING;
 
     my @ipLines = getAllLines(
-        command => "vzctl exec '$ctid' 'ip -0 a'",
-        logger  => $logger
+        command => "vzctl exec '$params{ctid}' 'ip -0 a'",
+        %params
     );
 
     my @macs;

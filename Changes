@@ -12,6 +12,7 @@ inventory:
  - report expiration date for ESET
 * Fix #582: Add other Acer monitors support
 * Fix #687: Virtuozzo inventory task doesn't include first container
+* Add few minor fix to virtuozzo containers inventory
 
 netdiscovery/netinventory:
 * Add BlueCoat proxy appliance serialnumber support
