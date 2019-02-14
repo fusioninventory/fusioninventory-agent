@@ -76,14 +76,20 @@ sub doInventory {
     }
 }
 
+my %zpool_status_cache = ();
 sub _getZpoolStatus {
     my (%params) = @_;
 
     my $volumn  = $params{volumn}
         or return;
 
+    my ($pool) = $volumn =~ m|^([^/]+)|;
+
+    return $zpool_status_cache{$pool}
+        if $zpool_status_cache{$pool};
+
     my @lines = getAllLines(
-        command => "zpool status $volumn",
+        command => "zpool status $pool",
         %params
     );
 
@@ -99,6 +105,9 @@ sub _getZpoolStatus {
             $status->{config}->{$1} = $2;
         }
     }
+
+    # Cache zpool status
+    $zpool_status_cache{$pool} = $status;
 
     return $status;
 }
