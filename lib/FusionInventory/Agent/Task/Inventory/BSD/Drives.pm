@@ -94,7 +94,7 @@ sub _getZpoolStatus {
             $status->{$1} = $2;
         } elsif ($line =~ /^\s*config\s*:/) {
             $status->{config} = {};
-        } elsif ($status->{config} && $line =~ /^\s*([\w.]+)\s+(\w+)\s+\w+\s+\w+\s+\w+/) {
+        } elsif ($status->{config} && $line =~ /^\s*(\S+)\s+(\w+)\s+\w+\s+\w+\s+\w+/) {
             next if $1 eq "NAME";
             $status->{config}->{$1} = $2;
         }
