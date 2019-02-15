@@ -19,6 +19,7 @@ netdiscovery/netinventory:
 * win32: Support arp table check for NetDiscovery task
 * Fix #634: Net::Ping version may not numeric with win32 installer
 * Add Panasas PanFS support
+* Add few HP/Compaq serialnumber cases support
 
 2.4.2 Wed, 03 Oct 2018
 

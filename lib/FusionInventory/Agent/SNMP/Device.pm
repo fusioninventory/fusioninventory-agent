@@ -263,6 +263,8 @@ sub setSerial {
             '.1.3.6.1.4.1.6027.3.8.1.1.5.0',         # F10-C-SERIES-CHASSIS-MIB
             '.1.3.6.1.4.1.6027.3.10.1.2.2.1.12.1',   # FORCE10-SMI
             '.1.3.6.1.4.1.3417.2.11.1.4.0',          # BLUECOAT-SG-PROXY-MIB
+            '.1.3.6.1.4.1.232.2.2.2.1.0',            # CPQSINFO-MIB
+            '.1.3.6.1.4.1.232.11.2.10.3.0',          # CPQHOST-MIB
         );
         foreach my $oid (@oids) {
             $serial = $self->get($oid);
