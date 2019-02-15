@@ -55,6 +55,24 @@ sub doInventory {
         $filesystem->{LABEL}      = $info->{'Volume Name'};
     }
 
+    # Check FileVault 2 support for root filesystem
+    if (canRun('fdesetup')) {
+        my $status = getFirstLine(command => 'fdesetup status');
+        if ($status && $status =~ /FileVault is On/i) {
+            $logger->debug("FileVault 2 is enabled");
+            my ($rootfs) = grep { $_->{TYPE} eq '/' } values(%filesystems);
+            if ($rootfs) {
+                $rootfs->{ENCRYPT_STATUS} = 'Yes';
+                $rootfs->{ENCRYPT_NAME}   = 'FileVault 2';
+                $rootfs->{ENCRYPT_ALGO}   = 'XTS_AES_128';
+            }
+        } else {
+            $logger->debug("FileVault 2 is disabled");
+        }
+    } else {
+        $logger->debug("FileVault 2 is not supported");
+    }
+
     # add filesystems to the inventory
     foreach my $key (keys %filesystems) {
         $inventory->addEntry(

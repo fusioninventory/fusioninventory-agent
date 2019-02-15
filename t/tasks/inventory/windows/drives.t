@@ -308,6 +308,50 @@ my %tests = (
             SERIAL      => '514F3C75'
         }
     ],
+    'win10-crypt' => [
+        {
+            CREATEDATE  => undef,
+            DESCRIPTION => "Disque mont\x{e9} local",
+            FILESYSTEM  => 'NTFS',
+            FREE        => 258600,
+            LABEL       => 'Windows',
+            LETTER      => 'C:',
+            SERIAL      => '5F4BFEEE',
+            SYSTEMDRIVE => '',
+            TOTAL       => 486815,
+            TYPE        => 'Local Disk',
+            VOLUMN      => 'Windows',
+            ENCRYPT_NAME   => 'BitLocker',
+            ENCRYPT_ALGO   => 'AES_256',
+            ENCRYPT_STATUS => 'Yes'
+        },
+        {
+            CREATEDATE  => undef,
+            DESCRIPTION => undef,
+            FILESYSTEM  => 'NTFS',
+            FREE        => 351,
+            LABEL       => undef,
+            LETTER      => undef,
+            SERIAL      => '42E576F8',
+            SYSTEMDRIVE => '',
+            TOTAL       => 940,
+            TYPE        => 'Local Disk',
+            VOLUMN      => undef
+        },
+        {
+            CREATEDATE  => undef,
+            DESCRIPTION => undef,
+            FILESYSTEM  => 'FAT32',
+            FREE        => 450,
+            LABEL       => 'BOOT',
+            LETTER      => 'BOOT',
+            SERIAL      => '42E576F7',
+            SYSTEMDRIVE => '',
+            TOTAL       => 495,
+            TYPE        => 'Local Disk',
+            VOLUMN      => 'BOOT'
+        }
+    ],
 );
 
 plan tests => (2 * scalar keys %tests) + 1;

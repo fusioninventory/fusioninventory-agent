@@ -47,6 +47,8 @@ sub doInventory {
 sub _getDrives {
     my (%params) = @_;
 
+    my $logger = $params{logger};
+
     my $systemDrive = "C:";
     foreach my $object (getWMIObjects(
         class      => 'Win32_OperatingSystem',
@@ -56,7 +58,6 @@ sub _getDrives {
     }
 
     my @drives;
-    my @volumes;
     my %seen;
 
     foreach my $object (getWMIObjects(
@@ -84,7 +85,7 @@ sub _getDrives {
             }
         }
 
-        push @drives, {
+        my $drive = {
             CREATEDATE  => $object->{InstallDate},
             DESCRIPTION => $object->{Description},
             FREE        => $object->{FreeSpace},
@@ -98,7 +99,9 @@ sub _getDrives {
             VOLUMN      => $object->{VolumeName},
         };
 
-        $seen{$object->{DeviceID} || $object->{Caption}} = 1;
+        $seen{$object->{DeviceID} || $object->{Caption}} = $drive;
+
+        push @drives, $drive;
     }
 
     # Scan Win32_Volume to check for mounted point drives
@@ -106,7 +109,7 @@ sub _getDrives {
         class      => 'Win32_Volume',
         properties => [ qw/
             InstallDate Description FreeSpace FileSystem Name Caption DriveLetter
-            SerialNumber Capacity DriveType Label
+            SerialNumber Capacity DriveType Label DeviceID
         / ]
     )) {
         # Skip volume already seen as instance of Win32_LogicalDisk class
@@ -120,7 +123,7 @@ sub _getDrives {
         $object->{Capacity} = int($object->{Capacity} / (1024 * 1024))
             if $object->{Capacity};
 
-        push @volumes, {
+        my $drive = {
             CREATEDATE  => $object->{InstallDate},
             DESCRIPTION => $object->{Description},
             FREE        => $object->{FreeSpace},
@@ -135,9 +138,49 @@ sub _getDrives {
             TYPE        => $type[$object->{DriveType}],
             VOLUMN      => $object->{Label},
         };
+
+        $seen{$object->{DeviceID} || $object->{DriveLetter} || $object->{Caption}} = $drive;
+
+        push @drives, $drive;
     }
 
-    return @drives, @volumes;
+    # See https://docs.microsoft.com/en-us/windows/desktop/secprov/getencryptionmethod-win32-encryptablevolume
+    my @encryptionMethod = qw(
+        None            AES_128_WITH_DIFFUSER   AES_256_WITH_DIFFUSER
+        AES_128         AES_256                 HARDWARE_ENCRYPTION
+        XTS_AES_128     XTS_AES_256
+    );
+
+    # Scan Win32_EncryptableVolume to check for BitLocker crypted volumes
+    foreach my $object (getWMIObjects(
+        moniker    => 'winmgmts://./root/CIMV2/Security/MicrosoftVolumeEncryption',
+        class      => 'Win32_EncryptableVolume',
+        properties => [ qw/
+            DeviceID EncryptionMethod ProtectionStatus DriveLetter
+        / ]
+    )) {
+        my $id = $object->{DeviceID};
+        $id = $object->{DriveLetter} unless exists($seen{$id});
+
+        if (!exists($seen{$id})) {
+            $logger->Error("Unknown $id encryptable drive") if $logger;
+            next;
+        }
+
+        my $method = $object->{EncryptionMethod} || 0;
+        my $encryptAlgo = defined($encryptionMethod[$method]) ?
+            $encryptionMethod[$method] : 'Unknown';
+
+        my $encrypted = defined($object->{ProtectionStatus}) ?
+            $object->{ProtectionStatus} : 2 ;
+
+        $seen{$id}->{ENCRYPT_NAME}   = 'BitLocker';
+        $seen{$id}->{ENCRYPT_ALGO}   = $encryptAlgo ;
+        $seen{$id}->{ENCRYPT_STATUS} = $encrypted == 0 ? 'No'  :
+                                       $encrypted == 1 ? 'Yes' : 'Unknown' ;
+    }
+
+    return @drives;
 }
 
 sub _encodeSerialNumber {

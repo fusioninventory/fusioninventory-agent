@@ -198,7 +198,7 @@ sub getFilesystemsFromDf {
 
     close $handle;
 
-    return @filesystems;
+    return wantarray ? @filesystems : \@filesystems ;
 }
 
 sub getFilesystemsTypesFromMount {
