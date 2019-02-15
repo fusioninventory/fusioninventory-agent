@@ -50,6 +50,18 @@ sub getSerial {
     }
 }
 
+sub run {
+    my ($self) = @_;
+
+    my $device = $self->device
+        or return;
+
+    my $name = $self->get(panClusterName)
+        or return;
+
+    $device->{INFO}->{NAME} = getCanonicalString($name);
+}
+
 1;
 
 __END__
