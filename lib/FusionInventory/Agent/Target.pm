@@ -90,6 +90,9 @@ sub resetNextRunDate {
 sub getNextRunDate {
     my ($self) = @_;
 
+    # Check if state file has been updated by a third party, like a script run
+    $self->_loadState() if $self->_needToReloadState();
+
     return $self->{nextRunDate};
 }
 
@@ -180,6 +183,12 @@ sub _saveState {
             nextRunDate => $self->{nextRunDate},
         }
     );
+}
+
+sub _needToReloadState {
+    my ($self) = @_;
+
+    return $self->{storage}->modified(name => 'target');
 }
 
 1;
