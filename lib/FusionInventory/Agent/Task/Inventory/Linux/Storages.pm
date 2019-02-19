@@ -101,8 +101,8 @@ sub _getDevices {
         # Then we can define a serial searching for few specific identifiers
         if (!$device->{SERIALNUMBER}) {
             $params{device} = '/dev/' . $device->{NAME};
-            $device->{SERIALNUMBER} = _getDiskIdentifier(%params) ||
-                _getPVUUID(%params) || "";
+            my $sn = _getDiskIdentifier(%params) || _getPVUUID(%params);
+            $device->{SERIALNUMBER} = $sn if $sn;
         }
     }
 
