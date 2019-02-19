@@ -5,6 +5,8 @@ Revision history for FusionInventory agent
 core:
 * fix some cases where a file handle was not closed
 * win32: fix a handle leak case when agent was running as service
+* Fix #637: Don't depend on GNU install during "make install" to support
+  more Unix systems
 
 inventory:
 * win32 antivirus support update:
