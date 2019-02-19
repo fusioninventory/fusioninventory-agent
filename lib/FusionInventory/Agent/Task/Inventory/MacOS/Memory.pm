@@ -8,6 +8,9 @@ use parent 'FusionInventory::Agent::Task::Inventory::Module';
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::MacOS;
 
+our $runMeIfTheseChecksFailed =
+    ["FusionInventory::Agent::Task::Inventory::Generic::Dmidecode"];
+
 sub isEnabled {
     my (%params) = @_;
     return 0 if $params{no_category}->{memory};
