@@ -99,7 +99,7 @@ sub doInventory {
         $inventory->setHardware({ UUID => $containerid || '' });
         $inventory->setBios({ SSN  => '' });
 
-    } elsif ($type ne 'Physical' && !$inventory->getHardware('UUID') && -e '/etc/machine-id') {
+    } elsif (($type eq 'lxc' || ($type ne 'Physical' && !$inventory->getHardware('UUID'))) && -e '/etc/machine-id') {
         # Set UUID from /etc/machine-id & /etc/hostname for container like lxc
         my $machineid = getFirstLine(
             file   => '/etc/machine-id',
