@@ -1,0 +1,5 @@
+# lxc-info -n arch-linux -s -c lxc.cgroup.memory.limit_in_bytes -c lxc.cgroup.cpuset.cpus -c lxc.net.0.hwaddr
+State:          STOPPED
+lxc.cgroup.memory.limit_in_bytes =
+lxc.cgroup.cpuset.cpus = 0,3-4
+lxc.net.0.hwaddr = 00:16:3e:1f:0b:1d

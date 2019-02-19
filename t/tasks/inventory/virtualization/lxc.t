@@ -15,22 +15,57 @@ my %result_lxc_info = (
     'lxc-info_-n_name2' => STATUS_RUNNING,
 );
 
-my $result_config = {
-    MEMORY => '2048000',
-    MAC    => '01:23:45:67:89:0A',
-    VCPU   => 4
-};
+my %container_tests = (
+    config  => {
+        version => 2.0,
+        result  => {
+            NAME    => 'config',
+            VMTYPE  => 'lxc',
+            STATUS  => STATUS_OFF,
+            MEMORY  => '2048000',
+            MAC     => '01:23:45:67:89:0a',
+            VCPU    => 4
+        }
+    },
+    'debian-hosting'  => {
+        version => 3.0,
+        result  => {
+            NAME    => 'debian-hosting',
+            VMTYPE  => 'lxc',
+            STATUS  => STATUS_RUNNING,
+            MAC     => '00:16:3e:c3:52:e4',
+            VCPU    => 0
+        }
+    },
+    'arch-linux'  => {
+        version => 3.0,
+        result  => {
+            NAME    => 'arch-linux',
+            VMTYPE  => 'lxc',
+            STATUS  => STATUS_OFF,
+            MAC     => '00:16:3e:1f:0b:1d',
+            VCPU    => 3
+        }
+    },
+);
 
-plan tests => 4;
+plan tests => keys(%result_lxc_info) + keys(%container_tests) + 1;
 
-for my $file (keys %result_lxc_info) {
+foreach my $file (keys(%result_lxc_info)) {
     my $state = FusionInventory::Agent::Task::Inventory::Virtualization::Lxc::_getVirtualMachineState(
         file => "resources/virtualization/lxc/$file"
     );
-    is($state, $result_lxc_info{$file}, "lxc-info -n name1 -1");
+    is($state, $result_lxc_info{$file}, "checking $file LXC state");
 }
 
-my $config = FusionInventory::Agent::Task::Inventory::Virtualization::Lxc::_getVirtualMachineConfig(
-    file => 'resources/virtualization/lxc/config'
-);
-cmp_deeply($config, $result_config, "parsing lxc config sample");
+foreach my $name (keys(%container_tests)) {
+    my $file = "resources/virtualization/lxc/$name";
+    my $config = FusionInventory::Agent::Task::Inventory::Virtualization::Lxc::_getVirtualMachine(
+        name          => $name,
+        version       => $container_tests{$name}->{version},
+        test_cmdstate => "cat $file",
+        test_cmdinfo  => "cat $file",
+        config        => $file,
+    );
+    cmp_deeply($config, $container_tests{$name}->{result}, "checking $name lxc container");
+}

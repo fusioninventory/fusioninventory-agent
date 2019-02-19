@@ -1,0 +1,7 @@
+# lxc-info -n debian-hosting -s
+State:          RUNNING
+
+# lxc-info -n debian-hosting -c lxc.cgroup.memory.limit_in_bytes -c lxc.cgroup.cpuset.cpus -c lxc.net.0.hwaddr
+lxc.cgroup.memory.limit_in_bytes =
+lxc.cgroup.cpuset.cpus =
+lxc.net.0.hwaddr = 00:16:3e:c3:52:e4

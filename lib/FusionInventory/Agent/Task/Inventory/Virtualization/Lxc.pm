@@ -61,7 +61,7 @@ sub  _getVirtualMachine {
         VMTYPE  => 'lxc',
         VCPU    => 0,
         STATUS  => _getVirtualMachineState(
-            command => "lxc-info -n '$name' -s",
+            command => $params{test_cmdstate} || "lxc-info -n '$name' -s",
             logger => $params{logger}
         )
     };
@@ -75,7 +75,7 @@ sub  _getVirtualMachine {
     }
 
     my $handle = getFileHandle(
-        command => $command,
+        command => $params{test_cmdinfo} || $command,
         logger  => $params{logger}
     );
     return unless $handle;
