@@ -36,6 +36,7 @@ my %tests = (
             DATE         => '11/03/2006'
         }
     ],
+    'macos-battery' => undef,
     'openbsd-3.7' => undef,
     'openbsd-3.8' => undef,
     'rhel-2.1' => undef,

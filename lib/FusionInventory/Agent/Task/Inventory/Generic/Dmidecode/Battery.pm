@@ -46,6 +46,11 @@ sub _getBatteries {
 sub _extractBatteryData {
     my ($info) = @_;
 
+    # Skip battery data without enough infos
+    return unless $info->{'Name'} && $info->{'Manufacturer'};
+    return unless $info->{'Serial Number'} || $info->{'SBDS Serial Number'};
+    return unless $info->{'Chemistry'} || $info->{'SBDS Chemistry'};
+
     my $battery = {
         NAME         => $info->{'Name'},
         MANUFACTURER => getCanonicalManufacturer($info->{'Manufacturer'}),

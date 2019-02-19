@@ -17,6 +17,7 @@ inventory:
 * Add few minor fix to virtuozzo containers inventory
 * Fix LXC containers support to support recent LXC versions
 * Fix #625: Container UUID is the same than host UUID
+* Fix #624: Skip incomplete battery infos from dmidecode (seen on MacOS)
 
 netdiscovery/netinventory:
 * Add BlueCoat proxy appliance serialnumber support
