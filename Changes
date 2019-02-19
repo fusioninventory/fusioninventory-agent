@@ -21,6 +21,9 @@ inventory:
 * Fix #625: Container UUID is the same than host UUID
 * Fix #624: Skip incomplete battery infos from dmidecode (seen on MacOS)
 * Fix #631: Fix duplicated memory inventory on MacOS
+* linux: fix storage size inventory
+* linux: try to set storage serialnumber from mbr partition id or even
+  PV UUID when not found (hdparm missing or virtual drive)
 
 netdiscovery/netinventory:
 * Add BlueCoat proxy appliance serialnumber support
