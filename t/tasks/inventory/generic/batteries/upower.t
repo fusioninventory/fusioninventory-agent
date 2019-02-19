@@ -49,15 +49,7 @@ my %testUpowerMerged = (
     'toshiba_1' => {
         dmidecode   => 'dmidecode_1.txt',
         upowerlist => [ 'infos_1.txt' ],
-        step1 => [
-            {
-                NAME         => undef,
-                CHEMISTRY    => 'Li-ION',
-                SERIAL       => 0,
-                MANUFACTURER => 'Toshiba',
-                DATE         => undef,
-            }
-        ],
+        step1 => [],
         merged => [
             {
                 NAME         => 'G71C000G7210',
@@ -65,8 +57,6 @@ my %testUpowerMerged = (
                 VOLTAGE      => '14,8 V',
                 CHEMISTRY    => 'lithium-ion',
                 SERIAL       => 0,
-                MANUFACTURER => 'Toshiba',
-                DATE         => undef,
             }
         ],
     },
