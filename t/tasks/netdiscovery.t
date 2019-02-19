@@ -33,6 +33,12 @@ my %arp_test = (
             MAC         => "00:8d:b9:37:4a:c2"
         }
     },
+    'linux-ip-neighbor' => {
+        ip      => "10.0.10.1",
+        device  => {
+            MAC         => "00:0d:b9:37:2b:c2"
+        }
+    },
     'win32' => {
         ip      => "192.168.0.1",
         device  => {
@@ -66,6 +72,7 @@ foreach my $arp_case (keys(%arp_test)) {
     my %device = $self->_scanAddressByArp(
         ip      => $arp_test{$arp_case}->{ip},
         logger  => $logger,
+        arp     => "true",
         file    => "resources/generic/arp/$arp_case"
     );
 

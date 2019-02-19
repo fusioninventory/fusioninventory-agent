@@ -105,10 +105,12 @@ sub run {
     my $arp;
 
     if (canRun('arp')) {
-       $arp = 'arp -a';
+        $arp = 'arp -a';
+    } elsif (canRun('ip')) {
+        $arp = 'ip neighbor show';
     } else {
         $self->{logger}->info(
-            "Can't run arp command, arp table detection can't be used"
+            "Can't run 'ip neighbor show' or 'arp' command, arp table detection can't be used"
         );
     }
 
@@ -377,12 +379,12 @@ sub _scanAddressByArp {
     return unless $params{ip};
 
     # We want to match the ip including non digit character around
-    my $ip_match = '\D' . $params{ip} . '\D';
+    my $ip_match = '\b' . $params{ip} . '\D';
     # We want to match dot on dots
     $ip_match =~ s/\./\\./g;
 
     my $output = getFirstMatch(
-        command => "arp -a " . $params{ip},
+        command => $params{arp} . " " . $params{ip},
         pattern => qr/^(.*$ip_match.*)$/,
         %params
     );
@@ -397,6 +399,8 @@ sub _scanAddressByArp {
         my $mac_address = $1;
         $mac_address =~ s/-/:/g;
         $device{MAC} = getCanonicalMacAddress($mac_address);
+    } elsif ($output && $output =~ /^\S+\s+dev\s+\S+\s+lladdr\s+([:a-zA-Z0-9-]+)\s/) {
+        $device{MAC} = getCanonicalMacAddress($1);
     }
 
     $self->{logger}->debug(
