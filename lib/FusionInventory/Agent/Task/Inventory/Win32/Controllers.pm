@@ -25,6 +25,8 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
+    my $physical = $inventory->getHardware('VMSYSTEM') eq 'Physical';
+
     foreach my $controller (_getControllers(
         logger  => $params{logger},
         datadir => $params{datadir}
@@ -33,6 +35,12 @@ sub doInventory {
             section => 'CONTROLLERS',
             entry   => $controller
         );
+
+        if ($physical && $controller->{NAME} =~ /QEMU/i) {
+            $inventory->setHardware ({
+                VMSYSTEM => 'QEMU'
+            });
+        }
     }
 }
 

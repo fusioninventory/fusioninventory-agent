@@ -25,6 +25,7 @@ inventory:
 * linux: try to set storage serialnumber from mbr partition id or even
   PV UUID when not found (hdparm missing or virtual drive)
 * Fix #604: Only inventory Windows Store on recent win32 platforms
+* Fix #596: Openstack container seen as Physical on win32
 
 netdiscovery/netinventory:
 * Add BlueCoat proxy appliance serialnumber support
