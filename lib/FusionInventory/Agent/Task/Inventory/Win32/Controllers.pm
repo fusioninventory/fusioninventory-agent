@@ -33,6 +33,12 @@ sub doInventory {
             section => 'CONTROLLERS',
             entry   => $controller
         );
+
+        if ( $controller->{NAME} =~ /QEMU/i ) {
+            $inventory->setHardware ({
+                VMSYSTEM => 'QEMU'
+            });
+        }
     }
 }
 
