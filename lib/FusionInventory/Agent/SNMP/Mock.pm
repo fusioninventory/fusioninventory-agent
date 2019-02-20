@@ -31,6 +31,18 @@ my %prefixes = (
     'IF-MIB::ifName'                    => '.1.3.6.1.2.1.31.1.1.1.1',
     'HOST-RESOURCES-MIB::hrDeviceDescr' => '.1.3.6.1.2.1.25.3.2.1.3',
     'NET-SNMP-MIB::netSnmpAgentOIDs'    => '.1.3.6.1.4.1.8072.3.2',
+    'ENTITY-MIB::entPhysicalIndex'       => '.1.3.6.1.2.1.47.1.1.1.1.1',
+    'ENTITY-MIB::entPhysicalDescr'       => '.1.3.6.1.2.1.47.1.1.1.1.2',
+    'ENTITY-MIB::entPhysicalContainedIn' => '.1.3.6.1.2.1.47.1.1.1.1.4',
+    'ENTITY-MIB::entPhysicalClass'       => '.1.3.6.1.2.1.47.1.1.1.1.5',
+    'ENTITY-MIB::entPhysicalName'        => '.1.3.6.1.2.1.47.1.1.1.1.7',
+    'ENTITY-MIB::entPhysicalHardwareRev' => '.1.3.6.1.2.1.47.1.1.1.1.8',
+    'ENTITY-MIB::entPhysicalFirmwareRev' => '.1.3.6.1.2.1.47.1.1.1.1.9',
+    'ENTITY-MIB::entPhysicalSoftwareRev' => '.1.3.6.1.2.1.47.1.1.1.1.10',
+    'ENTITY-MIB::entPhysicalSerialNum'   => '.1.3.6.1.2.1.47.1.1.1.1.11',
+    'ENTITY-MIB::entPhysicalMfgName'     => '.1.3.6.1.2.1.47.1.1.1.1.12',
+    'ENTITY-MIB::entPhysicalModelName'   => '.1.3.6.1.2.1.47.1.1.1.1.13',
+    'ENTITY-MIB::entPhysicalIsFRU'       => '.1.3.6.1.2.1.47.1.1.1.1.16',
 );
 
 sub new {
