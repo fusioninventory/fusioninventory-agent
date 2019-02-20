@@ -207,9 +207,10 @@ sub _getType {
     return $result if $result;
 
     # dmesg
+    # dmesg can be empty or near empty on some systems (notably on Debian 8)
 
     my $handle;
-    if (-r '/var/log/dmesg') {
+    if (-r '/var/log/dmesg' && -s '/var/log/dmesg' > 40) {
         $handle = getFileHandle(file => '/var/log/dmesg', logger => $logger);
     } elsif (-x '/bin/dmesg') {
         $handle = getFileHandle(command => '/bin/dmesg', logger => $logger);
