@@ -3241,6 +3241,742 @@
           <IFTYPE>24</IFTYPE>
         </PORT>
       </PORTS>
+      <COMPONENTS>
+        <COMPONENT>
+          <CONTAINEDININDEX>0</CONTAINEDININDEX>
+          <MODEL>J8697A</MODEL>
+          <NAME>Chassis4</NAME>
+          <VERSION>K.15.04.0015m</VERSION>
+          <FRU>1</FRU>
+          <INDEX>1</INDEX>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+          <TYPE>chassis</TYPE>
+          <REVISION>Rev 0</REVISION>
+          <FIRMWARE>K.15.28</FIRMWARE>
+          <DESCRIPTION>ProCurve J8697A Switch 5406zl</DESCRIPTION>
+          <SERIAL>SG707SU03Y</SERIAL>
+        </COMPONENT>
+        <COMPONENT>
+          <CONTAINEDININDEX>1</CONTAINEDININDEX>
+          <TYPE>backplane</TYPE>
+          <REVISION>2</REVISION>
+          <DESCRIPTION>ProCurve J8697A Switch backplane</DESCRIPTION>
+          <INDEX>2</INDEX>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+          <FRU>2</FRU>
+          <NAME>Backplanenagement Module Slot</NAME>
+          <MODEL>J8697A</MODEL>
+        </COMPONENT>
+        <COMPONENT>
+          <FRU>2</FRU>
+          <TYPE>container</TYPE>
+          <DESCRIPTION>ProCurve J8697A Switch power supply bay pseudocontainer</DESCRIPTION>
+          <CONTAINEDININDEX>1</CONTAINEDININDEX>
+          <INDEX>3</INDEX>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+        </COMPONENT>
+        <COMPONENT>
+          <FRU>2</FRU>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+          <INDEX>4</INDEX>
+          <DESCRIPTION>ProCurve J8697A Switch slot pseudocontainer</DESCRIPTION>
+          <TYPE>container</TYPE>
+          <CONTAINEDININDEX>1</CONTAINEDININDEX>
+        </COMPONENT>
+        <COMPONENT>
+          <FRU>2</FRU>
+          <NAME>Fankplanenagement Module Slot 1</NAME>
+          <CONTAINEDININDEX>1</CONTAINEDININDEX>
+          <DESCRIPTION>ProCurve J8697A Switch fan</DESCRIPTION>
+          <TYPE>fan</TYPE>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+          <INDEX>5</INDEX>
+        </COMPONENT>
+        <COMPONENT>
+          <FRU>2</FRU>
+          <NAME>Fankplanenagement Module Slot 1 2</NAME>
+          <CONTAINEDININDEX>1</CONTAINEDININDEX>
+          <DESCRIPTION>ProCurve J8697A Switch fan</DESCRIPTION>
+          <TYPE>fan</TYPE>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+          <INDEX>6</INDEX>
+        </COMPONENT>
+        <COMPONENT>
+          <FRU>2</FRU>
+          <NAME>Chassis Temperature</NAME>
+          <DESCRIPTION>ProCurve J8697A Switch temperature sensor</DESCRIPTION>
+          <TYPE>sensor</TYPE>
+          <CONTAINEDININDEX>1</CONTAINEDININDEX>
+          <INDEX>11</INDEX>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+        </COMPONENT>
+        <COMPONENT>
+          <NAME>Fabric Module 1 Temperature</NAME>
+          <FRU>2</FRU>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+          <INDEX>14</INDEX>
+          <DESCRIPTION>ProCurve J8697A Switch temperature sensor</DESCRIPTION>
+          <TYPE>sensor</TYPE>
+          <CONTAINEDININDEX>1</CONTAINEDININDEX>
+        </COMPONENT>
+        <COMPONENT>
+          <CONTAINEDININDEX>1</CONTAINEDININDEX>
+          <TYPE>sensor</TYPE>
+          <DESCRIPTION>ProCurve J8697A Switch temperature sensor</DESCRIPTION>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+          <INDEX>17</INDEX>
+          <FRU>2</FRU>
+          <NAME>Slot A Temperature</NAME>
+        </COMPONENT>
+        <COMPONENT>
+          <INDEX>18</INDEX>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+          <TYPE>sensor</TYPE>
+          <DESCRIPTION>ProCurve J8697A Switch temperature sensor</DESCRIPTION>
+          <CONTAINEDININDEX>1</CONTAINEDININDEX>
+          <NAME>Slot B Temperature</NAME>
+          <FRU>2</FRU>
+        </COMPONENT>
+        <COMPONENT>
+          <CONTAINEDININDEX>3</CONTAINEDININDEX>
+          <DESCRIPTION>ProCurve J8697A Switch power supply bay</DESCRIPTION>
+          <TYPE>container</TYPE>
+          <INDEX>31</INDEX>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+          <FRU>2</FRU>
+          <NAME>Power Supply Bayre 1</NAME>
+        </COMPONENT>
+        <COMPONENT>
+          <DESCRIPTION>ProCurve J8697A Switch power supply bay</DESCRIPTION>
+          <TYPE>container</TYPE>
+          <CONTAINEDININDEX>3</CONTAINEDININDEX>
+          <INDEX>32</INDEX>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+          <FRU>2</FRU>
+          <NAME>Power Supply Bayre 1 2</NAME>
+        </COMPONENT>
+        <COMPONENT>
+          <NAME>Power Supply Bayre 1 2 1</NAME>
+          <FRU>1</FRU>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+          <INDEX>35</INDEX>
+          <CONTAINEDININDEX>31</CONTAINEDININDEX>
+          <DESCRIPTION>ProCurve J8697A Switch power supply</DESCRIPTION>
+          <TYPE>powerSupply</TYPE>
+        </COMPONENT>
+        <COMPONENT>
+          <NAME>Power Supply Bayre 1 2 1 2</NAME>
+          <FRU>1</FRU>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+          <INDEX>36</INDEX>
+          <DESCRIPTION>ProCurve J8697A Switch power supply</DESCRIPTION>
+          <TYPE>powerSupply</TYPE>
+          <CONTAINEDININDEX>32</CONTAINEDININDEX>
+        </COMPONENT>
+        <COMPONENT>
+          <FRU>2</FRU>
+          <NAME>Switch Management Module Slot</NAME>
+          <CONTAINEDININDEX>4</CONTAINEDININDEX>
+          <DESCRIPTION>ProCurve J8697A Switch Management Module Slot</DESCRIPTION>
+          <TYPE>container</TYPE>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+          <INDEX>42</INDEX>
+        </COMPONENT>
+        <COMPONENT>
+          <NAME>Slot A</NAME>
+          <FRU>2</FRU>
+          <INDEX>47</INDEX>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+          <DESCRIPTION>ProCurve J8697A Switch port module slot</DESCRIPTION>
+          <TYPE>container</TYPE>
+          <CONTAINEDININDEX>4</CONTAINEDININDEX>
+        </COMPONENT>
+        <COMPONENT>
+          <FRU>2</FRU>
+          <NAME>Slot B</NAME>
+          <CONTAINEDININDEX>4</CONTAINEDININDEX>
+          <DESCRIPTION>ProCurve J8697A Switch port module slot</DESCRIPTION>
+          <TYPE>container</TYPE>
+          <INDEX>48</INDEX>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+        </COMPONENT>
+        <COMPONENT>
+          <FRU>2</FRU>
+          <NAME>Slot C</NAME>
+          <CONTAINEDININDEX>4</CONTAINEDININDEX>
+          <TYPE>container</TYPE>
+          <DESCRIPTION>ProCurve J8697A Switch port module slot</DESCRIPTION>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+          <INDEX>49</INDEX>
+        </COMPONENT>
+        <COMPONENT>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+          <INDEX>50</INDEX>
+          <CONTAINEDININDEX>4</CONTAINEDININDEX>
+          <TYPE>container</TYPE>
+          <DESCRIPTION>ProCurve J8697A Switch port module slot</DESCRIPTION>
+          <NAME>Slot D</NAME>
+          <FRU>2</FRU>
+        </COMPONENT>
+        <COMPONENT>
+          <FRU>2</FRU>
+          <NAME>Slot E</NAME>
+          <CONTAINEDININDEX>4</CONTAINEDININDEX>
+          <DESCRIPTION>ProCurve J8697A Switch port module slot</DESCRIPTION>
+          <TYPE>container</TYPE>
+          <INDEX>51</INDEX>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+        </COMPONENT>
+        <COMPONENT>
+          <FRU>2</FRU>
+          <NAME>Slot F</NAME>
+          <DESCRIPTION>ProCurve J8697A Switch port module slot</DESCRIPTION>
+          <TYPE>container</TYPE>
+          <CONTAINEDININDEX>4</CONTAINEDININDEX>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+          <INDEX>52</INDEX>
+        </COMPONENT>
+        <COMPONENT>
+          <FRU>1</FRU>
+          <VERSION>K.15.04.0015m</VERSION>
+          <NAME>Switch Management Module Slot</NAME>
+          <CONTAINEDININDEX>42</CONTAINEDININDEX>
+          <DESCRIPTION>ProCurve J8726A Management Module 5400zl</DESCRIPTION>
+          <TYPE>module</TYPE>
+          <INDEX>59</INDEX>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+        </COMPONENT>
+        <COMPONENT>
+          <INDEX>64</INDEX>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+          <SERIAL>SG643TB06B</SERIAL>
+          <CONTAINEDININDEX>47</CONTAINEDININDEX>
+          <DESCRIPTION>ProCurve J8706A 24p SFP zl Module</DESCRIPTION>
+          <TYPE>module</TYPE>
+          <REVISION>1</REVISION>
+          <FIRMWARE>K.11.00</FIRMWARE>
+          <NAME>A</NAME>
+          <FRU>1</FRU>
+          <VERSION>K.15.04.0015m</VERSION>
+        </COMPONENT>
+        <COMPONENT>
+          <INDEX>65</INDEX>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+          <SERIAL>SG649TB01R</SERIAL>
+          <CONTAINEDININDEX>48</CONTAINEDININDEX>
+          <REVISION>1</REVISION>
+          <TYPE>module</TYPE>
+          <FIRMWARE>K.11.00</FIRMWARE>
+          <DESCRIPTION>ProCurve J8706A 24p SFP zl Module</DESCRIPTION>
+          <NAME>B</NAME>
+          <FRU>1</FRU>
+          <VERSION>K.15.04.0015m</VERSION>
+        </COMPONENT>
+        <COMPONENT>
+          <CONTAINEDININDEX>64</CONTAINEDININDEX>
+          <DESCRIPTION>ProCurve J8706A 1000BASE-SX Port</DESCRIPTION>
+          <TYPE>port</TYPE>
+          <SERIAL>PB84WVU</SERIAL>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+          <INDEX>76</INDEX>
+          <FRU>2</FRU>
+          <NAME>Port A1</NAME>
+          <MODEL>J4858B</MODEL>
+        </COMPONENT>
+        <COMPONENT>
+          <SERIAL>PB51GVT</SERIAL>
+          <CONTAINEDININDEX>64</CONTAINEDININDEX>
+          <DESCRIPTION>ProCurve J8706A 1000BASE-SX Port</DESCRIPTION>
+          <TYPE>port</TYPE>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+          <INDEX>77</INDEX>
+          <FRU>2</FRU>
+          <NAME>Port A2</NAME>
+          <MODEL>J4858B</MODEL>
+        </COMPONENT>
+        <COMPONENT>
+          <INDEX>78</INDEX>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+          <SERIAL>PB850PU</SERIAL>
+          <DESCRIPTION>ProCurve J8706A 1000BASE-SX Port</DESCRIPTION>
+          <TYPE>port</TYPE>
+          <CONTAINEDININDEX>64</CONTAINEDININDEX>
+          <MODEL>J4858B</MODEL>
+          <NAME>Port A3</NAME>
+          <FRU>2</FRU>
+        </COMPONENT>
+        <COMPONENT>
+          <FRU>2</FRU>
+          <MODEL>J4858B</MODEL>
+          <NAME>Port A4</NAME>
+          <SERIAL>PB8574E</SERIAL>
+          <DESCRIPTION>ProCurve J8706A 1000BASE-SX Port</DESCRIPTION>
+          <TYPE>port</TYPE>
+          <CONTAINEDININDEX>64</CONTAINEDININDEX>
+          <INDEX>79</INDEX>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+        </COMPONENT>
+        <COMPONENT>
+          <INDEX>80</INDEX>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+          <SERIAL>PB75EPK</SERIAL>
+          <CONTAINEDININDEX>64</CONTAINEDININDEX>
+          <DESCRIPTION>ProCurve J8706A 1000BASE-SX Port</DESCRIPTION>
+          <TYPE>port</TYPE>
+          <NAME>Port A5</NAME>
+          <MODEL>J4858B</MODEL>
+          <FRU>2</FRU>
+        </COMPONENT>
+        <COMPONENT>
+          <INDEX>81</INDEX>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+          <CONTAINEDININDEX>64</CONTAINEDININDEX>
+          <DESCRIPTION>ProCurve J8706A 1000BASE-SX Port</DESCRIPTION>
+          <TYPE>port</TYPE>
+          <SERIAL>PB84WVG</SERIAL>
+          <NAME>Port A6</NAME>
+          <MODEL>J4858B</MODEL>
+          <FRU>2</FRU>
+        </COMPONENT>
+        <COMPONENT>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+          <INDEX>82</INDEX>
+          <SERIAL>PB8574N</SERIAL>
+          <TYPE>port</TYPE>
+          <DESCRIPTION>ProCurve J8706A 1000BASE-SX Port</DESCRIPTION>
+          <CONTAINEDININDEX>64</CONTAINEDININDEX>
+          <MODEL>J4858B</MODEL>
+          <NAME>Port A7</NAME>
+          <FRU>2</FRU>
+        </COMPONENT>
+        <COMPONENT>
+          <NAME>Port A8</NAME>
+          <MODEL>J4858B</MODEL>
+          <FRU>2</FRU>
+          <INDEX>83</INDEX>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+          <CONTAINEDININDEX>64</CONTAINEDININDEX>
+          <DESCRIPTION>ProCurve J8706A 1000BASE-SX Port</DESCRIPTION>
+          <TYPE>port</TYPE>
+          <SERIAL>PB84X0L</SERIAL>
+        </COMPONENT>
+        <COMPONENT>
+          <NAME>Port A9</NAME>
+          <MODEL>J4858B</MODEL>
+          <FRU>2</FRU>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+          <INDEX>84</INDEX>
+          <CONTAINEDININDEX>64</CONTAINEDININDEX>
+          <TYPE>port</TYPE>
+          <DESCRIPTION>ProCurve J8706A 1000BASE-SX Port</DESCRIPTION>
+          <SERIAL>PB8574A</SERIAL>
+        </COMPONENT>
+        <COMPONENT>
+          <DESCRIPTION>ProCurve J8706A 1000BASE-SX Port</DESCRIPTION>
+          <TYPE>port</TYPE>
+          <CONTAINEDININDEX>64</CONTAINEDININDEX>
+          <SERIAL>PB84WPQ</SERIAL>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+          <INDEX>85</INDEX>
+          <FRU>2</FRU>
+          <MODEL>J4858B</MODEL>
+          <NAME>Port A10</NAME>
+        </COMPONENT>
+        <COMPONENT>
+          <FRU>2</FRU>
+          <NAME>Port A11</NAME>
+          <DESCRIPTION>ProCurve J8706A No Card</DESCRIPTION>
+          <TYPE>port</TYPE>
+          <CONTAINEDININDEX>64</CONTAINEDININDEX>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+          <INDEX>86</INDEX>
+        </COMPONENT>
+        <COMPONENT>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+          <INDEX>87</INDEX>
+          <DESCRIPTION>ProCurve J8706A No Card</DESCRIPTION>
+          <TYPE>port</TYPE>
+          <CONTAINEDININDEX>64</CONTAINEDININDEX>
+          <NAME>Port A12</NAME>
+          <FRU>2</FRU>
+        </COMPONENT>
+        <COMPONENT>
+          <TYPE>port</TYPE>
+          <DESCRIPTION>ProCurve J8706A 1000BASE-SX Port</DESCRIPTION>
+          <CONTAINEDININDEX>64</CONTAINEDININDEX>
+          <SERIAL>PB501XA</SERIAL>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+          <INDEX>88</INDEX>
+          <FRU>2</FRU>
+          <MODEL>J4858B</MODEL>
+          <NAME>Port A13</NAME>
+        </COMPONENT>
+        <COMPONENT>
+          <FRU>2</FRU>
+          <NAME>Port A14</NAME>
+          <TYPE>port</TYPE>
+          <DESCRIPTION>ProCurve J8706A No Card</DESCRIPTION>
+          <CONTAINEDININDEX>64</CONTAINEDININDEX>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+          <INDEX>89</INDEX>
+        </COMPONENT>
+        <COMPONENT>
+          <SERIAL>PB8574L</SERIAL>
+          <DESCRIPTION>ProCurve J8706A 1000BASE-SX Port</DESCRIPTION>
+          <TYPE>port</TYPE>
+          <CONTAINEDININDEX>64</CONTAINEDININDEX>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+          <INDEX>90</INDEX>
+          <FRU>2</FRU>
+          <MODEL>J4858B</MODEL>
+          <NAME>Port A15</NAME>
+        </COMPONENT>
+        <COMPONENT>
+          <CONTAINEDININDEX>64</CONTAINEDININDEX>
+          <TYPE>port</TYPE>
+          <DESCRIPTION>ProCurve J8706A No Card</DESCRIPTION>
+          <INDEX>91</INDEX>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+          <FRU>2</FRU>
+          <NAME>Port A16</NAME>
+        </COMPONENT>
+        <COMPONENT>
+          <FRU>2</FRU>
+          <MODEL>J4858B</MODEL>
+          <NAME>Port A17</NAME>
+          <TYPE>port</TYPE>
+          <DESCRIPTION>ProCurve J8706A 1000BASE-SX Port</DESCRIPTION>
+          <CONTAINEDININDEX>64</CONTAINEDININDEX>
+          <SERIAL>PB8506X</SERIAL>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+          <INDEX>92</INDEX>
+        </COMPONENT>
+        <COMPONENT>
+          <CONTAINEDININDEX>64</CONTAINEDININDEX>
+          <DESCRIPTION>ProCurve J8706A No Card</DESCRIPTION>
+          <TYPE>port</TYPE>
+          <INDEX>93</INDEX>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+          <FRU>2</FRU>
+          <NAME>Port A18</NAME>
+        </COMPONENT>
+        <COMPONENT>
+          <MODEL>J4858B</MODEL>
+          <NAME>Port A19</NAME>
+          <FRU>2</FRU>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+          <INDEX>94</INDEX>
+          <DESCRIPTION>ProCurve J8706A 1000BASE-SX Port</DESCRIPTION>
+          <TYPE>port</TYPE>
+          <CONTAINEDININDEX>64</CONTAINEDININDEX>
+          <SERIAL>PB84WWB</SERIAL>
+        </COMPONENT>
+        <COMPONENT>
+          <FRU>2</FRU>
+          <NAME>Port A20</NAME>
+          <TYPE>port</TYPE>
+          <DESCRIPTION>ProCurve J8706A No Card</DESCRIPTION>
+          <CONTAINEDININDEX>64</CONTAINEDININDEX>
+          <INDEX>95</INDEX>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+        </COMPONENT>
+        <COMPONENT>
+          <MODEL>J4858B</MODEL>
+          <NAME>Port A21</NAME>
+          <FRU>2</FRU>
+          <INDEX>96</INDEX>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+          <DESCRIPTION>ProCurve J8706A 1000BASE-SX Port</DESCRIPTION>
+          <TYPE>port</TYPE>
+          <CONTAINEDININDEX>64</CONTAINEDININDEX>
+          <SERIAL>PB84WW5</SERIAL>
+        </COMPONENT>
+        <COMPONENT>
+          <FRU>2</FRU>
+          <MODEL>J4858B</MODEL>
+          <NAME>Port A22</NAME>
+          <DESCRIPTION>ProCurve J8706A 1000BASE-SX Port</DESCRIPTION>
+          <TYPE>port</TYPE>
+          <CONTAINEDININDEX>64</CONTAINEDININDEX>
+          <SERIAL>PB84XCE</SERIAL>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+          <INDEX>97</INDEX>
+        </COMPONENT>
+        <COMPONENT>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+          <INDEX>98</INDEX>
+          <DESCRIPTION>ProCurve J8706A 1000BASE-SX Port</DESCRIPTION>
+          <TYPE>port</TYPE>
+          <CONTAINEDININDEX>64</CONTAINEDININDEX>
+          <SERIAL>PB850PP</SERIAL>
+          <MODEL>J4858B</MODEL>
+          <NAME>Port A23</NAME>
+          <FRU>2</FRU>
+        </COMPONENT>
+        <COMPONENT>
+          <FRU>2</FRU>
+          <MODEL>J4858B</MODEL>
+          <NAME>Port A24</NAME>
+          <SERIAL>PB850PX</SERIAL>
+          <DESCRIPTION>ProCurve J8706A 1000BASE-SX Port</DESCRIPTION>
+          <TYPE>port</TYPE>
+          <CONTAINEDININDEX>64</CONTAINEDININDEX>
+          <INDEX>99</INDEX>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+        </COMPONENT>
+        <COMPONENT>
+          <SERIAL>PB84WPS</SERIAL>
+          <CONTAINEDININDEX>65</CONTAINEDININDEX>
+          <TYPE>port</TYPE>
+          <DESCRIPTION>ProCurve J8706A 1000BASE-SX Port</DESCRIPTION>
+          <INDEX>100</INDEX>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+          <FRU>2</FRU>
+          <NAME>Port B1</NAME>
+          <MODEL>J4858B</MODEL>
+        </COMPONENT>
+        <COMPONENT>
+          <FRU>2</FRU>
+          <NAME>Port B2</NAME>
+          <MODEL>J4858B</MODEL>
+          <CONTAINEDININDEX>65</CONTAINEDININDEX>
+          <TYPE>port</TYPE>
+          <DESCRIPTION>ProCurve J8706A 1000BASE-SX Port</DESCRIPTION>
+          <SERIAL>PB850JV</SERIAL>
+          <INDEX>101</INDEX>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+        </COMPONENT>
+        <COMPONENT>
+          <FRU>2</FRU>
+          <MODEL>J4858B</MODEL>
+          <NAME>Port B3</NAME>
+          <SERIAL>PB85747</SERIAL>
+          <TYPE>port</TYPE>
+          <DESCRIPTION>ProCurve J8706A 1000BASE-SX Port</DESCRIPTION>
+          <CONTAINEDININDEX>65</CONTAINEDININDEX>
+          <INDEX>102</INDEX>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+        </COMPONENT>
+        <COMPONENT>
+          <NAME>Port B4</NAME>
+          <MODEL>J4858B</MODEL>
+          <FRU>2</FRU>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+          <INDEX>103</INDEX>
+          <CONTAINEDININDEX>65</CONTAINEDININDEX>
+          <DESCRIPTION>ProCurve J8706A 1000BASE-SX Port</DESCRIPTION>
+          <TYPE>port</TYPE>
+          <SERIAL>PB84WVD</SERIAL>
+        </COMPONENT>
+        <COMPONENT>
+          <FRU>2</FRU>
+          <NAME>Port B5</NAME>
+          <MODEL>J4858B</MODEL>
+          <SERIAL>PB85740</SERIAL>
+          <CONTAINEDININDEX>65</CONTAINEDININDEX>
+          <DESCRIPTION>ProCurve J8706A 1000BASE-SX Port</DESCRIPTION>
+          <TYPE>port</TYPE>
+          <INDEX>104</INDEX>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+        </COMPONENT>
+        <COMPONENT>
+          <INDEX>105</INDEX>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+          <SERIAL>PB850PL</SERIAL>
+          <CONTAINEDININDEX>65</CONTAINEDININDEX>
+          <DESCRIPTION>ProCurve J8706A 1000BASE-SX Port</DESCRIPTION>
+          <TYPE>port</TYPE>
+          <NAME>Port B6</NAME>
+          <MODEL>J4858B</MODEL>
+          <FRU>2</FRU>
+        </COMPONENT>
+        <COMPONENT>
+          <INDEX>106</INDEX>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+          <DESCRIPTION>ProCurve J8706A 1000BASE-SX Port</DESCRIPTION>
+          <TYPE>port</TYPE>
+          <CONTAINEDININDEX>65</CONTAINEDININDEX>
+          <SERIAL>PB5042E</SERIAL>
+          <MODEL>J4858B</MODEL>
+          <NAME>Port B7</NAME>
+          <FRU>2</FRU>
+        </COMPONENT>
+        <COMPONENT>
+          <MODEL>J4858B</MODEL>
+          <NAME>Port B8</NAME>
+          <FRU>2</FRU>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+          <INDEX>107</INDEX>
+          <SERIAL>PB85746</SERIAL>
+          <TYPE>port</TYPE>
+          <DESCRIPTION>ProCurve J8706A 1000BASE-SX Port</DESCRIPTION>
+          <CONTAINEDININDEX>65</CONTAINEDININDEX>
+        </COMPONENT>
+        <COMPONENT>
+          <MODEL>J4858B</MODEL>
+          <NAME>Port B9</NAME>
+          <FRU>2</FRU>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+          <INDEX>108</INDEX>
+          <TYPE>port</TYPE>
+          <DESCRIPTION>ProCurve J8706A 1000BASE-SX Port</DESCRIPTION>
+          <CONTAINEDININDEX>65</CONTAINEDININDEX>
+          <SERIAL>PB8574G</SERIAL>
+        </COMPONENT>
+        <COMPONENT>
+          <INDEX>109</INDEX>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+          <CONTAINEDININDEX>65</CONTAINEDININDEX>
+          <TYPE>port</TYPE>
+          <DESCRIPTION>ProCurve J8706A 1000BASE-SX Port</DESCRIPTION>
+          <SERIAL>PB850K8</SERIAL>
+          <NAME>Port B10</NAME>
+          <MODEL>J4858B</MODEL>
+          <FRU>2</FRU>
+        </COMPONENT>
+        <COMPONENT>
+          <FRU>2</FRU>
+          <NAME>Port B11</NAME>
+          <CONTAINEDININDEX>65</CONTAINEDININDEX>
+          <TYPE>port</TYPE>
+          <DESCRIPTION>ProCurve J8706A No Card</DESCRIPTION>
+          <INDEX>110</INDEX>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+        </COMPONENT>
+        <COMPONENT>
+          <NAME>Port B12</NAME>
+          <FRU>2</FRU>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+          <INDEX>111</INDEX>
+          <CONTAINEDININDEX>65</CONTAINEDININDEX>
+          <DESCRIPTION>ProCurve J8706A No Card</DESCRIPTION>
+          <TYPE>port</TYPE>
+        </COMPONENT>
+        <COMPONENT>
+          <SERIAL>PB8573Z</SERIAL>
+          <CONTAINEDININDEX>65</CONTAINEDININDEX>
+          <DESCRIPTION>ProCurve J8706A 1000BASE-SX Port</DESCRIPTION>
+          <TYPE>port</TYPE>
+          <INDEX>112</INDEX>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+          <FRU>2</FRU>
+          <NAME>Port B13</NAME>
+          <MODEL>J4858B</MODEL>
+        </COMPONENT>
+        <COMPONENT>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+          <INDEX>113</INDEX>
+          <TYPE>port</TYPE>
+          <DESCRIPTION>ProCurve J8706A No Card</DESCRIPTION>
+          <CONTAINEDININDEX>65</CONTAINEDININDEX>
+          <NAME>Port B14</NAME>
+          <FRU>2</FRU>
+        </COMPONENT>
+        <COMPONENT>
+          <MODEL>J4858B</MODEL>
+          <NAME>Port B15</NAME>
+          <FRU>2</FRU>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+          <INDEX>114</INDEX>
+          <DESCRIPTION>ProCurve J8706A 1000BASE-SX Port</DESCRIPTION>
+          <TYPE>port</TYPE>
+          <CONTAINEDININDEX>65</CONTAINEDININDEX>
+          <SERIAL>PB84WPU</SERIAL>
+        </COMPONENT>
+        <COMPONENT>
+          <INDEX>115</INDEX>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+          <CONTAINEDININDEX>65</CONTAINEDININDEX>
+          <TYPE>port</TYPE>
+          <DESCRIPTION>ProCurve J8706A No Card</DESCRIPTION>
+          <NAME>Port B16</NAME>
+          <FRU>2</FRU>
+        </COMPONENT>
+        <COMPONENT>
+          <INDEX>116</INDEX>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+          <SERIAL>PB85731</SERIAL>
+          <CONTAINEDININDEX>65</CONTAINEDININDEX>
+          <DESCRIPTION>ProCurve J8706A 1000BASE-SX Port</DESCRIPTION>
+          <TYPE>port</TYPE>
+          <NAME>Port B17</NAME>
+          <MODEL>J4858B</MODEL>
+          <FRU>2</FRU>
+        </COMPONENT>
+        <COMPONENT>
+          <FRU>2</FRU>
+          <NAME>Port B18</NAME>
+          <DESCRIPTION>ProCurve J8706A No Card</DESCRIPTION>
+          <TYPE>port</TYPE>
+          <CONTAINEDININDEX>65</CONTAINEDININDEX>
+          <INDEX>117</INDEX>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+        </COMPONENT>
+        <COMPONENT>
+          <SERIAL>PB84XX6</SERIAL>
+          <CONTAINEDININDEX>65</CONTAINEDININDEX>
+          <TYPE>port</TYPE>
+          <DESCRIPTION>ProCurve J8706A 1000BASE-SX Port</DESCRIPTION>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+          <INDEX>118</INDEX>
+          <FRU>2</FRU>
+          <NAME>Port B19</NAME>
+          <MODEL>J4858B</MODEL>
+        </COMPONENT>
+        <COMPONENT>
+          <CONTAINEDININDEX>65</CONTAINEDININDEX>
+          <TYPE>port</TYPE>
+          <DESCRIPTION>ProCurve J8706A No Card</DESCRIPTION>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+          <INDEX>119</INDEX>
+          <FRU>2</FRU>
+          <NAME>Port B20</NAME>
+        </COMPONENT>
+        <COMPONENT>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+          <INDEX>120</INDEX>
+          <CONTAINEDININDEX>65</CONTAINEDININDEX>
+          <TYPE>port</TYPE>
+          <DESCRIPTION>ProCurve J8706A 1000BASE-SX Port</DESCRIPTION>
+          <SERIAL>PB85071</SERIAL>
+          <NAME>Port B21</NAME>
+          <MODEL>J4858B</MODEL>
+          <FRU>2</FRU>
+        </COMPONENT>
+        <COMPONENT>
+          <CONTAINEDININDEX>65</CONTAINEDININDEX>
+          <DESCRIPTION>ProCurve J8706A 1000BASE-SX Port</DESCRIPTION>
+          <TYPE>port</TYPE>
+          <SERIAL>PB84WPL</SERIAL>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+          <INDEX>121</INDEX>
+          <FRU>2</FRU>
+          <NAME>Port B22</NAME>
+          <MODEL>J4858B</MODEL>
+        </COMPONENT>
+        <COMPONENT>
+          <SERIAL>PB84X25</SERIAL>
+          <TYPE>port</TYPE>
+          <DESCRIPTION>ProCurve J8706A 1000BASE-SX Port</DESCRIPTION>
+          <CONTAINEDININDEX>65</CONTAINEDININDEX>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+          <INDEX>122</INDEX>
+          <FRU>2</FRU>
+          <MODEL>J4858B</MODEL>
+          <NAME>Port B23</NAME>
+        </COMPONENT>
+        <COMPONENT>
+          <MANUFACTURER>Hewlett-Packard</MANUFACTURER>
+          <INDEX>123</INDEX>
+          <DESCRIPTION>ProCurve J8706A 1000BASE-SX Port</DESCRIPTION>
+          <TYPE>port</TYPE>
+          <CONTAINEDININDEX>65</CONTAINEDININDEX>
+          <SERIAL>PB84WZX</SERIAL>
+          <MODEL>J4858B</MODEL>
+          <NAME>Port B24</NAME>
+          <FRU>2</FRU>
+        </COMPONENT>
+    </COMPONENTS>
     </DEVICE>
     <MODULEVERSION>2.3.99</MODULEVERSION>
     <PROCESSNUMBER>1</PROCESSNUMBER>

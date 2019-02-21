@@ -127,6 +127,12 @@ sub getManufacturer {
     #return $self->get(sectionOID . '.X.H');
 }
 
+sub getComponents {
+    #my ($self) = @_;
+
+    #return [];
+}
+
 sub run {
     #my ($self) = @_;
 

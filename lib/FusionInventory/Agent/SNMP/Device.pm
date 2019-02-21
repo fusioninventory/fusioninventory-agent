@@ -7,6 +7,7 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::SNMP;
 use FusionInventory::Agent::Tools::Network;
 use FusionInventory::Agent::SNMP::MibSupport;
+use FusionInventory::Agent::SNMP::Device::Components;
 
 # Supported infos are specified here:
 # http://fusioninventory.org/documentation/dev/spec/protocol/netdiscovery.html
@@ -16,7 +17,7 @@ use constant discovery => [ qw(
     )];
 # http://fusioninventory.org/documentation/dev/spec/protocol/netinventory.html
 use constant inventory => [ qw(
-        INFO PORTS MODEMS FIRMWARES SIMCARDS PAGECOUNTERS CARTRIDGES
+        INFO PORTS MODEMS FIRMWARES SIMCARDS PAGECOUNTERS CARTRIDGES COMPONENTS
     )];
 
 # common base variables
@@ -186,6 +187,14 @@ sub getInventory {
     }
 
     return $inventory;
+}
+
+sub addComponent {
+    my ($self, $component) = @_;
+
+    return unless _cleanHash($component);
+
+    push @{$self->{COMPONENTS}->{COMPONENT}}, $component;
 }
 
 sub addModem {
@@ -522,6 +531,28 @@ sub setIp {
 
     my $ip = $self->getIpByMibSupport();
     $self->{IPS}->{IP} = [ $ip ] if $ip;
+}
+
+sub setComponents {
+    my ($self) = @_;
+
+    # First try to get components from standard ENTITY-MIB support
+    my $components = FusionInventory::Agent::SNMP::Device::Components->new(
+        device => $self
+    );
+    if ($components) {
+        foreach my $component (@{$components->getPhysicalComponents()}) {
+            $self->addComponent($component);
+        }
+    }
+
+    # Then look for any plugin providing getComponents API
+    if ($self->{MIBSUPPORT}) {
+        $components = $self->{MIBSUPPORT}->getMethod('getComponents') || [];
+        foreach my $component (@{$components}) {
+            $self->addComponent($component);
+        }
+    }
 }
 
 1;
