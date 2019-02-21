@@ -3243,6 +3243,7 @@
       </PORTS>
       <COMPONENTS>
         <COMPONENT>
+          <CONTAINEDININDEX>0</CONTAINEDININDEX>
           <MODEL>J8697A</MODEL>
           <NAME>Chassis4</NAME>
           <VERSION>K.15.04.0015m</VERSION>
