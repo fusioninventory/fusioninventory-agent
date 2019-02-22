@@ -20,7 +20,6 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
-    my $logger    = $params{logger};
 
     foreach my $vz (_parseVzlist(%params)) {
         $inventory->addEntry(

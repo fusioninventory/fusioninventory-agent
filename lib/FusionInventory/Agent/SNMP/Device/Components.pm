@@ -179,9 +179,6 @@ sub new {
 sub getPhysicalComponents {
     my ($self) = @_;
 
-    my $device = $self->{device};
-    my $logger = $device->{logger};
-
     # INDEX was still computed during object creation
     my @keys = sort grep { $_ ne 'INDEX' } keys(%physical_components_variables);
 

@@ -353,7 +353,7 @@ sub _setFSecureInfos {
 }
 
 sub _setBitdefenderInfos {
-    my ($antivirus, $logger) = @_;
+    my ($antivirus) = @_;
 
     my $bitdefenderReg = _getSoftwareRegistryKeys(
         'BitDefender\About',
