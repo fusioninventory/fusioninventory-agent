@@ -39,6 +39,7 @@ netdiscovery/netinventory:
 * Add Panasas PanFS support
 * Add few HP/Compaq serialnumber cases support
 * Fix #605: try 'ip neighbor show' if 'arp' is not available for netdiscovery
+* Add UPS-MIB support for Riello, S2S & APC
 
 2.4.2 Wed, 03 Oct 2018
 
