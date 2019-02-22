@@ -26,6 +26,7 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
+    my $logger    = $params{logger};
     my $seen;
 
     # Doesn't works on Win2003 Server
@@ -54,12 +55,17 @@ sub doInventory {
 
             if ($object->{productState}) {
                 my $hex = dec2hex($object->{productState});
+                $logger->debug("Found $antivirus->{NAME} (state=$hex)")
+                    if $logger;
                 # See http://neophob.com/2010/03/wmi-query-windows-securitycenter2/
                 my ($enabled, $uptodate) = $hex =~ /(.{2})(.{2})$/;
                 if (defined($enabled) && defined($uptodate)) {
                     $antivirus->{ENABLED}  =  $enabled =~ /^1.$/ ? 1 : 0;
                     $antivirus->{UPTODATE} = $uptodate =~ /^00$/ ? 1 : 0;
                 }
+            } else {
+                $logger->debug("Found $antivirus->{NAME}")
+                    if $logger;
             }
 
             # Also support WMI access to Windows Defender
@@ -123,6 +129,9 @@ sub doInventory {
                 section => 'ANTIVIRUS',
                 entry   => $antivirus
             );
+
+            $logger->debug2("Added $antivirus->{NAME}".($antivirus->{VERSION}? " v$antivirus->{VERSION}":""))
+                if $logger;
         }
     }
 }

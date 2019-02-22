@@ -30,6 +30,7 @@ inventory:
 * Fix #604: Only inventory Windows Store on recent win32 platforms
 * Fix #596: Openstack container seen as Physical on win32
 * Fix #593: Correct detection of machine type when /var/log/dmesg is too short
+* Fix #583: Add BitDefender antivirus support
 
 netdiscovery/netinventory:
 * Add BlueCoat proxy appliance serialnumber support
