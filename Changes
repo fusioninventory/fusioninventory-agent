@@ -1,6 +1,6 @@
 Revision history for FusionInventory agent
 
-2.4.3 not released yet
+2.4.3 Fri, 22 Feb 2019
 
 core:
 * fix some cases where a file handle was not closed
@@ -14,6 +14,7 @@ core:
   configuration parameter.
 
 inventory:
+* Bump Inventory task version to 1.6
 * win32 antivirus support update:
  - nicer product name report for ESET
  - report expiration date for ESET
@@ -31,8 +32,12 @@ inventory:
 * Fix #596: Openstack container seen as Physical on win32
 * Fix #593: Correct detection of machine type when /var/log/dmesg is too short
 * Fix #583: Add BitDefender antivirus support
+* Updated pci.ids to 2019.02.20 version
+* Updated usb.ids to 2019.01.17 version
 
 netdiscovery/netinventory:
+* Bump NetDiscovery task version to 2.8
+* Bump NetInventory task version to 3.2
 * Add BlueCoat proxy appliance serialnumber support
 * win32: Support arp table check for NetDiscovery task
 * Fix #634: Net::Ping version may not numeric with win32 installer
@@ -40,6 +45,7 @@ netdiscovery/netinventory:
 * Add few HP/Compaq serialnumber cases support
 * Fix #605: try 'ip neighbor show' if 'arp' is not available for netdiscovery
 * Add UPS-MIB support for Riello, S2S & APC
+* Updated sysobject.ids (tagged fia-2.4.3 tag on github repository)
 
 2.4.2 Wed, 03 Oct 2018
 
