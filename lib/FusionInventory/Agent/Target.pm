@@ -17,6 +17,7 @@ sub new {
         logger       => $params{logger} ||
                         FusionInventory::Agent::Logger->new(),
         maxDelay     => $params{maxDelay} || 3600,
+        errMaxDelay  => $params{delaytime},
         initialDelay => $params{delaytime},
     };
     bless $self, $class;
@@ -73,6 +74,9 @@ sub setNextRunDateFromNow {
         # delay reach target defined maxDelay. This is only used on network failure.
         $nextRunDelay = 2 * $self->{_nextrundelay} if ($self->{_nextrundelay});
         $nextRunDelay = $self->getMaxDelay() if ($nextRunDelay > $self->getMaxDelay());
+        # Also limit toward the initial delaytime as it is also used to
+        # define the maximum delay on network error
+        $nextRunDelay = $self->{errMaxDelay} if ($nextRunDelay > $self->{errMaxDelay});
         $self->{_nextrundelay} = $nextRunDelay;
     }
     $self->{nextRunDate} = time + ($nextRunDelay || 0);

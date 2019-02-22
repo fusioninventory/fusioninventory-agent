@@ -9,6 +9,9 @@ core:
   more Unix systems
 * daemon/service: reload target when the stat file has been updated by
   another script to use the updated next run timeout
+* For server target, server connection attempts are delayed from 60 seconds,
+  doubled at each new failed attempt, now until reaching max defined by delaytime
+  configuration parameter.
 
 inventory:
 * win32 antivirus support update:

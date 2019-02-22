@@ -175,7 +175,10 @@ fusioninventory-agent [options] [--server server|--local path]
 
   Target scheduling options:
     --delaytime=LIMIT              maximum delay before first target,
-                                     in seconds (3600)
+                                     in seconds (3600). It also defines the
+                                     maximum delay on network error. Delay on
+                                     network error starts from 60, is doubled at
+                                     each new failed attempt until reaching max
     --lazy                         do not contact the target before
                                    next scheduled time
 
