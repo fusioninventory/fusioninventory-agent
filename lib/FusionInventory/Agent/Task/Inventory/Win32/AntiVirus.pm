@@ -123,6 +123,8 @@ sub doInventory {
                 _setMSEssentialsInfos($antivirus);
             } elsif ($antivirus->{NAME} =~ /F-Secure/i) {
                 _setFSecureInfos($antivirus);
+            } elsif ($antivirus->{NAME} =~ /Bitdefender/i) {
+                _setBitdefenderInfos($antivirus,$logger);
             }
 
             $inventory->addEntry(
@@ -348,6 +350,61 @@ sub _setFSecureInfos {
 
     my @date = localtime($expiry_date);
     $antivirus->{EXPIRATION} = sprintf("%02d/%02d/%04d",$date[3],$date[4]+1,$date[5]+1900);
+}
+
+sub _setBitdefenderInfos {
+    my ($antivirus, $logger) = @_;
+
+    my $bitdefenderReg = _getSoftwareRegistryKeys(
+        'BitDefender\About',
+        [ qw(ProductName ProductVersion) ]
+    );
+
+    return unless $bitdefenderReg;
+
+    $antivirus->{VERSION} = $bitdefenderReg->{"/ProductVersion"}
+        if $bitdefenderReg->{"/ProductVersion"};
+    $antivirus->{NAME} = $bitdefenderReg->{"/ProductName"}
+        if $bitdefenderReg->{"/ProductName"};
+
+    my $path = _getSoftwareRegistryKeys(
+        'BitDefender',
+        [ 'Bitdefender Scan Server' ],
+        sub { $_[0]->{"/Bitdefender Scan Server"} }
+    );
+    if ($path && -d $path) {
+        my $handle = getDirectoryHandle( directory => $path );
+        if ($handle) {
+            my ($major,$minor) = (0,0);
+            while (my $entry = readdir($handle)) {
+                next unless $entry =~ /Antivirus_(\d+)_(\d+)/;
+                next unless (-d "$path/$entry/Plugins" && -e "$path/$entry/Plugins/update.txt");
+                next if ($1 < $major || ($1 == $major && $2 < $minor));
+                ($major,$minor) = ($1, $2);
+                my %update = map { /^([^:]+):\s*(.*)$/ }
+                    getAllLines(file => "$path/$entry/Plugins/update.txt");
+                $antivirus->{BASE_VERSION} = $update{"Signature number"}
+                    if $update{"Signature number"};
+            }
+        }
+    }
+
+    my $surveydata = _getSoftwareRegistryKeys(
+        'BitDefender\Install',
+        [ 'SurveyDataInfo' ],
+        sub { $_[0]->{"/SurveyDataInfo"} }
+    );
+    if ($surveydata) {
+        JSON::PP->require();
+        my $datas;
+        eval {
+            $datas = JSON::PP::decode_json($surveydata);
+        };
+        if (defined($datas->{days_left})) {
+            my @date = localtime(time+86400*$datas->{days_left});
+            $antivirus->{EXPIRATION} = sprintf("%02d/%02d/%04d",$date[3],$date[4]+1,$date[5]+1900);
+        }
+    }
 }
 
 sub _getSoftwareRegistryKeys {
