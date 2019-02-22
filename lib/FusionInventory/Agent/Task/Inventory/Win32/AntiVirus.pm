@@ -235,8 +235,8 @@ sub _setESETInfos {
         if $esetReg->{"/ProductName"};
 
     # Look at license file
-    if ($esetReg->{"/AppDataDir"} && -d $esetReg->{"/AppDataDir"}.'\License') {
-        my $license = $esetReg->{"/AppDataDir"}.'\License\license.lf';
+    if ($esetReg->{"/AppDataDir"} && -d $esetReg->{"/AppDataDir"}.'/License') {
+        my $license = $esetReg->{"/AppDataDir"}.'/License/license.lf';
         my @content = getAllLines( file => $license );
         my $string = join('', map { getSanitizedString($_) } @content);
         # License.lf file seems to be a signed UTF-16 XML. As getSanitizedString()
