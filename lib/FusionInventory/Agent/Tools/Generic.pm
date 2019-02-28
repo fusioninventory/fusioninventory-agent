@@ -233,8 +233,8 @@ sub getPCIDevices {
             undef $controller;
         } elsif ($line =~ /^\tKernel driver in use: (\w+)/) {
             $controller->{DRIVER} = $1;
-        } elsif ($line =~ /^\tSubsystem: ([a-f\d]{4}:[a-f\d]{4})/) {
-            $controller->{PCISUBSYSTEMID} = $1;
+        } elsif ($line =~ /^\tSubsystem: ?(.*) \[?([a-f\d]{4}:[a-f\d]{4})\]?/) {
+            $controller->{PCISUBSYSTEMID} = $2;
         }
     }
 
