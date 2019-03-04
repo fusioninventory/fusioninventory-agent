@@ -32,6 +32,7 @@ inventory:
 * Fix #596: Openstack container seen as Physical on win32
 * Fix #593: Correct detection of machine type when /var/log/dmesg is too short
 * Fix #583: Add BitDefender antivirus support
+* Encrypted filesystems support added
 * Updated pci.ids to 2019.02.20 version
 * Updated usb.ids to 2019.01.17 version
 
@@ -45,6 +46,7 @@ netdiscovery/netinventory:
 * Add few HP/Compaq serialnumber cases support
 * Fix #605: try 'ip neighbor show' if 'arp' is not available for netdiscovery
 * Add UPS-MIB support for Riello, S2S & APC
+* Components support added
 * Updated sysobject.ids (tagged fia-2.4.3 tag on github repository)
 
 2.4.2 Wed, 03 Oct 2018
