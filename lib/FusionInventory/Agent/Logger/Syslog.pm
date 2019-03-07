@@ -29,10 +29,6 @@ sub new {
 
     openlog($syslog_name, 'cons,pid', $self->{facility});
 
-    # Fix agent not listening on http port issue when 'syslog' logger is
-    # active and Sys::Syslog is too old. Problem seen on CentOS 6.10
-    Sys::Syslog::setlogsock('unix') if $Sys::Syslog::VERSION < 0.28 ;
-
     return $self;
 }
 
