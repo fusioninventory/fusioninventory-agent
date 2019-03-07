@@ -63,6 +63,7 @@ my %sysdescr_first_word = (
     'juniper'        => { manufacturer => 'Juniper',         type => 'NETWORKING' },
     'konica'         => { manufacturer => 'Konica',          type => 'PRINTER'    },
     'kyocera'        => { manufacturer => 'Kyocera',         type => 'PRINTER'    },
+    'lancom'         => { manufacturer => 'Lancom',          type => 'NETWORKING' },
     'lexmark'        => { manufacturer => 'Lexmark',         type => 'PRINTER'    },
     'netapp'         => { manufacturer => 'NetApp',          type => 'STORAGE'    },
     'netgear'        => { manufacturer => 'NetGear',         type => 'NETWORKING' },
