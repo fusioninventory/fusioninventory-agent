@@ -3,6 +3,9 @@ package FusionInventory::Agent::Logger::Backend;
 use strict;
 use warnings;
 
+sub reload {
+}
+
 1;
 __END__
 
@@ -54,3 +57,7 @@ Can be one of:
 =item I<message>
 
 =back
+
+=head2 reload()
+
+Used to reload a logger

@@ -279,6 +279,9 @@ sub createDaemon {
     } elsif (my $pid = $daemon->Init()) {
         $logger->debug("$PROVIDER Agent daemonized with PID $pid") if $logger;
         exit 0;
+    } else {
+        # Reload the logger in forked process to avoid some related issues
+        $logger->reload();
     }
 
     # From here we can enable our pidfile deletion on terminate
