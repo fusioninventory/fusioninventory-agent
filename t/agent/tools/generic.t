@@ -8382,7 +8382,8 @@ my %lspci_tests = (
             REV          => '07',
             PCIID        => '8086:2a40',
             DRIVER       => 'agpgart',
-            PCISLOT      => '00:00.0'
+            PCISLOT      => '00:00.0',
+            PCISUBSYSTEMID => '1028:0252',
         },
         {
             PCICLASS     => '0300',
@@ -8391,7 +8392,8 @@ my %lspci_tests = (
             REV          => '07',
             PCIID        => '8086:2a42',
             DRIVER       => 'i915',
-            PCISLOT      => '00:02.0'
+            PCISLOT      => '00:02.0',
+            PCISUBSYSTEMID => '1028:0252',
         },
         {
             PCICLASS     => '0380',
@@ -8399,7 +8401,8 @@ my %lspci_tests = (
             MANUFACTURER => 'Intel Corporation Mobile 4 Series Chipset Integrated Graphics Controller',
             REV          => '07',
             PCIID        => '8086:2a43',
-            PCISLOT      => '00:02.1'
+            PCISLOT      => '00:02.1',
+            PCISUBSYSTEMID => '1028:0252',
         },
         {
             PCICLASS     => '0200',
@@ -8408,7 +8411,8 @@ my %lspci_tests = (
             REV          => '03',
             PCIID        => '8086:10f5',
             DRIVER       => 'e1000e',
-            PCISLOT      => '00:19.0'
+            PCISLOT      => '00:19.0',
+            PCISUBSYSTEMID => '1028:0252',
         },
         {
             PCICLASS     => '0c03',
@@ -8417,7 +8421,8 @@ my %lspci_tests = (
             REV          => '03',
             PCIID        => '8086:2937',
             DRIVER       => 'uhci_hcd',
-            PCISLOT      => '00:1a.0'
+            PCISLOT      => '00:1a.0',
+            PCISUBSYSTEMID => '1028:0252',
         },
         {
             PCICLASS     => '0c03',
@@ -8426,7 +8431,8 @@ my %lspci_tests = (
             REV          => '03',
             PCIID        => '8086:2938',
             DRIVER       => 'uhci_hcd',
-            PCISLOT      => '00:1a.1'
+            PCISLOT      => '00:1a.1',
+            PCISUBSYSTEMID => '1028:0252',
         },
         {
             PCICLASS     => '0c03',
@@ -8435,7 +8441,8 @@ my %lspci_tests = (
             REV          => '03',
             PCIID        => '8086:2939',
             DRIVER       => 'uhci_hcd',
-            PCISLOT      => '00:1a.2'
+            PCISLOT      => '00:1a.2',
+            PCISUBSYSTEMID => '1028:0252',
         },
         {
             PCICLASS     => '0c03',
@@ -8444,7 +8451,8 @@ my %lspci_tests = (
             REV          => '03',
             PCIID        => '8086:293c',
             DRIVER       => 'ehci_hcd',
-            PCISLOT      => '00:1a.7'
+            PCISLOT      => '00:1a.7',
+            PCISUBSYSTEMID => '1028:0252',
         },
         {
             PCICLASS     => '0403',
@@ -8453,7 +8461,8 @@ my %lspci_tests = (
             REV          => '03',
             PCIID        => '8086:293e',
             DRIVER       => 'snd_hda_intel',
-            PCISLOT      => '00:1b.0'
+            PCISLOT      => '00:1b.0',
+            PCISUBSYSTEMID => '1028:0252',
         },
         {
             PCICLASS     => '0604',
@@ -8489,7 +8498,8 @@ my %lspci_tests = (
             REV          => '03',
             PCIID        => '8086:2934',
             DRIVER       => 'uhci_hcd',
-            PCISLOT      => '00:1d.0'
+            PCISLOT      => '00:1d.0',
+            PCISUBSYSTEMID => '1028:0252',
         },
         {
             PCICLASS     => '0c03',
@@ -8498,7 +8508,8 @@ my %lspci_tests = (
             REV          => '03',
             PCIID        => '8086:2935',
             DRIVER       => 'uhci_hcd',
-            PCISLOT      => '00:1d.1'
+            PCISLOT      => '00:1d.1',
+            PCISUBSYSTEMID => '1028:0252',
         },
         {
             PCICLASS     => '0c03',
@@ -8507,7 +8518,8 @@ my %lspci_tests = (
             REV          => '03',
             PCIID        => '8086:2936',
             DRIVER       => 'uhci_hcd',
-            PCISLOT      => '00:1d.2'
+            PCISLOT      => '00:1d.2',
+            PCISUBSYSTEMID => '1028:0252',
         },
         {
             PCICLASS     => '0c03',
@@ -8516,7 +8528,8 @@ my %lspci_tests = (
             REV          => '03',
             PCIID        => '8086:293a',
             DRIVER       => 'ehci_hcd',
-            PCISLOT      => '00:1d.7'
+            PCISLOT      => '00:1d.7',
+            PCISUBSYSTEMID => '1028:0252',
         },
         {
             PCICLASS     => '0604',
@@ -8532,7 +8545,8 @@ my %lspci_tests = (
             MANUFACTURER => 'Intel Corporation ICH9M-E LPC Interface Controller',
             REV          => '03',
             PCIID        => '8086:2917',
-            PCISLOT      => '00:1f.0'
+            PCISLOT      => '00:1f.0',
+            PCISUBSYSTEMID => '1028:0252',
         },
         {
             PCIID        => '8086:282a',
@@ -8541,7 +8555,8 @@ my %lspci_tests = (
             MANUFACTURER => 'Intel Corporation 82801 Mobile SATA Controller [RAID mode]',
             DRIVER       => 'ahci',
             NAME         => 'RAID bus controller',
-            PCISLOT      => '00:1f.2'
+            PCISLOT      => '00:1f.2',
+            PCISUBSYSTEMID => '1028:0252',
         },
         {
             PCICLASS     => '0c05',
@@ -8550,7 +8565,8 @@ my %lspci_tests = (
             REV          => '03',
             PCIID        => '8086:2930',
             DRIVER       => 'i801_smbus',
-            PCISLOT      => '00:1f.3'
+            PCISLOT      => '00:1f.3',
+            PCISUBSYSTEMID => '1028:0252',
         },
         {
             PCICLASS     => '0607',
@@ -8559,7 +8575,8 @@ my %lspci_tests = (
             REV          => undef,
             PCIID        => '104c:8039',
             DRIVER       => 'yenta_cardbus',
-            PCISLOT      => '02:01.0'
+            PCISLOT      => '02:01.0',
+            PCISUBSYSTEMID => '1028:0252',
         },
         {
             PCICLASS     => '0c00',
@@ -8568,7 +8585,8 @@ my %lspci_tests = (
             REV          => undef,
             PCIID        => '104c:803a',
             DRIVER       => 'firewire_ohci',
-            PCISLOT      => '02:01.1'
+            PCISLOT      => '02:01.1',
+            PCISUBSYSTEMID => '1028:0252',
         },
         {
             PCICLASS     => '0805',
@@ -8577,7 +8595,8 @@ my %lspci_tests = (
             REV         => undef,
             PCIID       => '104c:803c',
             DRIVER      => 'sdhci',
-            PCISLOT     => '02:01.3'
+            PCISLOT     => '02:01.3',
+            PCISUBSYSTEMID => '1028:0252',
         },
         {
             PCICLASS     => '0280',
@@ -8586,7 +8605,8 @@ my %lspci_tests = (
             REV          => undef,
             PCIID        => '8086:4232',
             DRIVER       => 'iwlwifi',
-            PCISLOT      => '0c:00.0'
+            PCISLOT      => '0c:00.0',
+            PCISUBSYSTEMID => '8086:1321',
         }
     ],
     'linux-2' => [
@@ -8597,7 +8617,8 @@ my %lspci_tests = (
             PCICLASS     => '0600',
             PCISLOT      => '00:00.0',
             MANUFACTURER => 'Intel Corporation 82975X Memory Controller Hub',
-            PCIID        => '8086:277c'
+            PCIID        => '8086:277c',
+            PCISUBSYSTEMID => '1028:01de',
         },
         {
             REV          => undef,
@@ -8615,7 +8636,8 @@ my %lspci_tests = (
             DRIVER       => 'snd_hda_intel',
             MANUFACTURER => 'Intel Corporation NM10/ICH7 Family High Definition Audio Controller',
             PCISLOT      => '00:1b.0',
-            PCIID        => '8086:27d8'
+            PCIID        => '8086:27d8',
+            PCISUBSYSTEMID => '1028:01de',
         },
         {
             REV          => '01',
@@ -8651,7 +8673,8 @@ my %lspci_tests = (
             NAME         => 'USB controller',
             PCIID        => '8086:27c8',
             PCISLOT      => '00:1d.0',
-            MANUFACTURER => 'Intel Corporation NM10/ICH7 Family USB UHCI Controller #1'
+            MANUFACTURER => 'Intel Corporation NM10/ICH7 Family USB UHCI Controller #1',
+            PCISUBSYSTEMID => '1028:01de',
         },
         {
             NAME         => 'USB controller',
@@ -8660,7 +8683,8 @@ my %lspci_tests = (
             DRIVER       => 'uhci_hcd',
             MANUFACTURER => 'Intel Corporation NM10/ICH7 Family USB UHCI Controller #2',
             PCISLOT      => '00:1d.1',
-            PCIID        => '8086:27c9'
+            PCIID        => '8086:27c9',
+            PCISUBSYSTEMID => '1028:01de',
         },
         {
             DRIVER       => 'uhci_hcd',
@@ -8669,7 +8693,8 @@ my %lspci_tests = (
             NAME         => 'USB controller',
             PCIID        => '8086:27ca',
             PCISLOT      => '00:1d.2',
-            MANUFACTURER => 'Intel Corporation NM10/ICH7 Family USB UHCI Controller #3'
+            MANUFACTURER => 'Intel Corporation NM10/ICH7 Family USB UHCI Controller #3',
+            PCISUBSYSTEMID => '1028:01de',
         },
         {
             PCIID        => '8086:27cb',
@@ -8678,7 +8703,8 @@ my %lspci_tests = (
             DRIVER       => 'uhci_hcd',
             PCICLASS     => '0c03',
             REV          => '01',
-            NAME         => 'USB controller'
+            NAME         => 'USB controller',
+            PCISUBSYSTEMID => '1028:01de',
         },
         {
             PCICLASS     => '0c03',
@@ -8687,7 +8713,8 @@ my %lspci_tests = (
             REV          => '01',
             PCIID        => '8086:27cc',
             MANUFACTURER => 'Intel Corporation NM10/ICH7 Family USB2 EHCI Controller',
-            PCISLOT      => '00:1d.7'
+            PCISLOT      => '00:1d.7',
+            PCISUBSYSTEMID => '1028:01de',
         },
         {
             PCISLOT      => '00:1e.0',
@@ -8713,7 +8740,8 @@ my %lspci_tests = (
             NAME         => 'IDE interface',
             REV          => '01',
             PCICLASS     => '0101',
-            DRIVER       => 'ata_piix'
+            DRIVER       => 'ata_piix',
+            PCISUBSYSTEMID => '1028:01de',
         },
         {
             MANUFACTURER => 'Intel Corporation NM10/ICH7 Family SATA Controller [AHCI mode]',
@@ -8722,7 +8750,8 @@ my %lspci_tests = (
             PCISLOT      => '00:1f.2',
             PCICLASS     => '0106',
             PCIID        => '8086:27c1',
-            NAME         => 'SATA controller'
+            NAME         => 'SATA controller',
+            PCISUBSYSTEMID => '1028:01de',
         },
         {
             PCICLASS     => '0c05',
@@ -8731,7 +8760,8 @@ my %lspci_tests = (
             REV          => '01',
             PCIID        => '8086:27da',
             MANUFACTURER => 'Intel Corporation NM10/ICH7 Family SMBus Controller',
-            PCISLOT      => '00:1f.3'
+            PCISLOT      => '00:1f.3',
+            PCISUBSYSTEMID => '1028:01de',
         },
         {
             DRIVER       => 'nvidia',
@@ -8740,7 +8770,8 @@ my %lspci_tests = (
             REV          => undef,
             PCIID        => '10de:014d',
             NAME         => 'VGA compatible controller',
-            MANUFACTURER => 'NVIDIA Corporation NV43GL [Quadro FX 550]'
+            MANUFACTURER => 'NVIDIA Corporation NV43GL [Quadro FX 550]',
+            PCISUBSYSTEMID => '10de:0349',
         },
         {
             NAME         => 'Ethernet controller',
@@ -8749,7 +8780,8 @@ my %lspci_tests = (
             DRIVER       => 'tg3',
             MANUFACTURER => 'Broadcom Corporation NetXtreme BCM5754 Gigabit Ethernet PCI Express',
             PCISLOT      => '04:00.0',
-            PCIID        => '14e4:167a'
+            PCIID        => '14e4:167a',
+            PCISUBSYSTEMID => '1028:01de',
         },
         {
             PCISLOT      => '05:02.0',
@@ -8758,7 +8790,8 @@ my %lspci_tests = (
             PCIID        => '11c1:5811',
             MANUFACTURER => 'LSI Corporation FW322/323 [TrueFire] 1394a Controller',
             NAME         => 'FireWire (IEEE 1394)',
-            PCICLASS     => '0c00'
+            PCICLASS     => '0c00',
+            PCISUBSYSTEMID => '1028:8010',
         }
     ],
 );
