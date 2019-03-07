@@ -22,7 +22,13 @@ my %tests = (
             NAME    => 'Intel Corporation Mobile 4 Series Chipset Integrated Graphics Controller',
             CHIPSET => 'Display controller'
         }
-      ]
+    ],
+    'linux-2' => [
+        {
+            CHIPSET => 'VGA compatible controller',
+            NAME    => 'NVIDIA Corporation NV43GL [Quadro FX 550]'
+        }
+    ]
 );
 
 plan tests => (2 * scalar keys %tests) + 1;

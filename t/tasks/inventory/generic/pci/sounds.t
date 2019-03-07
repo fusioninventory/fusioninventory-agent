@@ -19,6 +19,13 @@ my %tests = (
             DESCRIPTION => 'rev 03',
             MANUFACTURER => 'Intel Corporation 82801I (ICH9 Family) HD Audio Controller'
         }
+    ],
+    'linux-2' => [
+        {
+            DESCRIPTION  => 'rev 01',
+            MANUFACTURER => 'Intel Corporation NM10/ICH7 Family High Definition Audio Controller',
+            NAME         => 'Audio device'
+        }
     ]
 );
 

@@ -13,7 +13,8 @@ use FusionInventory::Test::Inventory;
 use FusionInventory::Agent::Task::Inventory::Generic::PCI::Modems;
 
 my %tests = (
-    'dell-xt2' => []
+    'dell-xt2' => [],
+    'linux-2'  => [],
 );
 
 plan tests => (2 * scalar keys %tests) + 1;
