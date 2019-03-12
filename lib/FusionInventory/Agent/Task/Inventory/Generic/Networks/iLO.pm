@@ -67,7 +67,7 @@ sub doInventory {
     my $logger    = $params{logger};
 
     my $command = $OSNAME eq 'MSWin32' ?
-        '"c:\Program Files\HP\hponcfg\hponcfg" /a /w output.txt && type output.txt' :
+        '"c:\Program Files\HP\hponcfg\hponcfg" /a /w output.txt >nul 2>&1 && type output.txt' :
         'hponcfg -aw -';
 
 

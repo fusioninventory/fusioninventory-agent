@@ -11,6 +11,7 @@ core:
 
 inventory:
 * Fix lspci command subsystem parsing
+* Fix hponcfg.exe can output on stderr on win32 when not really usable
 
 netdiscovery/netinventory:
 * Add Lancom in networking devices recognized by description parsing
