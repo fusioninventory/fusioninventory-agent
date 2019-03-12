@@ -8,6 +8,7 @@ core:
 * Fix #646: HTTP daemon not starting on CentOS 7
 * revert dfcb64573e as now more generic fix has been implemented in a538abaed7
   (tested on CentOS 6)
+* win32: don't show service memory usage on OS not supporting GetProcessMemoryInfo
 
 inventory:
 * Fix lspci command subsystem parsing

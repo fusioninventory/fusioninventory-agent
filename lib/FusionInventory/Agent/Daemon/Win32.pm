@@ -335,7 +335,8 @@ sub RunningServiceOptimization {
     # win32 platform needs optimization
     if ($self->{logger} && $self->{logger}->debug_level()) {
         my $runmem = getAgentMemorySize();
-        $self->{logger}->debug("Agent memory usage before freeing memory: $runmem");
+        $self->{logger}->debug("Agent memory usage before freeing memory: $runmem")
+            unless $runmem < 0;
     }
 
     # Free some memory
@@ -343,7 +344,8 @@ sub RunningServiceOptimization {
 
     if ($self->{logger}) {
         my $current_mem = getAgentMemorySize();
-        $self->{logger}->info("$PROVIDER Agent memory usage: $current_mem");
+        $self->{logger}->info("$PROVIDER Agent memory usage: $current_mem")
+            unless $current_mem < 0;
     }
 }
 
