@@ -104,13 +104,17 @@ sub init {
     }
 
     foreach my $target ($self->getTargets()) {
-        $logger->debug($target->getType() . " target: " . $target->getName());
+        if ($target->isType('local') || $target->isType('server')) {
+            $logger->debug("target $target->{id}: " . $target->getType() . " " . $target->getName());
+        } else {
+            $logger->debug("target $target->{id}: " . $target->getType());
+        }
 
         # Register planned tasks by target
         my @planned = $target->plannedTasks(@plannedTasks);
 
         if (@planned) {
-            $logger->debug("Planned tasks:");
+            $logger->debug("Planned tasks for $target->{id}:");
             foreach my $task (@planned) {
                 my $task_lc = lc $task;
                 $logger->debug("- $task: " . $available{$available_lc{$task_lc}});
@@ -181,6 +185,10 @@ sub terminate {
 sub runTarget {
     my ($self, $target) = @_;
 
+    if ($target->isType('local') || $target->isType('server')) {
+        $self->{logger}->info("target $target->{id}: " . $target->getType() . " " . $target->getName());
+    }
+
     # the prolog dialog must be done once for all tasks,
     # but only for server targets
     my $response;
@@ -206,7 +214,7 @@ sub runTarget {
             deviceid => $self->{deviceid},
         );
 
-        $self->{logger}->info("sending prolog request to server $target->{id}");
+        $self->{logger}->info("sending prolog request to $target->{id}");
         $response = $client->send(
             url     => $target->getUrl(),
             message => $prolog

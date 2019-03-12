@@ -50,12 +50,17 @@ sub run {
 
     $self->{modules} = {};
 
+    my $tag = $self->{config}->{'tag'};
+
     my $inventory = FusionInventory::Agent::Inventory->new(
         statedir => $self->{target}->getStorage()->getDirectory(),
         deviceid => $self->{deviceid},
         logger   => $self->{logger},
-        tag      => $self->{config}->{'tag'}
+        tag      => $tag
     );
+
+    $self->{logger}->info("New inventory from $self->{deviceid} for $self->{target}->{id}".
+        ( (defined($tag) && length($tag)) ? " (tag=$tag)" : "" ));
 
     # Set inventory as remote if running remote inventory like from wmi task
     $inventory->setRemote($self->getRemote()) if $self->getRemote();

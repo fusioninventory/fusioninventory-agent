@@ -9,12 +9,14 @@ core:
 * revert dfcb64573e as now more generic fix has been implemented in a538abaed7
   (tested on CentOS 6)
 * win32: don't show service memory usage on OS not supporting GetProcessMemoryInfo
+* Fix #601: Log URL for server target and log path for local target
 
 inventory:
 * Fix lspci command subsystem parsing
 * Fix hponcfg.exe can output on stderr on win32 when not really usable
 * Skip not working under win32 Generic::Users inventory
   Also avoid error in log on /etc/passwd and /etc/group not found files
+* Fix #601: Log deviceid as agentid and related target when running an inventory
 
 netdiscovery/netinventory:
 * Add Lancom in networking devices recognized by description parsing
