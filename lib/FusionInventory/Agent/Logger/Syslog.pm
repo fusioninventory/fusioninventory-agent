@@ -22,14 +22,12 @@ my $syslog_name = lc($FusionInventory::Agent::Version::PROVIDER)."-agent";
 sub new {
     my ($class, %params) = @_;
 
-    my $self = {};
+    my $self = {
+        facility => $params{logfacility} || 'LOG_USER',
+    };
     bless $self, $class;
 
-    openlog($syslog_name, 'cons,pid', $params{logfacility} || 'LOG_USER');
-
-    # Fix agent not listening on http port issue when 'syslog' logger is
-    # active and Sys::Syslog is too old. Problem seen on CentOS 6.10
-    Sys::Syslog::setlogsock('unix') if $Sys::Syslog::VERSION < 0.28 ;
+    openlog($syslog_name, 'cons,pid', $self->{facility});
 
     return $self;
 }
@@ -41,6 +39,13 @@ sub addMessage {
     my $message = $params{message};
 
     syslog($syslog_levels{$level}, $message);
+}
+
+sub reload {
+    my ($self) = @_;
+
+    closelog();
+    openlog($syslog_name, 'cons,pid', $self->{facility});
 }
 
 sub DESTROY {

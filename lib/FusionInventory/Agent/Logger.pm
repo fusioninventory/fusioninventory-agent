@@ -92,6 +92,14 @@ sub _log {
     }
 }
 
+sub reload {
+    my ($self) = @_;
+
+    foreach my $backend (@{$self->{backends}}) {
+        $backend->reload();
+    }
+}
+
 sub debug_level {
     my ($self) = @_;
 

@@ -2,6 +2,13 @@ Revision history for FusionInventory agent
 
 2.5 not released yet
 
+core:
+* linux: reload logger during daemonize to avoid issues like not listening http
+  daemon if logger has still not been used before starting the listener
+* Fix #646: HTTP daemon not starting on CentOS 7
+* revert dfcb64573e as now more generic fix has been implemented in a538abaed7
+  (tested on CentOS 6)
+
 2.4.3 Fri, 22 Feb 2019
 
 core:
