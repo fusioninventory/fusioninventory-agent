@@ -105,7 +105,7 @@ __END__
 
 =head1 NAME
 
-Inventory module for Qlogic fibre channel switches
+FusionInventory::Agent::Tools::Hardware::Qlogic - Inventory module for Qlogic fibre channel switches
 
 =head1 DESCRIPTION
 

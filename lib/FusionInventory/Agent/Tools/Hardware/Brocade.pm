@@ -80,7 +80,7 @@ __END__
 
 =head1 NAME
 
-Inventory module for Brocade fibre channel switches
+FusionInventory::Agent::Tools::Hardware::Brocade - Inventory module for Brocade fibre channel switches
 
 =head1 DESCRIPTION
 

@@ -108,7 +108,7 @@ __END__
 
 =head1 NAME
 
-Inventory module for Digi modems and associated sim cards & firmwares
+FusionInventory::Agent::SNMP::MibSupport::iLO - Inventory module for Digi modems and associated sim cards & firmwares
 
 =head1 DESCRIPTION
 

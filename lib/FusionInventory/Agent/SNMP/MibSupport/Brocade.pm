@@ -38,7 +38,7 @@ __END__
 
 =head1 NAME
 
-Inventory module for Brocade Switches
+FusionInventory::Agent::SNMP::MibSupport::Brocade - Inventory module for Brocade Switches
 
 =head1 DESCRIPTION
 

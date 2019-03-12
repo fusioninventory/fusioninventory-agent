@@ -19,7 +19,7 @@ __END__
 
 =head1 NAME
 
-Inventory module for APC PDUs
+FusionInventory::Agent::Tools::Hardware::Apc - Inventory module for APC PDUs
 
 =head1 DESCRIPTION
 

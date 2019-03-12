@@ -50,7 +50,7 @@ __END__
 
 =head1 NAME
 
-Inventory module for Zebra Printers
+FusionInventory::Agent::SNMP::MibSupport::Zebra - Inventory module for Zebra Printers
 
 =head1 DESCRIPTION
 

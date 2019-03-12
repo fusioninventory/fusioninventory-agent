@@ -129,7 +129,7 @@ __END__
 
 =head1 NAME
 
-Inventory module for HP Printers
+FusionInventory::Agent::SNMP::MibSupport::HPNetPeripheral - Inventory module for HP Printers
 
 =head1 DESCRIPTION
 

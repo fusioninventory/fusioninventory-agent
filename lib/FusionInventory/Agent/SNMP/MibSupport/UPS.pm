@@ -56,7 +56,7 @@ __END__
 
 =head1 NAME
 
-Inventory module for APC modules
+FusionInventory::Agent::SNMP::MibSupport::UPS - Inventory module for APC modules
 
 =head1 DESCRIPTION
 

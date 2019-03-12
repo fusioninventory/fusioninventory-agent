@@ -62,7 +62,7 @@ __END__
 
 =head1 NAME
 
-Inventory module for Epson Printers
+FusionInventory::Agent::SNMP::MibSupport::Epson - Inventory module for Epson Printers
 
 =head1 DESCRIPTION
 

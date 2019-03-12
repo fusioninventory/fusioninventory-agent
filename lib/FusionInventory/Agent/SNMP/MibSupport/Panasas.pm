@@ -68,7 +68,7 @@ __END__
 
 =head1 NAME
 
-Inventory module for Panasas PanFS
+FusionInventory::Agent::SNMP::MibSupport::Panasas - Inventory module for Panasas PanFS
 
 =head1 DESCRIPTION
 

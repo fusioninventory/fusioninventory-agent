@@ -155,7 +155,7 @@ __END__
 
 =head1 NAME
 
-Parent/Template class for inventory module
+FusionInventory::Agent::SNMP::MibSupportTemplate - Parent/Template class for inventory module
 
 =head1 DESCRIPTION
 

@@ -152,7 +152,7 @@ __END__
 
 =head1 NAME
 
-Inventory module for Linux Appliances
+FusionInventory::Agent::SNMP::MibSupport::LinuxAppliance - Inventory module for Linux Appliances
 
 =head1 DESCRIPTION
 

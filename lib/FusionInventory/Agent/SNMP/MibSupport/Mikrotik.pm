@@ -55,7 +55,7 @@ __END__
 
 =head1 NAME
 
-Inventory module for Mikrotik devices
+FusionInventory::Agent::SNMP::MibSupport::Mikrotik - Inventory module for Mikrotik devices
 
 =head1 DESCRIPTION
 
