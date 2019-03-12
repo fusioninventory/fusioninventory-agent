@@ -12,6 +12,8 @@ core:
 inventory:
 * Fix lspci command subsystem parsing
 * Fix hponcfg.exe can output on stderr on win32 when not really usable
+* Skip not working under win32 Generic::Users inventory
+  Also avoid error in log on /etc/passwd and /etc/group not found files
 
 netdiscovery/netinventory:
 * Add Lancom in networking devices recognized by description parsing

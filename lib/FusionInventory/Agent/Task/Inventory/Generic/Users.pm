@@ -5,12 +5,17 @@ use warnings;
 
 use parent 'FusionInventory::Agent::Task::Inventory::Module';
 
+use English qw(-no_match_vars);
+
 use FusionInventory::Agent::Tools;
 
 sub isEnabled {
     my (%params) = @_;
 
     return if $params{no_category}->{user};
+
+    # Not working under win32
+    return 0 if $OSNAME eq 'MSWin32';
 
     return
         canRun('who')  ||
