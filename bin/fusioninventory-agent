@@ -542,7 +542,7 @@ Multiple values can be specified, using comma as a separator.
 
 This option should be used if no local or server target is defined and
 the agent still needs to answer http requests. no-httpd should not be set
-and httpd-trust should be set to enable trusted remote client.
+and httpd-trust should be set to enable trusted remote clients.
 
 =back
 

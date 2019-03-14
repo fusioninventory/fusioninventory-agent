@@ -64,7 +64,7 @@ sub new {
 
         $plugin->init();
         if ($plugin->disabled()) {
-            $self->{logger}->debug($log_prefix . "Disabled $name Server plugin loaded");
+            $self->{logger}->debug($log_prefix . "$name Server plugin loaded but disabled");
         } else {
             $self->{logger}->debug($log_prefix . "$name Server plugin loaded");
         }
@@ -250,8 +250,8 @@ sub _handle_root {
     push @httpd_plugins, @{$self->{_plugins}};
     my @listening_plugins =
         map { { port => $_->config('port'), name => $_->name() } }
-        grep { ! $_->disabled() }
-        @httpd_plugins;
+            grep { ! $_->disabled() }
+                @httpd_plugins;
 
     my $hash = {
         version        => $FusionInventory::Agent::Version::VERSION,
