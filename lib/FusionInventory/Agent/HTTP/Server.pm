@@ -478,10 +478,10 @@ sub needToRestart {
 
     # Reload any plugin configuration and check if port or status has changed
     foreach my $plugin (@{$self->{_plugins}}) {
-        my $port = $plugin>port();
+        my $port = $plugin->port();
         my $disabled = $plugin->disabled();
         $plugin->init();
-        return 1 if $port != $plugin>port();
+        return 1 if $port != $plugin->port();
         return 1 if $disabled != $plugin->disabled();
     }
 
