@@ -104,7 +104,7 @@ sub _loadFromBackend {
 
     SWITCH: {
         if ($backend eq 'registry') {
-            die "Unavailable configuration backend\n"
+            die "Config: Unavailable configuration backend\n"
                 unless $OSNAME eq 'MSWin32';
             $self->_loadFromRegistry();
             last SWITCH;
@@ -124,7 +124,7 @@ sub _loadFromBackend {
             last SWITCH;
         }
 
-        die "Unknown configuration backend '$backend'\n";
+        die "Config: Unknown configuration backend '$backend'\n";
     }
 }
 
@@ -158,7 +158,7 @@ sub _loadFromRegistry {
 
     my $machKey = $Registry->Open('LMachine', {
         Access => Win32::TieRegistry::KEY_READ()
-    }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
+    }) or die "Config: Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR\n";
 
     my $provider = $FusionInventory::Agent::Version::PROVIDER;
     my $settings = $machKey->{"SOFTWARE/$provider-Agent"};
@@ -175,7 +175,7 @@ sub _loadFromRegistry {
         if (exists $default->{$key}) {
             $self->{$key} = $val;
         } else {
-            warn "unknown configuration directive $key";
+            warn "Config: unknown configuration directive $key\n";
         }
     }
 }
@@ -192,15 +192,15 @@ sub loadFromFile {
         $params->{file} : $self->{_confdir} . '/agent.cfg';
 
     if ($file) {
-        die "non-existing file $file" unless -f $file;
-        die "non-readable file $file" unless -r $file;
+        die "Config: non-existing file $file\n" unless -f $file;
+        die "Config: non-readable file $file\n" unless -r $file;
     } else {
-        die "no configuration file";
+        die "Config: no configuration file\n";
     }
 
     # Don't reload conf if still loaded avoiding loops due to include directive
     if ($self->{loadedConfs}->{$file}) {
-        warn "$file configuration file still loaded\n"
+        warn "Config: $file configuration file still loaded\n"
             if $self->{logger} && ucfirst($self->{logger}) eq 'Stderr';
         return;
     }
@@ -224,7 +224,7 @@ sub loadFromFile {
             if ($val =~ /^(['"])([^\1]*)\1/) {
                 my ($quote, $extract) = ( $1, $2 );
                 $val =~ s/\s*#.+$//;
-                warn "We may have been confused for $key quoted value, our extracted value: '$extract'\n"
+                warn "Config: We may have been confused for $key quoted value, our extracted value: '$extract'\n"
                     if ($val ne "$quote$extract$quote");
                 $val = $extract ;
             } else {
@@ -238,14 +238,14 @@ sub loadFromFile {
             } elsif (lc($key) eq 'include') {
                 $self->_includeDirective($val, $file);
             } else {
-                warn "unknown configuration directive $key\n";
+                warn "Config: unknown configuration directive $key\n";
             }
         } elsif ($line =~ /^\s*include\s+(.+)$/i) {
             my $include = $1;
             if ($include =~ /^(['"])([^\1]*)\1/) {
                 my ($quote, $extract) = ( $1, $2 );
                 $include =~ s/\s*#.+$//;
-                warn "We may have been confused for include quoted path, our extracted path: '$extract'\n"
+                warn "Config: We may have been confused for include quoted path, our extracted path: '$extract'\n"
                     if ($include ne "$quote$extract$quote");
                 $include = $extract ;
             } else {
@@ -303,7 +303,7 @@ sub _checkContent {
         my $handler = $deprecated->{$old};
 
         # notify user of deprecation
-        warn "the '$old' option is deprecated, $handler->{message}\n";
+        warn "Config: the '$old' option is deprecated, $handler->{message}\n";
 
         # transfer the value to the new option, if possible
         if ($handler->{new}) {
@@ -342,12 +342,12 @@ sub _checkContent {
 
     # ca-cert-file and ca-cert-dir are antagonists
     if ($self->{'ca-cert-file'} && $self->{'ca-cert-dir'}) {
-        die "use either 'ca-cert-file' or 'ca-cert-dir' option, not both\n";
+        die "Config: use either 'ca-cert-file' or 'ca-cert-dir' option, not both\n";
     }
 
     # logger backend without a logfile isn't enoguh
     if ($self->{'logger'} =~ /file/i && ! $self->{'logfile'}) {
-        die "usage of 'file' logger backend makes 'logfile' option mandatory\n";
+        die "Config: usage of 'file' logger backend makes 'logfile' option mandatory\n";
     }
 
     # multi-values options, the default separator is a ','
