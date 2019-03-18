@@ -248,3 +248,38 @@ Log debug level message using log_prefix
 =head2 $plugin->debug2($message)
 
 Log debug2 level message using log_prefix
+
+=head2 $plugin->name()
+
+Returns the plugin name
+
+=head2 $plugin->defaults()
+
+Returns a hash ref with default value to be used for not set parameters
+
+=head2 $plugin->port()
+
+Returns the configurated port or 0 to use the default
+
+=head2 $plugin->disable()
+
+Disable the plugin
+
+=head2 $plugin->disabled()
+
+Returns true is a plugin is disabled
+
+=head2 $plugin->rate_limited()
+
+Returns true if a request reach the rate limitation.
+
+The plugin must support the "maxrate" parameter setting it with a default in
+defaults() API. You can also set "maxrate_period" in defaults, but it could be
+not set and then 3600 seconds will be used by default. If "maxrate" request count
+is reach during the "maxrate_period" period in seconds, the API returns true.
+
+The API keeps the time access by request by IP and will only keep the access of
+requests in the "maxrate_period" last seconds. It is not adviced to set a high
+"maxrate".
+
+Call this API from your handle() API as soon as possible to avoid any abuse.
