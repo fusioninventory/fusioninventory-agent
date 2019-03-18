@@ -69,6 +69,16 @@ sub defaults {
     return {};
 }
 
+sub supported_method {
+    my ($self, $method) = @_;
+
+    return 1 if $method eq 'GET';
+
+    $self->error("invalid request type: $method");
+
+    return 0;
+}
+
 sub port {
     my ($self) = @_;
     return $self->{port}
@@ -283,3 +293,8 @@ requests in the "maxrate_period" last seconds. It is not adviced to set a high
 "maxrate".
 
 Call this API from your handle() API as soon as possible to avoid any abuse.
+
+=head2 $plugin->supported_method($method)
+
+Returns true if $method is supported by this plugin. By default, only 'GET' is
+supported.

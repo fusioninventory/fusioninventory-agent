@@ -110,61 +110,67 @@ sub _handle {
     }
 
     my $path = $request->uri()->path();
-    $logger->debug($log_prefix . "request $path from client $clientIp");
-
     my $method = $request->method();
-    my $status;
-    if ($method ne 'GET') {
-        $logger->error($log_prefix . "invalid request type: $method");
-        $client->send_error(400);
-        $status = 400;
-    } else {
-        SWITCH: {
-            # root request
-            if ($path eq '/') {
-                $status = $self->_handle_root($client, $request, $clientIp);
-                last SWITCH;
-            }
+    $logger->debug($log_prefix . "$method request $path from client $clientIp");
 
-            # deploy request
-            if ($path =~ m{^/deploy/getFile/./../([\w\d/-]+)$}) {
-                $status = $self->_handle_deploy($client, $request, $clientIp, $1);
-                last SWITCH;
-            }
+    my $status = 400;
+    my $error_400 = $log_prefix . "invalid request type: $method";
 
-            # plugins request
-            foreach my $plugin (@{$self->{_plugins}}) {
-                next if $plugin->disabled();
-                if ($plugin->urlMatch($path)) {
-                    $status = $plugin->handle($client, $request, $clientIp);
-                    last SWITCH if $status;
-                }
-            }
-
-            # now request
-            if ($path =~ m{^/now(?:/(\S*))?$}) {
-                $status = $self->_handle_now($client, $request, $clientIp, $1);
-                last SWITCH;
-            }
-
-            # status request
-            if ($path eq '/status') {
-                $status = $self->_handle_status($client, $request, $clientIp);
-                last SWITCH;
-            }
-
-            # static content request
-            if ($path =~ m{^/(logo.png|site.css|favicon.ico)$}) {
-                my $file = $1;
-                $client->send_file_response("$self->{htmldir}/$file");
-                $status = 200;
-                last SWITCH;
-            }
-
-            $logger->error($log_prefix . "unknown path: $path");
-            $client->send_error(400);
-            $status = 400;
+    SWITCH: {
+        # root request
+        if ($path eq '/') {
+            last SWITCH if $method ne 'GET';
+            $status = $self->_handle_root($client, $request, $clientIp);
+            last SWITCH;
         }
+
+        # deploy request
+        if ($path =~ m{^/deploy/getFile/./../([\w\d/-]+)$}) {
+            last SWITCH if $method ne 'GET';
+            $status = $self->_handle_deploy($client, $request, $clientIp, $1);
+            last SWITCH;
+        }
+
+        # plugins request
+        foreach my $plugin (@{$self->{_plugins}}) {
+            next if $plugin->disabled();
+            if ($plugin->urlMatch($path)) {
+                undef $error_400;
+                last SWITCH unless $plugin->supported_method($method);
+                $status = $plugin->handle($client, $request, $clientIp);
+                last SWITCH if $status;
+            }
+        }
+
+        # now request
+        if ($path =~ m{^/now(?:/(\S*))?$}) {
+            last SWITCH if $method ne 'GET';
+            $status = $self->_handle_now($client, $request, $clientIp, $1);
+            last SWITCH;
+        }
+
+        # status request
+        if ($path eq '/status') {
+            last SWITCH if $method ne 'GET';
+            $status = $self->_handle_status($client, $request, $clientIp);
+            last SWITCH;
+        }
+
+        # static content request
+        if ($path =~ m{^/(logo.png|site.css|favicon.ico)$}) {
+            my $file = $1;
+            last SWITCH if $method ne 'GET';
+            $client->send_file_response("$self->{htmldir}/$file");
+            $status = 200;
+            last SWITCH;
+        }
+
+        $error_400 = $log_prefix . "unknown path: $path";
+    }
+
+    if ($status == 400) {
+        $logger->error($error_400) if $error_400;
+        $client->send_error(400)
     }
 
     $logger->debug($log_prefix . "response status $status");
@@ -183,28 +189,25 @@ sub _handle_plugins {
     }
 
     my $path = $request->uri()->path();
-    $logger->debug($log_prefix . "request $path from client $clientIp via plugin");
-
     my $method = $request->method();
-    my $status = 0;
-    if ($method ne 'GET') {
-        $logger->error($log_prefix . "invalid request type: $method");
+    $logger->debug($log_prefix . "$method request $path from client $clientIp via plugin");
+    my $status = 400;
+    my $match  = 0;
+
+    foreach my $plugin (@{$plugins}) {
+        next if $plugin->disabled();
+        if ($plugin->urlMatch($path)) {
+            $match = 1;
+            last unless ($plugin->supported_method($method));
+            $status = $plugin->handle($client, $request, $clientIp);
+            last if $status;
+        }
+    }
+
+    if ($status == 400) {
+        $logger->error($log_prefix . "unknown path: $path") unless $match;
         $client->send_error(400);
         $status = 400;
-    } else {
-        foreach my $plugin (@{$plugins}) {
-            next if $plugin->disabled();
-            if ($plugin->urlMatch($path)) {
-                $status = $plugin->handle($client, $request, $clientIp);
-                last if $status;
-            }
-        }
-
-        unless ($status) {
-            $logger->error($log_prefix . "unknown path: $path");
-            $client->send_error(400);
-            $status = 400;
-        }
     }
 
     $logger->debug($log_prefix . "response status $status");
