@@ -3,12 +3,15 @@ package FusionInventory::Agent::HTTP::Server::Inventory;
 use strict;
 use warnings;
 
+use English qw(-no_match_vars);
+
 use base "FusionInventory::Agent::HTTP::Server::Plugin";
 
+use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Task::Inventory;
 use FusionInventory::Agent::Target::Listener;
 
-our $VERSION = "1.0";
+our $VERSION = "1.1";
 
 sub urlMatch {
     my ($self, $path) = @_;
@@ -33,6 +36,7 @@ sub defaults {
         port                => 0,
         token               => undef,
         session_timeout     => 60,
+        no_compress         => "no",
         # Supported by class FusionInventory::Agent::HTTP::Server::Plugin
         maxrate             => 30,
         maxrate_period      => 3600,
@@ -65,6 +69,9 @@ sub init {
         $self->disable();
         $self->info("Plugin disabled on wrong configuration")
     }
+
+    # Normalize no_compress
+    $self->{no_compress} = $self->config('no_compress') !~ /^0|no$/i ? 1 : 0;
 }
 
 sub handle {
@@ -166,11 +173,42 @@ sub handle {
         return 500;
     }
 
+    my $data = $target->inventory_xml();
+    my $content_type = 'application/xml';
+    my @accept = split(/, */,$request->header('accept') || '');
+
+    # check compression mode
+    if (!$self->{no_compress} && Compress::Zlib->require() && grep { m|application/x-compress-zlib| } @accept) {
+        # RFC 1950
+        $content_type = 'application/x-compress-zlib';
+        $self->debug('Using Compress::Zlib for compression');
+        $data = Compress::Zlib::compress($data);
+    } elsif (!$self->{no_compress} && canRun('gzip') && grep { m|application/x-compress-gzip| } @accept) {
+        # RFC 1952
+        $content_type = 'application/x-compress-gzip';
+        $self->debug('Using gzip for compression');
+
+        File::Temp->require();
+        my $fd = File::Temp->new();
+        print $fd $data;
+        close $fd;
+
+        my $out = getFileHandle(
+            command => 'gzip -c ' . $fd->filename(),
+            logger  => $self->{logger}
+        );
+        next unless $out;
+
+        local $INPUT_RECORD_SEPARATOR; # Set input to "slurp" mode.
+        $data = <$out>;
+        close $out;
+    }
+
     my $response = HTTP::Response->new(
         200,
         'OK',
-        HTTP::Headers->new( 'Content-Type' => 'application/xml' ),
-        $target->inventory_xml()
+        HTTP::Headers->new( 'Content-Type' => $content_type ),
+        $data
     );
 
     $client->send_response($response);
