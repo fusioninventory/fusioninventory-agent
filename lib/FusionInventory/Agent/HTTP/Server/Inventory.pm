@@ -175,6 +175,8 @@ sub handle {
 
     $client->send_response($response);
 
+    $self->info("Inventory returned to $remoteid");
+
     return 200;
 }
 
