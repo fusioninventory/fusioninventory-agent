@@ -179,6 +179,8 @@ sub rate_limited {
     return 0;
 }
 
+sub keepalive { 0 }
+
 1;
 __END__
 
@@ -298,3 +300,7 @@ Call this API from your handle() API as soon as possible to avoid any abuse.
 
 Returns true if $method is supported by this plugin. By default, only 'GET' is
 supported.
+
+=head2 $plugin->keepalive()
+
+Returns true if the current connection should be kept alive.

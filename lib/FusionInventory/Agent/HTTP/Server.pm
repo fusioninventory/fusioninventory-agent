@@ -113,6 +113,7 @@ sub _handle {
     my $method = $request->method();
     $logger->debug($log_prefix . "$method request $path from client $clientIp");
 
+    my $keepalive = 0;
     my $status = 400;
     my $error_400 = $log_prefix . "invalid request type: $method";
 
@@ -138,6 +139,7 @@ sub _handle {
                 undef $error_400;
                 last SWITCH unless $plugin->supported_method($method);
                 $status = $plugin->handle($client, $request, $clientIp);
+                $keepalive = $plugin->keepalive();
                 last SWITCH if $status;
             }
         }
@@ -175,7 +177,12 @@ sub _handle {
 
     $logger->debug($log_prefix . "response status $status");
 
-    $client->close();
+    if ($keepalive) {
+        # Looking for another request
+        $self->_handle($client, $client->get_request(), $clientIp);
+    } else {
+        $client->close();
+    }
 }
 
 sub _handle_plugins {
@@ -190,6 +197,7 @@ sub _handle_plugins {
 
     my $path = $request->uri()->path();
     my $method = $request->method();
+    my $keepalive = 0;
     $logger->debug($log_prefix . "$method request $path from client $clientIp via plugin");
     my $status = 400;
     my $match  = 0;
@@ -200,6 +208,7 @@ sub _handle_plugins {
             $match = 1;
             last unless ($plugin->supported_method($method));
             $status = $plugin->handle($client, $request, $clientIp);
+            $keepalive = $plugin->keepalive();
             last if $status;
         }
     }
@@ -212,7 +221,12 @@ sub _handle_plugins {
 
     $logger->debug($log_prefix . "response status $status");
 
-    $client->close();
+    if ($keepalive) {
+        # Looking for another request
+        $self->_handle_plugins($client, $client->get_request(), $clientIp, $plugins);
+    } else {
+        $client->close();
+    }
 }
 
 sub _handle_root {

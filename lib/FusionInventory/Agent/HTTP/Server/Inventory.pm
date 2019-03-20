@@ -130,13 +130,20 @@ sub handle {
             return 500;
         }
 
+        # Returned content is not useful but it should not be empty to support keep-alive
+        # This is a LWP::UserAgent limitation
         my $response = HTTP::Response->new(
             200,
             'OK',
-            HTTP::Headers->new( 'X-Auth-Nonce' => $nonce )
+            HTTP::Headers->new( 'X-Auth-Nonce' => $nonce, 'Content-Type' => 'Plain/Text' ),
+            "waiting inventory request..."
         );
 
         $client->send_response($response);
+
+        # Expect another client request if possible
+        $self->{keepalive} = 1
+            if $request->header('Keep-Alive');
 
         return 200;
     }
@@ -221,7 +228,15 @@ sub handle {
 
     $self->info("Inventory returned to $remoteid");
 
+    $self->{keepalive} = 0;
+
     return 200;
+}
+
+sub keepalive {
+    my ($self) = @_;
+    # Always reset the keepalive state
+    return delete $self->{keepalive};
 }
 
 1;

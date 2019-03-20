@@ -85,6 +85,7 @@ foreach my $host (@ARGV) {
 
     my $req = HTTP::Request->new(GET => $url.'/session');
     $req->header( 'X-Request-ID' => $id );
+    $req->protocol( 'HTTP/1.1' );
 
     if ($options->{debug}) {
         warn "--->\n";
@@ -111,11 +112,9 @@ foreach my $host (@ARGV) {
 
     my $payload = $sha->b64digest;
 
-    $req = HTTP::Request->new(GET => $url.'/get');
-    $req->header(
-        'X-Request-ID'   => $id,
-        'X-Auth-Payload' => $payload,
-    );
+    # Update request to get inventory
+    $req->uri($url.'/get');
+    $req->header( 'X-Auth-Payload' => $payload );
 
     # Set Accept header
     my $accept = 'application/xml';
