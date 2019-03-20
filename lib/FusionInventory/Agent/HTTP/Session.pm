@@ -15,8 +15,7 @@ sub new {
     my $self = {
         logger  => $params{logger} ||
                         FusionInventory::Agent::Logger->new(),
-        timer   => $params{timer} || time,
-        timeout => $params{timeout} || 600,
+        timer   => $params{timer} || [ time, $params{timeout} || 600 ],
         nonce   => $params{nonce} || '',
     };
     bless $self, $class;
@@ -27,10 +26,11 @@ sub new {
 sub expired {
     my ($self) = @_;
 
-    return $self->{timer} + $self->{timeout} < time;
+    return $self->{timer}[0] + $self->{timer}[1] < time
+        if ref($self->{timer}) eq 'ARRAY';
 }
 
-sub state {
+sub nonce {
     my ($self) = @_;
 
     unless ($self->{nonce}) {
@@ -50,12 +50,7 @@ sub state {
             if $nonce;
     }
 
-    my $state = {};
-
-    $state->{nonce} = $self->{nonce}
-        if $self->{nonce};
-
-    return $state;
+    return $self->{nonce};
 }
 
 sub authorized {
@@ -111,24 +106,32 @@ hash:
 
 the logger object to use (default: a new stderr logger)
 
-=item I<remoteip>
+=item I<timer>
 
-the peer ip address
-
-=item I<secret>
-
-our server-side secret
+the initial timer used when restoring a session from storage
 
 =item I<nonce>
 
-a nonce used to compute the final secret
+the nonce used to compute the final secret when restoring a session from storage
 
-=item I<token>
+=item I<timeout>
 
-the token provided by peer
+the session timeout for session expiration (default to 60, in seconds)
 
 =back
 
 =head2 authorized()
 
 Return true if provided secret matches the token.
+
+=head2 expired()
+
+Return true when a session expired.
+
+=head2 nonce()
+
+Return session nonce creating one if not available.
+
+=head2 dump()
+
+Return session hash to be stored for session persistence.
