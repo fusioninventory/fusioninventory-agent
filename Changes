@@ -13,6 +13,12 @@ core:
 * win32: add early stderr logging support for service
   Just rename "fusioninventory-win32-service.rc.sample" removing ".sample" part
   to enable this feature. This can be handy to investigate start service failures.
+* Added support for HTTPD plugins
+* Added Inventory HTTPD plugins to permit remote inventory request (disabled by default)
+* Added Listener target to permit agent to only answer http requests
+* Updated configuration to support HTTPD plugins dedicated configuration file
+* Added fusioninventory-remoteinventory script to request agent with Inventory
+  HTTPD plugin enabled
 
 inventory:
 * Fix lspci command subsystem parsing
