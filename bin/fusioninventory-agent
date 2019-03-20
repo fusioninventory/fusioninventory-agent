@@ -541,8 +541,8 @@ Multiple values can be specified, using comma as a separator.
 =item B<--listen>
 
 This option should be used if no local or server target is defined and
-the agent still needs to answer http requests. no-httpd should not be set
-and httpd-trust should be set to enable trusted remote clients.
+the agent still needs to answer http requests. B<--no-httpd> should not be set
+and B<--httpd-trust> should be set to enable trusted remote clients.
 
 =back
 
