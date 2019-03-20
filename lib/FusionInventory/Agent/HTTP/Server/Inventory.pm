@@ -122,12 +122,18 @@ sub handle {
 
     if ($self->{request} eq 'session') {
 
-        my $state = $session->state();
+        my $nonce = $session->nonce();
+
+        unless ($nonce) {
+            $self->info("Session setup failure for $remoteid");
+            $client->send_error(500, 'Session failure');
+            return 500;
+        }
 
         my $response = HTTP::Response->new(
             200,
             'OK',
-            HTTP::Headers->new( 'X-Auth-Nonce' => $state->{nonce} )
+            HTTP::Headers->new( 'X-Auth-Nonce' => $nonce )
         );
 
         $client->send_response($response);
@@ -278,6 +284,8 @@ value and the shared secret.
 =item maxrate          C<30> by default
 
 =item maxrate_period   C<3600> (in seconds) by default.
+
+=item no_compress      C<no> by default to keep XML compression possible.
 
 =back
 
