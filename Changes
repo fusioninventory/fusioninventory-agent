@@ -19,6 +19,7 @@ core:
 * Updated configuration to support HTTPD plugins dedicated configuration file
 * Added fusioninventory-remoteinventory script to request agent with Inventory
   HTTPD plugin enabled
+* Fix HTTPD local address reuse
 
 inventory:
 * Fix lspci command subsystem parsing
