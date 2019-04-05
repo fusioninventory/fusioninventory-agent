@@ -20,6 +20,8 @@ inventory:
 
 netdiscovery/netinventory:
 * Add Lancom in networking devices recognized by description parsing
+* Fix #650: discard empty consumable level elements
+* Fix #651: discard empty type element
 
 2.4.3 Fri, 22 Feb 2019
 
