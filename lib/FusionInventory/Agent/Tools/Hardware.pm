@@ -711,6 +711,7 @@ sub _setPrinterProperties {
             }
         }
 
+        next unless defined $value;
         $device->{CARTRIDGES}->{$type} = $value;
     }
 

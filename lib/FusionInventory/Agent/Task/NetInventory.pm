@@ -150,10 +150,11 @@ sub run {
                     $result = {
                         ERROR => {
                             ID      => $device->{ID},
-                            TYPE    => $device->{TYPE},
                             MESSAGE => $EVAL_ERROR
                         }
                     };
+
+                    $result->{ERROR}->{TYPE} = $device->{TYPE} if $device->{TYPE};
 
                     # Inserted back device PID in result if set by server
                     $result->{PID} = $device->{PID} if defined($device->{PID});
