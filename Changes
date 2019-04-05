@@ -10,6 +10,9 @@ core:
   (tested on CentOS 6)
 * win32: don't show service memory usage on OS not supporting GetProcessMemoryInfo
 * Fix #601: Log URL for server target and log path for local target
+* win32: add early stderr logging support for service
+  Just rename "fusioninventory-win32-service.rc.sample" removing ".sample" part
+  to enable this feature. This can be handy to investigate start service failures.
 
 inventory:
 * Fix lspci command subsystem parsing

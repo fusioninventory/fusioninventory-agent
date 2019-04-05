@@ -13,6 +13,10 @@ use Pod::Usage;
 
 use FusionInventory::Agent::Daemon::Win32;
 
+# Load dedicated .rc file if present. Sample one, if renamed, permits
+# to log stdout and stderr for early debugging purpose
+do __FILE__ . ".rc" if (!@ARGV && -e __FILE__ . ".rc");
+
 Getopt::Long::Configure( "no_ignorecase" );
 
 my %options = ();

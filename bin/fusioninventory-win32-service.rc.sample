@@ -1,0 +1,29 @@
+
+BEGIN {
+    use File::Spec;
+
+    my $logdir = File::Spec->rel2abs( '../../../logs', __FILE__ );
+    #~ $logdir = "c:/temp";
+
+    if (-d $logdir) {
+        open(STDERR, ">$logdir/stderr.txt")
+            or die "Can't redirect STDERR to stderr.txt: $!";
+        open(STDOUT, ">$logdir/stdout.txt")
+            or die "Can't redirect STDOUT to stdout.txt: $!";
+
+        select STDERR;
+        $| = 1;
+        select STDOUT;
+        $| = 1;
+
+        print STDERR localtime().": BEGIN stderr.txt\n";
+        print localtime().": BEGIN stdout.txt\n";
+    } else {
+        print STDERR localtime().": Logging folder $logdir is missing\n";
+    }
+}
+
+END {
+    print STDERR localtime().": END stderr.txt\n";
+    print localtime().": END stdout.txt\n";
+}
