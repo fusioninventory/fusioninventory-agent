@@ -449,6 +449,42 @@ sub init {
 
         next if $plugin->disabled();
 
+        # We handle SSL Plugin differently
+        if ($plugin->name() eq 'SSL') {
+            my $ports = $plugin->config('ports');
+            foreach my $port (@{$ports}) {
+                # Handle SSL case on default port
+                if (!$port || $port == $self->{port}) {
+                    $self->{_ssl} = $plugin;
+                    $logger->info($log_prefix . "HTTPD SSL Server plugin enabled on default port");
+                    next;
+                }
+                if (!$self->{listeners}->{$port}) {
+                    my $listener = HTTP::Daemon->new(
+                            LocalAddr => $self->{ip},
+                            LocalPort => $port,
+                            ReuseAddr => 1,
+                            Timeout   => 1,
+                            Blocking  => 0
+                    );
+                    unless ($listener) {
+                        $logger->error($log_prefix . "failed to start the HTTPD service on port $port for SSL plugin");
+                        next;
+                    }
+                    $self->{listeners}->{$port} = {
+                        ssl         => $plugin,
+                        listener    => $listener,
+                        plugins     => [],
+                    };
+                } else {
+                    $self->{listeners}->{$port}->{ssl} = $plugin;
+                }
+                $logger->info($log_prefix . "HTTPD SSL Server plugin enabled on port $port");
+            }
+            delete $plugins{$plugin->name()};
+            next;
+        }
+
         # Add a port listener if a plugin uses a dedicated port
         my $port = $plugin->port();
         if ($port && $port != $self->{port}) {
@@ -542,6 +578,14 @@ sub handleRequests {
     foreach my $port (keys(%{$self->{listeners}})) {
         my ($client, $socket) = $self->{listeners}->{$port}->{listener}->accept();
         next unless $socket;
+
+        # Upgrade to SSL if required
+        my $ssl = $self->{listeners}->{$port}->{ssl};
+        if ($ssl && !$ssl->upgrade_SSL($client)) {
+            $self->debug($log_prefix . "HTTPD can't start SSL session");
+            next;
+        }
+
         my (undef, $iaddr) = sockaddr_in($socket);
         my $clientIp = inet_ntoa($iaddr);
         my $request = $client->get_request();
@@ -550,6 +594,12 @@ sub handleRequests {
 
     my ($client, $socket) = $self->{listener}->accept();
     return unless $socket;
+
+    # Upgrade to SSL if required
+    if ($self->{_ssl} && !$self->{_ssl}->upgrade_SSL($client)) {
+        $self->debug($log_prefix . "HTTPD can't start SSL session");
+        return;
+    }
 
     my (undef, $iaddr) = sockaddr_in($socket);
     my $clientIp = inet_ntoa($iaddr);

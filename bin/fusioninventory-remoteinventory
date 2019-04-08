@@ -32,6 +32,9 @@ GetOptions(
     'token|T=s',
     'directory|d=s',
     'id=s',
+    'ssl|s',
+    'ca-cert-file=s',
+    'no-ssl-check',
     'no-compression|C',
 ) or pod2usage(-verbose => 0);
 
@@ -68,6 +71,13 @@ my $ua = LWP::UserAgent->new(
     keep_alive            => 1,
 );
 
+if ($options->{ssl}) {
+    $ua->ssl_opts(SSL_ca_file => $options->{'ca-cert-file'})
+        if $options->{'ca-cert-file'};
+    $ua->ssl_opts(verify_hostname => 0, SSL_verify_mode => 0)
+        if $options->{ssl} && $options->{'no-ssl-check'};
+}
+
 $options->{verbose} = 1 if $options->{debug};
 
 my $id = $options->{id} || id();
@@ -76,7 +86,7 @@ warn "Using $id as request id\n"
     if $options->{verbose};
 
 foreach my $host (@ARGV) {
-    my $url = "http://" . $host;
+    my $url = ( $options->{ssl} ? "https://" : "http://" ). $host;
     $url .= $options->{port} ? ":".$options->{port} : ":62354";
     $url .= $options->{baseurl} ? $options->{baseurl} : "/inventory";
 
@@ -228,6 +238,10 @@ fusioninventory-remoteinventory [options] <host1> [<host2> ...]
     -p --port      remote port (62354 by default)
     -T --token     token as shared secret
     -i --id        id for request to identify requests in agent log
+    -s --ssl       connect using SSL
+    --no-ssl-check do not check agent SSL certificate
+    --ca-cert-file CA certificates file
+
     -C --no-compression
                    ask to not compress sent XML inventories
 

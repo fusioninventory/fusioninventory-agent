@@ -19,3 +19,4 @@ resources/ssl/*.log
 SIGNATURE
 debian/*.install
 etc/*.local
+etc/*.pem
