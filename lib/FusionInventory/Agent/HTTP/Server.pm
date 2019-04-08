@@ -582,7 +582,7 @@ sub handleRequests {
         # Upgrade to SSL if required
         my $ssl = $self->{listeners}->{$port}->{ssl};
         if ($ssl && !$ssl->upgrade_SSL($client)) {
-            $self->debug($log_prefix . "HTTPD can't start SSL session");
+            $self->{logger}->debug($log_prefix . "HTTPD can't start SSL session");
             next;
         }
 
@@ -597,7 +597,7 @@ sub handleRequests {
 
     # Upgrade to SSL if required
     if ($self->{_ssl} && !$self->{_ssl}->upgrade_SSL($client)) {
-        $self->debug($log_prefix . "HTTPD can't start SSL session");
+        $self->{logger}->debug($log_prefix . "HTTPD can't start SSL session");
         return;
     }
 
