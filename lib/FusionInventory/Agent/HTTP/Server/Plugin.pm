@@ -40,17 +40,20 @@ sub init {
 
     $self->debug("Initializing ".$self->{name}." Server plugin...");
 
+    # Load defaults
+    my $defaults = $self->defaults();
+    foreach my $param (keys(%{$defaults})) {
+        $self->{$param} = $defaults->{$param};
+    }
+
     if ($self->confdir() && $self->config_file()) {
         my $config = $self->confdir().'/'.$self->config_file();
         if (-f $config && -r $config) {
             $self->debug("Loading ".$self->{name}." Server plugin configuration from $config");
-            # Load defaults
-            my $defaults = $self->defaults();
-            foreach my $param (keys(%{$defaults})) {
-                $self->{$param} = $defaults->{$param};
-            }
             # Load configuration file
             $self->loadFromFile({file => $config, defaults => $defaults});
+        } else {
+            $self->debug($self->{name}." Server plugin configuration missing: $config");
         }
     }
 }
