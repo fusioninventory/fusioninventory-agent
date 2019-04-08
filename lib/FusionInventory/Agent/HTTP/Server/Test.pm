@@ -56,7 +56,7 @@ test and sample server plugin
 
 =head1 DESCRIPTION
 
-This is a server plugin to listen for test requets.
+This is a server plugin to listen for test requests.
 
 It listens on port 62354 by default.
 

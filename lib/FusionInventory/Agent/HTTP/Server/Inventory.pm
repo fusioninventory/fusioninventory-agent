@@ -249,7 +249,7 @@ providing remote inventory
 
 =head1 DESCRIPTION
 
-This is a server plugin to listen for inventory requets.
+This is a server plugin to listen for inventory requests.
 
 It listens on port 62354 by default and can answer with a full inventory XML if
 authorized.

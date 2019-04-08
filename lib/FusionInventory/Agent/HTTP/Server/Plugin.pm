@@ -195,7 +195,7 @@ FusionInventory::Agent::HTTP:Server::Plugin - A class template for embedded HTTP
 
 This is a template class to base on FusionInventory::Agent::HTTP:Server plugins.
 
-Plugins purpose is to handle specific requets.
+Plugins purpose is to handle specific requests.
 
 =head1 CLASS METHODS
 
