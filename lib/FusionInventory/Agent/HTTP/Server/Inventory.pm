@@ -67,7 +67,7 @@ sub init {
     if (!$self->disabled() && !$self->config('token')) {
         $self->error("Plugin enabled without token in configuration");
         $self->disable();
-        $self->info("Plugin disabled on wrong configuration")
+        $self->info("Plugin disabled on wrong configuration");
     }
 
     # Normalize no_compress
