@@ -3,6 +3,7 @@ package FusionInventory::Agent::HTTP::Server;
 use strict;
 use warnings;
 
+use UNIVERSAL::require;
 use English qw(-no_match_vars);
 use File::Basename;
 use HTTP::Daemon;
@@ -64,9 +65,9 @@ sub new {
 
         $plugin->init();
         if ($plugin->disabled()) {
-            $self->{logger}->debug($log_prefix . "$name Server plugin loaded but disabled");
+            $self->{logger}->debug($log_prefix . "HTTPD $name Server plugin loaded but disabled");
         } else {
-            $self->{logger}->debug($log_prefix . "$name Server plugin loaded");
+            $self->{logger}->info($log_prefix . "HTTPD $name Server plugin loaded");
         }
 
         push @plugins, $plugin;
@@ -438,7 +439,7 @@ sub init {
         return;
     }
 
-    $logger->debug(
+    $logger->info(
         $log_prefix . "HTTPD service started on port $self->{port}"
     );
 
@@ -453,7 +454,7 @@ sub init {
         if ($port && $port != $self->{port}) {
             if ($self->{listeners}->{$port}) {
                 push @{$self->{listeners}->{$port}->{plugins}}, $plugin;
-                $logger->debug($log_prefix . "HTTPD ".$plugin->name()." plugin also used on port $port");
+                $logger->info($log_prefix . "HTTPD ".$plugin->name()." Server plugin also used on port $port");
             } else {
                 my $listener = HTTP::Daemon->new(
                         LocalAddr => $self->{ip},
@@ -470,12 +471,12 @@ sub init {
                         listener    => $listener,
                         plugins     => [ $plugin ],
                     };
-                    $logger->debug($log_prefix . "HTTPD ".$plugin->name()." plugin also started on port $port");
+                    $logger->info($log_prefix . "HTTPD ".$plugin->name()." Server plugin also started on port $port");
                 }
             }
             delete $plugins{$plugin->name()};
         } elsif ($port) {
-            $logger->debug($log_prefix . "HTTPD ".$plugin->name()." plugin also used on main port $self->{port}");
+            $logger->info($log_prefix . "HTTPD ".$plugin->name()." Server plugin also used on main port $self->{port}");
         }
     }
     $self->{_plugins} = [ values(%plugins) ];
