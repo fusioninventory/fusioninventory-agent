@@ -192,6 +192,11 @@ sub _saveState {
 sub _needToReloadState {
     my ($self) = @_;
 
+    # Only re-check if it's time to reload after 30 seconds
+    return if $self->{_next_reload_check} && time < $self->{_next_reload_check};
+
+    $self->{_next_reload_check} = time+30;
+
     return $self->{storage}->modified(name => 'target');
 }
 
