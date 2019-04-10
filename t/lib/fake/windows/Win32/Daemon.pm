@@ -20,6 +20,8 @@ use constant {
     SERVICE_ACCEPT_SHUTDOWN         => 0x00000004,
     
     SERVICE_CONTROL_INTERROGATE     => 0x00000004,
+
+    SERVICE_NOT_READY               => 0x00000000,
 };
 
 our @EXPORT =

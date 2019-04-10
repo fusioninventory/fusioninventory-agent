@@ -126,7 +126,15 @@ sub StartService {
     my $timer = time;
     my $lastQuery = 0;
 
-    my $State = Win32::Daemon::State( SERVICE_START_PENDING );
+    my $State = Win32::Daemon::State();
+
+    # Wait until service control manager is ready
+    while ($State == SERVICE_NOT_READY) {
+        usleep( SERVICE_USLEEP_TIME );
+        $State = Win32::Daemon::State();
+    }
+
+    $State = Win32::Daemon::State( SERVICE_START_PENDING );
 
     $self->{last_state} = $State;
     while ( SERVICE_STOPPED != $State) {

@@ -28,6 +28,7 @@ core:
   is known to leak memory and tests with latest Win32::Daemon shows that's true.
 * win32: handle task run in a managed thread as this is more efficient than using
   perl fork with thread emulation under win32 and preserve a little memory usage.
+* win32: wait service control manager is ready before really starting the service
 
 inventory:
 * Fix lspci command subsystem parsing
