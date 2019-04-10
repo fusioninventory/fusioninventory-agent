@@ -213,7 +213,7 @@ sub _start_agent {
         # Start agent in a dedicated thread
         $self->{agent_thread} = threads->create(sub {
             # First start a thread dedicated to Win32::OLE calls
-            FusionInventory::Agent::Tools::Win32::start_Win32_OLE_Worker();
+            $self->{worker_thread} = FusionInventory::Agent::Tools::Win32::start_Win32_OLE_Worker();
 
             $self->init(options => { service => 1 });
 
@@ -259,10 +259,10 @@ sub _stop_agent {
 sub Pause {
     my ($self) = @_;
 
-    # Kill current forked task
-    if ($self->{current_runtask}) {
-        kill 'TERM', $self->{current_runtask};
-        delete $self->{current_runtask};
+    # Abort task thread if running
+    if ($self->{task_thread} && $self->{task_thread}->is_running()) {
+        $self->{task_thread}->kill('SIGINT')->detach();
+        delete $self->{task_thread};
     }
 
     foreach my $target ($self->getTargets()) {
@@ -327,9 +327,57 @@ sub RunningServiceOptimization {
 sub terminate {
     my ($self) = @_;
 
+    # Abort task thread if running
+    if ($self->{task_thread} && $self->{task_thread}->is_running()) {
+        $self->{task_thread}->kill('SIGINT')->detach();
+        delete $self->{task_thread};
+    }
+
+    # Abort Win32::OLE worker thread if running
+    if ($self->{worker_thread} && $self->{worker_thread}->is_running()) {
+        $self->{worker_thread}->kill('SIGKILL')->detach();
+        delete $self->{worker_thread};
+    }
+
     $self->SUPER::terminate();
 
     threads->exit();
+}
+
+sub runTask {
+    my ($self, $target, $name, $response) = @_;
+
+    $self->setStatus("running task $name");
+
+    # service mode: run each task in a dedicated thread
+
+    $self->{task_thread} = threads->create(sub {
+        # We don't handle HTTPD interface in this thread
+        delete $self->{server};
+
+         my $tid = threads->tid;
+
+        # install signal handler to handle STOP/INT/TERM signals
+        $SIG{STOP} = $SIG{INT} = $SIG{TERM} = sub {
+            $self->{logger}->debug("aborting thread $tid which was handling task $name");
+            threads->exit();
+        };
+
+        $self->{logger}->debug("new thread $tid to handle task $name");
+
+        $self->runTaskReal($target, $name, $response);
+
+        threads->exit();
+    });
+
+    while ( $self->{task_thread} ) {
+        if ($self->{task_thread}->is_joinable()) {
+            $self->{task_thread}->join();
+            my $thread = delete $self->{task_thread};
+            undef $thread;
+        }
+        usleep( SERVICE_USLEEP_TIME );
+    }
 }
 
 1;

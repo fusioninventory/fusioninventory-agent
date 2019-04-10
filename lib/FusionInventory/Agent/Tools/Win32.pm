@@ -964,6 +964,10 @@ my @win32_ole_calls : shared;
 sub start_Win32_OLE_Worker {
 
     unless (defined($worker)) {
+
+        # Handle thread KILL signal
+        $SIG{KILL} = sub { threads->exit(); };
+
         # Request a semaphore on which worker blocks immediatly
         Thread::Semaphore->require();
         $worker_semaphore = Thread::Semaphore->new(0);
@@ -971,6 +975,8 @@ sub start_Win32_OLE_Worker {
         # Start a worker thread
         $worker = threads->create( \&_win32_ole_worker );
     }
+
+    return $worker;
 }
 
 sub setupWorkerLogger {
