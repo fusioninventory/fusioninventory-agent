@@ -11,6 +11,9 @@
    * [fusioninventory-agent-deployment.vbs](contrib/windows/fusioninventory-agent-deployment.vbs):
      FusionInventory Agent deployment helper script
    * ADML & ADMX templates to help setup FusionInventory Agent through GPO
+ * [netdisco_2_glpi.sh](contrib/netdisco/netdisco_2_glpi.sh) by Stoatwblr
+   This script makes fusioninventory-compatible xml from netdisco data.
+   Stoatwblr says even if it is ugly and slow, it works ;-)
 
 ## Other contribs
 
