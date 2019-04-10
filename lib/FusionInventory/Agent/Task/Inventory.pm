@@ -78,6 +78,10 @@ sub run {
 
     $self->_initModulesList(\%disabled);
     $self->_feedInventory($inventory, \%disabled);
+
+    # Tell perl modules hash can now be cleaned from memory
+    delete $self->{modules};
+
     return unless $self->_validateInventory($inventory);
     $self->_submitInventory( %params, inventory => $inventory );
     return 1;
