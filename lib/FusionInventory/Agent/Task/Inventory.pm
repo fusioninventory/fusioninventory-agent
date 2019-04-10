@@ -167,6 +167,18 @@ sub _submitInventory {
         return unless $response;
         $inventory->saveLastState();
 
+    } elsif ($self->{target}->isType('listener')) {
+
+        return $self->{logger}->error("Can't load Inventory XML Query API")
+            unless FusionInventory::Agent::XML::Query::Inventory->require();
+
+        my $query = FusionInventory::Agent::XML::Query::Inventory->new(
+            deviceid => $inventory->getDeviceId(),
+            content  => $inventory->getContent()
+        );
+
+        # Store inventory XML with the listener target
+        $self->{target}->inventory_xml($query->getContent());
     }
 
 }

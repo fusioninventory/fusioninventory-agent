@@ -41,6 +41,7 @@ my $default = {
     'httpd-ip'                => undef,
     'httpd-port'              => 62354,
     'httpd-trust'             => [],
+    'listen'                  => undef,
     'scan-homedirs'           => undef,
     'scan-profiles'           => undef,
     'server'                  => undef,
@@ -103,7 +104,7 @@ sub _loadFromBackend {
 
     SWITCH: {
         if ($backend eq 'registry') {
-            die "Unavailable configuration backend\n"
+            die "Config: Unavailable configuration backend\n"
                 unless $OSNAME eq 'MSWin32';
             $self->_loadFromRegistry();
             last SWITCH;
@@ -112,7 +113,7 @@ sub _loadFromBackend {
         if ($backend eq 'file') {
             # Handle loadedConfs to avoid loops
             $self->{loadedConfs} = {};
-            $self->_loadFromFile({
+            $self->loadFromFile({
                 file => $confFile
             });
             delete $self->{loadedConfs};
@@ -123,7 +124,7 @@ sub _loadFromBackend {
             last SWITCH;
         }
 
-        die "Unknown configuration backend '$backend'\n";
+        die "Config: Unknown configuration backend '$backend'\n";
     }
 }
 
@@ -157,7 +158,7 @@ sub _loadFromRegistry {
 
     my $machKey = $Registry->Open('LMachine', {
         Access => Win32::TieRegistry::KEY_READ()
-    }) or die "Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR";
+    }) or die "Config: Can't open HKEY_LOCAL_MACHINE key: $EXTENDED_OS_ERROR\n";
 
     my $provider = $FusionInventory::Agent::Version::PROVIDER;
     my $settings = $machKey->{"SOFTWARE/$provider-Agent"};
@@ -174,7 +175,7 @@ sub _loadFromRegistry {
         if (exists $default->{$key}) {
             $self->{$key} = $val;
         } else {
-            warn "unknown configuration directive $key";
+            warn "Config: unknown configuration directive $key\n";
         }
     }
 }
@@ -185,21 +186,21 @@ sub confdir {
     return $self->{_confdir};
 }
 
-sub _loadFromFile {
+sub loadFromFile {
     my ($self, $params) = @_;
     my $file = $params->{file} ?
         $params->{file} : $self->{_confdir} . '/agent.cfg';
 
     if ($file) {
-        die "non-existing file $file" unless -f $file;
-        die "non-readable file $file" unless -r $file;
+        die "Config: non-existing file $file\n" unless -f $file;
+        die "Config: non-readable file $file\n" unless -r $file;
     } else {
-        die "no configuration file";
+        die "Config: no configuration file\n";
     }
 
     # Don't reload conf if still loaded avoiding loops due to include directive
     if ($self->{loadedConfs}->{$file}) {
-        warn "$file configuration file still loaded\n"
+        warn "Config: $file configuration file still loaded\n"
             if $self->{logger} && ucfirst($self->{logger}) eq 'Stderr';
         return;
     }
@@ -207,7 +208,7 @@ sub _loadFromFile {
 
     my $handle;
     if (!open $handle, '<', $file) {
-        warn "Config: Failed to open $file: $ERRNO";
+        warn "Config: Failed to open $file: $ERRNO\n";
         return;
     }
 
@@ -223,39 +224,41 @@ sub _loadFromFile {
             if ($val =~ /^(['"])([^\1]*)\1/) {
                 my ($quote, $extract) = ( $1, $2 );
                 $val =~ s/\s*#.+$//;
-                warn "We may have been confused for $key quoted value, our extracted value: '$extract'"
+                warn "Config: We may have been confused for $key quoted value, our extracted value: '$extract'\n"
                     if ($val ne "$quote$extract$quote");
                 $val = $extract ;
             } else {
                 $val =~ s/\s*#.+$//;
             }
 
-            if (exists $default->{$key}) {
+            if ($params->{defaults} && exists $params->{defaults}->{$key}) {
+                $self->{$key} = $val;
+            } elsif (!$params->{defaults} && exists $default->{$key}) {
                 $self->{$key} = $val;
             } elsif (lc($key) eq 'include') {
                 $self->_includeDirective($val, $file);
             } else {
-                warn "unknown configuration directive $key";
+                warn "Config: unknown configuration directive $key\n";
             }
         } elsif ($line =~ /^\s*include\s+(.+)$/i) {
             my $include = $1;
             if ($include =~ /^(['"])([^\1]*)\1/) {
                 my ($quote, $extract) = ( $1, $2 );
                 $include =~ s/\s*#.+$//;
-                warn "We may have been confused for include quoted path, our extracted path: '$extract'"
+                warn "Config: We may have been confused for include quoted path, our extracted path: '$extract'\n"
                     if ($include ne "$quote$extract$quote");
                 $include = $extract ;
             } else {
                 $include =~ s/\s*#.+$//;
             }
-            $self->_includeDirective($include, $file);
+            $self->_includeDirective($include, $file, $params->{defaults});
         }
     }
     close $handle;
 }
 
 sub _includeDirective {
-    my ($self, $include, $currentconfig) = @_;
+    my ($self, $include, $currentconfig, $defaults) = @_;
 
     # Make include path absolute, relatively to current file basedir
     unless (File::Spec->file_name_is_absolute($include)) {
@@ -273,10 +276,10 @@ sub _includeDirective {
         foreach my $cfg ( sort glob("$include/*.cfg") ) {
             # Skip missing or non-readable file
             next unless -f $cfg && -r $cfg;
-            $self->_loadFromFile({ file => $cfg });
+            $self->loadFromFile({ file => $cfg, defaults => $defaults });
         }
     } elsif ( -f $include && -r $include ) {
-        $self->_loadFromFile({ file => $include });
+        $self->loadFromFile({ file => $include, defaults => $defaults });
     }
 }
 
@@ -300,7 +303,7 @@ sub _checkContent {
         my $handler = $deprecated->{$old};
 
         # notify user of deprecation
-        warn "the '$old' option is deprecated, $handler->{message}\n";
+        warn "Config: the '$old' option is deprecated, $handler->{message}\n";
 
         # transfer the value to the new option, if possible
         if ($handler->{new}) {
@@ -339,12 +342,12 @@ sub _checkContent {
 
     # ca-cert-file and ca-cert-dir are antagonists
     if ($self->{'ca-cert-file'} && $self->{'ca-cert-dir'}) {
-        die "use either 'ca-cert-file' or 'ca-cert-dir' option, not both\n";
+        die "Config: use either 'ca-cert-file' or 'ca-cert-dir' option, not both\n";
     }
 
     # logger backend without a logfile isn't enoguh
     if ($self->{'logger'} =~ /file/i && ! $self->{'logfile'}) {
-        die "usage of 'file' logger backend makes 'logfile' option mandatory\n";
+        die "Config: usage of 'file' logger backend makes 'logfile' option mandatory\n";
     }
 
     # multi-values options, the default separator is a ','
@@ -454,6 +457,18 @@ sub getTargets {
             );
             push @targets, $server, $scheduler;
         }
+    }
+
+    # Only add listener target if no other target has been defined and
+    # httpd daemon is enabled. And anyway only one listener should be enabled
+    if ($self->{listen} && !@targets && !$self->{'no-httpd'}) {
+        FusionInventory::Agent::Target::Listener->require();
+        push @targets,
+            FusionInventory::Agent::Target::Listener->new(
+                logger     => $params{logger},
+                delaytime  => $self->{delaytime},
+                basevardir => $params{vardir},
+            );
     }
 
     return \@targets;

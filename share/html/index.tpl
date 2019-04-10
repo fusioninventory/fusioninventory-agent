@@ -13,7 +13,7 @@ This is FusionInventory Agent {$version}<br />
 The current status is {$status}<br />
 
 {
-    if ($trust) {
+    if ($trust && (@server_targets||@local_targets)) {
         $OUT .= '<a href="/now">Force an Inventory</a>';
     } else {
         '';
@@ -40,6 +40,18 @@ The current status is {$status}<br />
         $OUT .=  "<ul>\n";
         foreach my $target (@local_targets) {
            $OUT .= "<li>$target->{name}: $target->{date}</li>\n";
+        }
+        $OUT .=  "</ul>\n";
+    } else {
+        '';
+    }
+}
+
+{
+    if ($trust && @httpd_plugins) {
+        $OUT .=  "HTTPD plugins listening ports:\n";
+        foreach my $plugin (@httpd_plugins) {
+           $OUT .= "<li>$plugin->{port}: $plugin->{name}</li>\n";
         }
         $OUT .=  "</ul>\n";
     } else {

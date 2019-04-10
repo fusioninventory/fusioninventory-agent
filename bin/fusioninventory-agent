@@ -52,6 +52,7 @@ GetOptions(
     'httpd-ip=s',
     'httpd-port=s',
     'httpd-trust=s',
+    'listen',
     'scan-homedirs',
     'scan-profiles',
     'server|s=s',
@@ -219,6 +220,8 @@ fusioninventory-agent [options] [--server server|--local path]
     --httpd-port=PORT              network port to listen to (62354)
     --httpd-trust=IP               trust requests without authentication
                                      token (false)
+    --listen                       enable listener target if no local or
+                                   server target is defined
 
   Logging options:
     --logger=BACKEND               logger backend (stderr)
@@ -534,6 +537,12 @@ For example: "192.168.0.0/24", "192.168.168.0.5" or an IP range like
 documentation to get more example.
 
 Multiple values can be specified, using comma as a separator.
+
+=item B<--listen>
+
+This option should be used if no local or server target is defined and
+the agent still needs to answer http requests. B<--no-httpd> should not be set
+and B<--httpd-trust> should be set to enable trusted remote clients.
 
 =back
 
