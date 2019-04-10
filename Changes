@@ -34,6 +34,10 @@ netdiscovery/netinventory:
 * Add Lancom in networking devices recognized by description parsing
 * Fix #650: discard empty consumable level elements
 * Fix #651: discard empty type element
+* Add Netdisco export contrib script from Stoatwblr, see contrib/netdisco
+* Fix #638: Fix Kyocera counters handling thanks to Stoatwblr
+* Printers: assume -2 counter value means a WARNING level and report it
+  Thanks Stoatwblr for the deep investigation
 
 2.4.3 Fri, 22 Feb 2019
 

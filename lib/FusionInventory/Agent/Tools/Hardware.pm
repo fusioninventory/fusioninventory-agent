@@ -189,44 +189,48 @@ my %consumable_types = (
 my %printer_pagecounters_variables = (
     TOTAL      => {
         oid   => [
-            '.1.3.6.1.4.1.1347.42.2.1.1.1.6.1.1', #Kyocera specific counter
+            '.1.3.6.1.4.1.1347.42.10.1.1.12.1.1', #Kyocera specific counter for printers and MF
+                                                  # If you were really keen you could calculate misfeed rates
+                                                  # based on the difference betwwen this and the default OID
+                                                  # value and use it to flag a call out of service techs.
+                                                  # Hint: Increasing rate = bald paper pickup roller tyres.
             '.1.3.6.1.2.1.43.10.2.1.4.1.1'        #Default Value
             ]
     },
     BLACK      => {
-        oid   => '.1.3.6.1.4.1.1347.42.2.1.1.1.7.1.1' #Kyocera specific counter
+        oid   => '.1.3.6.1.4.1.1347.42.2.2.1.1.3.1.1' #Kyocera specific non-MFP counter
     },
     COLOR      => {
-        oid   => '.1.3.6.1.4.1.1347.42.2.1.1.1.8.1.1' #Kyocera specific counter
+        oid   => '.1.3.6.1.4.1.1347.42.2.1.1.1.8.1.1' #Kyocera specific non-MFP counter
     },
     RECTOVERSO => { },
     SCANNED    => {
         oid   => [
-            '.1.3.6.1.4.1.1347.46.10.1.1.5.3',    #Kyocera specific counter ( total scan counter)
+            '.1.3.6.1.4.1.1347.46.10.1.1.5.3',    #Kyocera MFP specific counter ( total scan counter)
             '.1.3.6.1.4.1.1602.1.11.1.3.1.4.501'  #Canon specific counter
         ]
     },
     PRINTTOTAL => {
         oid   => [
-            '.1.3.6.1.4.1.1347.42.3.1.1.1.1.2',   #Kyocera specific counter
+            '.1.3.6.1.4.1.1347.42.3.1.1.1.1.1',   #Kyocera MFP specific counter
             '.1.3.6.1.4.1.1602.1.11.1.3.1.4.301'  #Canon specific counter
         ]
     },
     PRINTBLACK => {
-        oid   => '.1.3.6.1.4.1.1347.42.3.1.2.1.1.1.1' #Kyocera specific counter
+        oid   => '.1.3.6.1.4.1.1347.42.3.1.2.1.1.1.1' #Kyocera MFP specific counter
     },
     PRINTCOLOR => {
-        oid   => '.1.3.6.1.4.1.1347.42.3.1.2.1.1.1.2' #Kyocera specific counter
+        oid   => '.1.3.6.1.4.1.1347.42.3.1.2.1.1.1.3' #Kyocera MFP specific counter
     },
     COPYTOTAL  => {
         oid   => [
-            '.1.3.6.1.4.1.1347.42.3.1.1.1.1.2',   #Kyocera specific counter
+            '.1.3.6.1.4.1.1347.42.3.1.1.1.1.2',   #Kyocera MFP specific counter
             '.1.3.6.1.4.1.1602.1.11.1.3.1.4.101'  #Canon specific counter
         ]
     },
     COPYBLACK  => {
         oid   => [
-            '.1.3.6.1.4.1.1347.42.3.1.2.1.1.2.1', #Kyocera specific counter
+            '.1.3.6.1.4.1.1347.42.3.1.2.1.1.2.1', #Kyocera MFP specific counter
             '.1.3.6.1.4.1.1602.1.11.1.3.1.4.113'  #Canon specific counter
         ]
     },
@@ -235,7 +239,7 @@ my %printer_pagecounters_variables = (
     },
     COPYCOLOR  => {
         oid   => [
-            '.1.3.6.1.4.1.1347.42.3.1.2.1.1.2.2', #Kyocera specific counter
+            '.1.3.6.1.4.1.1347.42.3.1.2.1.1.2.3', #Kyocera MFP specific counter
             '.1.3.6.1.4.1.1602.1.11.1.3.1.4.123'  #Canon specific counter
         ]
     },
@@ -243,7 +247,7 @@ my %printer_pagecounters_variables = (
         oid   => '.1.3.6.1.4.1.1602.1.11.1.3.1.4.122' #Canon specific counter
     },
     FAXTOTAL   => {
-        oid   => '.1.3.6.1.4.1.1347.42.3.1.1.1.1.4'  #Kyocera specific counter
+        oid   => '.1.3.6.1.4.1.1347.42.3.1.1.1.1.4'  #Kyocera MFP specific counter
     }
 );
 
@@ -685,8 +689,20 @@ sub _setPrinterProperties {
 
         my $value;
         if ($current == -2) {
-            # A value of -2 means unknown
-            $value = undef;
+            # A value of -2 means "unknown" according to the RFC - but this 
+            # is not NULL - it means "something undetermined between
+            # OK and BAD". 
+            # Several makers seem to have grabbed it as a way of indicating
+            # "almost out" for supplies and waste. (Like a vehicle low fuel warning)
+            #
+            # This was previously set to undef - but that was triggering a bug
+            # that caused bad XML to be output and that in turn would block FI4G imports
+            # which in turn would make page counters look strange for the days
+            # when it was happening (zero pages, then a big spike)
+            #
+            # Using "WARNING" should allow print monitoring staff to ensure 
+            # replacement items are in stock before they go "BAD"
+            $value = 'WARNING';
         } elsif ($current == -3) {
             # A value of -3 means that the printer knows that there is some
             # supply/remaining space, respectively.
