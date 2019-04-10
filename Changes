@@ -20,6 +20,8 @@ core:
 * Added fusioninventory-remoteinventory script to request agent with Inventory
   HTTPD plugin enabled
 * Fix HTTPD local address reuse
+* Added SSL HTTPD plugins to support SSL in any server plugins
+* Limit the reload target check to 30 seconds
 
 inventory:
 * Fix lspci command subsystem parsing
