@@ -45,6 +45,10 @@ netdiscovery/netinventory:
 * Printers: assume -2 counter value means a WARNING level and report it
   Thanks Stoatwblr for the deep investigation
 
+deploy:
+* Fix #394: Check file parts source/mirror url to guaranty it ends with a slash
+  and trigger an error if it doesn't look like a valid URL.
+
 2.4.3 Fri, 22 Feb 2019
 
 core:

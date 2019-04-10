@@ -221,11 +221,20 @@ sub _downloadPeer {
 sub _download {
     my ($self, $source, $sha512, $path, $peer) = @_;
 
+    unless ($source =~ m|^https?://|i) {
+        $self->{logger}->error("Source or mirror is not a valid URL: $source");
+        return;
+    }
+
     return unless $sha512 =~ /^(.)(.)/;
     my $sha512dir = $1.'/'.$1.$2.'/';
 
+    # Check source url ends with a slash
+    $source .= '/' unless $source =~ m|/$|;
+
     my $url = $source.$sha512dir.$sha512;
-    $self->{logger}->debug($url);
+
+    $self->{logger}->debug("File part URL: $url");
 
     my $request = HTTP::Request->new(GET => $url);
     # We want to try direct download without proxy if peer if defined and then
