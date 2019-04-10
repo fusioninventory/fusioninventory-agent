@@ -872,7 +872,7 @@ sub getAgentMemorySize {
     };
     return -1 unless (defined($ph));
 
-    my $size = -1;
+    my ($size, $pages) = ( -1, 0 );
     eval {
         # memory usage is bundled up in ProcessMemoryCounters structure
         # populated by GetProcessMemoryInfo() win32 call
@@ -907,8 +907,9 @@ sub getAgentMemorySize {
             )'
         );
         if ($apiGetProcessMemoryInfo->Call($ph, $mem_counters, $cb)) {
-            # Uses WorkingSetSize as process memory size
+            # Uses WorkingSetSize and PagefileUsage
             $size = $mem_counters->{WorkingSetSize};
+            $pages = $mem_counters->{PagefileUsage};
         }
     };
 
@@ -923,7 +924,7 @@ sub getAgentMemorySize {
         $ph = $apiCloseHandle->Call($ph);
     };
 
-    return $size;
+    return $size, $pages;
 }
 
 sub FreeAgentMem {

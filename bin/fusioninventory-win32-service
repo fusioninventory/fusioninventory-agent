@@ -63,9 +63,6 @@ if ($options{register}) {
     # we need to do it by ourself
     chdir($directory);
 
-    # Register default callbacks
-    $service->RegisterCallbacks();
-
     # Under newer win32 releases, setting accepted controls may be required
     $service->AcceptedControls();
 

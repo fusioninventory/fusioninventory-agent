@@ -22,6 +22,10 @@ core:
 * Fix HTTPD local address reuse
 * Added SSL HTTPD plugins to support SSL in any server plugins
 * Limit the reload target check to 30 seconds
+* win32: report memory usage as Working Set Size (WSS) and Page File Usage (PFU)
+* win32: revert handling service with callbacks. Even if Win32::Daemon proposes
+  the callbacks usage obsoletes the typical skeleton code, the callbacks usage
+  is known to leak memory and tests with latest Win32::Daemon shows that's true.
 
 inventory:
 * Fix lspci command subsystem parsing

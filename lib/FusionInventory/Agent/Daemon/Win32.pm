@@ -8,14 +8,16 @@ use threads 'exit' => 'threads_only';
 
 use File::Spec;
 use Cwd qw(abs_path);
+use Time::HiRes qw(usleep);
 
-use constant SERVICE_SLEEP_TIME => 200; # in milliseconds
+use constant SERVICE_USLEEP_TIME => 200_000; # in microseconds
 
 use Win32;
 use Win32::Daemon;
 
 use FusionInventory::Agent::Version;
 use FusionInventory::Agent::Logger;
+use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Win32;
 
 use parent qw(FusionInventory::Agent::Daemon);
@@ -24,16 +26,6 @@ my $PROVIDER = $FusionInventory::Agent::Version::PROVIDER;
 
 sub SERVICE_NAME        { lc($PROVIDER) . "-agent"; }
 sub SERVICE_DISPLAYNAME { "$PROVIDER Agent"; }
-
-my %default_callbacks = (
-    start       => \&cb_start,
-    timer       => \&cb_running,
-    stop        => \&cb_stop,
-    shutdown    => \&cb_shutdown,
-    pause       => \&cb_pause,
-    continue    => \&cb_continue,
-    interrogate => \&cb_interrogate
-);
 
 sub new {
     my ($class, %params) = @_;
@@ -126,29 +118,81 @@ sub DeleteService {
     return 0;
 }
 
-sub RegisterCallbacks {
-    my ($self, $callbacks) = @_;
+sub StartService {
+    my ($self) = @_;
 
-    $callbacks = {} unless (defined($callbacks));
+    Win32::Daemon::StartService();
 
-    # Use default callback while not set
-    foreach my $callback (keys(%default_callbacks)) {
-        next if $callbacks->{$callback};
-        $callbacks->{$callback} = $default_callbacks{$callback};
+    my $timer = time;
+    my $lastQuery = 0;
+
+    my $State = Win32::Daemon::State( SERVICE_START_PENDING );
+
+    $self->{last_state} = $State;
+    while ( SERVICE_STOPPED != $State) {
+        if ( SERVICE_START_PENDING == $State ) {
+            $self->_start_agent();
+        } elsif ( SERVICE_STOP_PENDING == $State ) {
+            $self->_stop_agent();
+            last;
+        } elsif ( SERVICE_PAUSE_PENDING == $State ) {
+            if ($State != $self->{last_state} || time-$timer >= 10) {
+                if ($self->{agent_thread} && $self->{agent_thread}->is_running()) {
+                    $self->{agent_thread}->kill('SIGSTOP');
+                } else {
+                    $self->{last_state} = SERVICE_STOP_PENDING;
+                }
+                $timer = time;
+            }
+            my @targets = $self->getTargets();
+            if ( scalar(grep { $_->paused() } @targets) == @targets ) {
+                $self->{last_state} = SERVICE_PAUSED;
+                $self->ApplyServiceOptimizations();
+            } else {
+                $self->{last_state} = SERVICE_PAUSE_PENDING;
+            }
+        } elsif ( SERVICE_CONTINUE_PENDING == $State ) {
+            if ($State != $self->{last_state} || time-$timer >= 10) {
+                if ($self->{agent_thread} && $self->{agent_thread}->is_running()) {
+                    $self->{agent_thread}->kill('SIGCONT');
+                } else {
+                    $self->{last_state} = SERVICE_STOP_PENDING;
+                }
+                $timer = time;
+            }
+            my @targets = $self->getTargets();
+            if ( scalar(grep { $_->paused() } @targets) == 0 ) {
+                $self->{last_state} = SERVICE_RUNNING;
+            } else {
+                $self->{last_state} = SERVICE_CONTINUE_PENDING;
+            }
+        } elsif ( SERVICE_PAUSED == $State ) {
+            $self->{last_state} = $self->{agent_thread} &&
+                $self->{agent_thread}->is_running() ?
+                    SERVICE_PAUSED : SERVICE_STOP_PENDING ;
+        } elsif ( SERVICE_RUNNING == $State ) {
+            $self->{last_state} = $self->{agent_thread} &&
+                $self->{agent_thread}->is_running() ?
+                    SERVICE_RUNNING : SERVICE_STOP_PENDING ;
+        }
+
+        my $Query = Win32::Daemon::QueryLastMessage();
+        if ( $Query == SERVICE_CONTROL_INTERROGATE ) {
+            Win32::Daemon::State( $self->{last_state} );
+        } elsif ($Query != $lastQuery && $Query != 0xFFFFFFFF) {
+            $lastQuery = $Query;
+        }
+
+        if ( time-$timer >= 10 || $self->{last_state} != $State ) {
+            Win32::Daemon::State( $self->{last_state}, 10000 );
+            $timer = time;
+        }
+        usleep( SERVICE_USLEEP_TIME );
+        $State = Win32::Daemon::State();
     }
 
-    # Finally register callbacks using Win32::Daemon API
-    Win32::Daemon::RegisterCallbacks($callbacks);
-}
-
-sub StartService {
-    my ($self, $delay_ms) = @_;
-
-    # Use default service timer if necessary
-    $delay_ms = SERVICE_SLEEP_TIME
-        unless ( $delay_ms && $delay_ms>= 20 );
-
-    Win32::Daemon::StartService($self, $delay_ms);
+    Win32::Daemon::State(SERVICE_STOPPED);
+    Win32::Daemon::StopService();
 }
 
 sub AcceptedControls {
@@ -160,126 +204,56 @@ sub AcceptedControls {
     Win32::Daemon::AcceptedControls($controls);
 }
 
-sub cb_start {
-    my( $event, $service ) = @_;
+sub _start_agent {
+    my ($self) = @_;
 
     # Start service dedicated thread only if required
-    unless ($service->{agent_thread}) {
-        # First start a thread dedicated to Win32::OLE calls
-        FusionInventory::Agent::Tools::Win32::start_Win32_OLE_Worker();
+    unless (defined($self->{agent_thread})) {
 
         # Start agent in a dedicated thread
-        $service->{agent_thread} = threads->create(sub {
-            $service->init(options => { service => 1 });
+        $self->{agent_thread} = threads->create(sub {
+            # First start a thread dedicated to Win32::OLE calls
+            FusionInventory::Agent::Tools::Win32::start_Win32_OLE_Worker();
+
+            $self->init(options => { service => 1 });
 
             # install signal handler to handle pause/continue signals
-            $SIG{STOP} = sub { $service->Pause(); };
-            $SIG{CONT} = sub { $service->Continue(); };
+            $SIG{STOP} = sub { $self->Pause(); };
+            $SIG{CONT} = sub { $self->Continue(); };
 
-            $service->run()
+            $self->run();
         });
     }
-
-    Win32::Daemon::CallbackTimer(SERVICE_SLEEP_TIME);
-
-    $service->{last_state} = SERVICE_RUNNING;
 
     Win32::Daemon::State(SERVICE_RUNNING);
 }
 
-sub cb_running {
-    my( $event, $service ) = @_;
+sub _stop_agent {
+    my ($self) = @_;
 
-    if (!$service->{agent_thread}) {
-        if ($service->{last_state} == SERVICE_STOP_PENDING) {
-            $service->{last_state} = SERVICE_STOPPED;
-            Win32::Daemon::State(SERVICE_STOPPED);
-            Win32::Daemon::StopService();
-        } else {
-            Win32::Daemon::State($service->{last_state});
+    my $timer = time-10;
+    my $tries = 3;
+
+    while ( $self->{agent_thread} ) {
+        if ($self->{agent_thread}->is_running() && time-$timer >= 10) {
+            $self->{agent_thread}->kill('SIGINT');
+            Win32::Daemon::State(SERVICE_STOP_PENDING, 10000);
+            $timer = time-1;
+
+        } elsif ($self->{agent_thread}->is_joinable()) {
+            $self->{agent_thread}->join();
+
+            delete $self->{agent_thread};
+
+            last;
+
+        } elsif ( time-$timer >= 10 ) {
+            last unless $tries--;
+            Win32::Daemon::State(SERVICE_STOP_PENDING, 10000);
+            $timer = time-1;
         }
-
-    } elsif (!$service->{agent_thread}->is_running()) {
-        if ($service->{agent_thread}->is_joinable()) {
-            $service->{agent_thread}->join();
-
-            delete $service->{agent_thread};
-
-            $service->{last_state} = SERVICE_STOPPED;
-            Win32::Daemon::State(SERVICE_STOPPED);
-            Win32::Daemon::StopService();
-        } else {
-            $service->{last_state} = SERVICE_STOP_PENDING;
-            Win32::Daemon::State(SERVICE_STOP_PENDING);
-        }
-
-    } elsif ($service->{last_state} == SERVICE_PAUSE_PENDING) {
-        my @targets = $service->getTargets();
-        if ( scalar(grep { $_->paused() } @targets) == @targets ) {
-            $service->{last_state} = SERVICE_PAUSED;
-            Win32::Daemon::State(SERVICE_PAUSED);
-        }
-
-    } elsif ($service->{last_state} == SERVICE_CONTINUE_PENDING) {
-        my @targets = $service->getTargets();
-        if ( scalar(grep { $_->paused() } @targets) == 0) {
-            $service->{last_state} = SERVICE_RUNNING;
-            Win32::Daemon::State(SERVICE_RUNNING);
-        }
-
-    } else {
-        Win32::Daemon::State($service->{last_state});
+        usleep( SERVICE_USLEEP_TIME );
     }
-}
-
-sub cb_pause {
-    my( $event, $service ) = @_;
-
-    if ($service->{agent_thread} && $service->{agent_thread}->is_running()) {
-        $service->{agent_thread}->kill('SIGSTOP');
-    }
-
-    $service->{last_state} = SERVICE_PAUSE_PENDING;
-    Win32::Daemon::State(SERVICE_PAUSE_PENDING, 10000);
-}
-
-sub cb_continue {
-    my( $event, $service ) = @_;
-
-    if ($service->{agent_thread} && $service->{agent_thread}->is_running()) {
-        $service->{agent_thread}->kill('SIGCONT');
-    }
-
-    $service->{last_state} = SERVICE_CONTINUE_PENDING;
-    Win32::Daemon::State(SERVICE_CONTINUE_PENDING, 10000);
-}
-
-sub cb_stop {
-    my( $event, $service ) = @_;
-
-    if ($service->{agent_thread} && $service->{agent_thread}->is_running()) {
-        $service->{agent_thread}->kill('SIGINT');
-    }
-
-    $service->{last_state} = SERVICE_STOP_PENDING;
-    Win32::Daemon::State(SERVICE_STOP_PENDING, 10000);
-}
-
-sub cb_shutdown {
-    my( $event, $service ) = @_;
-
-    if ($service->{agent_thread} && $service->{agent_thread}->is_running()) {
-        $service->{agent_thread}->kill('SIGTERM');
-    }
-
-    $service->{last_state} = SERVICE_STOP_PENDING;
-    Win32::Daemon::State(SERVICE_STOP_PENDING, 25000);
-}
-
-sub cb_interrogate {
-    my( $event, $service ) = @_;
-
-    Win32::Daemon::State($service->{last_state});
 }
 
 sub Pause {
@@ -334,18 +308,19 @@ sub RunningServiceOptimization {
 
     # win32 platform needs optimization
     if ($self->{logger} && $self->{logger}->debug_level()) {
-        my $runmem = getAgentMemorySize();
-        $self->{logger}->debug("Agent memory usage before freeing memory: $runmem")
-            unless $runmem < 0;
+        my ($WorkingSetSize, $PageFileUsage) = getAgentMemorySize();
+        # WSS=Working Set Size - PFU=Page File Usage
+        $self->{logger}->debug("Agent memory usage before freeing memory: WSS=$WorkingSetSize PFU=$PageFileUsage")
+            unless $WorkingSetSize < 0;
     }
 
-    # Free some memory
+    # Make working set memory available for the system
     FreeAgentMem();
 
     if ($self->{logger}) {
-        my $current_mem = getAgentMemorySize();
-        $self->{logger}->info("$PROVIDER Agent memory usage: $current_mem")
-            unless $current_mem < 0;
+        my ($WorkingSetSize, $PageFileUsage) = getAgentMemorySize();
+        $self->{logger}->info("$PROVIDER Agent memory usage: WSS=$WorkingSetSize PFU=$PageFileUsage")
+            unless $WorkingSetSize < 0;
     }
 }
 
