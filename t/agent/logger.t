@@ -10,11 +10,12 @@ use File::stat;
 use File::Temp qw(tempdir);
 use Fcntl qw(:seek);
 use Test::More;
+use Test::NoWarnings;
 
 use FusionInventory::Agent::Config;
 use FusionInventory::Agent::Logger;
 
-plan tests => 28;
+plan tests => 29;
 
 my $logger = FusionInventory::Agent::Logger->new();
 

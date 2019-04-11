@@ -7,7 +7,6 @@ use parent 'FusionInventory::Agent::Logger::Backend';
 
 use English qw(-no_match_vars);
 use Fcntl qw(:flock);
-use File::stat;
 
 sub new {
     my ($class, %params) = @_;
@@ -30,8 +29,7 @@ sub addMessage {
 
     my $handle;
     if ($self->{logfile_maxsize}) {
-        my $stat = stat($self->{logfile});
-        if ($stat && $stat->size() > $self->{logfile_maxsize}) {
+        if ( -e $self->{logfile} && -s $self->{logfile} > $self->{logfile_maxsize}) {
             if (!open $handle, '>', $self->{logfile}) {
                 warn "Can't open $self->{logfile}: $ERRNO";
                 return;
