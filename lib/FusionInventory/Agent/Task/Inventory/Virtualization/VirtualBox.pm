@@ -48,6 +48,13 @@ sub doInventory {
         return;
     }
 
+    if ($OSNAME eq 'MSWin32') {
+        $logger->info(
+            "scanning of virtualbox virtual machines in user directories not supported under win32"
+        );
+        return;
+    }
+
     my @users = ();
     my $user_vbox_folder = $OSNAME eq 'darwin' ?
         "Library/VirtualBox" : ".config/VirtualBox" ;

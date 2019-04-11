@@ -39,6 +39,7 @@ inventory:
   Also avoid error in log on /etc/passwd and /etc/group not found files
 * Fix #601: Log deviceid as agentid and related target when running an inventory
 * Fix #644: Make WORKGROUP inventory consistent
+* Fix #541: Don't try to scan virtualbox VM in win32 users directories
 
 netdiscovery/netinventory:
 * Add Lancom in networking devices recognized by description parsing
