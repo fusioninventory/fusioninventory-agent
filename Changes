@@ -48,6 +48,7 @@ netdiscovery/netinventory:
 * Printers: assume -2 counter value means a WARNING level and report it
   Thanks Stoatwblr for the deep investigation
 * Add Oki printer support
+* Add APC serialnumber support
 
 deploy:
 * Fix #394: Check file parts source/mirror url to guaranty it ends with a slash

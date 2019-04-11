@@ -11,6 +11,10 @@ use FusionInventory::Agent::Tools::SNMP;
 use constant    apc => '.1.3.6.1.4.1.318' ;
 use constant    riello => '.1.3.6.1.4.1.5491' ;
 
+# See PowerNet-MIB
+
+use constant    upsAdvIdentSerialNumber => apc . '.1.1.1.1.2.3.0';
+
 # See UPS-MIB
 
 use constant    upsMIB  => '.1.3.6.1.2.1.33' ;
@@ -31,6 +35,12 @@ sub getModel {
     my ($self) = @_;
 
     return $self->get(upsIdentModel);
+}
+
+sub getSerial {
+    my ($self) = @_;
+
+    return $self->get(upsAdvIdentSerialNumber);
 }
 
 sub getFirmware {
