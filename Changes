@@ -38,6 +38,7 @@ inventory:
 * Skip not working under win32 Generic::Users inventory
   Also avoid error in log on /etc/passwd and /etc/group not found files
 * Fix #601: Log deviceid as agentid and related target when running an inventory
+* Fix #644: Make WORKGROUP inventory consistent
 
 netdiscovery/netinventory:
 * Add Lancom in networking devices recognized by description parsing

@@ -29,16 +29,18 @@ sub doInventory {
     );
     if ($handle) {
         while (my $line = <$handle>) {
-            if ($line =~ /^nameserver\s+(\S+)/) {
-                $dns_list{$1} = 1;
-            } elsif ($line =~ /^(domain|search)\s+(\S+)/) {
-                $search_list{$2} = 1;
+            if (my ($dns) = $line =~ /^nameserver\s+(\S+)/) {
+                $dns =~ s/\.+$//;
+                $dns_list{$dns} = 1;
+            } elsif (my ($domain) = $line =~ /^(?:domain|search)\s+(\S+)/) {
+                $domain =~ s/\.$//;
+                $search_list{$domain} = 1;
             }
         }
         close $handle;
     }
 
-    my $dns = join('/', keys %dns_list);
+    my $dns = join('/', sort keys %dns_list);
 
     # attempt to deduce the actual domain from the host name
     # and fallback on the domain search list
@@ -48,6 +50,7 @@ sub doInventory {
 
     if ($pos >= 0) {
         $domain = substr($hostname, $pos + 1);
+        $domain =~ s/\.+$//;
     } else {
         $domain = join('/', sort keys %search_list);
     }
