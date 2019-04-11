@@ -47,6 +47,7 @@ netdiscovery/netinventory:
 * Fix #638: Fix Kyocera counters handling thanks to Stoatwblr
 * Printers: assume -2 counter value means a WARNING level and report it
   Thanks Stoatwblr for the deep investigation
+* Add Oki printer support
 
 deploy:
 * Fix #394: Check file parts source/mirror url to guaranty it ends with a slash
