@@ -465,6 +465,10 @@ sub _getFromWMI {
     return unless $params{properties};
     return unless $params{class};
 
+    # Split given properties if possible
+    $params{properties} = [ split(/[, ]+/, $params{properties}[0]) ]
+        if $params{properties}[0] =~ /[, ]/;
+
     my @results;
 
     my @objects = FusionInventory::Agent::Tools::Win32::getWMIObjects(%params);
