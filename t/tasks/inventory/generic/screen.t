@@ -214,6 +214,13 @@ my %edid_tests = (
         ALTSERIAL    => 'LXYEE0118507',
         DESCRIPTION  => '28/2016'
     },
+    'lcd.acer-b196hql' => {
+        MANUFACTURER => 'Acer Technologies',
+        CAPTION      => 'Acer B196HQL',
+        SERIAL       => 'TAHEE00173205d434200',
+        ALTSERIAL    => 'TAHEE0014200',
+        DESCRIPTION  => '32/2017'
+    },
     'lcd.acer-v193.2' => {
         MANUFACTURER => 'Acer Technologies',
         CAPTION      => 'Acer V193',

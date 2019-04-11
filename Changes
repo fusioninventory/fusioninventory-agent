@@ -508,6 +508,7 @@ inventory:
 * Fixed memory reporting on Solaris
 * Enhanced installdate for softwares on many platforms
 * Enhanced drive a storage reporting on win32
+* Fix #584: Acer B196HQL S/N support
 
 deploy:
 * Bump Deploy task version to 2.1.0
