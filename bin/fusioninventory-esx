@@ -108,7 +108,7 @@ fusioninventory-esx --host <host> --user <user> --password <password> --director
 
 You can import the .ocs file in your inventory server with the fusioninventory-injector tool.
 
-    %fusioninventory-injector -v --file /tmp/*.ocs -u https://myserver/plugins/fusioninventory/
+    %fusioninventory-injector -v --file /tmp/*.ocs -u https://example/plugins/fusioninventory/
 
 =head1 DESCRIPTION
 

@@ -160,7 +160,7 @@ Set or retrieve an inventory XML to be used by an HTTP plugin
 
 =head2 session(%params)
 
-Create or retrieve a FusionInventory::Agent::HTTP:Session object keeping it
+Create or retrieve a FusionInventory::Agent::HTTP::Session object keeping it
 stored in a local storage.
 
 Supported parameters:

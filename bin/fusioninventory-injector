@@ -178,8 +178,8 @@ fusioninventory-injector [options] [--file <file>|--directory <directory>|--stdi
     -C --no-compression don't compress sent XML inventories
 
   Examples:
-    fusioninventory-injector -v -f /tmp/toto-2010-09-10-11-42-22.ocs --url https://login:pw@server/plugins/fusioninventory/
-    fusioninventory-injector -v -R -d /srv/ftp/fusion --url https://login:pw@glpi-server/plugins/fusioninventory/
+    fusioninventory-injector -v -f /tmp/toto-2010-09-10-11-42-22.ocs --url https://login:pw@example/plugins/fusioninventory/
+    fusioninventory-injector -v -R -d /srv/ftp/fusion --url https://login:pw@example/plugins/fusioninventory/
 
 =head1 DESCRIPTION
 

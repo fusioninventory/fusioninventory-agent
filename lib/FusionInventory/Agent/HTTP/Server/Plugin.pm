@@ -189,11 +189,11 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::HTTP:Server::Plugin - A class template for embedded HTTP server plugins
+FusionInventory::Agent::HTTP::Server::Plugin - A class template for embedded HTTP server plugins
 
 =head1 DESCRIPTION
 
-This is a template class to base on FusionInventory::Agent::HTTP:Server plugins.
+This is a template class to base on FusionInventory::Agent::HTTP::Server plugins.
 
 Plugins purpose is to handle specific requests.
 

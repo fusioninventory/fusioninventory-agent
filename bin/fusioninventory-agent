@@ -278,15 +278,15 @@ Send the results of tasks execution to given server.
 If I<URI> doesn't start with http:// or https://, the agent assume the
 parameter is a hostname and rewrite it as:
 
-    % --server=http://servername/ocsinventory
+    % --server=http://example/plugins/fusioninventory
 
 In general, OCS Inventory server URL have this format:
 
-    http://servername/ocsinventory
+    http://example/ocsinventory
 
 and FusionInventory for GLPI this one:
 
-    http://servername/glpi/plugins/fusioninventory/front/plugin_fusioninventory.communication.php
+    http://example/glpi/plugins/fusioninventory/front/plugin_fusioninventory.communication.php
 
 Multiple values can be specified, using comma as a separator.
 

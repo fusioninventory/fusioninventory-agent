@@ -614,7 +614,7 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::HTTP:Server - An embedded HTTP server
+FusionInventory::Agent::HTTP::Server - An embedded HTTP server
 
 =head1 DESCRIPTION
 
