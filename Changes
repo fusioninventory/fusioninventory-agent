@@ -52,6 +52,7 @@ netdiscovery/netinventory:
 * Add Oki printer support
 * Add APC serialnumber support
 * Fix #612: Enhanced Ubnt AccessPoint support
+* Updated sysobject.ids (tagged fia-2.5 tag on github repository)
 
 deploy:
 * Fix #394: Check file parts source/mirror url to guaranty it ends with a slash
