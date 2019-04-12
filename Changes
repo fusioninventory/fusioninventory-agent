@@ -51,6 +51,7 @@ netdiscovery/netinventory:
   Thanks Stoatwblr for the deep investigation
 * Add Oki printer support
 * Add APC serialnumber support
+* Fix #612: Enhanced Ubnt AccessPoint support
 
 deploy:
 * Fix #394: Check file parts source/mirror url to guaranty it ends with a slash
