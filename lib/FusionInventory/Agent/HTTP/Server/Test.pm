@@ -67,4 +67,3 @@ Any requests matching the following is accepted and returns a 200 HTTP code:
 =item /test/*
 
 =back
-

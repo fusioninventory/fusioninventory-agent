@@ -11,7 +11,7 @@ my %Supported_UserCheck_Modules = (
     MSWin32 => "WTS"
 );
 
-# Supported values as platform check key 
+# Supported values as platform check key
 my %supported_platform_keys = (
     win32 => "MSWin32", # Value is $OSNAME expected value for platform
     macos => "darwin",

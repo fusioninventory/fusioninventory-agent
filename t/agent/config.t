@@ -164,5 +164,3 @@ SKIP: {
     ok (defined $settingsRead);
     ok (!(defined $settingsRead->{'TEST_KEY'}));
 }
-
-

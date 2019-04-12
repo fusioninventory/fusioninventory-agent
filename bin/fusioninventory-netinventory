@@ -247,7 +247,7 @@ Possible values are: udp/ipv4,udp/ipv6,tcp/ipv4,tcp/ipv6
 
 =item B<--file> I<FILE>
 
-Run an offline inventory against snmpwalk output, stored in given file. 
+Run an offline inventory against snmpwalk output, stored in given file.
 Multiple usage allowed, for multiple files.
 
 =item B<--communty> I<STRING>

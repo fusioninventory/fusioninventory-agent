@@ -52,4 +52,3 @@ expiration and return false.
 =head2 getExpiration()
 
 Get current expiration time, to be compared to time returned value.
-

@@ -689,9 +689,9 @@ sub _setPrinterProperties {
 
         my $value;
         if ($current == -2) {
-            # A value of -2 means "unknown" according to the RFC - but this 
+            # A value of -2 means "unknown" according to the RFC - but this
             # is not NULL - it means "something undetermined between
-            # OK and BAD". 
+            # OK and BAD".
             # Several makers seem to have grabbed it as a way of indicating
             # "almost out" for supplies and waste. (Like a vehicle low fuel warning)
             #
@@ -700,7 +700,7 @@ sub _setPrinterProperties {
             # which in turn would make page counters look strange for the days
             # when it was happening (zero pages, then a big spike)
             #
-            # Using "WARNING" should allow print monitoring staff to ensure 
+            # Using "WARNING" should allow print monitoring staff to ensure
             # replacement items are in stock before they go "BAD"
             $value = 'WARNING';
         } elsif ($current == -3) {
@@ -994,7 +994,7 @@ sub _getKnownMacAddressesDeprecatedOids {
     my (%params) = @_;
 
     my $snmp   = $params{snmp};
-                
+
     my $results;
     my $address2mac   = $snmp->walk($params{address2mac});
     my $address2interface = $snmp->walk($params{address2interface});
@@ -1002,7 +1002,7 @@ sub _getKnownMacAddressesDeprecatedOids {
     foreach my $suffix (sort keys %{$address2mac}) {
         my $interface_id = $address2interface->{$suffix};
         next unless defined $interface_id;
- 
+
         push @{$results->{$interface_id}},
             getCanonicalMacAddress($address2mac->{$suffix});
     }

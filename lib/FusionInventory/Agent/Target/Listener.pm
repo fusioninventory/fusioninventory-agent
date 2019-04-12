@@ -180,4 +180,3 @@ the session timeout to use in seconds (default: 600)
 =head2 clean_session($remoteid)
 
 Remove a no more used session from the stored sessions.
-
