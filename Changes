@@ -41,6 +41,8 @@ inventory:
 * Fix #601: Log deviceid as agentid and related target when running an inventory
 * Fix #644: Make WORKGROUP inventory consistent
 * Fix #541: Don't try to scan virtualbox VM in win32 users directories
+* Updated pci.ids to 2019.04.12 version
+* Updated usb.ids to 2019.03.20 version
 
 netdiscovery/netinventory:
 * Bump NetDiscovery task version to 2.9
