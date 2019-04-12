@@ -212,7 +212,7 @@ FusionInventory::Agent::Tools::PowerSupplies
 
 =head1 DESCRIPTION
 
-This module provides functions to manage powersupplies informations
+This module provides functions to manage powersupplies information
 
 =head1 FUNCTIONS
 

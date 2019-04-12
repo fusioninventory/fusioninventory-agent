@@ -294,7 +294,7 @@ not set and then 3600 seconds will be used by default. If "maxrate" request coun
 is reach during the "maxrate_period" period in seconds, the API returns true.
 
 The API keeps the time access by request by IP and will only keep the access of
-requests in the "maxrate_period" last seconds. It is not adviced to set a high
+requests in the "maxrate_period" last seconds. It is not advised to set a high
 "maxrate".
 
 Call this API from your handle() API as soon as possible to avoid any abuse.

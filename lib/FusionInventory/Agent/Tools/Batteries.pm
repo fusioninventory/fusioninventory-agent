@@ -231,7 +231,7 @@ FusionInventory::Agent::Tools::Batteries
 
 =head1 DESCRIPTION
 
-This module provides functions to manage batteries informations
+This module provides functions to manage batteries information
 
 =head1 FUNCTIONS
 
