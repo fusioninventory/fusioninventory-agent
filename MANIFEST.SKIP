@@ -38,6 +38,8 @@ CVS/
 
 .*\.tmp
 var/
+^etc/.*\.local$
+^etc/.*\.pem$
 
 ^tools*
 ^debian/
