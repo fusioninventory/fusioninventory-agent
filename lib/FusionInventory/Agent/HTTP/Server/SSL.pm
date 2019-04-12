@@ -107,6 +107,7 @@ sub upgrade_SSL {
 
 # We use a dedicated package to derivate from IO::Socket::SSL and HTTP::Daemon::ClientConn
 # We put the package name on a new line to avoid CPAN indexing
+## no critic (ProhibitMultiplePackages,ProhibitExplicitISA)
 package
     HTTP::Daemon::ClientConn::SSL;
 
