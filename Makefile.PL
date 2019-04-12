@@ -241,14 +241,17 @@ sub install {
 config_install : pure_install
 	$(MKPATH) $(DESTDIR)$(SYSCONFDIR)
 	$(NOECHO) $(CHMOD) $(PERM_DIR) $(DESTDIR)$(SYSCONFDIR)
-	if $(TEST_F) $(DESTDIR)/$(SYSCONFDIR)/agent.cfg; then \
-	    $(RM_F) $(DESTDIR)$(SYSCONFDIR)/agent.cfg.new; \
-	    $(CP) etc/agent.cfg $(DESTDIR)$(SYSCONFDIR)/agent.cfg.new; \
-	    $(CHMOD) $(PERM_RW) $(DESTDIR)$(SYSCONFDIR)/agent.cfg.new; \
-	else \
-	    $(CP) etc/agent.cfg $(DESTDIR)$(SYSCONFDIR)/agent.cfg; \
-	    $(CHMOD) $(PERM_RW) $(DESTDIR)$(SYSCONFDIR)/agent.cfg; \
-	fi
+	for config in agent.cfg inventory-server-plugin.cfg server-test-plugin.cfg ssl-server-plugin.cfg ; \
+	do \
+	  if $(TEST_F) $(DESTDIR)/$(SYSCONFDIR)/$$config; then \
+	    $(RM_F) $(DESTDIR)$(SYSCONFDIR)/$$config.new; \
+	    $(CP) etc/agent.cfg $(DESTDIR)$(SYSCONFDIR)/$$config.new; \
+	    $(CHMOD) $(PERM_RW) $(DESTDIR)$(SYSCONFDIR)/$$config.new; \
+	  else \
+	    $(CP) etc/agent.cfg $(DESTDIR)$(SYSCONFDIR)/$$config; \
+	    $(CHMOD) $(PERM_RW) $(DESTDIR)$(SYSCONFDIR)/$$config; \
+	  fi; \
+	done
 	$(ABSPERLRUN) -pi \
 	    -e "s|=> undef, # SYSCONFDIR.*|=> '$(SYSCONFDIR)',|;" \
 	        $(DESTDIR)$(DATADIR)/lib/FusionInventory/Agent/Config.pm
