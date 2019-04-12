@@ -33,6 +33,7 @@ core:
   as File::stat module seems to fail in rare case.
 
 inventory:
+* Bump Inventory task version to 1.7
 * Fix lspci command subsystem parsing
 * Fix hponcfg.exe can output on stderr on win32 when not really usable
 * Skip not working under win32 Generic::Users inventory
@@ -42,6 +43,8 @@ inventory:
 * Fix #541: Don't try to scan virtualbox VM in win32 users directories
 
 netdiscovery/netinventory:
+* Bump NetDiscovery task version to 2.9
+* Bump NetInventory task version to 3.3
 * Add Lancom in networking devices recognized by description parsing
 * Fix #650: discard empty consumable level elements
 * Fix #651: discard empty type element
@@ -55,10 +58,12 @@ netdiscovery/netinventory:
 * Updated sysobject.ids (tagged fia-2.5 tag on github repository)
 
 deploy:
+* Bump Deploy task version to 2.8
 * Fix #394: Check file parts source/mirror url to guaranty it ends with a slash
   and trigger an error if it doesn't look like a valid URL.
 
 collect:
+* Bump Collect task version to 2.6
 * WMI properties can now be a list of properties with comma or space as separator
 
 2.4.3 Fri, 22 Feb 2019
