@@ -59,7 +59,7 @@ sub run {
         tag      => $tag
     );
 
-    $self->{logger}->info("New inventory from $self->{deviceid} for $self->{target}->{id}".
+    $self->{logger}->info("New inventory from ".$inventory->getDeviceId()." for $self->{target}->{id}".
         ( (defined($tag) && length($tag)) ? " (tag=$tag)" : "" ));
 
     # Set inventory as remote if running remote inventory like from wmi task

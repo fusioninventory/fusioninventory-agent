@@ -1,5 +1,13 @@
 Revision history for FusionInventory agent
 
+2.5.1 not relased yet
+
+core:
+* build: fix fusioninventory-remoteinventory was not installed
+
+inventory:
+* fix error message while starting fusioninventory-inventory script
+
 2.5 Fri, 12 Apr 2019
 
 core:
