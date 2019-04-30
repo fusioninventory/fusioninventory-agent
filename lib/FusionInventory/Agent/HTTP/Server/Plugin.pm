@@ -23,6 +23,10 @@ sub new {
 
     bless $self, $class;
 
+    # Import _confdir from agent configuration
+    $self->{_confdir} = $self->{server}->{agent}->{config}->{_confdir}
+        if $self->{server};
+
     # Check _confdir imported from FusionInventory::Agent::Config
     unless ($self->{_confdir} && -d $self->{_confdir}) {
         # Set absolute confdir from default if replaced by Makefile otherwise search
