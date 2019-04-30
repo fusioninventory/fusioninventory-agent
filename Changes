@@ -5,6 +5,7 @@ Revision history for FusionInventory agent
 core:
 * build: fix fusioninventory-remoteinventory was not installed
 * fix HTTP server plugins base configuration folder
+* fix HTTP server plugins installation from Makefile
 
 inventory:
 * fix error message while starting fusioninventory-inventory script

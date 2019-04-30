@@ -246,10 +246,10 @@ config_install : pure_install
 	do \
 	  if $(TEST_F) $(DESTDIR)/$(SYSCONFDIR)/$$config; then \
 	    $(RM_F) $(DESTDIR)$(SYSCONFDIR)/$$config.new; \
-	    $(CP) etc/agent.cfg $(DESTDIR)$(SYSCONFDIR)/$$config.new; \
+	    $(CP) etc/$$config $(DESTDIR)$(SYSCONFDIR)/$$config.new; \
 	    $(CHMOD) $(PERM_RW) $(DESTDIR)$(SYSCONFDIR)/$$config.new; \
 	  else \
-	    $(CP) etc/agent.cfg $(DESTDIR)$(SYSCONFDIR)/$$config; \
+	    $(CP) etc/$$config $(DESTDIR)$(SYSCONFDIR)/$$config; \
 	    $(CHMOD) $(PERM_RW) $(DESTDIR)$(SYSCONFDIR)/$$config; \
 	  fi; \
 	done
