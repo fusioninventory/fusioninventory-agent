@@ -380,6 +380,12 @@ my %edid_tests = (
         ALTSERIAL    => '00052af4',
         DESCRIPTION  => '11/2007'
     },
+    'lcd.lg.tv.22MT44DP-PZ' => {
+        MANUFACTURER => 'Goldstar Company Ltd',
+        CAPTION      => '2D FHD LG TV',
+        SERIAL       => '01010101',
+        DESCRIPTION  => '1/2013'
+    },
     'lcd.lenovo-3000-v100' => {
         MANUFACTURER => 'AU Optronics',
         CAPTION      => 'AUO B121EW03 V2',

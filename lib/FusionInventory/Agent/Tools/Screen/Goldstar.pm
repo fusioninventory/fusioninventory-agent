@@ -35,9 +35,13 @@ sub _altserial {
     # split serial in two parts
     my ($high, $low) = $serial1 =~ /(\d+) (\d\d\d)$/x;
 
+    return 0 unless defined($high) && defined($low);
+
     # translate the first part using a custom alphabet
     my @alphabet = split(//, "0123456789ABCDEFGHJKLMNPQRSTUVWXYZ");
     my $base     = scalar @alphabet;
+
+    return 0 if $high/$base > $#alphabet;
 
     return $alphabet[$high / $base] . $alphabet[$high % $base] . $low;
 }
