@@ -11,6 +11,9 @@ inventory:
 * fix error message while starting fusioninventory-inventory script
 * fix #667: LG tv monitor inventory failure
 
+netdiscovery/netinventory:
+* add Hygon Dhyana Support
+
 2.5 Fri, 12 Apr 2019
 
 core:
