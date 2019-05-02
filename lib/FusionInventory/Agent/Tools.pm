@@ -117,7 +117,8 @@ sub getCanonicalManufacturer {
         TMx86        => 'Transmeta',
         TransmetaCPU => 'Transmeta',
         CyrixInstead => 'Cyrix',
-        CentaurHauls => 'VIA'
+        CentaurHauls => 'VIA',
+        HygonGenuine => 'Hygon'
     );
 
     if (exists $manufacturers{$manufacturer}) {
