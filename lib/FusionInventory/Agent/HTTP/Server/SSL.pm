@@ -139,6 +139,9 @@ sub new {
         return;
     }
 
+    # Disable Timeout to leave SSL session opened until we get data
+    $client->timeout(0);
+
     $plugin->debug("HTTPD started new SSL session");
 
     bless $client, $class;
