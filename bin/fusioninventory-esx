@@ -131,6 +131,9 @@ sub inventory_from_dump {
     do $options->{dumpfile}
         or die "Can't load $options->{dumpfile}: $!\n";
 
+    die "Can't load host full infos from $options->{dumpfile}\n"
+        unless $host;
+
     $esx->{vpbs} = FusionInventory::Agent::Task::ESX::Dump->new($host);
 
     write_inventory(undef, $file);
