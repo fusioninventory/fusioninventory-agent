@@ -15,6 +15,11 @@ inventory:
 netdiscovery/netinventory:
 * add Hygon Dhyana Support
 
+esx:
+* Support EnclosureSerialNumberTag and SerialNumberTag values as availables since
+  VMware ESXi 6.5, Patch Release ESXi650-201811002 (build-10884925) and in latest
+  VMware ESXi 6.7.
+
 2.5 Fri, 12 Apr 2019
 
 core:

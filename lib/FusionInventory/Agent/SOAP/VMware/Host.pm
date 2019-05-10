@@ -66,12 +66,26 @@ sub getBiosInfo {
                 # In the case we found more than one ServiceTag, assume there will be
                 # only two, the first being the chassis S/N, the second the system S/N
                 # This cover the case where the second is the lame board S/N
+                # This works for ESXi 6.0 but no more for ESXi 6.5. In ESXi 6.5
+                # before build-10884925, ServiceTag contains chassis/enclosure S/N
+                # for at least Dell PowerEdge M6XX series. Since build-10884925,
+                # ServiceTag contains system S/N and appears before EnclosureSerialNumberTag
+                # and SerialNumberTag values.
                 if ($bios->{SSN}) {
                     $bios->{MSN} = $bios->{SSN};
                 }
                 $bios->{SSN} = $_->{identifierValue};
+
             } elsif ($_->{identifierType}->{key} eq 'AssetTag') {
                 $bios->{ASSETTAG} = $_->{identifierValue};
+
+            # Since VMware ESXi 6.5, Patch Release ESXi650-201811002 (build-10884925),
+            # enclosure and system serial numbers are availables
+            } elsif ($_->{identifierType}->{key} eq 'EnclosureSerialNumberTag') {
+                $bios->{MSN} = $_->{identifierValue};
+
+            } elsif ($_->{identifierType}->{key} eq 'SerialNumberTag') {
+                $bios->{SSN} = $_->{identifierValue};
             }
         }
     }
