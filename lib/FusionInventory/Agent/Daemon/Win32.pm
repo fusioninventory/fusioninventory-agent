@@ -384,7 +384,7 @@ sub runTask {
             my $thread = delete $self->{task_thread};
             undef $thread;
         }
-        usleep( SERVICE_USLEEP_TIME );
+        $self->sleep(1);
     }
 }
 
