@@ -787,6 +787,9 @@ sub _isVirtual {
 
     # PhysicalAdapter only work on OS > XP
     if (defined $object->{PhysicalAdapter}) {
+        # Some virtual network adapters like VirtualBox or VPN ones could be set
+        # as physical but with PNPDeviceID starting by ROOT
+        return 1 if (defined($object->{PNPDeviceID}) && $object->{PNPDeviceID} =~ /^ROOT/);
         return $object->{PhysicalAdapter} ? 0 : 1;
     }
 

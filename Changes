@@ -12,6 +12,7 @@ core:
 inventory:
 * fix error message while starting fusioninventory-inventory script
 * fix #667: LG tv monitor inventory failure
+* win32: VirtualBox or VPN network adapters are now set as virtual
 
 netdiscovery/netinventory:
 * add Hygon Dhyana Support
