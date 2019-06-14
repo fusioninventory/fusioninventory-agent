@@ -462,6 +462,13 @@ my %edid_tests = (
         ALTSERIAL    => 'H4MF200047',
         DESCRIPTION  => '6/2014'
     },
+    'lcd.samsung-s24e450' => {
+        MANUFACTURER => 'Samsung Electric Company',
+        CAPTION      => 'S24E450',
+        SERIAL       => 'ZZHAH4ZKA00739',
+        ALTSERIAL    => 'H4ZKA00739',
+        DESCRIPTION  => '42/2018'
+    },
     'lcd.tv.VQ32-1T' => {
         MANUFACTURER => 'Fujitsu Siemens Computers GmbH',
         CAPTION      => 'VQ32-1T',

@@ -6,7 +6,7 @@ use warnings;
 use parent 'FusionInventory::Agent::Tools::Screen';
 
 # Well-known eisa_id for which wee need to revert serial and altserial
-my $eisa_id_match = qr/09c6$/ ;
+my $eisa_id_match = qr/09c6|0ca5$/ ;
 
 sub serial {
     my ($self) = @_;
