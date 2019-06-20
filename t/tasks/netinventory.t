@@ -110,7 +110,7 @@ my %responses = (
         cmp     => {
             jobs    => 2,
             devices => [ 1, 1 ],
-            lastlog => qr/cleaning 1 worker threads/
+            lastlog => qr/All netinventory threads terminated/
         },
         PROLOG  =>
 '<?xml version="1.0" encoding="UTF-8"?>
@@ -260,7 +260,7 @@ my %responses = (
         cmp     => {
             jobs    => 1,
             devices => [ 1 ],
-            lastlog => qr/cleaning 1 worker threads/
+            lastlog => qr/All netinventory threads terminated/
         },
         PROLOG  =>
 '<?xml version="1.0" encoding="UTF-8"?>
@@ -340,7 +340,7 @@ my %responses = (
         cmp     => {
             jobs    => 2,
             devices => [ 2, 1 ],
-            lastlog => qr/cleaning 1 worker threads/
+            lastlog => qr/All netinventory threads terminated/
         },
         PROLOG  =>
 '<?xml version="1.0" encoding="UTF-8"?>
@@ -438,7 +438,7 @@ my %responses = (
         cmp     => {
             jobs    => 1,
             devices => [ 1 ],
-            lastlog => qr/cleaning 1 worker threads/
+            lastlog => qr/All netinventory threads terminated/
         },
         PROLOG  =>
 '<?xml version="1.0" encoding="UTF-8"?>
@@ -503,6 +503,18 @@ $client_module->mock('send', sub {
         my $sent = $params{message}->getContent();
         my $message = shift @{$response}
             or die "\nUnexpected $query sent message:\n$sent\n";
+
+        # Dirty hack: the test was working as messages was ordered thanks to not
+        # working multi-threading algorithm. So try to compare message while they
+        # have the same length
+        my $max = @{$response};
+        my @others = ();
+        while ($max-- && length($sent) != length($message)) {
+            push @others, $message;
+            $message = shift @{$response};
+        }
+        unshift @{$response}, @others if @others;
+
         cmp_deeply($sent, $message, "Sent $query message");
     }
 

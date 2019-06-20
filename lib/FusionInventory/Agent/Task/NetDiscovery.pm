@@ -279,7 +279,7 @@ sub run {
             # Reset expiration
             setExpirationTime();
 
-            # purge remaning results
+            # purge remaining results
             while (my $result = $results->dequeue_nb()) {
                 $result->{ENTITY} = $range->{ENTITY}
                     if defined($range->{ENTITY});
