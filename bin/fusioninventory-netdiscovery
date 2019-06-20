@@ -15,7 +15,7 @@ use FusionInventory::Agent::Task::NetDiscovery::Job;
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Version;
 
-my $options = {
+our $options = {
     debug   => 0,
     threads => 1
 };
@@ -34,6 +34,8 @@ GetOptions(
     'control',
     'debug+',
     'help',
+    'inventory|i',
+    'save|s=s',
     'version'
 ) or pod2usage(-verbose => 0);
 
@@ -54,6 +56,9 @@ pod2usage(
 pod2usage(
     -message => "no last address, aborting\n", -verbose => 0
 ) unless $options->{last};
+pod2usage(
+    -message => "\nsave folder must exist, aborting\n", -verbose => 0
+) if ($options->{save} && ! -d $options->{save});
 
 my $discovery = FusionInventory::Agent::Task::NetDiscovery->new(
     %setup,
@@ -106,32 +111,120 @@ $discovery->{jobs} = [
 if (defined($options->{entity})) {
     $discovery->{jobs}->[0]->{ranges}->[0]->{ENTITY} = $options->{entity};
 }
-$discovery->{client} =
-    FusionInventory::Agent::Task::NetInventory::Client->new(
-        control => $options->{control}
-    );
+$discovery->{client} = FusionInventory::Agent::Task::NetInventory::Client->new();
+
+if ($options->{save} && $options->{debug}) {
+    print STDERR
+        "netdiscovery XMLs will be saved in: $options->{save}/netdiscovery\n";
+    print STDERR
+        "netinventory XMLs will be saved in: $options->{save}/netinventory\n"
+        if $options->{inventory};
+    print STDERR "====\n";
+}
 
 $discovery->run();
 
 ## no critic (ProhibitMultiplePackages)
 package FusionInventory::Agent::Task::NetInventory::Client;
 
+use English qw(-no_match_vars);
+use UNIVERSAL::require;
+
 sub new {
     my ($class, %params) = @_;
 
-    return bless {
-        control => $params{control}
-    }, $class;
+    return bless {}, $class;
 }
 
 sub send {
     my ($self, %params) = @_;
 
-    # don't display control message by default
-    return unless $self->{control}
-        or $params{message}->{h}->{CONTENT}->{DEVICE};
+    # Get options from main program
+    my $options = $main::options;
+    my $devices = $params{message}->{h}->{CONTENT}->{DEVICE};
+    my $device  = ref($devices) eq 'ARRAY' ? $devices->[0] : undef;
 
-    print $params{message}->getContent();
+    # don't display control message by default
+    return unless ($options->{control} || $device);
+
+    my $ip  = $device ? $device->{IP} : undef;
+    my $xml = $params{message}->getContent();
+
+    if ($options->{save} && $device) {
+        die "No ip given with device\n" unless $ip;
+        print STDERR "Saving $ip discovery infos as XML...\n";
+        _writeXml($options->{save} . "/netdiscovery", "$ip.xml", $xml);
+    } else {
+        print $xml;
+    }
+
+    # Handle inventory option if we got an snmp answer
+    if ($options->{inventory} && $device) {
+        die "No ip given with device\n" unless $ip;
+        if ($device && $device->{AUTHSNMP} && $device->{TYPE}) {
+            # Found netinventory script from our name
+            my $netinventory = $0;
+            die "Can't find netinventory script from '$0' !\nPlease call netdiscovery script\n"
+                unless $0 =~ /netdiscovery$/;
+            $netinventory =~ s/netdiscovery$/netinventory/;
+            die "Can't run netinventory script: $!\n"
+                unless -x $netinventory;
+
+            # Prepare netinventory command to launch
+            my $command = "$netinventory --host=$ip";
+            $command .= " --community=$self->{community}" if $options->{community};
+            $command .= " --credentials=$self->{credentials}" if $options->{credentials};
+            $command .= " --timeout=$options->{timeout}" if $options->{timeout};
+            $command .= " --protocol=$self->{protocol}" if $options->{protocol};
+            $command .= " --port=$options->{port}" if $options->{port};
+            $command .= " --debug" if $options->{debug};
+            $command .= " --debug" if $options->{debug} > 1;
+
+            print STDERR "Running inventory on $ip...\n";
+            print STDERR "Running command: $command\n" if $options->{debug} > 1;
+            # Launch the command and analyse the output as XML to handle errors
+            my $xml = qx/$command/;
+            my ($data, $content);
+            eval {
+                XML::TreePP->require();
+                $data = XML::TreePP->new()->parse($xml);
+                $content = $data->{REQUEST}->{CONTENT};
+            };
+            if ($EVAL_ERROR || !$content) {
+                die "Failed to parse XML output:\n$xml\n";
+                return;
+            }
+            if ($content->{DEVICE}->{ERROR}) {
+                my $message = $content->{DEVICE}->{ERROR}->{MESSAGE};
+                print STDERR "Inventory failed on $message\n";
+                print STDERR "Check your credentials\n" if $message =~ /timeout/;
+            } elsif ($options->{save}) {
+                print STDERR "Saving $ip inventory infos as XML...\n";
+                _writeXml($options->{save} . "/netinventory", "$ip.xml", $xml);
+            }
+
+        } elsif ($device && $device->{AUTHSNMP}) {
+            print STDERR "Skipping inventory for $ip on not recognized device type\n";
+        } else {
+            print STDERR "Skipping inventory for $ip on no SNMP response\n";
+        }
+    }
+    print STDERR "----\n" if $options->{debug};
+}
+
+sub _writeXml {
+    my ($folder, $file, $xml) = @_;
+
+    mkdir $folder unless -d $folder;
+
+    die "Can't create $folder directory: $!\n" unless -d $folder;
+
+    if (open(XML,">", $folder.'/'.$file)) {
+        print XML $xml;
+        close(XML);
+    } else {
+        die "Failed to write '$folder/$file': $!\n";
+    }
 }
 
 package FusionInventory::Agent::Task::NetInventory::Target;
@@ -170,6 +263,10 @@ fusioninventory-netdiscovery [options] --first <address> --last <address>
     --entity <ENTITY>      GLPI entity
     --threads <COUNT>      number of discovery threads (1)
     --control              output control messages
+    -i --inventory         chain with netinventory task for discovered devices
+    -s --save <FOLDER>     base folder where to save discovery and inventory xmls
+                            - netdiscovery xmls will go in <FOLDER>/netdiscovery
+                            - netinventory xmls will go in <FOLDER>/netinventory
     --debug                debug output
     -h --help              print this message and exit
     --version              print the task version and exit
