@@ -20,9 +20,9 @@ if ($OSNAME eq 'MSWin32') {
 }
 
 # exclude linked modules
-my @files = grep { filter($_) } all_pm_files('lib');
+my @files = grep { filter($_) } Test::Compile::all_pm_files('lib');
 
-all_pm_files_ok(@files);
+Test::Compile::all_pm_files_ok(@files);
 
 # filename-based filter
 sub filter {
