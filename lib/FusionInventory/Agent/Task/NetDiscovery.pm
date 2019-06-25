@@ -125,6 +125,8 @@ sub _discovery_thread {
         $count ++;
     }
 
+    delete $self->{logger}->{prefix};
+
     $self->{logger}->debug2("[thread $id] processed $count scans");
     $self->{logger}->debug("[thread $id] termination");
 }

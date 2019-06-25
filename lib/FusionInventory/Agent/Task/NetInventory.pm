@@ -125,6 +125,8 @@ sub _inventory_thread {
         $results->enqueue($result) if $result;
     }
 
+    delete $self->{logger}->{prefix};
+
     $self->{logger}->debug("[thread $id] termination");
 }
 
@@ -222,6 +224,9 @@ sub run {
     }
 
     my $queued_count = 0;
+    my $job_count = 0;
+    my $jid_len = length(sprintf("%i",$devices_count));
+    my $jid_pattern = "#%0".$jid_len."i";
 
     # We need to guaranty we don't have more than max_in_queue device in shared
     # queue for each job
@@ -234,6 +239,7 @@ sub run {
             next if $queue->{in_queue} >= $queue->{max_in_queue};
             my $device = shift @{$queue->{todo}};
             $queue->{in_queue} ++;
+            $device->{jid} = sprintf($jid_pattern, ++$job_count);
             $jobs->enqueue($device);
             $queued_count++;
         }
@@ -377,8 +383,9 @@ sub _queryDevice {
     my $device      = $params->{device};
     my $logger      = $self->{logger};
     my $id          = threads->tid();
+    $logger->{prefix} = "[thread $id] $params->{jid}, ";
     $logger->debug(
-        "[thread $id] scanning $device->{ID}: $device->{IP}" .
+        "scanning $device->{ID}: $device->{IP}" .
         ( $device->{PORT} ? ' on port ' . $device->{PORT} : '' ) .
         ( $device->{PROTOCOL} ? ' via ' . $device->{PROTOCOL} : '' )
     );
