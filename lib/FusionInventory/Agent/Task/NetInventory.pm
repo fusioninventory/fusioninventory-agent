@@ -19,6 +19,7 @@ use FusionInventory::Agent::Tools::Network;
 use FusionInventory::Agent::Tools::Expiration;
 
 use FusionInventory::Agent::Task::NetInventory::Version;
+use FusionInventory::Agent::Task::NetInventory::Job;
 
 our $VERSION = FusionInventory::Agent::Task::NetInventory::Version::VERSION;
 
@@ -61,11 +62,14 @@ sub isEnabled {
             next;
         }
 
-        push @jobs, {
-            params      => $option->{PARAM}->[0],
+        my $params = $option->{PARAM}->[0];
+
+        push @jobs, FusionInventory::Agent::Task::NetInventory::Job->new(
+            logger      => $self->{logger},
+            params      => $params,
             credentials => $option->{AUTHENTICATION},
             devices     => \@devices
-        };
+        );
     }
 
     if (!@jobs) {
@@ -139,8 +143,8 @@ sub run {
         no_compress  => $params{no_compress},
     ) if !$self->{client};
 
-    # Extract greatest THREADS_QUERY from jobs
-    my ($max_threads) = sort { $b <=> $a } map { $_->{params}->{THREADS_QUERY} }
+    # Extract greatest max_threads from jobs
+    my ($max_threads) = sort { $b <=> $a } map { int($_->max_threads()) }
         @{$self->{jobs}};
 
     my %running_threads = ();
@@ -153,9 +157,9 @@ sub run {
     my $devices_count   = 0;
     my $skip_start_stop = 0;
     foreach my $job (@{$self->{jobs}}) {
-        $devices_count += scalar(@{$job->{devices}});
+        $devices_count += $job->count();
         # newer server won't need START message if PID is provided on <DEVICE/>
-        $skip_start_stop = any { defined($_->{PID}) } @{$job->{devices}}
+        $skip_start_stop = any { defined($_->{PID}) } $job->devices()
             unless $skip_start_stop;
     }
 
@@ -189,28 +193,32 @@ sub run {
     foreach my $job (@{$self->{jobs}}) {
 
         # SNMP credentials
-        my $credentials = _getIndexedCredentials($job->{credentials});
+        my $credentials = $job->credentials();
 
         # set pid
-        my $pid = $job->{params}->{PID} || $pid_index++;
+        my $pid = $job->pid() || $pid_index++;
 
         # send initial message to server unless it supports newer protocol
         $self->_sendStartMessage($pid) unless $skip_start_stop;
 
         # prepare queue
-        $queues{$pid} = {
-            max_in_queue    => $job->{params}->{THREADS_QUERY},
+        my $queue = $queues{$pid} || {
+            max_in_queue    => $job->max_threads(),
             in_queue        => 0,
             todo            => []
         };
-        foreach my $device (@{$job->{devices}}) {
-            push @{$queues{$pid}->{todo}}, {
+        foreach my $device ($job->devices()) {
+            push @{$queue->{todo}}, {
                 pid         => $pid,
                 device      => $device,
-                timeout     => $job->{params}->{TIMEOUT},
+                timeout     => $job->timeout(),
                 credentials => $credentials->{$device->{AUTHSNMP_ID}}
             };
         }
+
+        # Only keep queue if we have a device to scan
+        $queues{$pid} = $queue
+            if @{$queue->{todo}};
     }
 
     my $queued_count = 0;
@@ -418,13 +426,6 @@ sub _queryDevice {
     $result->{PID} = $device->{PID} if defined($device->{PID});
 
     return $result;
-}
-
-sub _getIndexedCredentials {
-    my ($credentials) = @_;
-
-    # index credentials by their ID
-    return { map { $_->{ID} => $_ } @{$credentials} };
 }
 
 1;

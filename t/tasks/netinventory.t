@@ -558,7 +558,7 @@ foreach my $case (keys(%responses)) {
         "$case: total jobs"
     );
 
-    my @devices = map { scalar @{$_->{devices}} } @{$task->{jobs}};
+    my @devices = map { $_->count() } @{$task->{jobs}};
     cmp_deeply(
         \@devices, $responses{$case}->{cmp}->{devices},
         "$case: devices by jobs"
