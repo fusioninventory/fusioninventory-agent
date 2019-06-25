@@ -11,6 +11,7 @@ use Getopt::Long;
 use Pod::Usage;
 
 use FusionInventory::Agent::Task::NetDiscovery;
+use FusionInventory::Agent::Task::NetDiscovery::Job;
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Version;
 
@@ -83,7 +84,8 @@ if ($options->{community}) {
 }
 
 $discovery->{jobs} = [
-    {
+    FusionInventory::Agent::Task::NetDiscovery::Job->new(
+        logger => $discovery->{logger},
         params => {
             PID               => 1,
             THREADS_DISCOVERY => $options->{threads},
@@ -99,7 +101,7 @@ $discovery->{jobs} = [
             }
         ],
         credentials => \@credentials
-    }
+    )
 ];
 if (defined($options->{entity})) {
     $discovery->{jobs}->[0]->{ranges}->[0]->{ENTITY} = $options->{entity};
