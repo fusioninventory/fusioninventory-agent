@@ -177,7 +177,7 @@ sub run {
         );
     }
 
-    # Extract greatest THREADS_QUERY from jobs
+    # Extract greatest max_threads from jobs
     my ($max_threads) = sort { $b <=> $a } map { int($_->max_threads()) }
         @{$self->{jobs}};
 
