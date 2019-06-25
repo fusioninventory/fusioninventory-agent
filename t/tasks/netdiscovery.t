@@ -65,16 +65,17 @@ plan tests => scalar keys %arp_test ;
 foreach my $arp_case (keys(%arp_test)) {
 
     my $self = {
+        arp    => "true",
         logger => $logger
     };
     bless $self, "FusionInventory::Agent::Task::NetDiscovery";
 
-    my %device = $self->_scanAddressByArp(
+    my %device = $self->_scanAddressByArp({
+        jid     => $arp_case,
         ip      => $arp_test{$arp_case}->{ip},
         logger  => $logger,
-        arp     => "true",
         file    => "resources/generic/arp/$arp_case"
-    );
+    });
 
     cmp_deeply(
         $arp_test{$arp_case}->{device}, \%device,
