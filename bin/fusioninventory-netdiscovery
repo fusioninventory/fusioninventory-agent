@@ -167,8 +167,14 @@ sub send {
             die "Can't find netinventory script from '$0' !\nPlease call netdiscovery script\n"
                 unless $0 =~ /netdiscovery$/;
             $netinventory =~ s/netdiscovery$/netinventory/;
-            die "Can't run netinventory script: $!\n"
-                unless -x $netinventory;
+            if ($OSNAME eq 'MSWin32') {
+                die "Can't run netinventory script without perl.exe: $!\n"
+                    unless -x "perl.exe";
+                $netinventory = "perl.exe $netinventory";
+            } else {
+                die "Can't run netinventory script: $!\n"
+                    unless -x $netinventory;
+            }
 
             # Prepare netinventory command to launch
             my $command = "$netinventory --host=$ip";
