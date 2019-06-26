@@ -9,6 +9,7 @@ use setup;
 use English qw(-no_match_vars) ;
 use Getopt::Long;
 use Pod::Usage;
+use UNIVERSAL::require;
 
 use FusionInventory::Agent::Task::ESX;
 use FusionInventory::Agent::Logger;
@@ -26,6 +27,8 @@ GetOptions(
     'tag=s',
     'help',
     'version',
+    'dump',
+    'dumpfile=s',
 ) or pod2usage(-verbose => 0);
 
 pod2usage(-verbose => 0, -exitstatus => 0) if $options->{help};
@@ -39,15 +42,23 @@ if ($options->{version}) {
     exit 0;
 }
 
+my $esx = FusionInventory::Agent::Task::ESX->new(
+    target => {},
+);
+
+inventory_from_dump($options->{dumpfile})
+    if ($options->{dumpfile});
+
 pod2usage(-verbose => 0) unless
     $options->{host}      and
     $options->{user}      and
     $options->{password}  and
     $options->{directory};
 
-my $esx = FusionInventory::Agent::Task::ESX->new(
-    target => {},
-);
+if ($options->{dump}) {
+    die "Data::Dumper perl module needed for --dump option. Please install it.\n"
+        unless Data::Dumper->require();
+}
 
 if (!$esx->connect(
     host     => $options->{host},
@@ -60,9 +71,33 @@ if (!$esx->connect(
 my $hasError = 0;
 my $hostIds = $esx->getHostIds();
 foreach my $hostId (@$hostIds) {
+
+    my $file = write_inventory($hostId);
+
+    next unless ($options->{dump});
+
+    my $host = $esx->{vpbs}->getHostFullInfo($hostId);
+    my $dumper = Data::Dumper->new([$host],["host"]);
+    $file =~ s/\.ocs$/-hostfullinfo.dump/;
+
+    if (open my $handle, '>', $file) {
+        print $handle $dumper->Dump();
+        close $handle;
+        print("ESX Host full info dump saved in $file\n");
+    } else {
+        $hasError = 1;
+        print("Can't write to $file: $ERRNO\n");
+    }
+}
+exit($hasError);
+
+sub write_inventory {
+    my ($hostId, $file) = @_;
+
     my $inventory = $esx->createInventory($hostId, $options->{tag});
 
-    my $file =  $options->{directory} . '/' . $inventory->getDeviceId() . ".ocs";
+    $file = $options->{directory} . '/' . $inventory->getDeviceId() . ".ocs"
+        unless $file;
 
     if (open my $handle, '>', $file) {
         my $tpp = XML::TreePP->new(indent => 2);
@@ -81,8 +116,43 @@ foreach my $hostId (@$hostIds) {
         print("Can't write to $file: $ERRNO\n");
     }
 
+    return $file;
 }
-exit($hasError);
+
+sub inventory_from_dump {
+    my ($file) = @_;
+    $file =~ s/\-hostfullinfo.dump$/.ocs/;
+
+    die "dumpfile must be a *-hostfullinfo.dump file\n"
+        if $file eq $options->{dumpfile};
+
+    our $host ;
+
+    do $options->{dumpfile}
+        or die "Can't load $options->{dumpfile}: $!\n";
+
+    die "Can't load host full infos from $options->{dumpfile}\n"
+        unless $host;
+
+    $esx->{vpbs} = FusionInventory::Agent::Task::ESX::Dump->new($host);
+
+    write_inventory(undef, $file);
+
+    exit 0;
+}
+
+package FusionInventory::Agent::Task::ESX::Dump;
+
+sub new {
+    my ($class, $fullinfo) = @_;
+    return bless { _fullinfo => $fullinfo }, $class;
+}
+
+sub getHostFullInfo {
+    my ($self) = @_;
+    return $self->{_fullinfo};
+}
+
 __END__
 
 =head1 NAME
@@ -100,6 +170,10 @@ fusioninventory-esx --host <host> --user <user> --password <password> --director
     --password xxxx        user password
     --directory directory  output directory
     --tag tag              tag for the inventoried machine
+
+  Advanced options:
+    --dump                 also dump esx host full info datas in a *-hostfullinfo.dump file
+    --dumpfile file        generate one inventory from a *-hostfullinfo.dump file
 
 =head1 EXAMPLES
 
