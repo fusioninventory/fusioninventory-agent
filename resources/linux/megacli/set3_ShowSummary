@@ -1,0 +1,69 @@
+
+                                     
+System
+	Operating System:  Linux version 4.9.0-9-amd64 
+	Driver Version: 07.700.00.00-rc1
+	CLI Version: 8.07.14
+
+Hardware
+        Controller
+                 ProductName       : PERC H730P Mini(Bus 0, Dev 0)
+                 SAS Address       : 51866da063a87400
+                 FW Package Version: 25.4.0.0017
+                 Status            : Optimal
+        BBU
+                 BBU Type          : BBU
+                 Status            : Healthy
+        Enclosure
+                 Product Id        : BP13G+          
+                 Type              : SES
+                 Status            : OK
+
+        PD 
+                Connector          : 00<Internal><Encl Pos 1 >: Slot 0 
+                Vendor Id          : SEAGATE 
+                Product Id         : ST300MP0005     
+                State              : Online
+                Disk Type          : SAS,Hard Disk Device
+                Capacity           : 278.875 GB
+                Power State        : Active
+
+                Connector          : 00<Internal><Encl Pos 1 >: Slot 1 
+                Vendor Id          : SEAGATE 
+                Product Id         : ST300MP0005     
+                State              : Online
+                Disk Type          : SAS,Hard Disk Device
+                Capacity           : 278.875 GB
+                Power State        : Active
+
+                Connector          : 00<Internal><Encl Pos 1 >: Slot 2 
+                Vendor Id          : SEAGATE 
+                Product Id         : ST300MP0005     
+                State              : Online
+                Disk Type          : SAS,Hard Disk Device
+                Capacity           : 278.875 GB
+                Power State        : Active
+
+                Connector          : 00<Internal><Encl Pos 1 >: Slot 3 
+                Vendor Id          : SEAGATE 
+                Product Id         : ST300MP0005     
+                State              : Online
+                Disk Type          : SAS,Hard Disk Device
+                Capacity           : 278.875 GB
+                Power State        : Active
+
+Storage
+
+       Virtual Drives
+                Virtual drive      : Target Id 0 ,VD name raid11
+                Size               : 278.875 GB
+                State              : Optimal
+                RAID Level         : 1 
+
+                Virtual drive      : Target Id 1 ,VD name raid12
+                Size               : 278.875 GB
+                State              : Optimal
+                RAID Level         : 1 
+
+
+Exit Code: 0x00

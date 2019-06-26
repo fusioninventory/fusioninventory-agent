@@ -1,0 +1,210 @@
+
+                                     
+Adapter #0
+
+Enclosure Device ID: 32
+Slot Number: 0
+Drive's position: DiskGroup: 0, Span: 0, Arm: 0
+Enclosure position: 1
+Device Id: 0
+WWN: 5000C5009709819C
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SAS
+
+Raw Size: 279.396 GB [0x22ecb25c Sectors]
+Non Coerced Size: 278.896 GB [0x22dcb25c Sectors]
+Coerced Size: 278.875 GB [0x22dc0000 Sectors]
+Sector Size:  512
+Logical Sector Size:  512
+Physical Sector Size:  512
+Firmware state: Online, Spun Up
+Device Firmware Level: VT31
+Shield Counter: 0
+Successful diagnostics completion on :  N/A
+SAS Address(0): 0x5000c5009709819d
+SAS Address(1): 0x0
+Connected Port Number: 2(path0) 
+Inquiry Data: SEAGATE ST300MP0005     VT31S7K13GAY            
+FDE Capable: Not Capable
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Needs EKM Attention: No
+Foreign State: None 
+Device Speed: 12.0Gb/s 
+Link Speed: 12.0Gb/s 
+Media Type: Hard Disk Device
+Drive Temperature :35C (95.00 F)
+PI Eligibility:  Yes 
+Number of bytes of user data in LBA: 512 
+Drive is formatted for PI information:  Yes 
+PI: PI with type 2
+Port-0 :
+Port status: Active
+Port's Linkspeed: 12.0Gb/s 
+Port-1 :
+Port status: Active
+Port's Linkspeed: 12.0Gb/s 
+Drive has flagged a S.M.A.R.T alert : No
+
+
+
+Enclosure Device ID: 32
+Slot Number: 1
+Drive's position: DiskGroup: 0, Span: 0, Arm: 1
+Enclosure position: 1
+Device Id: 1
+WWN: 5000C50097101848
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SAS
+
+Raw Size: 279.396 GB [0x22ecb25c Sectors]
+Non Coerced Size: 278.896 GB [0x22dcb25c Sectors]
+Coerced Size: 278.875 GB [0x22dc0000 Sectors]
+Sector Size:  512
+Logical Sector Size:  512
+Physical Sector Size:  512
+Firmware state: Online, Spun Up
+Device Firmware Level: VT31
+Shield Counter: 0
+Successful diagnostics completion on :  N/A
+SAS Address(0): 0x5000c50097101849
+SAS Address(1): 0x0
+Connected Port Number: 0(path0) 
+Inquiry Data: SEAGATE ST300MP0005     VT31S7K13G4A            
+FDE Capable: Not Capable
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Needs EKM Attention: No
+Foreign State: None 
+Device Speed: 12.0Gb/s 
+Link Speed: 12.0Gb/s 
+Media Type: Hard Disk Device
+Drive Temperature :34C (93.20 F)
+PI Eligibility:  Yes 
+Number of bytes of user data in LBA: 512 
+Drive is formatted for PI information:  Yes 
+PI: PI with type 2
+Port-0 :
+Port status: Active
+Port's Linkspeed: 12.0Gb/s 
+Port-1 :
+Port status: Active
+Port's Linkspeed: 12.0Gb/s 
+Drive has flagged a S.M.A.R.T alert : No
+
+
+
+Enclosure Device ID: 32
+Slot Number: 2
+Drive's position: DiskGroup: 1, Span: 0, Arm: 0
+Enclosure position: 1
+Device Id: 2
+WWN: 5000C50097177B70
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SAS
+
+Raw Size: 279.396 GB [0x22ecb25c Sectors]
+Non Coerced Size: 278.896 GB [0x22dcb25c Sectors]
+Coerced Size: 278.875 GB [0x22dc0000 Sectors]
+Sector Size:  512
+Logical Sector Size:  512
+Physical Sector Size:  512
+Firmware state: Online, Spun Up
+Device Firmware Level: VT31
+Shield Counter: 0
+Successful diagnostics completion on :  N/A
+SAS Address(0): 0x5000c50097177b71
+SAS Address(1): 0x0
+Connected Port Number: 3(path0) 
+Inquiry Data: SEAGATE ST300MP0005     VT31S7K13B54            
+FDE Capable: Not Capable
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Needs EKM Attention: No
+Foreign State: None 
+Device Speed: 12.0Gb/s 
+Link Speed: 12.0Gb/s 
+Media Type: Hard Disk Device
+Drive Temperature :34C (93.20 F)
+PI Eligibility:  Yes 
+Number of bytes of user data in LBA: 512 
+Drive is formatted for PI information:  Yes 
+PI: PI with type 2
+Port-0 :
+Port status: Active
+Port's Linkspeed: 12.0Gb/s 
+Port-1 :
+Port status: Active
+Port's Linkspeed: 12.0Gb/s 
+Drive has flagged a S.M.A.R.T alert : No
+
+
+
+Enclosure Device ID: 32
+Slot Number: 3
+Drive's position: DiskGroup: 1, Span: 0, Arm: 1
+Enclosure position: 1
+Device Id: 3
+WWN: 5000C50097176410
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SAS
+
+Raw Size: 279.396 GB [0x22ecb25c Sectors]
+Non Coerced Size: 278.896 GB [0x22dcb25c Sectors]
+Coerced Size: 278.875 GB [0x22dc0000 Sectors]
+Sector Size:  512
+Logical Sector Size:  512
+Physical Sector Size:  512
+Firmware state: Online, Spun Up
+Device Firmware Level: VT31
+Shield Counter: 0
+Successful diagnostics completion on :  N/A
+SAS Address(0): 0x5000c50097176411
+SAS Address(1): 0x0
+Connected Port Number: 1(path0) 
+Inquiry Data: SEAGATE ST300MP0005     VT31S7K13BDL            
+FDE Capable: Not Capable
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Needs EKM Attention: No
+Foreign State: None 
+Device Speed: 12.0Gb/s 
+Link Speed: 12.0Gb/s 
+Media Type: Hard Disk Device
+Drive Temperature :33C (91.40 F)
+PI Eligibility:  Yes 
+Number of bytes of user data in LBA: 512 
+Drive is formatted for PI information:  Yes 
+PI: PI with type 2
+Port-0 :
+Port status: Active
+Port's Linkspeed: 12.0Gb/s 
+Port-1 :
+Port status: Active
+Port's Linkspeed: 12.0Gb/s 
+Drive has flagged a S.M.A.R.T alert : No
+
+
+
+
+Exit Code: 0x00

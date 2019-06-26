@@ -14,6 +14,7 @@ inventory:
 * fix #667: LG tv monitor inventory failure
 * win32: VirtualBox or VPN network adapters are now set as virtual
 * added Samsung S24E450 monitor serial support
+* linux: fix megacli storage analysis
 
 netdiscovery/netinventory:
 * add Hygon Dhyana Support

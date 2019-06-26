@@ -523,6 +523,189 @@ my %pdlist_tests = (
             'Predictive Failure Count' => '0'
         }
     },
+    set3_PDlist => {
+        '1' => {
+            'Coerced Size' => '278.875 GB [0x22dc0000 Sectors]',
+            'Connected Port Number' => '2(path0)',
+            'Device Firmware Level' => 'VT31',
+            'Device Id' => '0',
+            'Device Speed' => '12.0Gb/s',
+            'Drive Temperature ' => '35C (95.00 F)',
+            'Drive has flagged a S.M.A.R.T alert ' => 'No',
+            'Drive is formatted for PI information' => 'Yes',
+            'Drive\'s position' => 'DiskGroup: 0, Span: 0, Arm: 0',
+            'Enclosure Device ID' => '32',
+            'Enclosure position' => '1',
+            'FDE Capable' => 'Not Capable',
+            'FDE Enable' => 'Disable',
+            'Firmware state' => 'Online, Spun Up',
+            'Foreign State' => 'None',
+            'Inquiry Data' => 'SEAGATE ST300MP0005     VT31S7K13GAY',
+            'Last Predictive Failure Event Seq Number' => '0',
+            'Link Speed' => '12.0Gb/s',
+            'Locked' => 'Unlocked',
+            'Logical Sector Size' => '512',
+            'Media Error Count' => '0',
+            'Media Type' => 'Hard Disk Device',
+            'Needs EKM Attention' => 'No',
+            'Non Coerced Size' => '278.896 GB [0x22dcb25c Sectors]',
+            'Number of bytes of user data in LBA' => '512',
+            'Other Error Count' => '0',
+            'PD Type' => 'SAS',
+            'PI' => 'PI with type 2',
+            'PI Eligibility' => 'Yes',
+            'Physical Sector Size' => '512',
+            'Port status' => 'Active',
+            'Port\'s Linkspeed' => '12.0Gb/s',
+            'Predictive Failure Count' => '0',
+            'Raw Size' => '279.396 GB [0x22ecb25c Sectors]',
+            'SAS Address(0)' => '0x5000c5009709819d',
+            'SAS Address(1)' => '0x0',
+            'Sector Size' => '512',
+            'Secured' => 'Unsecured',
+            'Sequence Number' => '2',
+            'Shield Counter' => '0',
+            'Slot Number' => '0',
+            'Successful diagnostics completion on ' => 'N/A',
+            'WWN' => '5000C5009709819C'
+        },
+        '2' => {
+            'Coerced Size' => '278.875 GB [0x22dc0000 Sectors]',
+            'Connected Port Number' => '0(path0)',
+            'Device Firmware Level' => 'VT31',
+            'Device Id' => '1',
+            'Device Speed' => '12.0Gb/s',
+            'Drive Temperature ' => '34C (93.20 F)',
+            'Drive has flagged a S.M.A.R.T alert ' => 'No',
+            'Drive is formatted for PI information' => 'Yes',
+            'Drive\'s position' => 'DiskGroup: 0, Span: 0, Arm: 1',
+            'Enclosure Device ID' => '32',
+            'Enclosure position' => '1',
+            'FDE Capable' => 'Not Capable',
+            'FDE Enable' => 'Disable',
+            'Firmware state' => 'Online, Spun Up',
+            'Foreign State' => 'None',
+            'Inquiry Data' => 'SEAGATE ST300MP0005     VT31S7K13G4A',
+            'Last Predictive Failure Event Seq Number' => '0',
+            'Link Speed' => '12.0Gb/s',
+            'Locked' => 'Unlocked',
+            'Logical Sector Size' => '512',
+            'Media Error Count' => '0',
+            'Media Type' => 'Hard Disk Device',
+            'Needs EKM Attention' => 'No',
+            'Non Coerced Size' => '278.896 GB [0x22dcb25c Sectors]',
+            'Number of bytes of user data in LBA' => '512',
+            'Other Error Count' => '0',
+            'PD Type' => 'SAS',
+            'PI' => 'PI with type 2',
+            'PI Eligibility' => 'Yes',
+            'Physical Sector Size' => '512',
+            'Port status' => 'Active',
+            'Port\'s Linkspeed' => '12.0Gb/s',
+            'Predictive Failure Count' => '0',
+            'Raw Size' => '279.396 GB [0x22ecb25c Sectors]',
+            'SAS Address(0)' => '0x5000c50097101849',
+            'SAS Address(1)' => '0x0',
+            'Sector Size' => '512',
+            'Secured' => 'Unsecured',
+            'Sequence Number' => '2',
+            'Shield Counter' => '0',
+            'Slot Number' => '1',
+            'Successful diagnostics completion on ' => 'N/A',
+            'WWN' => '5000C50097101848'
+        },
+        '3' => {
+            'Coerced Size' => '278.875 GB [0x22dc0000 Sectors]',
+            'Connected Port Number' => '3(path0)',
+            'Device Firmware Level' => 'VT31',
+            'Device Id' => '2',
+            'Device Speed' => '12.0Gb/s',
+            'Drive Temperature ' => '34C (93.20 F)',
+            'Drive has flagged a S.M.A.R.T alert ' => 'No',
+            'Drive is formatted for PI information' => 'Yes',
+            'Drive\'s position' => 'DiskGroup: 1, Span: 0, Arm: 0',
+            'Enclosure Device ID' => '32',
+            'Enclosure position' => '1',
+            'FDE Capable' => 'Not Capable',
+            'FDE Enable' => 'Disable',
+            'Firmware state' => 'Online, Spun Up',
+            'Foreign State' => 'None',
+            'Inquiry Data' => 'SEAGATE ST300MP0005     VT31S7K13B54',
+            'Last Predictive Failure Event Seq Number' => '0',
+            'Link Speed' => '12.0Gb/s',
+            'Locked' => 'Unlocked',
+            'Logical Sector Size' => '512',
+            'Media Error Count' => '0',
+            'Media Type' => 'Hard Disk Device',
+            'Needs EKM Attention' => 'No',
+            'Non Coerced Size' => '278.896 GB [0x22dcb25c Sectors]',
+            'Number of bytes of user data in LBA' => '512',
+            'Other Error Count' => '0',
+            'PD Type' => 'SAS',
+            'PI' => 'PI with type 2',
+            'PI Eligibility' => 'Yes',
+            'Physical Sector Size' => '512',
+            'Port status' => 'Active',
+            'Port\'s Linkspeed' => '12.0Gb/s',
+            'Predictive Failure Count' => '0',
+            'Raw Size' => '279.396 GB [0x22ecb25c Sectors]',
+            'SAS Address(0)' => '0x5000c50097177b71',
+            'SAS Address(1)' => '0x0',
+            'Sector Size' => '512',
+            'Secured' => 'Unsecured',
+            'Sequence Number' => '2',
+            'Shield Counter' => '0',
+            'Slot Number' => '2',
+            'Successful diagnostics completion on ' => 'N/A',
+            'WWN' => '5000C50097177B70'
+        },
+        '4' => {
+            'Coerced Size' => '278.875 GB [0x22dc0000 Sectors]',
+            'Connected Port Number' => '1(path0)',
+            'Device Firmware Level' => 'VT31',
+            'Device Id' => '3',
+            'Device Speed' => '12.0Gb/s',
+            'Drive Temperature ' => '33C (91.40 F)',
+            'Drive has flagged a S.M.A.R.T alert ' => 'No',
+            'Drive is formatted for PI information' => 'Yes',
+            'Drive\'s position' => 'DiskGroup: 1, Span: 0, Arm: 1',
+            'Enclosure Device ID' => '32',
+            'Enclosure position' => '1',
+            'Exit Code' => '0x00',
+            'FDE Capable' => 'Not Capable',
+            'FDE Enable' => 'Disable',
+            'Firmware state' => 'Online, Spun Up',
+            'Foreign State' => 'None',
+            'Inquiry Data' => 'SEAGATE ST300MP0005     VT31S7K13BDL',
+            'Last Predictive Failure Event Seq Number' => '0',
+            'Link Speed' => '12.0Gb/s',
+            'Locked' => 'Unlocked',
+            'Logical Sector Size' => '512',
+            'Media Error Count' => '0',
+            'Media Type' => 'Hard Disk Device',
+            'Needs EKM Attention' => 'No',
+            'Non Coerced Size' => '278.896 GB [0x22dcb25c Sectors]',
+            'Number of bytes of user data in LBA' => '512',
+            'Other Error Count' => '0',
+            'PD Type' => 'SAS',
+            'PI' => 'PI with type 2',
+            'PI Eligibility' => 'Yes',
+            'Physical Sector Size' => '512',
+            'Port status' => 'Active',
+            'Port\'s Linkspeed' => '12.0Gb/s',
+            'Predictive Failure Count' => '0',
+            'Raw Size' => '279.396 GB [0x22ecb25c Sectors]',
+            'SAS Address(0)' => '0x5000c50097176411',
+            'SAS Address(1)' => '0x0',
+            'Sector Size' => '512',
+            'Secured' => 'Unsecured',
+            'Sequence Number' => '2',
+            'Shield Counter' => '0',
+            'Slot Number' => '3',
+            'Successful diagnostics completion on ' => 'N/A',
+            'WWN' => '5000C50097176410'
+        }
+    },
 );
 
 my %summary_tests = (
@@ -662,6 +845,52 @@ my %summary_tests = (
             'Product Id' => 'HUC101212CSS600'
         }
     },
+    set3_ShowSummary => {
+        '0' => {
+            'Capacity' => '278.875 GB',
+            'Disk Type' => 'SAS,Hard Disk Device',
+            'Power State' => 'Active',
+            'Product Id' => 'ST300MP0005',
+            'State' => 'Online',
+            'Vendor Id' => 'SEAGATE',
+            'encl_id' => 0,
+            'encl_pos' => '1',
+            'slot' => '0'
+        },
+        '1' => {
+            'Capacity' => '278.875 GB',
+            'Disk Type' => 'SAS,Hard Disk Device',
+            'Power State' => 'Active',
+            'Product Id' => 'ST300MP0005',
+            'State' => 'Online',
+            'Vendor Id' => 'SEAGATE',
+            'encl_id' => 0,
+            'encl_pos' => '1',
+            'slot' => '1'
+        },
+        '2' => {
+            'Capacity' => '278.875 GB',
+            'Disk Type' => 'SAS,Hard Disk Device',
+            'Power State' => 'Active',
+            'Product Id' => 'ST300MP0005',
+            'State' => 'Online',
+            'Vendor Id' => 'SEAGATE',
+            'encl_id' => 0,
+            'encl_pos' => '1',
+            'slot' => '2'
+        },
+        '3' => {
+            'Capacity' => '278.875 GB',
+            'Disk Type' => 'SAS,Hard Disk Device',
+            'Power State' => 'Active',
+            'Product Id' => 'ST300MP0005',
+            'State' => 'Online',
+            'Vendor Id' => 'SEAGATE',
+            'encl_id' => 0,
+            'encl_pos' => '1',
+            'slot' => '3'
+        }
+    },
 );
 
 my %enclosure_tests = (
@@ -671,12 +900,185 @@ my %enclosure_tests = (
     set2_EncInfo => {
         0 => 32,
     },
+    set3_EncInfo => {
+        0 => 32,
+    },
+);
+
+my %storage_tests = (
+    'set1' => {
+        '1' => {
+            'DESCRIPTION' => 'SATA',
+            'DISKSIZE' => '223570',
+            'FIRMWARE' => '400i',
+            'MANUFACTURER' => 'INTEL',
+            'MODEL' => 'SSDSC2CW240A3',
+            'NAME' => 'SSDSC2CW240A3',
+            'SERIALNUMBER' => 'CVCV31700005240FGN',
+            'TYPE' => 'disk'
+        },
+        '2' => {
+            'DESCRIPTION' => 'SATA',
+            'DISKSIZE' => '223570',
+            'FIRMWARE' => '400i',
+            'MANUFACTURER' => 'INTEL',
+            'MODEL' => 'SSDSC2CW240A3',
+            'NAME' => 'SSDSC2CW240A3',
+            'SERIALNUMBER' => 'CVCV3165014E240FGN',
+            'TYPE' => 'disk'
+        }
+    },
+    'set2' => {
+        '1' => {
+            'DESCRIPTION' => 'SAS',
+            'DISKSIZE' => 1090000,
+            'FIRMWARE' => 'U5E0',
+            'MANUFACTURER' => 'Hitachi',
+            'MODEL' => 'HUC101212CSS600',
+            'NAME' => 'HUC101212CSS600',
+            'SERIALNUMBER' => 'KZGLE2EE',
+            'TYPE' => 'disk'
+        },
+        '2' => {
+            'DESCRIPTION' => 'SAS',
+            'DISKSIZE' => 1090000,
+            'FIRMWARE' => 'U5E0',
+            'MANUFACTURER' => 'Hitachi',
+            'MODEL' => 'HUC101212CSS600',
+            'NAME' => 'HUC101212CSS600',
+            'SERIALNUMBER' => 'KZGMA50E',
+            'TYPE' => 'disk'
+        },
+        '3' => {
+            'DESCRIPTION' => 'SAS',
+            'DISKSIZE' => 1090000,
+            'FIRMWARE' => 'U5E0',
+            'MANUFACTURER' => 'Hitachi',
+            'MODEL' => 'HUC101212CSS600',
+            'NAME' => 'HUC101212CSS600',
+            'SERIALNUMBER' => 'KZGL949E',
+            'TYPE' => 'disk'
+        },
+        '4' => {
+            'DESCRIPTION' => 'SAS',
+            'DISKSIZE' => 1090000,
+            'FIRMWARE' => 'U5E0',
+            'MANUFACTURER' => 'Hitachi',
+            'MODEL' => 'HUC101212CSS600',
+            'NAME' => 'HUC101212CSS600',
+            'SERIALNUMBER' => 'KZGMA85E',
+            'TYPE' => 'disk'
+        },
+        '5' => {
+            'DESCRIPTION' => 'SAS',
+            'DISKSIZE' => 1090000,
+            'FIRMWARE' => 'U5E0',
+            'MANUFACTURER' => 'Hitachi',
+            'MODEL' => 'HUC101212CSS600',
+            'NAME' => 'HUC101212CSS600',
+            'SERIALNUMBER' => 'KZGLK5SE',
+            'TYPE' => 'disk'
+        },
+        '6' => {
+            'DESCRIPTION' => 'SAS',
+            'DISKSIZE' => 1090000,
+            'FIRMWARE' => 'U5E0',
+            'MANUFACTURER' => 'Hitachi',
+            'MODEL' => 'HUC101212CSS600',
+            'NAME' => 'HUC101212CSS600',
+            'SERIALNUMBER' => 'KZGL95PE',
+            'TYPE' => 'disk'
+        },
+        '7' => {
+            'DESCRIPTION' => 'SAS',
+            'DISKSIZE' => 1090000,
+            'FIRMWARE' => 'U5E0',
+            'MANUFACTURER' => 'Hitachi',
+            'MODEL' => 'HUC101212CSS600',
+            'NAME' => 'HUC101212CSS600',
+            'SERIALNUMBER' => 'KZGL91HE',
+            'TYPE' => 'disk'
+        },
+        '8' => {
+            'DESCRIPTION' => 'SAS',
+            'DISKSIZE' => 1090000,
+            'FIRMWARE' => 'U5E0',
+            'MANUFACTURER' => 'Hitachi',
+            'MODEL' => 'HUC101212CSS600',
+            'NAME' => 'HUC101212CSS600',
+            'SERIALNUMBER' => 'KZGL7KNE',
+            'TYPE' => 'disk'
+        },
+        '9' => {
+            'DESCRIPTION' => 'SAS',
+            'DISKSIZE' => 1090000,
+            'FIRMWARE' => 'U5E0',
+            'MANUFACTURER' => 'Hitachi',
+            'MODEL' => 'HUC101212CSS600',
+            'NAME' => 'HUC101212CSS600',
+            'SERIALNUMBER' => 'KZGLKP8E',
+            'TYPE' => 'disk'
+        },
+        '10' => {
+            'DESCRIPTION' => 'SAS',
+            'DISKSIZE' => 1090000,
+            'FIRMWARE' => 'U5E0',
+            'MANUFACTURER' => 'Hitachi',
+            'MODEL' => 'HUC101212CSS600',
+            'NAME' => 'HUC101212CSS600',
+            'SERIALNUMBER' => 'KZGLG2HE',
+            'TYPE' => 'disk'
+        },
+    },
+    set3 => {
+        '1' => {
+            'DESCRIPTION' => 'SAS',
+            'DISKSIZE' => '279396',
+            'FIRMWARE' => 'VT31',
+            'MANUFACTURER' => 'Seagate',
+            'MODEL' => 'ST300MP0005',
+            'NAME' => 'ST300MP0005',
+            'SERIALNUMBER' => 'S7K13GAY',
+            'TYPE' => 'disk'
+        },
+        '2' => {
+            'DESCRIPTION' => 'SAS',
+            'DISKSIZE' => '279396',
+            'FIRMWARE' => 'VT31',
+            'MANUFACTURER' => 'Seagate',
+            'MODEL' => 'ST300MP0005',
+            'NAME' => 'ST300MP0005',
+            'SERIALNUMBER' => 'S7K13G4A',
+            'TYPE' => 'disk'
+        },
+        '3' => {
+            'DESCRIPTION' => 'SAS',
+            'DISKSIZE' => '279396',
+            'FIRMWARE' => 'VT31',
+            'MANUFACTURER' => 'Seagate',
+            'MODEL' => 'ST300MP0005',
+            'NAME' => 'ST300MP0005',
+            'SERIALNUMBER' => 'S7K13B54',
+            'TYPE' => 'disk'
+        },
+        '4' => {
+            'DESCRIPTION' => 'SAS',
+            'DISKSIZE' => '279396',
+            'FIRMWARE' => 'VT31',
+            'MANUFACTURER' => 'Seagate',
+            'MODEL' => 'ST300MP0005',
+            'NAME' => 'ST300MP0005',
+            'SERIALNUMBER' => 'S7K13BDL',
+            'TYPE' => 'disk'
+        }
+    },
 );
 
 plan tests =>
     (scalar keys %pdlist_tests) +
     (scalar keys %summary_tests) +
     (scalar keys %enclosure_tests) +
+    (scalar keys %storage_tests) +
     1;
 
 foreach my $test (keys %pdlist_tests) {
@@ -695,4 +1097,15 @@ foreach my $test (keys %enclosure_tests) {
     my $file = "resources/linux/megacli/$test";
     my $results = FusionInventory::Agent::Task::Inventory::Linux::Storages::Megacli::_getAdpEnclosure(file => $file);
     cmp_deeply($results, $enclosure_tests{$test}, "$test: megacli -EncInfo parsing");
+}
+
+foreach my $test (keys %storage_tests) {
+    my $file = "resources/linux/megacli/${test}_EncInfo";
+    my $adapter = FusionInventory::Agent::Task::Inventory::Linux::Storages::Megacli::_getAdpEnclosure(file => $file);
+    $file = "resources/linux/megacli/${test}_PDlist";
+    my $pdlist = FusionInventory::Agent::Task::Inventory::Linux::Storages::Megacli::_getPDlist(file => $file);
+    $file = "resources/linux/megacli/${test}_ShowSummary";
+    my $summary = FusionInventory::Agent::Task::Inventory::Linux::Storages::Megacli::_getSummary(file => $file);
+    my $results = FusionInventory::Agent::Task::Inventory::Linux::Storages::Megacli::_getStorages($adapter,$pdlist,$summary);
+    cmp_deeply($results, $storage_tests{$test}, "$test storage: storages analysis");
 }

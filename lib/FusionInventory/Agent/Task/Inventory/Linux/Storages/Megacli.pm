@@ -26,81 +26,89 @@ sub doInventory {
     );
     return unless $count;
 
-    my (%adapter, %summary, %pdlist, $storage);
     for (my $adp = 0; $adp < $count; $adp++) {
-        $adapter{$adp} = _getAdpEnclosure( adp => $adp );
-        $summary{$adp} = _getSummary( adp => $adp );
-        $pdlist{$adp}  = _getPDlist( adp => $adp );
-    }
-
-    while (my ($adp_id, $adp) =  each %adapter) {
-        while (my ($pd_id, $pd) = each %{$pdlist{$adp_id}}) {
-            my ($firmware, $size, $model, $vendor);
-
-            # Raw Size: 232.885 GB [0x1d1c5970 Sectors]
-            ($size) = ($pd->{'Raw Size'} =~ /^(.+)\s\[/);
-            $size = getCanonicalSize($size);
-            $firmware = $pd->{'Device Firmware Level'};
-
-            $storage = {
-                TYPE         => 'disk',
-                FIRMWARE     => $firmware,
-                DESCRIPTION  => $pd->{'PD Type'},
-                DISKSIZE     => $size,
-            };
-
-            # Lookup the disk info in 'ShowSummary'
-            while (my ($sum_id, $sum) = each %{$summary{$adp_id}}) {
-                next unless
-                    $adp->{$sum->{encl_id}} == $pd->{'Enclosure Device ID'} &&
-                    $sum->{encl_pos}        eq $pd->{'Enclosure position'} &&
-                    $sum->{slot}            == $pd->{'Slot Number'};
-
-                # 'HUC101212CSS'  <-- note it is incomplete
-                $model  = $sum->{'Product Id'};
-
-                # 'HGST    HUC101212CSS600 U5E0KZGLG2HE'
-                my $serial = $pd->{'Inquiry Data'};
-                $serial =~ s/$firmware//;        # remove firmware part
-
-                if ($sum->{'Vendor Id'} ne 'ATA') {
-                    $vendor = $sum->{'Vendor Id'};
-                    $serial =~ s/$vendor//;      # remove vendor part
-                }
-
-                $serial =~ s/$model\S*//;      # remove model part
-                $serial =~ s/\s//g;              # remove remaining spaces
-                $storage->{SERIALNUMBER} = $serial;
-
-                # Restore complete model name:
-                # HUC101212CSS --> HUC101212CSS600
-                if ($pd->{'Inquiry Data'} =~ /($sum->{'Product Id'}(?:\S*))/) {
-                    $model = $1;
-                    $model =~ s/^\s+//;
-                    $model =~ s/\s+$//;
-                }
-
-                last;
-            }
-
-            # When Product ID ($model) looks like 'INTEL SSDSC2CW24'
-            if ($model =~ /^(\S+)\s+(\S+)$/) {
-                $vendor = $1;        # 'INTEL'
-                $model  = $2;        # 'SSDSC2CW24'
-            }
-
-            $storage->{NAME}  = $model;
-            $storage->{MODEL} = $model;
-            $storage->{MANUFACTURER} = defined $vendor ?
-                getCanonicalManufacturer($vendor) :
-                getCanonicalManufacturer($model);
-
+        my $adapter  = _getAdpEnclosure( adp => $adp );
+        my $summary  = _getSummary( adp => $adp );
+        my $pdlist   = _getPDlist( adp => $adp );
+        my $storages = _getStorages($adapter, $pdlist, $summary);
+        foreach my $storage (values(%{$storages})) {
             $inventory->addEntry(
                 section => 'STORAGES',
                 entry   => $storage,
             );
         }
     }
+}
+
+sub _getStorages {
+    my ($adp, $pdlist, $summary) = @_;
+
+    my $storages;
+
+    while (my ($pd_id, $pd) = each %{$pdlist}) {
+        my ($model, $vendor);
+
+        # Raw Size: 232.885 GB [0x1d1c5970 Sectors]
+        my ($size) = ($pd->{'Raw Size'} =~ /^(.+)\s\[/);
+        $size = getCanonicalSize($size);
+        my $firmware = $pd->{'Device Firmware Level'};
+
+        my $storage = {
+            TYPE         => 'disk',
+            FIRMWARE     => $firmware,
+            DESCRIPTION  => $pd->{'PD Type'},
+            DISKSIZE     => $size,
+        };
+
+        # Lookup the disk info in 'ShowSummary'
+        my $sum = first {
+            $adp->{$_->{encl_id}} == $pd->{'Enclosure Device ID'} &&
+            $_->{encl_pos}        eq $pd->{'Enclosure position'} &&
+            $_->{slot}            == $pd->{'Slot Number'}
+        } values(%{$summary});
+
+        if ($sum) {
+            # 'HUC101212CSS'  <-- note it is incomplete
+            $model = $sum->{'Product Id'};
+
+            # 'HGST    HUC101212CSS600 U5E0KZGLG2HE'
+            my $serial = $pd->{'Inquiry Data'};
+            $serial =~ s/$firmware//;        # remove firmware part
+
+            if ($sum->{'Vendor Id'} ne 'ATA') {
+                $vendor = $sum->{'Vendor Id'};
+                $serial =~ s/$vendor//;      # remove vendor part
+            }
+
+            $serial =~ s/$model\S*//;      # remove model part
+            $serial =~ s/\s//g;              # remove remaining spaces
+            $storage->{SERIALNUMBER} = $serial;
+
+            # Restore complete model name:
+            # HUC101212CSS --> HUC101212CSS600
+            if ($pd->{'Inquiry Data'} =~ /($model(?:\S*))/) {
+                $model = $1;
+                $model =~ s/^\s+//;
+                $model =~ s/\s+$//;
+            }
+        }
+
+        # When Product ID ($model) looks like 'INTEL SSDSC2CW24'
+        if ($model =~ /^(\S+)\s+(\S+)$/) {
+            $vendor = $1;        # 'INTEL'
+            $model  = $2;        # 'SSDSC2CW24'
+        }
+
+        $storage->{NAME}  = $model;
+        $storage->{MODEL} = $model;
+        $storage->{MANUFACTURER} = defined $vendor ?
+            getCanonicalManufacturer($vendor) :
+            getCanonicalManufacturer($model);
+
+        $storages->{$pd_id} = $storage;
+    }
+
+    return $storages;
 }
 
 sub _getAdpEnclosure {
