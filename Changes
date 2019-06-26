@@ -13,6 +13,7 @@ inventory:
 * fix error message while starting fusioninventory-inventory script
 * fix #667: LG tv monitor inventory failure
 * win32: VirtualBox or VPN network adapters are now set as virtual
+* added Samsung S24E450 monitor serial support
 
 netdiscovery/netinventory:
 * add Hygon Dhyana Support
@@ -21,6 +22,8 @@ esx:
 * Support EnclosureSerialNumberTag and SerialNumberTag values as availables since
   VMware ESXi 6.5, Patch Release ESXi650-201811002 (build-10884925) and in latest
   VMware ESXi 6.7.
+* add esx script new options:
+  Add --dump and --dumpfile option to help ESX support debugging
 
 2.5 Fri, 12 Apr 2019
 
