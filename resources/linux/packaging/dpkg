@@ -12,4 +12,5 @@ aptitude	amd64	0.6.3-3.2+squeeze1	11916	admin
 aspell	amd64	0.60.6-4	1184	text
 aspell-en	all	6.0-0-6	548	text
 aspell-fr	all	0.50-3-7	636	text
-at	amd64	3.1.12-1	220	admin
+at	amd64	3.1.12-1	220	admin	install ok installed
+vlc-nox	amd64	2.2.2-5ubuntu0.16.04.4	9270	video	deinstall ok config-files

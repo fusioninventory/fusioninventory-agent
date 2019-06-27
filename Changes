@@ -15,6 +15,7 @@ inventory:
 * win32: VirtualBox or VPN network adapters are now set as virtual
 * added Samsung S24E450 monitor serial support
 * linux: fix megacli storage analysis
+* linux: check package status before telling it is installed on debian/ubuntu
 
 netdiscovery/netinventory:
 * add Hygon Dhyana Support

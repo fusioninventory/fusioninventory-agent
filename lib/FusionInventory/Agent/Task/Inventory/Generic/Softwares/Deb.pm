@@ -23,7 +23,8 @@ sub doInventory {
         '${Architecture}\t' .
         '${Version}\t'.
         '${Installed-Size}\t'.
-        '${Section}\n' .
+        '${Section}\t' .
+        '${Status}\n' .
         '\'';
 
     my $packages = _getPackagesList(
@@ -49,7 +50,9 @@ sub doInventory {
 }
 
 sub _getPackagesList {
-    my $handle = getFileHandle(@_);
+    my (%params) = @_;
+
+    my $handle = getFileHandle(%params);
     return unless $handle;
 
     my @packages;
@@ -58,6 +61,15 @@ sub _getPackagesList {
         next if $line =~ /^ /;
         chomp $line;
         my @infos = split("\t", $line);
+
+        # Only keep as installed package if status matches
+        if ($infos[5] && $infos[5] !~ / installed$/) {
+            $params{logger}->debug(
+                "Skipping $infos[0] package as not installed, status='$infos[5]'"
+            ) if $params{logger};
+            next;
+        }
+
         push @packages, {
             NAME        => $infos[0],
             ARCH        => $infos[1],
