@@ -12,6 +12,7 @@ use Pod::Usage;
 use XML::TreePP;
 
 use FusionInventory::Agent::Task::NetInventory;
+use FusionInventory::Agent::Task::NetInventory::Job;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Version;
@@ -140,7 +141,7 @@ my $inventory = FusionInventory::Agent::Task::NetInventory->new(
 );
 
 $inventory->{jobs} = [
-    {
+    FusionInventory::Agent::Task::NetInventory::Job->new(
         params => {
             PID           => 1,
             THREADS_QUERY => $options->{threads},
@@ -148,7 +149,7 @@ $inventory->{jobs} = [
         },
         devices     => \@devices,
         credentials => [ $credentials ]
-    }
+    )
 ];
 
 $inventory->{client} =

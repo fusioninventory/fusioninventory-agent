@@ -82,6 +82,9 @@ sub _log {
 
     return unless $message;
 
+    # Add a prefix to the message if set
+    $message = $self->{prefix}.$message if $self->{prefix};
+
     chomp($message);
 
     foreach my $backend (@{$self->{backends}}) {

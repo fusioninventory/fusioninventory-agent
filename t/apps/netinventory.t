@@ -81,6 +81,6 @@ like(
 );
 like(
     $err,
-    qr/cleaning 10 worker threads/,
-    'cleaning threads reached'
+    qr/All netinventory threads terminated/,
+    'last thread ended'
 );

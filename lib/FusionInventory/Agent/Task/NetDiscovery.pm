@@ -23,6 +23,7 @@ use FusionInventory::Agent::Tools::SNMP;
 use FusionInventory::Agent::XML::Query;
 
 use FusionInventory::Agent::Task::NetDiscovery::Version;
+use FusionInventory::Agent::Task::NetDiscovery::Job;
 
 our $VERSION = FusionInventory::Agent::Task::NetDiscovery::Version::VERSION;
 
@@ -69,11 +70,22 @@ sub isEnabled {
             next;
         }
 
-        push @jobs, {
-            params      => $option->{PARAM}->[0],
+        my $params = $option->{PARAM}->[0];
+        if (!$params) {
+            $self->{logger}->error("invalid job: no PARAM defined");
+            next;
+        }
+        if (!defined($params->{PID})) {
+            $self->{logger}->error("invalid job: no PID defined");
+            next;
+        }
+
+        push @jobs, FusionInventory::Agent::Task::NetDiscovery::Job->new(
+            logger      => $self->{logger},
+            params      => $params,
             credentials => $option->{AUTHENTICATION},
             ranges      => \@ranges,
-        };
+        );
     }
 
     if (!@jobs) {
@@ -84,6 +96,39 @@ sub isEnabled {
     $self->{jobs} = \@jobs;
 
     return 1;
+}
+
+sub _discovery_thread {
+    my ($self, $jobs, $results) = @_;
+
+    my $count = 0;
+
+    my $id = threads->tid();
+    $self->{logger}->debug("[thread $id] creation");
+
+    # run as long as they are a job to process
+    while (my $job = $jobs->dequeue()) {
+
+        last unless ref($job) eq 'HASH';
+        last if $job->{leave};
+
+        my $result = $self->_scanAddress($job);
+
+        if ($result && defined($job->{entity})) {
+            $result->{ENTITY} = $job->{entity};
+        }
+
+        # Set result PID from job
+        $result->{PID} = $job->{pid};
+
+        $results->enqueue($result);
+        $count ++;
+    }
+
+    delete $self->{logger}->{prefix};
+
+    $self->{logger}->debug2("[thread $id] processed $count scans");
+    $self->{logger}->debug("[thread $id] termination");
 }
 
 sub run {
@@ -102,12 +147,10 @@ sub run {
     ) if !$self->{client};
 
     # check discovery methods available
-    my $arp;
-
     if (canRun('arp')) {
-        $arp = 'arp -a';
+        $self->{arp} = 'arp -a';
     } elsif (canRun('ip')) {
-        $arp = 'ip neighbor show';
+        $self->{arp} = 'ip neighbor show';
     } else {
         $self->{logger}->info(
             "Can't run 'ip neighbor show' or 'arp' command, arp table detection can't be used"
@@ -136,169 +179,199 @@ sub run {
         );
     }
 
+    # Extract greatest max_threads from jobs
+    my ($max_threads) = sort { $b <=> $a } map { int($_->max_threads()) }
+        @{$self->{jobs}};
+
+    my %running_threads = ();
+    my %queues = ();
+
+    # initialize FIFOs
+    my $jobs    = Thread::Queue->new();
+    my $results = Thread::Queue->new();
+
+    # Start jobs by preparing range queues and counting ips
+    my $max_count = 0;
     foreach my $job (@{$self->{jobs}}) {
-        my $pid         = $job->{params}->{PID};
-        my $max_threads = $job->{params}->{THREADS_DISCOVERY};
-        my $timeout     = $job->{params}->{TIMEOUT};
+        my $pid = $job->pid;
 
-        # SNMP credentials
-        my $snmp_credentials = _getValidCredentials($job->{credentials});
+        my $queue = {
+            max_in_queue        => $job->max_threads(),
+            in_queue            => 0,
+            timeout             => $job->timeout(),
+            snmp_credentials    => $job->getValidCredentials(),
+        };
 
-        # set internal state
-        $self->{pid} = $pid;
-
-        # send initial message to the server
-        $self->_sendStartMessage();
-
-        my ($debug_sent_count, $threads_count, $started_count) = ( 0, 0, 0 );
-        my %running_threads = ();
+        my $size = 0;
+        my @list = ();
 
         # process each address block
-        foreach my $range (@{$job->{ranges}}) {
-            my $ports = $self->_getSNMPPorts($range->{PORT});
-            my $proto = $self->_getSNMPProtocols($range->{PROTOCOL});
-            my $block = Net::IP->new(
-                $range->{IPSTART} . '-' . $range->{IPEND}
-            );
+        foreach my $range ($job->ranges()) {
+            my $start = $range->{start};
+            my $end   = $range->{end};
+            my $block = Net::IP->new( "$start-$end" );
             if (!$block || $block->{binip} !~ /1/) {
                 $self->{logger}->error(
-                    "IPv4 range not supported by Net::IP: ".
-                    $range->{IPSTART} . '-' . $range->{IPEND}
+                    "IPv4 range not supported by Net::IP: $start-$end"
                 );
                 next;
             }
 
-            $self->{logger}->debug(
-                "scanning block $range->{IPSTART}-$range->{IPEND}"
-            );
+            $self->{logger}->debug("scanning block $start-$end");
 
-            # initialize FIFOs
-            my $addresses = Thread::Queue->new();
-            my $results   = Thread::Queue->new();
+            # send initial message to the server
+            $self->_sendStartMessage($pid);
 
             do {
-                $addresses->enqueue($block->ip());
+                push @list, {
+                    ip              => $block->ip(),
+                    snmp_ports      => $range->{ports},
+                    snmp_domains    => $range->{domains},
+                    entity          => $range->{entity},
+                };
             } while (++$block);
-            my $size = $addresses->pending();
 
-            # send block size to the server
-            $self->_sendBlockMessage($size);
-
-            # no need for more threads than addresses to scan in this range
-            my $threads_count = $max_threads > $size ? $size : $max_threads;
-
-            # Define a realistic block scan expiration : at least one minute by address
-            setExpirationTime(
-                timeout => $size * (!$timeout || $timeout < 60 ? 60 : $timeout)
-            );
-            my $expiration = getExpirationTime();
-
-            my $sub = sub {
-                my $id = threads->tid();
-                $self->{logger}->debug("[thread $id] creation");
-
-                # run as long as they are addresses to process
-                while (my $address = $addresses->dequeue_nb()) {
-
-                    my $result = $self->_scanAddress(
-                        ip               => $address,
-                        timeout          => $timeout,
-                        arp              => $arp,
-                        snmp_credentials => $snmp_credentials,
-                        snmp_ports       => $ports,
-                        snmp_domains     => $proto,
-                    );
-
-                    $results->enqueue($result) if $result;
-                }
-
-                $self->{logger}->debug("[thread $id] termination");
-            };
-
-            $self->{logger}->debug("creating $threads_count worker threads");
-            for (my $i = 0; $i < $threads_count; $i++) {
-                my $newthread = threads->create($sub);
-                # Keep known created threads in a hash
-                $running_threads{$newthread->tid()} = $newthread ;
-                usleep(50000) until ($newthread->is_running() || $newthread->is_joinable());
-            }
-
-            # Check really started threads number vs really running ones
-            my @really_running  = map { $_->tid() } threads->list(threads::running);
-            my @started_threads = keys(%running_threads);
-            unless (@really_running == $threads_count && keys(%running_threads) == $threads_count) {
-                $self->{logger}->debug(scalar(@really_running)." really running: [@really_running]");
-                $self->{logger}->debug(scalar(@started_threads)." started: [@started_threads]");
-            }
-            $started_count += @started_threads ;
-
-            # as long as some of our threads are still running...
-            while (keys(%running_threads)) {
-
-                # send available results on the fly
-                while (my $result = $results->dequeue_nb()) {
-                    $result->{ENTITY} = $range->{ENTITY}
-                        if defined($range->{ENTITY});
-                    $self->_sendResultMessage($result);
-                }
-
-                if ($expiration && time > $expiration) {
-                    $self->{logger}->warning("Aborting block scan as it reached expiration time");
-                    # detach all our running worker
-                    foreach my $tid (keys(%running_threads)) {
-                        $running_threads{$tid}->detach()
-                            if $running_threads{$tid}->is_running();
-                        delete $running_threads{$tid};
-                    }
-                    last;
-                }
-
-                # wait for a little
-                usleep(50000);
-
-                # List our created and possibly running threads in a list to check
-                my %running_threads_checklist =
-                    map { $_ => 0 } keys(%running_threads);
-
-                foreach my $running (threads->list(threads::running)) {
-                    my $tid = $running->tid();
-                    # Skip if this running thread tid is not is our started list
-                    next unless exists($running_threads{$tid});
-
-                    # Check a thread is still running
-                    $running_threads_checklist{$tid} = 1 ;
-                }
-
-                # Clean our started list from thread tid that don't run anymore
-                foreach my $tid (keys(%running_threads_checklist)) {
-                    delete $running_threads{$tid}
-                        unless $running_threads_checklist{$tid};
-                }
-            }
-
-            # Reset expiration
-            setExpirationTime();
-
-            # purge remaning results
-            while (my $result = $results->dequeue_nb()) {
-                $result->{ENTITY} = $range->{ENTITY}
-                    if defined($range->{ENTITY});
-                $self->_sendResultMessage($result);
-            }
-
+            # Update ip addresses size for this job
+            $size += scalar(@list);
         }
 
-        # send final message to the server before cleaning threads
-        $self->_sendStopMessage();
+        next unless $size;
 
-        if ($started_count) {
-            $self->{logger}->debug("cleaning $started_count worker threads");
-            $_->join() foreach threads->list(threads::joinable);
-        }
+        # Update queues
+        $queue->{list} = \@list;
+        $queues{$pid} = $queue;
 
-        # send final message to the server
-        $self->_sendStopMessage();
+        # Update total count
+        $max_count += $size;
+
+        # send block size to the server
+        $self->_sendBlockMessage($pid, $size);
     }
+
+    # Define a realistic block scan expiration : at least one minute by address
+    setExpirationTime( timeout => $max_count * 60 );
+    my $expiration = getExpirationTime();
+
+    # no need more threads than ips to scan
+    my $threads_count = $max_threads > $max_count ? $max_count : $max_threads;
+
+    $self->{logger}->debug("creating $threads_count worker threads");
+    for (my $i = 0; $i < $threads_count; $i++) {
+        my $newthread = threads->create(sub { $self->_discovery_thread($jobs, $results); });
+        # Keep known created threads in a hash
+        $running_threads{$newthread->tid()} = $newthread ;
+        usleep(50000) until ($newthread->is_running() || $newthread->is_joinable());
+    }
+
+    # Check really started threads number vs really running ones
+    my @really_running  = map { $_->tid() } threads->list(threads::running);
+    my @started_threads = keys(%running_threads);
+    unless (@really_running == $threads_count && keys(%running_threads) == $threads_count) {
+        $self->{logger}->debug(scalar(@really_running)." really running: [@really_running]");
+        $self->{logger}->debug(scalar(@started_threads)." started: [@started_threads]");
+    }
+
+    my $queued_count = 0;
+    my $job_count = 0;
+    my $jid_len = length(sprintf("%i",$max_count));
+    my $jid_pattern = "#%0".$jid_len."i";
+
+    # We need to guaranty we don't have more than max_in_queue device in shared
+    # queue for each job
+    while (my @pids = sort { $a <=> $b } keys(%queues)) {
+
+        # Enqueue as ip as possible
+        foreach my $pid (@pids) {
+            my $queue = $queues{$pid};
+            next unless @{$queue->{list}};
+            next if $queue->{in_queue} >= $queue->{max_in_queue};
+            my $address = shift @{$queue->{list}};
+            # Update address hash with common parameters
+            $address->{pid} = $pid;
+            $address->{timeout} = $queue->{timeout};
+            $address->{snmp_credentials} = $queue->{snmp_credentials};
+            $address->{jid} = sprintf($jid_pattern, ++$job_count);
+            $queue->{in_queue} ++;
+            $jobs->enqueue($address);
+            $queued_count++;
+        }
+
+        # as long as some of our threads are still running...
+        if (keys(%running_threads)) {
+
+            # send available results on the fly
+            while (my $result = $results->dequeue_nb()) {
+                my $pid = $result->{PID};
+                # Only send result if a device was found which involves setting IP
+                $self->_sendResultMessage($result)
+                    if $result->{IP};
+                my $queue = $queues{$pid};
+                $queue->{in_queue} --;
+                $queued_count--;
+                unless ($queue->{in_queue} || @{$queue->{list}}) {
+                    # send final message to the server before cleaning threads
+                    $self->_sendStopMessage($pid);
+
+                    delete $queues{$pid};
+
+                    # send final message to the server
+                    $self->_sendStopMessage($pid);
+                }
+                # Check if it's time to abort a thread
+                $max_count--;
+                if ($max_count < $threads_count) {
+                    $jobs->enqueue({ leave => 1 });
+                    $threads_count--;
+                }
+            }
+
+            # wait for a little
+            usleep(50000);
+
+            if ($expiration && time > $expiration) {
+                $self->{logger}->warning("Aborting netdiscovery task as it reached expiration time");
+                # detach all our running worker
+                foreach my $tid (keys(%running_threads)) {
+                    $running_threads{$tid}->detach()
+                        if $running_threads{$tid}->is_running();
+                    delete $running_threads{$tid};
+                }
+                last;
+            }
+
+            # List our created and possibly running threads in a list to check
+            my %running_threads_checklist = map { $_ => 0 }
+                keys(%running_threads);
+
+            foreach my $running (threads->list(threads::running)) {
+                my $tid = $running->tid();
+                # Skip if this running thread tid is not is our started list
+                next unless exists($running_threads{$tid});
+
+                # Check a thread is still running
+                $running_threads_checklist{$tid} = 1 ;
+            }
+
+            # Clean our started list from thread tid that don't run anymore
+            foreach my $tid (keys(%running_threads_checklist)) {
+                delete $running_threads{$tid}
+                    unless $running_threads_checklist{$tid};
+            }
+            last unless keys(%running_threads);
+        }
+    }
+
+    if ($queued_count) {
+        $self->{logger}->error("$queued_count devices scan result missed");
+    }
+
+    # Cleanup joinable threads
+    $_->join() foreach threads->list(threads::joinable);
+    $self->{logger}->debug("All netdiscovery threads terminated")
+        unless threads->list(threads::running);
+
+    # Reset expiration
+    setExpirationTime();
 }
 
 sub abort {
@@ -306,26 +379,6 @@ sub abort {
 
     $self->_sendStopMessage() if $self->{pid};
     $self->SUPER::abort();
-}
-
-sub _getValidCredentials {
-    my ($credentials) = @_;
-
-    my @credentials;
-
-    foreach my $credential (@{$credentials}) {
-        if ($credential->{VERSION} eq '3') {
-            # a user name is required
-            next unless $credential->{USERNAME};
-            # DES support is required
-            next unless Crypt::DES->require();
-        } else {
-            next unless $credential->{COMMUNITY};
-        }
-        push @credentials, $credential;
-    }
-
-    return \@credentials;
 }
 
 sub _sendMessage {
@@ -344,17 +397,21 @@ sub _sendMessage {
 }
 
 sub _scanAddress {
-    my ($self, %params) = @_;
+    my ($self, $params) = @_;
 
     my $logger = $self->{logger};
     my $id     = threads->tid();
-    $logger->debug("[thread $id] scanning $params{ip}:");
+    $logger->{prefix} = "[thread $id] $params->{jid}, ";
+    $logger->debug("scanning $params->{ip}");
+
+    # Used by unittest to test arp cases
+    $self->{arp} = $params->{arp} if $params->{arp};
 
     my %device = (
-        $INC{'Net/SNMP.pm'}      ? $self->_scanAddressBySNMP(%params)    : (),
-        $INC{'Net/NBName.pm'}    ? $self->_scanAddressByNetbios(%params) : (),
-        $INC{'Net/Ping.pm'}      ? $self->_scanAddressByPing(%params)    : (),
-        $params{arp}             ? $self->_scanAddressByArp(%params)     : (),
+        $INC{'Net/SNMP.pm'}      ? $self->_scanAddressBySNMP($params)    : (),
+        $INC{'Net/NBName.pm'}    ? $self->_scanAddressByNetbios($params) : (),
+        $INC{'Net/Ping.pm'}      ? $self->_scanAddressByPing($params)    : (),
+        $self->{arp}             ? $self->_scanAddressByArp($params)     : (),
     );
 
     # don't report anything without a minimal amount of information
@@ -364,7 +421,7 @@ sub _scanAddress {
         $device{DNSHOSTNAME}  ||
         $device{NETBIOSNAME};
 
-    $device{IP} = $params{ip};
+    $device{IP} = $params->{ip};
 
     if ($device{MAC}) {
         $device{MAC} =~ tr/A-F/a-f/;
@@ -374,17 +431,21 @@ sub _scanAddress {
 }
 
 sub _scanAddressByArp {
-    my ($self, %params) = @_;
+    my ($self, $params) = @_;
 
-    return unless $params{ip};
+    return unless $params->{ip};
 
     # We want to match the ip including non digit character around
-    my $ip_match = '\b' . $params{ip} . '\D';
+    my $ip_match = '\b' . $params->{ip} . '\D';
     # We want to match dot on dots
     $ip_match =~ s/\./\\./g;
 
+    # Just to handle unittests
+    my %params = ( logger => $self->{logger} );
+    $params{file} = $params->{file} if $params->{file};
+
     my $output = getFirstMatch(
-        command => $params{arp} . " " . $params{ip},
+        command => $self->{arp} . " " . $params->{ip},
         pattern => qr/^(.*$ip_match.*)$/,
         %params
     );
@@ -404,9 +465,8 @@ sub _scanAddressByArp {
     }
 
     $self->{logger}->debug(
-        sprintf "[thread %d] - scanning %s in arp table: %s",
-        threads->tid(),
-        $params{ip},
+        sprintf "- scanning %s in arp table: %s",
+        $params->{ip},
         $device{MAC} ? 'success' : 'no result'
     );
 
@@ -414,7 +474,7 @@ sub _scanAddressByArp {
 }
 
 sub _scanAddressByPing {
-    my ($self, %params) = @_;
+    my ($self, $params) = @_;
 
     my $type = 'echo';
     my $np = Net::Ping->new('icmp', 1);
@@ -424,20 +484,19 @@ sub _scanAddressByPing {
     # Avoid an error as Net::Ping::VERSION may contain underscore
     my ($NetPingVersion) = split('_',$Net::Ping::VERSION);
 
-    if ($np->ping($params{ip})) {
-        $device{DNSHOSTNAME} = $params{ip};
+    if ($np->ping($params->{ip})) {
+        $device{DNSHOSTNAME} = $params->{ip};
     } elsif ($NetPingVersion >= 2.67) {
         $type = 'timestamp';
         $np->message_type($type);
-        if ($np->ping($params{ip})) {
-            $device{DNSHOSTNAME} = $params{ip};
+        if ($np->ping($params->{ip})) {
+            $device{DNSHOSTNAME} = $params->{ip};
         }
     }
 
     $self->{logger}->debug(
-        sprintf "[thread %d] - scanning %s with $type ping: %s",
-        threads->tid(),
-        $params{ip},
+        sprintf "- scanning %s with $type ping: %s",
+        $params->{ip},
         $device{DNSHOSTNAME} ? 'success' : 'no result'
     );
 
@@ -445,16 +504,15 @@ sub _scanAddressByPing {
 }
 
 sub _scanAddressByNetbios {
-    my ($self, %params) = @_;
+    my ($self, $params) = @_;
 
     my $nb = Net::NBName->new();
 
-    my $ns = $nb->node_status($params{ip});
+    my $ns = $nb->node_status($params->{ip});
 
     $self->{logger}->debug(
-        sprintf "[thread %d] - scanning %s with netbios: %s",
-        threads->tid(),
-        $params{ip},
+        sprintf "- scanning %s with netbios: %s",
+        $params->{ip},
         $ns ? 'success' : 'no result'
     );
     return unless $ns;
@@ -483,20 +541,20 @@ sub _scanAddressByNetbios {
 }
 
 sub _scanAddressBySNMP {
-    my ($self, %params) = @_;
+    my ($self, $params) = @_;
 
     my $tries = [];
-    if ($params{snmp_ports} && @{$params{snmp_ports}}) {
-        foreach my $port (@{$params{snmp_ports}}) {
-            my @cases = map { { port => $port, credential => $_ } } @{$params{snmp_credentials}};
+    if ($params->{snmp_ports} && @{$params->{snmp_ports}}) {
+        foreach my $port (@{$params->{snmp_ports}}) {
+            my @cases = map { { port => $port, credential => $_ } } @{$params->{snmp_credentials}};
             push @{$tries}, @cases;
         }
     } else {
-        @{$tries} = map { { credential => $_ } } @{$params{snmp_credentials}};
+        @{$tries} = map { { credential => $_ } } @{$params->{snmp_credentials}};
     }
-    if ($params{snmp_domains} && @{$params{snmp_domains}}) {
+    if ($params->{snmp_domains} && @{$params->{snmp_domains}}) {
         my @domtries = ();
-        foreach my $domain (@{$params{snmp_domains}}) {
+        foreach my $domain (@{$params->{snmp_domains}}) {
             foreach my $try (@{$tries}) {
                 $try->{domain} = $domain;
             }
@@ -508,18 +566,17 @@ sub _scanAddressBySNMP {
     foreach my $try (@{$tries}) {
         my $credential = $try->{credential};
         my $device = $self->_scanAddressBySNMPReal(
-            ip         => $params{ip},
+            ip         => $params->{ip},
             port       => $try->{port},
             domain     => $try->{domain},
-            timeout    => $params{timeout},
+            timeout    => $params->{timeout},
             credential => $credential
         );
 
         # no result means either no host, no response, or invalid credentials
         $self->{logger}->debug(
-            sprintf "[thread %d] - scanning %s%s with SNMP%s, credentials %d: %s",
-            threads->tid(),
-            $params{ip},
+            sprintf "- scanning %s%s with SNMP%s, credentials %d: %s",
+            $params->{ip},
             $try->{port}   ? ':'.$try->{port}   : '',
             $try->{domain} ? ' '.$try->{domain} : '',
             $credential->{ID},
@@ -570,7 +627,7 @@ sub _scanAddressBySNMPReal {
 }
 
 sub _sendStartMessage {
-    my ($self) = @_;
+    my ($self, $pid) = @_;
 
     $self->_sendMessage({
         AGENT => {
@@ -578,88 +635,43 @@ sub _sendStartMessage {
             AGENTVERSION => $FusionInventory::Agent::Version::VERSION,
         },
         MODULEVERSION => $VERSION,
-        PROCESSNUMBER => $self->{pid}
+        PROCESSNUMBER => $pid
     });
 }
 
 sub _sendStopMessage {
-    my ($self) = @_;
+    my ($self, $pid) = @_;
 
     $self->_sendMessage({
         AGENT => {
             END => 1,
         },
         MODULEVERSION => $VERSION,
-        PROCESSNUMBER => $self->{pid}
+        PROCESSNUMBER => $pid
     });
 }
 
 sub _sendBlockMessage {
-    my ($self, $count) = @_;
+    my ($self, $pid, $count) = @_;
 
     $self->_sendMessage({
         AGENT => {
             NBIP => $count
         },
-        PROCESSNUMBER => $self->{pid}
+        PROCESSNUMBER => $pid
     });
 }
 
 sub _sendResultMessage {
     my ($self, $result) = @_;
 
+    my $pid = delete $result->{PID};
+
     $self->_sendMessage({
         DEVICE        => [$result],
         MODULEVERSION => $VERSION,
-        PROCESSNUMBER => $self->{pid}
+        PROCESSNUMBER => $pid
     });
-}
-
-sub _getSNMPPorts {
-    my ($self, $ports) = @_;
-
-    return unless $ports;
-
-    # Given ports can be an array of strings or just a string and each string
-    # can be a comma separated list of ports
-    my @given_ports = map { split(/\s*,\s*/, $_) }
-        ref($ports) eq 'ARRAY' ? @{$ports} : ($ports) ;
-
-    # Be sure to only keep valid and uniq ports
-    my %ports = map { $_ => 1 } grep { $_ && $_ > 0 && $_ < 65536 } @given_ports;
-
-    return [ sort keys %ports ];
-}
-
-sub _getSNMPProtocols {
-    my ($self, $protocols) = @_;
-
-    return unless $protocols;
-
-    # Supported protocols can be used as '-domain' option for Net::SNMP session
-    my @supported_protocols = (
-        'udp/ipv4',
-        'udp/ipv6',
-        'tcp/ipv4',
-        'tcp/ipv6'
-    );
-
-    # Given protocols can be an array of strings or just a string and each string
-    # can be a comma separated list of protocols
-    my @given_protocols = map { split(/\s*,\s*/, $_) }
-        ref($protocols) eq 'ARRAY' ? @{$protocols} : ($protocols) ;
-
-    my @protocols = ();
-    my %protocols = map { lc($_) => 1 } grep { $_ } @given_protocols;
-
-    # Manage to list and filter protocols to use in @supported_protocols order
-    foreach my $proto (@supported_protocols) {
-        if ($protocols{$proto}) {
-            push @protocols, $proto;
-        }
-    }
-
-    return \@protocols;
 }
 
 1;
