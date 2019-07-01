@@ -20,6 +20,7 @@ inventory:
   happen when an antivirus other than Windows Defender was enabled and it blocks
   WMI call toward MSFT_MpComputerStatus class.
 * win32: Add Symantec/Norton antivirus support
+* fix #399: Deduplicate logged users without being case sensitive on win32
 
 netdiscovery/netinventory:
 * add Hygon Dhyana Support

@@ -46,23 +46,26 @@ sub doInventory {
         }
     }
 
+    # Handles seen users without being case sensitive
+    my %seen = ();
+
     foreach my $user (_getLoggedUsers(logger => $logger)) {
+        my $fullname = lc($user->{LOGIN}).'@'.lc($user->{DOMAIN});
         $inventory->addEntry(
-            noDuplicated => 1,
             section => 'USERS',
             entry   => $user
-        );
+        ) unless $seen{$fullname}++;
     }
 
     my $lastLoggedUser = _getLastUser(logger => $logger);
     if ($lastLoggedUser) {
         # Include last logged user as usual computer user
         if (ref($lastLoggedUser) eq 'HASH') {
+            my $fullname = lc($lastLoggedUser->{LOGIN}).'@'.lc($lastLoggedUser->{DOMAIN});
             $inventory->addEntry(
-                noDuplicated => 1,
                 section => 'USERS',
                 entry   => $lastLoggedUser
-            );
+            ) unless $seen{$fullname}++;
 
             # Obsolete in specs, to be removed with 3.0
             $inventory->setHardware({
