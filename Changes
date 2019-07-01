@@ -19,6 +19,9 @@ inventory:
 
 netdiscovery/netinventory:
 * add Hygon Dhyana Support
+* refactor: the multi-threading scheme has been re-worked so it is now working for
+  netinventory task and more efficient for netdiscovery while scanning many range
+  by job
 
 esx:
 * Support EnclosureSerialNumberTag and SerialNumberTag values as availables since
