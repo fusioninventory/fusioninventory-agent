@@ -67,7 +67,7 @@ my $discovery = FusionInventory::Agent::Task::NetDiscovery->new(
 );
 
 my $credentials_id = 1;
-my @credentials;
+our @credentials;
 if ($options->{community}) {
     foreach my $community (@{$options->{community}}) {
         push @credentials,
@@ -111,7 +111,9 @@ $discovery->{jobs} = [
 if (defined($options->{entity})) {
     $discovery->{jobs}->[0]->{ranges}->[0]->{ENTITY} = $options->{entity};
 }
-$discovery->{client} = FusionInventory::Agent::Task::NetInventory::Client->new();
+$discovery->{client} = FusionInventory::Agent::Task::NetDiscovery::Client->new(
+    logger => $discovery->{logger},
+);
 
 if ($options->{save} && $options->{debug}) {
     print STDERR
@@ -125,16 +127,29 @@ if ($options->{save} && $options->{debug}) {
 $discovery->run();
 
 ## no critic (ProhibitMultiplePackages)
-package FusionInventory::Agent::Task::NetInventory::Client;
+package FusionInventory::Agent::Task::NetDiscovery::Client;
+
+use threads;
 
 use English qw(-no_match_vars);
 use UNIVERSAL::require;
 
+use FusionInventory::Agent::Task::NetInventory;
+use FusionInventory::Agent::Task::NetInventory::Job;
+use FusionInventory::Agent::Logger;
+
 sub new {
     my ($class, %params) = @_;
 
-    return bless {}, $class;
+    return bless {
+        logger  => $params{logger} ||
+            FusionInventory::Agent::Logger->new(config => $main::options),
+    }, $class;
 }
+
+sub netdiscovery { 1 }
+
+sub ip {}
 
 sub send {
     my ($self, %params) = @_;
@@ -142,80 +157,80 @@ sub send {
     # Get options from main program
     my $options = $main::options;
     my $devices = $params{message}->{h}->{CONTENT}->{DEVICE};
-    my $device  = ref($devices) eq 'ARRAY' ? $devices->[0] : undef;
+    my $device  = ref($devices) eq 'ARRAY' ? $devices->[0] :
+                  ref($devices) eq 'HASH'  ? $devices      : undef;
 
     # don't display control message by default
     return unless ($options->{control} || $device);
 
-    my $ip  = $device ? $device->{IP} : undef;
+    my $ip  = $device ? $device->{IP} || $self->ip() : undef;
     my $xml = $params{message}->getContent();
 
     if ($options->{save} && $device) {
         die "No ip given with device\n" unless $ip;
-        print STDERR "Saving $ip discovery infos as XML...\n";
-        _writeXml($options->{save} . "/netdiscovery", "$ip.xml", $xml);
+        if ($self->netdiscovery()) {
+            $self->{logger}->info("Saving $ip discovery infos as XML...");
+            _writeXml($options->{save} . "/netdiscovery", "$ip.xml", $xml);
+        } else {
+            if ($device->{ERROR}) {
+                my $message = $device->{ERROR}->{MESSAGE};
+                $self->{logger}->error("Inventory failed on $message");
+                $self->{logger}->error("Check your credentials") if $message =~ /timeout/;
+            } else {
+                $self->{logger}->info("Saving $ip inventory infos as XML...");
+                _writeXml($options->{save} . "/netinventory", "$ip.xml", $xml);
+            }
+        }
     } else {
         print $xml;
     }
 
-    # Handle inventory option if we got an snmp answer
-    if ($options->{inventory} && $device) {
+    if ($self->netdiscovery() && $options->{inventory} && $device) {
         die "No ip given with device\n" unless $ip;
-        if ($device && $device->{AUTHSNMP} && $device->{TYPE}) {
-            # Found netinventory script from our name
-            my $netinventory = $0;
-            die "Can't find netinventory script from '$0' !\nPlease call netdiscovery script\n"
-                unless $0 =~ /netdiscovery$/;
-            $netinventory =~ s/netdiscovery$/netinventory/;
-            if ($OSNAME eq 'MSWin32') {
-                die "Can't run netinventory script without perl.exe: $!\n"
-                    unless -x "perl.exe";
-                $netinventory = "perl.exe $netinventory";
-            } else {
-                die "Can't run netinventory script: $!\n"
-                    unless -x $netinventory;
-            }
 
-            # Prepare netinventory command to launch
-            my $command = "$netinventory --host=$ip";
-            $command .= " --community=$self->{community}" if $options->{community};
-            $command .= " --credentials=$self->{credentials}" if $options->{credentials};
-            $command .= " --timeout=$options->{timeout}" if $options->{timeout};
-            $command .= " --protocol=$self->{protocol}" if $options->{protocol};
-            $command .= " --port=$options->{port}" if $options->{port};
-            $command .= " --debug" if $options->{debug};
-            $command .= " --debug" if $options->{debug} > 1;
-
-            print STDERR "Running inventory on $ip...\n";
-            print STDERR "Running command: $command\n" if $options->{debug} > 1;
-            # Launch the command and analyse the output as XML to handle errors
-            my $xml = qx/$command/;
-            my ($data, $content);
-            eval {
-                XML::TreePP->require();
-                $data = XML::TreePP->new()->parse($xml);
-                $content = $data->{REQUEST}->{CONTENT};
-            };
-            if ($EVAL_ERROR || !$content) {
-                die "Failed to parse XML output:\n$xml\n";
-                return;
-            }
-            if ($content->{DEVICE}->{ERROR}) {
-                my $message = $content->{DEVICE}->{ERROR}->{MESSAGE};
-                print STDERR "Inventory failed on $message\n";
-                print STDERR "Check your credentials\n" if $message =~ /timeout/;
-            } elsif ($options->{save}) {
-                print STDERR "Saving $ip inventory infos as XML...\n";
-                _writeXml($options->{save} . "/netinventory", "$ip.xml", $xml);
-            }
-
-        } elsif ($device && $device->{AUTHSNMP}) {
-            print STDERR "Skipping inventory for $ip on not recognized device type\n";
-        } else {
-            print STDERR "Skipping inventory for $ip on no SNMP response\n";
+        unless ($device->{TYPE}) {
+            $self->{logger}->info("Skipping inventory for $ip on not recognized device type");
+            return;
         }
+
+        unless ($device->{AUTHSNMP}) {
+            $self->{logger}->info("Skipping inventory for $ip on no SNMP response");
+            return;
+        }
+
+        my $inventory = FusionInventory::Agent::Task::NetInventory->new(
+            %main::setup,
+            target => FusionInventory::Agent::Task::NetInventory::Target->new(),
+            logger => FusionInventory::Agent::Logger->new(config => $options)
+        );
+
+        # Multi-threading still set on NetDiscovery task and we are only
+        # requesting one device scan
+        $inventory->{jobs} = [
+            FusionInventory::Agent::Task::NetInventory::Job->new(
+                params => {
+                    PID           => 1,
+                    THREADS_QUERY => 1,
+                    TIMEOUT       => $options->{timeout},
+                },
+                devices     => [{
+                    ID           => 0,
+                    IP           => $ip,
+                    PORT         => $options->{port},
+                    PROTOCOL     => $options->{protocol},
+                    AUTHSNMP_ID  => $device->{AUTHSNMP}
+                }],
+                credentials => \@{main::credentials},
+            )
+        ];
+
+        $inventory->{client} = FusionInventory::Agent::Task::NetInventory::Client->new(
+            logger  => $self->{logger},
+            ip      => $ip
+        );
+
+        $inventory->run();
     }
-    print STDERR "----\n" if $options->{debug};
 }
 
 sub _writeXml {
@@ -246,6 +261,27 @@ sub getUrl {
 
     ## no critic (ExplicitReturnUndef)
     return undef;
+}
+
+package FusionInventory::Agent::Task::NetInventory::Client;
+
+use parent -norequire, 'FusionInventory::Agent::Task::NetDiscovery::Client';
+
+sub new {
+    my ($class, %params) = @_;
+
+    my $self = $class->SUPER::new(%params);
+
+    $self->{_ip} = $params{ip};
+
+    return bless $self, $class;
+}
+
+sub netdiscovery { 0 }
+
+sub ip {
+    my ($self) = @_;
+    return $self->{_ip};
 }
 
 __END__
