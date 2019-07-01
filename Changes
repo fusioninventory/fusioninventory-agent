@@ -8,6 +8,7 @@ core:
 * fix HTTP server plugins installation from Makefile
 * fix HTTP server SSL plugin so SSL sessions are not closed after one second
 * fix #679: Win32 service HTTP server wasn't answering during an inventory
+* feature: Added Proxy and SecondaryProxy HTTP server plugins
 
 inventory:
 * fix error message while starting fusioninventory-inventory script
