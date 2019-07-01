@@ -131,6 +131,8 @@ sub doInventory {
                 _setFSecureInfos($antivirus);
             } elsif ($antivirus->{NAME} =~ /Bitdefender/i) {
                 _setBitdefenderInfos($antivirus,$logger);
+            } elsif ($antivirus->{NAME} =~ /Norton|Symantec/i) {
+                _setNortonInfos($antivirus);
             }
 
             $inventory->addEntry(
@@ -409,6 +411,49 @@ sub _setBitdefenderInfos {
         if (defined($datas->{days_left})) {
             my @date = localtime(time+86400*$datas->{days_left});
             $antivirus->{EXPIRATION} = sprintf("%02d/%02d/%04d",$date[3],$date[4]+1,$date[5]+1900);
+        }
+    }
+}
+
+sub _setNortonInfos {
+    my ($antivirus) = @_;
+
+    # ref: https://support.symantec.com/en_US/article.TECH251363.html
+    my $nortonReg = _getSoftwareRegistryKeys(
+        'Norton\{0C55C096-0F1D-4F28-AAA2-85EF591126E7}',
+        [ qw(PRODUCTVERSION) ]
+    );
+    if ($nortonReg && $nortonReg->{PRODUCTVERSION}) {
+        $antivirus->{VERSION} = $nortonReg->{PRODUCTVERSION};
+    }
+
+    # Lookup for BASE_VERSION as CurDefs in definfo.dat insome places
+    # See also https://support.symantec.com/en_US/article.TECH237037.html
+    my @datadirs = (
+        'C:/ProgramData/Symantec/Symantec Endpoint Protection/CurrentVersion/Data',
+        'C:/Documents and Settings/All Users/Application Data/Symantec/Symantec Endpoint Protection/CurrentVersion/Data',
+    );
+
+    $nortonReg = _getSoftwareRegistryKeys(
+        'Norton\{0C55C096-0F1D-4F28-AAA2-85EF591126E7}\Common Client\PathExpansionMap',
+        [ qw(DATADIR) ]
+    );
+    if ($nortonReg && $nortonReg->{DATADIR}) {
+        $nortonReg->{DATADIR} =~ s|\\|/|g;
+        unshift @datadirs, $nortonReg->{DATADIR}
+            if -d $nortonReg->{DATADIR};
+    }
+
+    # Extract BASE_VERSION from the first found valid definfo.dat file
+    foreach my $datadir (@datadirs) {
+        my ($defdir) = grep { -d $datadir.'/'.$_ } qw(Definitions/SDSDefs Definitions/VirusDefs);
+        next unless $defdir;
+        my $definfo = $datadir . '/' . $defdir . "/definfo.dat";
+        next unless -e $definfo;
+        my ($curdefs) = grep { /^CurDefs=/ } getAllLines( file => $definfo );
+        if ($curdefs && $curdefs =~ /^CurDefs=(.*)$/) {
+            $antivirus->{BASE_VERSION} = $1;
+            last;
         }
     }
 }

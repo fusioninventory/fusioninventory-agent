@@ -19,6 +19,7 @@ inventory:
 * fix #688: inventory on "windows x64 1903" takes too much time. That was only
   happen when an antivirus other than Windows Defender was enabled and it blocks
   WMI call toward MSFT_MpComputerStatus class.
+* win32: Add Symantec/Norton antivirus support
 
 netdiscovery/netinventory:
 * add Hygon Dhyana Support
