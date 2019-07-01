@@ -25,6 +25,7 @@ netdiscovery/netinventory:
 * refactor: the multi-threading scheme has been re-worked so it is now working for
   netinventory task and more efficient for netdiscovery while scanning many range
   by job
+* refactor: Collected datas are also sent to server from threads
 
 esx:
 * Support EnclosureSerialNumberTag and SerialNumberTag values as availables since

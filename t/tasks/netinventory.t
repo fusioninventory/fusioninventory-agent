@@ -485,6 +485,9 @@ foreach my $case (keys(%responses)) {
 
 plan tests => $plan_tests_count ;
 
+my $queue = Thread::Queue->new();
+my $tid = threads->tid();
+
 my $client_module = Test::MockModule->new('FusionInventory::Agent::HTTP::Client::OCS');
 $client_module->mock('send', sub {
     my ($self, %params) = @_;
@@ -515,7 +518,13 @@ $client_module->mock('send', sub {
         }
         unshift @{$response}, @others if @others;
 
-        cmp_deeply($sent, $message, "Sent $query message");
+        # When received in another thread than test thread, keep %params to be
+        # re-used for the same call later from the test thread
+        if (threads->tid() != $tid) {
+            $queue->enqueue(\%params);
+        } else {
+            cmp_deeply($sent, $message, "Sent $query message");
+        }
     }
 
     return $query eq 'PROLOG' ?
@@ -552,6 +561,11 @@ foreach my $case (keys(%responses)) {
     } "$case: NetInventory task object instanciation" ;
 
     $task->run() if $task->isEnabled($response);
+
+    # "Re-send" in test thread calls from other threads, see client send() mock up
+    while (my $sent = $queue->dequeue_nb()) {
+        $client->send(%{$sent});
+    }
 
     ok(
         @{ $task->{jobs} || [] } == $responses{$case}->{cmp}->{jobs},
