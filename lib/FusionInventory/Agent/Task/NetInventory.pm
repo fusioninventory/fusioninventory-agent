@@ -83,7 +83,7 @@ sub isEnabled {
 }
 
 sub _inventory_thread {
-    my ($self, $jobs, $results) = @_;
+    my ($self, $jobs, $done) = @_;
 
     my $id = threads->tid();
     $self->{logger}->debug("[thread $id] creation");
@@ -117,12 +117,14 @@ sub _inventory_thread {
             $self->{logger}->error("[thread $id] $EVAL_ERROR");
         }
 
-        # Set result PID from job if exists and not set from device
-        $result->{PID} = $job->{pid}
-            if (!exists($result->{PID}) && exists($job->{pid}));
-        $result->{job_pid} = $job->{pid};
+        # Get result PID from result
+        my $pid = delete $result->{PID};
 
-        $results->enqueue($result) if $result;
+        # Directly send the result message from the thread, but use job pid if
+        # it was not set in result
+        $self->_sendResultMessage($result, $pid || $job->{pid});
+
+        $done->enqueue($job);
     }
 
     delete $self->{logger}->{prefix};
@@ -152,8 +154,8 @@ sub run {
     my %running_threads = ();
 
     # initialize FIFOs
-    my $jobs    = Thread::Queue->new();
-    my $results = Thread::Queue->new();
+    my $jobs = Thread::Queue->new();
+    my $done = Thread::Queue->new();
 
     # count devices and check skip_start_stop
     my $devices_count   = 0;
@@ -174,7 +176,7 @@ sub run {
 
     $self->{logger}->debug("creating $threads_count worker threads");
     for (my $i = 0; $i < $threads_count; $i++) {
-        my $newthread = threads->create(sub { $self->_inventory_thread($jobs, $results); });
+        my $newthread = threads->create(sub { $self->_inventory_thread($jobs, $done); });
         # Keep known created threads in a hash
         $running_threads{$newthread->tid()} = $newthread ;
         usleep(50000) until ($newthread->is_running() || $newthread->is_joinable());
@@ -248,9 +250,8 @@ sub run {
         if (keys(%running_threads)) {
 
             # send available results on the fly
-            while (my $result = $results->dequeue_nb()) {
-                my $pid = delete $result->{job_pid};
-                $self->_sendResultMessage($result);
+            while (my $device = $done->dequeue_nb()) {
+                my $pid = $device->{pid};
                 my $queue = $queues{$pid};
                 $queue->{in_queue} --;
                 $queued_count--;
@@ -362,17 +363,12 @@ sub _sendStopMessage {
 }
 
 sub _sendResultMessage {
-    my ($self, $result) = @_;
-
-    my $pid = $result->{PID} || 0;
-
-    # Don't keep PID in result as we just need to set it as parent PROCESSNUMBER
-    delete $result->{PID};
+    my ($self, $result, $pid) = @_;
 
     $self->_sendMessage({
         DEVICE        => $result,
         MODULEVERSION => $VERSION,
-        PROCESSNUMBER => $pid
+        PROCESSNUMBER => $pid || 0
     });
 }
 

@@ -99,7 +99,7 @@ sub isEnabled {
 }
 
 sub _discovery_thread {
-    my ($self, $jobs, $results) = @_;
+    my ($self, $jobs, $done) = @_;
 
     my $count = 0;
 
@@ -118,10 +118,11 @@ sub _discovery_thread {
             $result->{ENTITY} = $job->{entity};
         }
 
-        # Set result PID from job
-        $result->{PID} = $job->{pid};
+        # Only send result if a device was found which involves setting IP
+        $self->_sendResultMessage($result, $job->{pid})
+            if $result->{IP};
 
-        $results->enqueue($result);
+        $done->enqueue($job);
         $count ++;
     }
 
@@ -187,8 +188,8 @@ sub run {
     my %queues = ();
 
     # initialize FIFOs
-    my $jobs    = Thread::Queue->new();
-    my $results = Thread::Queue->new();
+    my $jobs = Thread::Queue->new();
+    my $done = Thread::Queue->new();
 
     # Start jobs by preparing range queues and counting ips
     my $max_count = 0;
@@ -257,7 +258,7 @@ sub run {
 
     $self->{logger}->debug("creating $threads_count worker threads");
     for (my $i = 0; $i < $threads_count; $i++) {
-        my $newthread = threads->create(sub { $self->_discovery_thread($jobs, $results); });
+        my $newthread = threads->create(sub { $self->_discovery_thread($jobs, $done); });
         # Keep known created threads in a hash
         $running_threads{$newthread->tid()} = $newthread ;
         usleep(50000) until ($newthread->is_running() || $newthread->is_joinable());
@@ -300,11 +301,8 @@ sub run {
         if (keys(%running_threads)) {
 
             # send available results on the fly
-            while (my $result = $results->dequeue_nb()) {
-                my $pid = $result->{PID};
-                # Only send result if a device was found which involves setting IP
-                $self->_sendResultMessage($result)
-                    if $result->{IP};
+            while (my $address = $done->dequeue_nb()) {
+                my $pid = $address->{pid};
                 my $queue = $queues{$pid};
                 $queue->{in_queue} --;
                 $queued_count--;
@@ -663,9 +661,7 @@ sub _sendBlockMessage {
 }
 
 sub _sendResultMessage {
-    my ($self, $result) = @_;
-
-    my $pid = delete $result->{PID};
+    my ($self, $result, $pid) = @_;
 
     $self->_sendMessage({
         DEVICE        => [$result],
