@@ -16,6 +16,9 @@ inventory:
 * added Samsung S24E450 monitor serial support
 * linux: fix megacli storage analysis
 * linux: check package status before telling it is installed on debian/ubuntu
+* fix #688: inventory on "windows x64 1903" takes too much time. That was only
+  happen when an antivirus other than Windows Defender was enabled and it blocks
+  WMI call toward MSFT_MpComputerStatus class.
 
 netdiscovery/netinventory:
 * add Hygon Dhyana Support

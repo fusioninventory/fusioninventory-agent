@@ -70,12 +70,18 @@ sub doInventory {
 
             # Also support WMI access to Windows Defender
             if (!$antivirus->{VERSION} && $antivirus->{NAME} =~ /Windows Defender/i) {
-                my ($defender) = getWMIObjects(
-                    moniker    => 'winmgmts://./root/microsoft/windows/defender',
-                    class      => "MSFT_MpComputerStatus",
-                    properties => [ qw/AMProductVersion AntivirusEnabled
-                        AntivirusSignatureVersion/ ]
-                );
+                my $defender;
+                # Don't try to access Windows Defender class if not enabled as
+                # WMI call can fail after a too long time while another antivirus
+                # is installed
+                if ($antivirus->{ENABLED}) {
+                    ($defender) = getWMIObjects(
+                        moniker    => 'winmgmts://./root/microsoft/windows/defender',
+                        class      => "MSFT_MpComputerStatus",
+                        properties => [ qw/AMProductVersion AntivirusEnabled
+                            AntivirusSignatureVersion/ ]
+                    );
+                }
                 if ($defender) {
                     $antivirus->{VERSION} = $defender->{AMProductVersion}
                         if $defender->{AMProductVersion};
