@@ -1,6 +1,6 @@
 Revision history for FusionInventory agent
 
-2.5.1 not relased yet
+2.5.1 Tue, 02 Jul 2019
 
 core:
 * build: fix fusioninventory-remoteinventory was not installed
@@ -11,6 +11,7 @@ core:
 * feature: Added Proxy and SecondaryProxy HTTP server plugins
 
 inventory:
+* Bump Inventory task version to 1.8
 * fix error message while starting fusioninventory-inventory script
 * fix #667: LG tv monitor inventory failure
 * win32: VirtualBox or VPN network adapters are now set as virtual
@@ -22,15 +23,25 @@ inventory:
   WMI call toward MSFT_MpComputerStatus class.
 * win32: Add Symantec/Norton antivirus support
 * fix #399: Deduplicate logged users without being case sensitive on win32
+* Updated pci.ids to 2019.06.30 version
+* Updated usb.ids to 2019.05.08 version
 
 netdiscovery/netinventory:
+* Bump NetDiscovery task version to 4.0
+* Bump NetInventory task version to 4.0
 * add Hygon Dhyana Support
 * refactor: the multi-threading scheme has been re-worked so it is now working for
   netinventory task and more efficient for netdiscovery while scanning many range
   by job
 * refactor: Collected datas are also sent to server from threads
+* Added 2 options to fusioninventory-netdiscovery to save XMLs as file and
+  automatically start netinventory when convenient:
+  * add --inventory option to netdiscovery to automatically start netinventory
+  * add --save option to define a folder where to save related XML
+* Updated sysobject.ids (tagged fia-2.5.1 tag on github repository)
 
 esx:
+* Bump ESX task version to 2.5
 * Support EnclosureSerialNumberTag and SerialNumberTag values as availables since
   VMware ESXi 6.5, Patch Release ESXi650-201811002 (build-10884925) and in latest
   VMware ESXi 6.7.
