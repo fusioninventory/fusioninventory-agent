@@ -240,9 +240,9 @@ sub install {
 config_install : pure_install
 	$(MKPATH) $(DESTDIR)$(SYSCONFDIR)
 	$(NOECHO) $(CHMOD) $(PERM_DIR) $(DESTDIR)$(SYSCONFDIR)
-	for config in agent.cfg *-plugin.cfg ; \
+	for config in agent.cfg $(shell cd etc; echo *-plugin.cfg ); \
 	do \
-	  if $(TEST_F) $(DESTDIR)/$(SYSCONFDIR)/$$config; then \
+	  if $(TEST_F) $(DESTDIR)$(SYSCONFDIR)/$$config; then \
 	    $(RM_F) $(DESTDIR)$(SYSCONFDIR)/$$config.new; \
 	    $(CP) etc/$$config $(DESTDIR)$(SYSCONFDIR)/$$config.new; \
 	    $(CHMOD) $(PERM_RW) $(DESTDIR)$(SYSCONFDIR)/$$config.new; \
