@@ -267,13 +267,14 @@ sub handle {
         $xmlfile =~ s|/*$||;
         $xmlfile .= "/$deviceid.xml";
         $self->debug("Saving inventory in $xmlfile");
-        if (!open(XML, '>', $xmlfile)) {
+        my $XML;
+        if (!open($XML, '>', $xmlfile)) {
             $client->send_error(500, 'Cannot store content');
             $self->error("Can't store content from $clientIp $self->{request} request");
             return 500;
         }
-        print XML $content;
-        close(XML);
+        print $XML $content;
+        close($XML);
         if (-s $xmlfile != length($content)) {
             $client->send_error(500, 'Content store failure');
             $self->error("Can't store content from $clientIp $self->{request} request");
@@ -323,6 +324,7 @@ sub handle {
     return $response->code();
 }
 
+## no critic (ProhibitMultiplePackages)
 package
     FusionInventory::Agent::HTTP::Server::Proxy::Message;
 

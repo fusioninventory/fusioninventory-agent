@@ -172,13 +172,14 @@ foreach my $host (@ARGV) {
         print $fd $content;
         close $fd;
 
-        unless(open OUT, 'zcat ' . $fd->filename() . '|') {
+        my $OUT;
+        unless(open $OUT, '-|', 'zcat ' . $fd->filename()) {
             warn "$host: Failed to uncompress response, skipping\n";
             next;
         }
         local $INPUT_RECORD_SEPARATOR; # Set input to "slurp" mode.
-        $content = <OUT>;
-        close(OUT);
+        $content = <$OUT>;
+        close($OUT);
     }
 
     my $deviceid;
@@ -198,10 +199,10 @@ foreach my $host (@ARGV) {
 
     if ($options->{directory}) {
         my $filename = $options->{directory}."/$deviceid.xml";
-        open FILE, ">", $filename
+        open my $FILE, ">", $filename
             or die "$host: Can't open $filename: $!\n";
-        print FILE $content;
-        close(FILE);
+        print $FILE $content;
+        close($FILE);
         warn "$host: Written inventory in $filename\n"
             if $options->{verbose};
     } else {
@@ -252,7 +253,7 @@ fusioninventory-remoteinventory [options] <host1> [<host2> ...]
   Examples:
     fusioninventory-remoteinventory -T strong-shared-secret 192.168.43.236
     fusioninventory-remoteinventory -v -T strong-shared-secret 192.168.43.237 | \
-        fusioninventory-injector -url https://login:pw@server/plugins/fusioninventory/
+        fusioninventory-injector -url https://login:pw@example/plugins/fusioninventory/
     fusioninventory-remoteinventory -T strong-shared-secret -d /tmp 192.168.43.236 192.168.43.237
 
 =head1 DESCRIPTION

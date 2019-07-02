@@ -240,9 +240,9 @@ sub _writeXml {
 
     die "Can't create $folder directory: $!\n" unless -d $folder;
 
-    if (open(XML,">", $folder.'/'.$file)) {
-        print XML $xml;
-        close(XML);
+    if (open(my $XML,">", $folder.'/'.$file)) {
+        print $XML $xml;
+        close($XML);
     } else {
         die "Failed to write '$folder/$file': $!\n";
     }
