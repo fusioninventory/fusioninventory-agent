@@ -36,15 +36,6 @@ my %tests = (
         {
             VMTYPE    => 'HyperV',
             SUBSYSTEM => 'MS HyperV',
-            NAME      => undef,
-            STATUS    => STATUS_RUNNING,
-            UUID      => undef,
-            VCPU      => undef,
-            MEMORY    => undef,
-        },
-        {
-            VMTYPE    => 'HyperV',
-            SUBSYSTEM => 'MS HyperV',
             NAME      => 'vmw7cainf295537',
             STATUS    => STATUS_RUNNING,
             UUID      => undef,
@@ -71,15 +62,6 @@ my %tests = (
         }
     ],
     '2008' => [
-        {
-            VMTYPE    => 'HyperV',
-            SUBSYSTEM => 'MS HyperV',
-            NAME      => 'SRV00093',
-            STATUS    => STATUS_RUNNING,
-            UUID      => undef,
-            VCPU      => undef,
-            MEMORY    => undef,
-        },
         {
             VMTYPE    => 'HyperV',
             SUBSYSTEM => 'MS HyperV',
