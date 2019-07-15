@@ -325,21 +325,20 @@ sub run {
 sub _sendMessage {
     my ($self, $content) = @_;
 
-
-   my $message = FusionInventory::Agent::XML::Query->new(
-       deviceid => $self->{deviceid} || 'foo',
-       query    => 'SNMPQUERY',
-       content  => $content
-   );
+    my $message = FusionInventory::Agent::XML::Query->new(
+        deviceid => $self->{deviceid} || 'foo',
+        query    => 'SNMPQUERY',
+        content  => $content
+    );
 
     # task-specific client, if needed
     $self->{client} = FusionInventory::Agent::HTTP::Client::OCS->new(%{$client_params})
         if !$self->{client};
 
-   $self->{client}->send(
-       url     => $self->{target}->getUrl(),
-       message => $message
-   );
+    $self->{client}->send(
+        url     => $self->{target}->getUrl(),
+        message => $message
+    );
 }
 
 sub _sendStartMessage {
