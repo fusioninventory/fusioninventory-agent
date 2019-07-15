@@ -26,6 +26,7 @@ our $VERSION = FusionInventory::Agent::Task::NetInventory::Version::VERSION;
 # list of devices properties, indexed by XML element name
 # the link to a specific OID is made by the model
 
+my $client_params;
 
 sub isEnabled {
     my ($self, $response) = @_;
@@ -135,8 +136,8 @@ sub _inventory_thread {
 sub run {
     my ($self, %params) = @_;
 
-    # task-specific client, if needed
-    $self->{client} = FusionInventory::Agent::HTTP::Client::OCS->new(
+    # Prepare client configuration in needed to send message to server
+    $client_params = {
         logger       => $self->{logger},
         user         => $params{user},
         password     => $params{password},
@@ -145,7 +146,7 @@ sub run {
         ca_cert_dir  => $params{ca_cert_dir},
         no_ssl_check => $params{no_ssl_check},
         no_compress  => $params{no_compress},
-    ) if !$self->{client};
+    } if !$self->{client};
 
     # Extract greatest max_threads from jobs
     my ($max_threads) = sort { $b <=> $a } map { int($_->max_threads()) }
@@ -330,6 +331,10 @@ sub _sendMessage {
        query    => 'SNMPQUERY',
        content  => $content
    );
+
+    # task-specific client, if needed
+    $self->{client} = FusionInventory::Agent::HTTP::Client::OCS->new(%{$client_params})
+        if !$self->{client};
 
    $self->{client}->send(
        url     => $self->{target}->getUrl(),
