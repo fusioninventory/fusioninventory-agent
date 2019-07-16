@@ -27,8 +27,6 @@ use FusionInventory::Agent::Task::NetDiscovery::Job;
 
 our $VERSION = FusionInventory::Agent::Task::NetDiscovery::Version::VERSION;
 
-my $client_params;
-
 sub isEnabled {
     my ($self, $response) = @_;
 
@@ -138,7 +136,7 @@ sub run {
     my ($self, %params) = @_;
 
     # Prepare client configuration in needed to send message to server
-    $client_params = {
+    $self->{_client_params} = {
         logger       => $self->{logger},
         user         => $params{user},
         password     => $params{password},
@@ -253,7 +251,7 @@ sub run {
 
     # Don't keep client until we created threads to avoid segfault if SSL is used
     # we older openssl libs, but only if it is still not set by a script
-    delete $self->{client} if $client_params;
+    delete $self->{client} if $self->{_client_params};
 
     # Define a realistic block scan expiration : at least one minute by address
     setExpirationTime( timeout => $max_count * 60 );
@@ -395,7 +393,7 @@ sub _sendMessage {
     );
 
     # task-specific client, if needed
-    $self->{client} = FusionInventory::Agent::HTTP::Client::OCS->new(%{$client_params})
+    $self->{client} = FusionInventory::Agent::HTTP::Client::OCS->new(%{$self->{_client_params}})
         if !$self->{client};
 
     $self->{client}->send(

@@ -23,8 +23,6 @@ use FusionInventory::Agent::Task::NetInventory::Job;
 
 our $VERSION = FusionInventory::Agent::Task::NetInventory::Version::VERSION;
 
-my $client_params;
-
 sub isEnabled {
     my ($self, $response) = @_;
 
@@ -134,7 +132,7 @@ sub run {
     my ($self, %params) = @_;
 
     # Prepare client configuration in needed to send message to server
-    $client_params = {
+    $self->{_client_params} = {
         logger       => $self->{logger},
         user         => $params{user},
         password     => $params{password},
@@ -329,7 +327,7 @@ sub _sendMessage {
     );
 
     # task-specific client, if needed
-    $self->{client} = FusionInventory::Agent::HTTP::Client::OCS->new(%{$client_params})
+    $self->{client} = FusionInventory::Agent::HTTP::Client::OCS->new(%{$self->{_client_params}})
         if !$self->{client};
 
     $self->{client}->send(
