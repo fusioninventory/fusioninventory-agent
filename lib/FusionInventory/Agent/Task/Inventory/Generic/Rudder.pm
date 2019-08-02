@@ -8,6 +8,9 @@ use parent 'FusionInventory::Agent::Task::Inventory::Module';
 use English qw(-no_match_vars);
 
 use FusionInventory::Agent::Tools;
+use UNIVERSAL::require;
+use File::stat;
+
 
 sub isEnabled {
     return -r getUuidFile();
@@ -44,18 +47,83 @@ sub doInventory {
     # Get agent capabilities
     my @agentCapabilities = _listAgentCapabilities();
 
+    my $customProperties = _getCustomProperties(logger => $logger);
+
     my $rudder = {
         HOSTNAME => $hostname,
         UUID => $Uuid,
         AGENT => \@agents,
         SERVER_ROLES => { SERVER_ROLE => \@serverRoles },
         AGENT_CAPABILITIES => { AGENT_CAPABILITY => \@agentCapabilities },
+        CUSTOM_PROPERTIES => $customProperties,
     };
 
     $inventory->addEntry(
         section => 'RUDDER', entry => $rudder
     );
 }
+
+sub _getCustomProperties {
+    my (%params) = @_;
+    my $logger   = $params{logger};
+
+    my $custom_properties_dir = ($OSNAME eq 'MSWin32') ? 'C:\Program Files\Rudder\hooks.d' : '/var/rudder/hooks.d';
+    my $custom_properties;
+    if (-d "$custom_properties_dir") {
+        my @custom_properties_list = ();
+        my @ordered_script_list = ();
+        opendir(DIR, $custom_properties_dir);
+        # List each file in the custom_properties directory, each files being a script
+        @ordered_script_list = sort readdir(DIR);
+        closedir(DIR);
+        while (my $file = shift @ordered_script_list) {
+            my $script_file = $custom_properties_dir . "/" . $file;
+            if (-f $script_file) {
+                next if ($file =~ m/^\./);
+                # Ignore non-executable file, or folders
+                next unless -x $script_file;
+
+                # Check that the file is not world writable
+                my $permissions = stat($script_file);
+                my $retMode = $permissions->mode;
+                $retMode = $retMode & 0777;
+                if (($retMode & 002) || ($retMode & 020)) {
+                    $logger->error("Skipping script $script_file as it is world or group writable") if $logger;
+                    next;
+                }
+
+                $logger->debug2("executiong $script_file") if $logger;
+                my $properties = qx($script_file);
+                my $exit_code = $? >> 8;
+                if ($exit_code > 0) {
+                    $logger->error("Script $script_file failed to run properly, with exit code $exit_code") if $logger;
+                    next;
+                }
+
+                # check that it is valid JSON
+                eval {
+                    my $package = "JSON::PP";
+                    $package->require();
+                    if ($EVAL_ERROR) {
+                        print STDERR
+                            "Failed to load JSON module: ($EVAL_ERROR)\n";
+                        next;
+                    }
+                    my $coder = JSON::PP->new;
+                    my $propertiesData = $coder->decode($properties);
+                    push @custom_properties_list, $coder->encode($propertiesData);
+                };
+                if ($@) {
+                    $logger->error("Script $script_file didn't return valid JSON entry, error is:$@") if $logger;
+                }
+            }
+            
+        }
+        $custom_properties = "[". join(",", @custom_properties_list) . "]";
+   }
+   return $custom_properties;
+}
+
 
 sub _listServerRoles {
     my $server_roles_dir = ($OSNAME eq 'MSWin32') ? 'C:\Program Files\Rudder\etc\server-roles.d' : '/opt/rudder/etc/server-roles.d';
