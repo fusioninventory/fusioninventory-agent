@@ -1357,6 +1357,7 @@ sub _setVlans {
 
     my $vlans = _getVlans(
         snmp  => $params{snmp},
+        ports => $params{ports}
     );
     return unless $vlans;
 
@@ -1379,6 +1380,7 @@ sub _getVlans {
     my (%params) = @_;
 
     my $snmp = $params{snmp};
+    my $ports = $params{ports};
 
     my $results;
     my $vtpVlanName  = $snmp->walk('.1.3.6.1.4.1.9.9.46.1.3.1.1.4.1');
@@ -1401,35 +1403,82 @@ sub _getVlans {
         }
     }
 
-    # For other switches, we use another methods
-    # used for Alcatel-Lucent and ExtremNetworks (and perhaps others)
-    my $vlanIdName = $snmp->walk('.1.0.8802.1.1.2.1.5.32962.1.2.3.1.2');
-    my $portLink = $snmp->walk('.1.0.8802.1.1.2.1.3.7.1.3');
-    if($vlanIdName && $portLink){
-        foreach my $suffix (sort keys %{$vlanIdName}) {
-            my ($port, $vlan) = split(/\./, $suffix);
-            if ($portLink->{$port}) {
-                # case generic where $portLink = port number
-                my $portnumber = $portLink->{$port};
-                # case Cisco where $portLink = port name
-                unless ($portLink->{$port} =~ /^[0-9]+$/) {
-                    $portnumber = $port;
+    # For Switch with dot1qVlanStaticEntry and dot1qVlanCurrent Present
+    my $dot1qVlanStaticName = $snmp->walk('.1.3.6.1.2.1.17.7.1.4.3.1.1');
+    my $dot1qVlanStaticRowStatus = $snmp->walk('.1.3.6.1.2.1.17.7.1.4.3.1.5');
+    # each result matches either of the following schemes :
+    # $prefix.$i    = $value with $i as vlan_id, and each bit of $value represent the Egress (or Untagged) is present (1st bit = ifnumber 1, 2nd bit => ifnumber 2, etc...)
+    my $dot1qVlanCurrentEgressPorts = $snmp->walk('.1.3.6.1.2.1.17.7.1.4.2.1.4');
+    my $dot1qVlanCurrentUntaggedPorts = $snmp->walk('.1.3.6.1.2.1.17.7.1.4.2.1.5');
+
+    if($dot1qVlanStaticRowStatus and $dot1qVlanStaticRowStatus and $dot1qVlanCurrentEgressPorts and $dot1qVlanCurrentUntaggedPorts){
+        while (my ($vlan_id, $status) = each %{$dot1qVlanStaticRowStatus}) {
+            if($status eq 1) {
+                my $name = $dot1qVlanStaticName->{$vlan_id};
+
+                my $suffix = defined($dot1qVlanCurrentEgressPorts->{$vlan_id}) ? $vlan_id : ("0.".$vlan_id);
+                next if !defined($dot1qVlanCurrentEgressPorts->{$suffix});
+
+                # Tagged & Untagged VLAN
+                my $bEgress = '';
+                if(Math::BigInt->from_hex($dot1qVlanCurrentEgressPorts->{$suffix}) ne Math::BigInt->bnan()){
+                    for( my $i=2; $i< length($dot1qVlanCurrentEgressPorts->{$suffix}); $i++){
+                        $bEgress .= sprintf('%04b', hex(substr($dot1qVlanCurrentEgressPorts->{$suffix}, $i, 1)));
+                    }
                 }
-                push @{$results->{$portnumber}}, {
-                    NUMBER => $vlan,
-                    NAME   => getCanonicalString($vlanIdName->{$suffix})
-                };
+
+                # Untagged VLAN
+                my $bUntagged = '';
+                if(Math::BigInt->from_hex($dot1qVlanCurrentUntaggedPorts->{$suffix}) ne Math::BigInt->bnan()){
+                    for( my $i=2; $i< length($dot1qVlanCurrentUntaggedPorts->{$suffix}); $i++){
+                        $bUntagged .= sprintf('%04b', hex(substr($dot1qVlanCurrentUntaggedPorts->{$suffix}, $i, 1)));
+                    }
+                }
+
+                next if($bUntagged eq '' and $bEgress eq '');
+
+                foreach my $port_id (keys %{$ports}){
+                    my $isUntagged = ($port_id-1 <= length($bUntagged)) ? substr($bUntagged, $port_id-1, 1) : '0';
+                    my $isTagged = ($isUntagged eq '0' and ($port_id-1 <= length($bEgress))) ? substr($bEgress, $port_id-1, 1) : '0';
+                    push @{$results->{$port_id}}, {
+                        NUMBER  => $vlan_id,
+                        NAME    => $name,
+                        TAGGED  => $isTagged
+                    } if $isTagged or $isUntagged;
+                }
             }
         }
-    } else {
-        # A last method
-        my $vlanId = $snmp->walk('.1.0.8802.1.1.2.1.5.32962.1.2.1.1.1');
-        if($vlanId){
-            foreach my $port (sort keys %{$vlanId}) {
-                push @{$results->{$port}}, {
-                    NUMBER => $vlanId->{$port},
-                    NAME   => "VLAN " . $vlanId->{$port}
-                };
+    }else{
+        # For other switches, we use another methods
+        # used for Alcatel-Lucent and ExtremNetworks (and perhaps others)
+        my $vlanIdName = $snmp->walk('.1.0.8802.1.1.2.1.5.32962.1.2.3.1.2');
+        my $portLink = $snmp->walk('.1.0.8802.1.1.2.1.3.7.1.3');
+        if($vlanIdName && $portLink){
+            foreach my $suffix (sort keys %{$vlanIdName}) {
+                my ($port, $vlan) = split(/\./, $suffix);
+                if ($portLink->{$port}) {
+                    # case generic where $portLink = port number
+                    my $portnumber = $portLink->{$port};
+                    # case Cisco where $portLink = port name
+                    unless ($portLink->{$port} =~ /^[0-9]+$/) {
+                        $portnumber = $port;
+                    }
+                    push @{$results->{$portnumber}}, {
+                        NUMBER => $vlan,
+                        NAME   => getCanonicalString($vlanIdName->{$suffix})
+                    };
+                }
+            }
+        } else {
+            # A last method
+            my $vlanId = $snmp->walk('.1.0.8802.1.1.2.1.5.32962.1.2.1.1.1');
+            if($vlanId){
+                foreach my $port (sort keys %{$vlanId}) {
+                    push @{$results->{$port}}, {
+                        NUMBER => $vlanId->{$port},
+                        NAME   => "VLAN " . $vlanId->{$port}
+                    };
+                }
             }
         }
     }
