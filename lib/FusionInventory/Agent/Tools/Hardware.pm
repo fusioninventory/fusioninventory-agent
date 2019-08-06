@@ -1412,8 +1412,8 @@ sub _getVlans {
     my $dot1qVlanCurrentUntaggedPorts = $snmp->walk('.1.3.6.1.2.1.17.7.1.4.2.1.5');
 
     if($dot1qVlanStaticRowStatus and $dot1qVlanStaticRowStatus and $dot1qVlanCurrentEgressPorts and $dot1qVlanCurrentUntaggedPorts){
-        while (my ($vlan_id, $status) = each %{$dot1qVlanStaticRowStatus}) {
-            if($status eq 1) {
+        foreach my $vlan_id (sort keys %{$dot1qVlanStaticRowStatus}) {
+            if($dot1qVlanStaticRowStatus->{$vlan_id} eq 1) {
                 my $name = $dot1qVlanStaticName->{$vlan_id};
 
                 my $suffix = defined($dot1qVlanCurrentEgressPorts->{$vlan_id}) ? $vlan_id : ("0.".$vlan_id);
