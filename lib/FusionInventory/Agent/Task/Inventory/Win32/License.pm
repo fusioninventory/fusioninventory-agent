@@ -43,7 +43,7 @@ sub doInventory {
         push @licenses, _scanOfficeLicences($officeKey32) if $officeKey32;
     }
 
-    push @licenses, _getWmiSoftwareLicensingProducts();
+    @licenses = _getWmiSoftwareLicensingProducts(@licenses);
 
     foreach my $license (@licenses) {
         $inventory->addEntry(
@@ -58,7 +58,7 @@ sub doInventory {
 
 sub _getWmiSoftwareLicensingProducts {
 
-    my @licences;
+    my (@licences) = @_;
 
     foreach my $object (getWMIObjects(
         moniker    => 'winmgmts:\\\\.\\root\\CIMV2',
@@ -70,22 +70,12 @@ sub _getWmiSoftwareLicensingProducts {
     )) {
         my $key = $object->{'PartialProductKey'}
             or next;
+        my $partialProductKey = $key;
 
         next unless $object->{'LicenseStatus'};
 
         # Skip operating system license as still set from OS module
         next if ($object->{'Description'} && $object->{'Description'} =~ /Operating System/i);
-
-        my $seenKey;
-        if ($object->{'ID'} && $seenProducts->{lc($object->{'ID'})}) {
-            $seenKey = $seenProducts->{lc($object->{'ID'})};
-            # Skip if found License for related ProductCode
-            if ($seenKey->{'/ProductCode'}) {
-                my $ProductCodeUuid =  lc( $seenKey->{'/ProductCode'} =~ /([-\w]+)/ && $1 );
-                next if $seenProducts->{$ProductCodeUuid} &&
-                    $seenProducts->{$ProductCodeUuid}->{'/DigitalProductID'};
-            }
-        }
 
         if ($key && length($key) == 5) {
             $key = sprintf("XXXXX-XXXXX-XXXXX-XXXXX-%s", $key);
@@ -100,13 +90,32 @@ sub _getWmiSoftwareLicensingProducts {
             FULLNAME  => $object->{'Description'},
             NAME      => $object->{'Name'}
         };
-
-        if ($seenKey) {
-            # Update FULLNAME if seen ProductName in registry
-            $license->{FULLNAME} = encodeFromRegistry($seenKey->{'/ProductName'})
-                if $seenKey->{'/ProductName'};
-            $license->{TRIAL} = 1
-                if ($seenKey->{'/ProductNameBrand'} && $seenKey->{'/ProductNameBrand'} =~ /trial/i);
+        
+        if ($object->{'ID'} && $seenProducts->{lc($object->{'ID'})}) {
+            my $seenKey = $seenProducts->{lc($object->{'ID'})};
+            if ($seenKey->{'/ProductCode'}) {
+                my $ProductCodeUuid =  lc( $seenKey->{'/ProductCode'} =~ /([-\w]+)/ && $1 );
+                # Check Office registry is true
+                if ($seenProducts->{$ProductCodeUuid} && $seenProducts->{$ProductCodeUuid}->{'/DigitalProductID'}) {
+                    # Find Office registry licence
+                    my $passLicence = 0;
+                    for my $indexLicense (0 .. $#licences) {
+                        if($licences[$indexLicense]->{PRODUCTID} eq $seenProducts->{$ProductCodeUuid}->{'/ProductID'}){
+                            $passLicence = 1 if $licences[$indexLicense]->{KEY} =~ m/$partialProductKey$/;
+                            # $passLicence = 0, so the registry calculation of the key is wrong, WMI information are more revelant, so we delete the wrong Licence Office Registry
+                            splice @licences, $indexLicense, 1 if !$passLicence;
+                            last;
+                        }
+                    }
+                    # $passLicence = 1, Registry Licence is good, it supply more information, so we skip WMI Office Licence
+                    next if $passLicence;
+                }
+                # Update FULLNAME if seen ProductName in registry
+                $license->{FULLNAME} = encodeFromRegistry($seenKey->{'/ProductName'})
+                    if $seenKey->{'/ProductName'};
+                $license->{TRIAL} = 1
+                    if ($seenKey->{'/ProductNameBrand'} && $seenKey->{'/ProductNameBrand'} =~ /trial/i);
+            }
         }
 
         push @licences, $license;

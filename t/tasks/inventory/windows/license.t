@@ -103,7 +103,7 @@ my @licenses = FusionInventory::Agent::Task::Inventory::Win32::License::_scanOff
 
 ok( @licenses == 0 );
 
-push @licenses, FusionInventory::Agent::Task::Inventory::Win32::License::_getWmiSoftwareLicensingProducts();
+@licenses = FusionInventory::Agent::Task::Inventory::Win32::License::_getWmiSoftwareLicensingProducts(@licenses);
 
 ok( @licenses == 1 );
 ok( $licenses[0]->{'KEY'} eq 'XXXXX-XXXXX-XXXXX-XXXXX-WE9H9' );
@@ -118,7 +118,7 @@ ok( @licenses == 1 );
 ok( $licenses[0]->{'KEY'} eq 'YKP6Y-3MDM7-J8F3Q-9297J-3TF27' );
 ok( $licenses[0]->{'PRODUCTID'} eq '00339-10000-00000-AA310' );
 
-push @licenses, FusionInventory::Agent::Task::Inventory::Win32::License::_getWmiSoftwareLicensingProducts();
+@licenses = FusionInventory::Agent::Task::Inventory::Win32::License::_getWmiSoftwareLicensingProducts(@licenses);
 
 # License was still read from registry, no license added
 ok( @licenses == 1 );
