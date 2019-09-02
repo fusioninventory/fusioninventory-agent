@@ -2,6 +2,9 @@ Revision history for FusionInventory agent
 
 2.5.2 not released yet
 
+inventory:
+* unix: fix last log user after a reboot
+
 2.5.1 Tue, 02 Jul 2019
 
 core:
