@@ -318,24 +318,6 @@ sub _extractDiskSize {
             getCanonicalSize($hash->{size}, 1024);
 }
 
-sub _cleanSizeString {
-    my ($sizeString) = @_;
-
-    return unless $sizeString =~ /^(\d+(?:(?:\.|,)\d+)?) /;
-    my $nbStr = $1;
-    $nbStr =~ s/,/./;
-
-    return $nbStr;
-}
-
-sub _getSizeUnit {
-    my ($sizeString) = @_;
-
-    return 'GB' if $sizeString =~ /GB$/;
-    return 'MB' if $sizeString =~ /MB$/;
-    return '';
-}
-
 sub _extractValueInHashWithKeyPattern {
     my ($pattern, $hash) = @_;
 
