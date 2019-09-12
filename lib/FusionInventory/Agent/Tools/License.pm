@@ -18,6 +18,8 @@ our @EXPORT = qw(
 sub _decodeAdobeKey {
     my ($encrypted_key) = @_;
 
+    return unless $encrypted_key;
+
     my @cipher_key = qw/
         0000000001 5038647192 1456053789 2604371895
         4753896210 8145962073 0319728564 7901235846
@@ -71,7 +73,7 @@ sub getAdobeLicenses {
         push @licenses, {
             NAME       => $key,
             FULLNAME   => $data{$key}{ALM_LicInfo_EpicAppName},
-            KEY        => _decodeAdobeKey($data{$key}{SN}),
+            KEY        => _decodeAdobeKey($data{$key}{SN}) || 'n/a',
             COMPONENTS => join('/', @{$data{$key}{with}})
         }
     }
