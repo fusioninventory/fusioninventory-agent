@@ -240,14 +240,49 @@ sub _getScreensFromUnix {
     return;
 }
 
+sub _getScreensFromMacOS {
+    my (%params) = @_;
+
+    my $logger = $params{logger};
+
+    $logger->debug("retrieving AppleBacklightDisplay datas:");
+
+    FusionInventory::Agent::Tools::MacOS->require();
+
+    my @screens;
+    my @displays = FusionInventory::Agent::Tools::MacOS::getIODevices(
+        class   => 'AppleBacklightDisplay',
+        options => '-r -lw0 -d 1',
+        logger => $params{logger},
+    );
+
+    foreach my $display (@displays) {
+        my $screen = {};
+        if ($display->{IODisplayCapabilityString} && $display->{IODisplayCapabilityString} =~ /model\((.*)\)/) {
+            $screen->{CAPTION} = $1;
+        }
+        if ($display->{IODisplayEDID} && $display->{IODisplayEDID} =~ /^[0-9a-f]+$/i
+          && (length($display->{IODisplayEDID}) == 256 || length($display->{IODisplayEDID}) == 512)) {
+            $screen->{edid} = pack("H*", $display->{IODisplayEDID})
+        }
+        push @screens, $screen;
+    }
+
+    return @screens if @screens;
+
+    # Try unix commands if no screen is detected
+    return _getScreensFromUnix(%params);
+}
+
 sub _getScreens {
     my (%params) = @_;
 
     my %screens = ();
 
-    my @screens = $OSNAME eq 'MSWin32' ?
-        _getScreensFromWindows(%params) :
-        _getScreensFromUnix(%params);
+    my @screens =
+        $OSNAME eq 'MSWin32' ?  _getScreensFromWindows(%params) :
+        $OSNAME eq 'darwin' ?   _getScreensFromMacOS(%params) :
+                                _getScreensFromUnix(%params);
 
     foreach my $screen (@screens) {
         next unless $screen->{edid};

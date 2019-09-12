@@ -20,16 +20,7 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my %displays = _getDisplays(logger => $logger);
-
-    foreach my $monitor (@{$displays{MONITORS}}) {
-        $inventory->addEntry(
-            section => 'MONITORS',
-            entry   => $monitor,
-        );
-    }
-
-    foreach my $video (@{$displays{VIDEOS}}) {
+    foreach my $video (_getVideoCards(logger => $logger)) {
         $inventory->addEntry(
             section => 'VIDEOS',
             entry   => $video,
@@ -37,7 +28,7 @@ sub doInventory {
     }
 }
 
-sub _getDisplays {
+sub _getVideoCards {
     my (%params) = @_;
 
     my $infos = getSystemProfilerInfos(
@@ -46,7 +37,6 @@ sub _getDisplays {
         file   => $params{file}
     );
 
-    my @monitors;
     my @videos;
 
     foreach my $videoName (keys %{$infos->{'Graphics/Displays'}}) {
@@ -73,18 +63,6 @@ sub _getDisplays {
                 $resolution = $x.'x'.$y if $x && $y;
             }
 
-            my $monitor = {
-                CAPTION => $displayName
-            };
-
-            my $serial = getSanitizedString($displayInfo->{'Display Serial Number'});
-            $monitor->{SERIAL} = $serial if $serial;
-
-            my $description = getSanitizedString($displayInfo->{'Display Type'});
-            $monitor->{DESCRIPTION} = $description if $description;
-
-            push @monitors, $monitor;
-
             # Set first found resolution on associated video card
             $video->{RESOLUTION} = $resolution
                 if $resolution && !$video->{RESOLUTION};
@@ -98,11 +76,7 @@ sub _getDisplays {
         push @videos, $video;
     }
 
-    return (
-        MONITORS => \@monitors,
-        VIDEOS   => \@videos
-    );
-
+    return @videos;
 }
 
 1;
