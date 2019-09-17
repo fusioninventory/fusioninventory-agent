@@ -4,6 +4,7 @@ Revision history for FusionInventory agent
 
 inventory:
 * unix: fix last log user after a reboot
+* added Samsung S22B420 monitor serial support
 
 2.5.1 Tue, 02 Jul 2019
 
