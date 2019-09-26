@@ -23,7 +23,6 @@ jobs:
          command: |
            echo $PERL5LIB
            $HOME/perl5/bin/cpanm -L ~/perl5 Module::Install
-           $HOME/perl5/bin/cpanm -L ~/perl5 HTTP::Daemon@6.04
            touch Makefile.PL
            $HOME/perl5/bin/cpanm -L ~/perl5 --installdeps --verbose --notest .
      - run: perl Makefile.PL

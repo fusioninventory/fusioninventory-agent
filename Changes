@@ -2,6 +2,9 @@ Revision history for FusionInventory agent
 
 2.5.2 not released yet
 
+core:
+* fix HTTP server IPv6 support as HTTP::Daemon module now supports IPv6 natively
+
 inventory:
 * unix: fix last log user after a reboot
 * added Samsung monitor serial support for models: B1940MR, B1940W, S22A450BW,
