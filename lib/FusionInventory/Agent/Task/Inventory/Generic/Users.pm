@@ -158,18 +158,29 @@ sub _getLastUser {
         @_
     );
 
-    my $last = getFirstLine(%params);
-    return unless $last;
+    my ($lastuser,$lastlogged);
 
-    my @last = split(/\s+/, $last);
-    return unless (@last);
+    my $handle = getFileHandle(%params);
+    return unless $handle;
 
-    my $lastuser = shift @last;
+    while (my $last = <$handle>) {
+        chomp $last;
+        next if $last =~ /^(reboot|shutdown)/;
+
+        my @last = split(/\s+/, $last);
+        next unless (@last);
+
+        $lastuser = shift @last
+            or next;
+
+        # Found time on column starting as week day
+        shift @last while ( @last > 3 && $last[0] !~ /^mon|tue|wed|thu|fri|sat|sun/i );
+        $lastlogged = @last > 3 ? "@last[0..3]" : undef;
+        last;
+    }
+    close $handle;
+
     return unless $lastuser;
-
-    # Found time on column starting as week day
-    shift @last while ( @last > 3 && $last[0] !~ /^mon|tue|wed|thu|fri|sat|sun/i );
-    my $lastlogged = @last > 3 ? "@last[0..3]" : undef;
 
     return {
         LASTLOGGEDUSER     => $lastuser,
