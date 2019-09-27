@@ -66,6 +66,12 @@ my $inventory_only_base_variables = {
     },
 };
 
+# oid which are in kB
+my $oid_in_kb = [
+    '.1.3.6.1.4.1.2021.4.5',
+    '.1.3.6.1.2.1.25.2.2.0'
+];
+
 sub new {
     my ($class, %params) = @_;
 
@@ -484,19 +490,22 @@ sub _set_from_oid_list {
         my $variable = $list->{$key};
 
         my $raw_value;
+        my $final_oid;
         if (ref $variable->{oid} eq 'ARRAY') {
             foreach my $oid (@{$variable->{oid}}) {
                 $raw_value = $self->get($oid);
+                $final_oid = $oid if defined $raw_value;
                 last if defined $raw_value;
             }
         } else {
             $raw_value = $self->get($variable->{oid});
+            $final_oid = $variable->{oid};
         }
         next unless defined $raw_value;
 
         my $type = $variable->{type};
         my $value =
-            $type eq 'memory' ? getCanonicalMemory($raw_value) :
+            $type eq 'memory' ? getCanonicalMemory($raw_value, grep (/^$final_oid$/, @$oid_in_kb)) :
             $type eq 'string' ? getCanonicalString($raw_value) :
             $type eq 'count'  ? getCanonicalCount($raw_value)  :
                                 $raw_value;
