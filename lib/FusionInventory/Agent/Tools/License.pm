@@ -82,32 +82,26 @@ sub getAdobeLicenses {
 
 sub getAdobeLicensesWithoutSqlite {
     my ($fileAdobe) = @_;
-    my $contentFileAdobe;
+
+    my $contentFileAdobe = getAllLines(file => $fileAdobe) or return;
 
     my @licenses;
-
-    open(my $fh, '<', $fileAdobe) or die "cannot open file $fileAdobe";
-    {
-        local $/;
-        $contentFileAdobe = <$fh>;
-    }
-    close($fh);
     $contentFileAdobe =~ s/\0//g;
     my $copyContent = $contentFileAdobe;
     my %products;
-    while ($copyContent =~ s/1([a-zA-Z0-9\-\.]+)[\{\|\}[a-zA-Z0-9\-_]*]?FLMap([a-zA-Z0-9\-\.]{3,}).{2,3}//){
-        if(exists ($products{$2})){
+    while ($copyContent =~ s/1([a-zA-Z0-9\-\.]+)[\{\|\}[a-zA-Z0-9\-_]*]?FLMap([a-zA-Z0-9\-\.]{3,}).{2,3}//) {
+        if (exists($products{$2})) {
             push @{$products{$2}}, $1 if !grep (/^$1$/, @{$products{$2}});
-        }else{
+        } else {
             $products{$2} = [$1];
         }
     }
 
-    while (my ($product, $component) =  each %products){
+    while (my ($product, $component) = each %products) {
         $copyContent = $contentFileAdobe;
         my $regex = $product.'\{\|\}[a-zA-Z0-9\-_]+SN([0-9]{24})';
         $copyContent =~ /$regex/;
-        if($1){
+        if ($1) {
             my $SN = _decodeAdobeKey($1);
             $copyContent = $contentFileAdobe;
             $regex = $product.'ALM_LicInfo_EpicAppName\{\|\}[0-9]+([a-zA-Z]+[a-zA-Z0-9\.\- ]+).{2}';
