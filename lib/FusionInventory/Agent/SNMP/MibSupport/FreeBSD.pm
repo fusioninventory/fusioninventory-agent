@@ -23,16 +23,14 @@ our $mibSupport = [
     }
 ];
 
-my $is_stormShield;
-
 sub _is_stormshield {
     my ($self) = @_;
 
-    if (!defined $self::is_stormShield) {
-        $self::is_stormShield = $self->get(stormshield_model) ? 1 : 0;
+    if (!defined $self->{STORMSHIELD}) {
+        $self->{STORMSHIELD} = $self->get(stormshield_model) ? 1 : 0;
     }
 
-    return $self::is_stormShield;
+    return $self->{STORMSHIELD};
 }
 
 sub getSerial {
