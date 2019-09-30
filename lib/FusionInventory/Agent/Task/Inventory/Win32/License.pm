@@ -43,7 +43,7 @@ sub doInventory {
         push @licenses, _scanOfficeLicences($officeKey32) if $officeKey32;
     }
 
-    @licenses = _getWmiSoftwareLicensingProducts(@licenses);
+    _getWmiSoftwareLicensingProducts(\@licenses);
 
     foreach my $license (@licenses) {
         $inventory->addEntry(
@@ -58,7 +58,7 @@ sub doInventory {
 
 sub _getWmiSoftwareLicensingProducts {
 
-    my (@licences) = @_;
+    my ($licences) = @_;
 
     foreach my $object (getWMIObjects(
         moniker    => 'winmgmts:\\\\.\\root\\CIMV2',
@@ -90,7 +90,8 @@ sub _getWmiSoftwareLicensingProducts {
             FULLNAME  => $object->{'Description'},
             NAME      => $object->{'Name'}
         };
-        
+                   
+        my $indexFoundLicence;
         if ($object->{'ID'} && $seenProducts->{lc($object->{'ID'})}) {
             my $seenKey = $seenProducts->{lc($object->{'ID'})};
             if ($seenKey->{'/ProductCode'}) {
@@ -99,11 +100,11 @@ sub _getWmiSoftwareLicensingProducts {
                 if ($seenProducts->{$ProductCodeUuid} && $seenProducts->{$ProductCodeUuid}->{'/DigitalProductID'}) {
                     # Find Office registry licence
                     my $passLicence = 0;
-                    for my $indexLicense (0 .. $#licences) {
-                        if($licences[$indexLicense]->{PRODUCTID} eq $seenProducts->{$ProductCodeUuid}->{'/ProductID'}){
-                            $passLicence = 1 if $licences[$indexLicense]->{KEY} =~ m/$partialProductKey$/;
+                    foreach my $seenLicence (@{$licences}) {
+                        if($seenLicence->{PRODUCTID} eq $seenProducts->{$ProductCodeUuid}->{'/ProductID'}) {
+                            $passLicence = 1 if $seenLicence->{KEY} =~ m/$partialProductKey$/;
                             # $passLicence = 0, so the registry calculation of the key is wrong, WMI information are more revelant, so we delete the wrong Licence Office Registry
-                            splice @licences, $indexLicense, 1 if !$passLicence;
+                            ($indexFoundLicence) = grep { @{$licences}[$_] eq $seenLicence } 0..$#$licences if !$passLicence;
                             last;
                         }
                     }
@@ -118,10 +119,12 @@ sub _getWmiSoftwareLicensingProducts {
             }
         }
 
-        push @licences, $license;
+        if (defined $indexFoundLicence) {
+            @{$licences}[$indexFoundLicence] = $license;
+        } else {
+            push @{$licences}, $license;
+        }
     }
-
-    return @licences;
 }
 
 sub _scanOfficeLicences {

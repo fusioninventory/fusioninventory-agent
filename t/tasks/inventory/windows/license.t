@@ -62,7 +62,7 @@ my %licensing_tests = (
     ],
 );
 
-plan tests => scalar (keys %tests) + scalar (keys %licensing_tests) + 10 ;
+plan tests => scalar (keys %tests) + scalar (keys %licensing_tests) + 11 ;
 
 foreach my $test (keys %tests) {
     my $key = loadRegistryDump("resources/win32/registry/$test.reg");
@@ -85,9 +85,8 @@ foreach my $test (keys %licensing_tests) {
         'getWMIObjects',
         mockGetWMIObjects($test)
     );
-
-    my @licenses =
-        FusionInventory::Agent::Task::Inventory::Win32::License::_getWmiSoftwareLicensingProducts();
+    my @licenses;
+    FusionInventory::Agent::Task::Inventory::Win32::License::_getWmiSoftwareLicensingProducts(\@licenses);
 
     is_deeply(
         \@licenses,
@@ -103,7 +102,7 @@ my @licenses = FusionInventory::Agent::Task::Inventory::Win32::License::_scanOff
 
 ok( @licenses == 0 );
 
-@licenses = FusionInventory::Agent::Task::Inventory::Win32::License::_getWmiSoftwareLicensingProducts(@licenses);
+FusionInventory::Agent::Task::Inventory::Win32::License::_getWmiSoftwareLicensingProducts(\@licenses);
 
 ok( @licenses == 1 );
 ok( $licenses[0]->{'KEY'} eq 'XXXXX-XXXXX-XXXXX-XXXXX-WE9H9' );
@@ -118,7 +117,8 @@ ok( @licenses == 1 );
 ok( $licenses[0]->{'KEY'} eq 'YKP6Y-3MDM7-J8F3Q-9297J-3TF27' );
 ok( $licenses[0]->{'PRODUCTID'} eq '00339-10000-00000-AA310' );
 
-@licenses = FusionInventory::Agent::Task::Inventory::Win32::License::_getWmiSoftwareLicensingProducts(@licenses);
+FusionInventory::Agent::Task::Inventory::Win32::License::_getWmiSoftwareLicensingProducts(\@licenses);
 
-# License was still read from registry, no license added
+# License was still read from registry, no license added, but remplaced by WMI Information
 ok( @licenses == 1 );
+ok( $licenses[0]->{'KEY'} eq 'XXXXX-XXXXX-XXXXX-XXXXX-WE9H9' );
