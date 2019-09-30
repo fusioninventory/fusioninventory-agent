@@ -1411,9 +1411,9 @@ sub _getVlans {
     my $dot1qVlanCurrentEgressPorts = $snmp->walk('.1.3.6.1.2.1.17.7.1.4.2.1.4');
     my $dot1qVlanCurrentUntaggedPorts = $snmp->walk('.1.3.6.1.2.1.17.7.1.4.2.1.5');
 
-    if($dot1qVlanStaticRowStatus and $dot1qVlanStaticRowStatus and $dot1qVlanCurrentEgressPorts and $dot1qVlanCurrentUntaggedPorts){
+    if ($dot1qVlanStaticRowStatus && $dot1qVlanStaticRowStatus && $dot1qVlanCurrentEgressPorts && $dot1qVlanCurrentUntaggedPorts) {
         foreach my $vlan_id (sort keys %{$dot1qVlanStaticRowStatus}) {
-            if($dot1qVlanStaticRowStatus->{$vlan_id} eq 1) {
+            if ($dot1qVlanStaticRowStatus->{$vlan_id} eq 1) {
                 my $name = $dot1qVlanStaticName->{$vlan_id};
 
                 my $suffix = defined($dot1qVlanCurrentEgressPorts->{$vlan_id}) ? $vlan_id : ("0.".$vlan_id);
@@ -1421,30 +1421,30 @@ sub _getVlans {
 
                 # Tagged & Untagged VLAN
                 my $bEgress = '';
-                if(Math::BigInt->from_hex($dot1qVlanCurrentEgressPorts->{$suffix}) ne Math::BigInt->bnan()){
-                    for( my $i=2; $i< length($dot1qVlanCurrentEgressPorts->{$suffix}); $i++){
+                if (isStringHexadecimal($dot1qVlanCurrentEgressPorts->{$suffix})) {
+                    for (my $i=2; $i< length($dot1qVlanCurrentEgressPorts->{$suffix}); $i++) {
                         $bEgress .= sprintf('%04b', hex(substr($dot1qVlanCurrentEgressPorts->{$suffix}, $i, 1)));
                     }
                 }
 
-                # Untagged VLAN
+                # Untagged VLAN 
                 my $bUntagged = '';
-                if(Math::BigInt->from_hex($dot1qVlanCurrentUntaggedPorts->{$suffix}) ne Math::BigInt->bnan()){
-                    for( my $i=2; $i< length($dot1qVlanCurrentUntaggedPorts->{$suffix}); $i++){
+                if (isStringHexadecimal($dot1qVlanCurrentUntaggedPorts->{$suffix})) {
+                    for (my $i=2; $i< length($dot1qVlanCurrentUntaggedPorts->{$suffix}); $i++) {
                         $bUntagged .= sprintf('%04b', hex(substr($dot1qVlanCurrentUntaggedPorts->{$suffix}, $i, 1)));
                     }
                 }
 
-                next if($bUntagged eq '' and $bEgress eq '');
+                next if ($bUntagged eq '' && $bEgress eq '');
 
                 foreach my $port_id (keys %{$ports}){
                     my $isUntagged = ($port_id-1 <= length($bUntagged)) ? substr($bUntagged, $port_id-1, 1) : '0';
-                    my $isTagged = ($isUntagged eq '0' and ($port_id-1 <= length($bEgress))) ? substr($bEgress, $port_id-1, 1) : '0';
+                    my $isTagged = ($isUntagged eq '0' && ($port_id-1 <= length($bEgress))) ? substr($bEgress, $port_id-1, 1) : '0';
                     push @{$results->{$port_id}}, {
                         NUMBER  => $vlan_id,
                         NAME    => $name,
                         TAGGED  => $isTagged
-                    } if $isTagged or $isUntagged;
+                    } if $isTagged || $isUntagged;
                 }
             }
         }
