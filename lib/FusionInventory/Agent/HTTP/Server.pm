@@ -12,6 +12,7 @@ use Net::IP;
 use Text::Template;
 use File::Glob;
 use URI;
+use Socket qw(IN6ADDR_ANY inet_ntop);
 
 use FusionInventory::Agent::Version;
 use FusionInventory::Agent::Logger;
@@ -586,8 +587,11 @@ sub handleRequests {
             next;
         }
 
-        my (undef, $iaddr) = sockaddr_in($socket);
-        my $clientIp = inet_ntoa($iaddr);
+        my $family = sockaddr_family($socket);
+        my $iaddr  = $family == AF_INET  ? unpack_sockaddr_in($socket)  :
+                     $family == AF_INET6 ? unpack_sockaddr_in6($socket) :
+                     INADDR_ANY;
+        my $clientIp = inet_ntop($family, $iaddr);
         my $request = $client->get_request();
         $self->_handle_plugins($client, $request, $clientIp, $self->{listeners}->{$port}->{plugins});
     }
@@ -601,8 +605,11 @@ sub handleRequests {
         return;
     }
 
-    my (undef, $iaddr) = sockaddr_in($socket);
-    my $clientIp = inet_ntoa($iaddr);
+    my $family = sockaddr_family($socket);
+    my $iaddr  = $family == AF_INET  ? unpack_sockaddr_in($socket)  :
+                 $family == AF_INET6 ? unpack_sockaddr_in6($socket) :
+                 INADDR_ANY;
+    my $clientIp = inet_ntop($family, $iaddr);
     my $request = $client->get_request();
     $self->_handle($client, $request, $clientIp);
 
