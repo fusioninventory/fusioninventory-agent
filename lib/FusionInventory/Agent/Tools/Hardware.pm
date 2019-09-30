@@ -1437,7 +1437,7 @@ sub _getVlans {
 
                 next if ($bUntagged eq '' && $bEgress eq '');
 
-                foreach my $port_id (keys %{$ports}){
+                foreach my $port_id (keys %{$ports}) {
                     my $isUntagged = ($port_id-1 <= length($bUntagged)) ? substr($bUntagged, $port_id-1, 1) : '0';
                     my $isTagged = ($isUntagged eq '0' && ($port_id-1 <= length($bEgress))) ? substr($bEgress, $port_id-1, 1) : '0';
                     push @{$results->{$port_id}}, {
@@ -1448,12 +1448,12 @@ sub _getVlans {
                 }
             }
         }
-    }else{
+    } else {
         # For other switches, we use another methods
         # used for Alcatel-Lucent and ExtremNetworks (and perhaps others)
         my $vlanIdName = $snmp->walk('.1.0.8802.1.1.2.1.5.32962.1.2.3.1.2');
         my $portLink = $snmp->walk('.1.0.8802.1.1.2.1.3.7.1.3');
-        if($vlanIdName && $portLink){
+        if ($vlanIdName && $portLink) {
             foreach my $suffix (sort keys %{$vlanIdName}) {
                 my ($port, $vlan) = split(/\./, $suffix);
                 if ($portLink->{$port}) {
@@ -1472,7 +1472,7 @@ sub _getVlans {
         } else {
             # A last method
             my $vlanId = $snmp->walk('.1.0.8802.1.1.2.1.5.32962.1.2.1.1.1');
-            if($vlanId){
+            if ($vlanId) {
                 foreach my $port (sort keys %{$vlanId}) {
                     push @{$results->{$port}}, {
                         NUMBER => $vlanId->{$port},
