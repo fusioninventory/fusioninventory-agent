@@ -19,7 +19,7 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my @networks = _getMacvlanNetworks(logger => $logger);
+    my @networks = _getMacvlanNetworks(logger => $logger) or return;
 
     foreach my $network (@networks) {
         my @interfaces = _getInterfaces(logger => $logger, networkId => $network);
@@ -37,26 +37,18 @@ sub _getMacvlanNetworks {
         command => 'docker network ls --filter driver=macvlan -q',
         @_
     );
-    my $handle = getFileHandle(%params);
-    return unless $handle;
 
-    my @networks;
-
-    while (my $line = <$handle>) {
-        chomp($line);
-        push @networks, $line;
-    }
-
-    close $handle;
-    return @networks;
+    return getAllLines(%params);
 }
 
 sub _getInterfaces {
     my (%params) = @_;
 
-    $params{command} = "docker network inspect $params{networkId}";
+    my $lines = getAllLines(
+        command => "docker network inspect $params{networkId}",
+        %params
+    ) or return;
 
-    my $lines = getAllLines(%params);
     my @interfaces;
 
     eval {
@@ -80,7 +72,7 @@ sub _getInterfaces {
                     $interface->{IPMASK6} = getNetworkMaskIPv6($2);
                 }
                 push @interfaces, $interface;
-            } 
+            }
         }
     };
 
