@@ -9,6 +9,7 @@ use English qw(-no_match_vars);
 
 use FusionInventory::Agent::Tools::License;
 use FusionInventory::Agent::Tools::Win32;
+use FusionInventory::Agent::Tools;
 
 my $seenProducts;
 
@@ -90,8 +91,7 @@ sub _getWmiSoftwareLicensingProducts {
             FULLNAME  => $object->{'Description'},
             NAME      => $object->{'Name'}
         };
-                   
-        my $indexFoundLicence;
+   
         if ($object->{'ID'} && $seenProducts->{lc($object->{'ID'})}) {
             my $seenKey = $seenProducts->{lc($object->{'ID'})};
             if ($seenKey->{'/ProductCode'}) {
@@ -99,31 +99,19 @@ sub _getWmiSoftwareLicensingProducts {
                 # Check Office registry is true
                 if ($seenProducts->{$ProductCodeUuid} && $seenProducts->{$ProductCodeUuid}->{'/DigitalProductID'}) {
                     # Find Office registry licence
-                    my $passLicence = 0;
-                    foreach my $seenLicence (@{$licences}) {
-                        if($seenLicence->{PRODUCTID} eq $seenProducts->{$ProductCodeUuid}->{'/ProductID'}) {
-                            $passLicence = 1 if $seenLicence->{KEY} =~ m/$partialProductKey$/;
-                            # $passLicence = 0, so the registry calculation of the key is wrong, WMI information are more revelant, so we delete the wrong Licence Office Registry
-                            ($indexFoundLicence) = grep { @{$licences}[$_] eq $seenLicence } 0..$#$licences if !$passLicence;
-                            last;
-                        }
-                    }
-                    # $passLicence = 1, Registry Licence is good, it supply more information, so we skip WMI Office Licence
-                    next if $passLicence;
+                    my $indexSeenLicence = first {@{$licences}[$_]->{PRODUCTID} eq $seenProducts->{$ProductCodeUuid}->{'/ProductID'}} 0..$#$licences;
+                    # Registry Licence is good, it supply more information, so we skip WMI Office Licence
+                    next if defined $indexSeenLicence && @{$licences}[$indexSeenLicence]->{KEY} =~ m/$partialProductKey$/;
+                    # Registry is wrong, Wrong licence is deleted
+                    splice @{$licences}, $indexSeenLicence, 1 if defined $indexSeenLicence;
                 }
                 # Update FULLNAME if seen ProductName in registry
-                $license->{FULLNAME} = encodeFromRegistry($seenKey->{'/ProductName'})
-                    if $seenKey->{'/ProductName'};
-                $license->{TRIAL} = 1
-                    if ($seenKey->{'/ProductNameBrand'} && $seenKey->{'/ProductNameBrand'} =~ /trial/i);
+                $license->{FULLNAME} = encodeFromRegistry($seenKey->{'/ProductName'}) if $seenKey->{'/ProductName'};
+                $license->{TRIAL} = 1 if $seenKey->{'/ProductNameBrand'} && $seenKey->{'/ProductNameBrand'} =~ /trial/i;
             }
         }
 
-        if (defined $indexFoundLicence) {
-            @{$licences}[$indexFoundLicence] = $license;
-        } else {
-            push @{$licences}, $license;
-        }
+        push @{$licences}, $license;
     }
 }
 

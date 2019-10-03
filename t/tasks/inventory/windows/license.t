@@ -119,6 +119,6 @@ ok( $licenses[0]->{'PRODUCTID'} eq '00339-10000-00000-AA310' );
 
 FusionInventory::Agent::Task::Inventory::Win32::License::_getWmiSoftwareLicensingProducts(\@licenses);
 
-# License was still read from registry, no license added, but remplaced by WMI Information
+# License was still read from registry, no license added, but replaced by WMI Information
 ok( @licenses == 1 );
 ok( $licenses[0]->{'KEY'} eq 'XXXXX-XXXXX-XXXXX-XXXXX-WE9H9' );
