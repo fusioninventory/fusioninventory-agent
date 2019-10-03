@@ -190,4 +190,4 @@ return compiled regexp to match given oid.
 
 =head2 isStringHexadecimal($value)
 
-return true if value is an string hexadecimal (start with 0x).
+return true if value is a string hexadecimal (start with 0x).
