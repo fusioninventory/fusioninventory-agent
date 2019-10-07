@@ -51,7 +51,7 @@ sub doInventory {
 
     _scanWmiSoftwareLicensingProducts();
 
-    push @licenses, _mergeSeenProduct() if %{$seenProducts};
+    push @licenses, _mergeSeenProduct() if $seenProducts;
 
     foreach my $license (@licenses) {
         $inventory->addEntry(
