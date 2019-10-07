@@ -18,7 +18,9 @@ if (!$Config{usethreads} || $Config{usethreads} ne 'define') {
     plan skip_all => 'thread support required';
 }
 
-plan tests => 15;
+my @sampleWalkResult = (4, 6);
+
+plan tests => 12 + 3 * @sampleWalkResult;
 
 FusionInventory::Agent::Task::NetInventory->use();
 
@@ -54,21 +56,23 @@ like(
 );
 is($out, '', 'no target stdout');
 
-($out, $err, $rc) = run_executable(
-    'fusioninventory-netinventory',
-    '--host 127.0.0.1 --file resources/walks/sample4.walk'
-);
-ok($rc == 0, 'success exit status');
+foreach my $walk (@sampleWalkResult) {
+    ($out, $err, $rc) = run_executable(
+        'fusioninventory-netinventory',
+        '--host 127.0.0.1 --file resources/walks/sample'.$walk.'.walk'
+    );
+    ok($rc == 0, 'success exit status sample'.$walk);
 
-my $content = XML::TreePP->new()->parse($out);
-ok($content, 'valid output');
+    my $content = XML::TreePP->new()->parse($out);
+    ok($content, 'valid output sample'.$walk);
 
-my $result = XML::TreePP->new()->parsefile('resources/walks/sample4.result');
-$result->{'REQUEST'}{'CONTENT'}{'MODULEVERSION'} =
-    $FusionInventory::Agent::Task::NetInventory::VERSION;
-$result->{'REQUEST'}{'DEVICEID'} = re('^\S+$');
+    my $result = XML::TreePP->new()->parsefile('resources/walks/sample'.$walk.'.result');
+    $result->{'REQUEST'}{'CONTENT'}{'MODULEVERSION'} =
+        $FusionInventory::Agent::Task::NetInventory::VERSION;
+    $result->{'REQUEST'}{'DEVICEID'} = re('^\S+$');
 
-cmp_deeply($content, $result, "expected output");
+    cmp_deeply($content, $result, "expected output sample$walk");
+}
 
 # Check multi-threading support
 my $files = join(" ", map { "--file resources/walks/sample1.walk" } 1..10 ) ;
