@@ -64,9 +64,6 @@ sub doInventory {
 }
 
 sub _scanWmiSoftwareLicensingProducts {
-
-    my ($licences) = @_;
-
     foreach my $object (getWMIObjects(
         moniker    => 'winmgmts:\\\\.\\root\\CIMV2',
         class      => 'SoftwareLicensingProduct',
@@ -127,6 +124,7 @@ sub _mergeSeenProduct() {
         }
         push @licenses, $license if $license;
     }
+    
     return @licenses;
 }
 
@@ -158,6 +156,7 @@ sub _scanOfficeLicences {
 
 sub _getWmiLicense {
     my ($wmi) = @_;
+
     my $key = $wmi->{'PartialProductKey'};
     if ($key && length($key) == 5) {
         $key = sprintf("XXXXX-XXXXX-XXXXX-XXXXX-%s", $key);
