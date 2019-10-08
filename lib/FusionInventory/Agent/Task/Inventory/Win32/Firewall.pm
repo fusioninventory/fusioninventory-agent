@@ -108,7 +108,7 @@ sub _makeProfileAndConnectionsAssociation {
         next if ($interface->{STATUS} ne 'Up');
 
         my $profile;
-        my $domainSettings = $DNSRegisteredAdapters->{$interface->{GUID}.'/'};
+        my $domainSettings = $DNSRegisteredAdapters->{$interface->{GUID}.'/'} if exists $interface->{GUID};
         # check if connection with domain
         if ($domainSettings) {
             $profile = _retrieveFirewallProfileWithdomain(
