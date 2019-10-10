@@ -253,7 +253,7 @@ config_install : pure_install
 	done
 	$(ABSPERLRUN) -pi \
 	    -e "s|=> undef, # SYSCONFDIR.*|=> '$(SYSCONFDIR)',|;" \
-	        $(DESTDIR)$(DATADIR)/lib/FusionInventory/Agent/Config.pm
+	        $(DESTDIR)$(INSTALLSITELIB)/FusionInventory/Agent/Config.pm
 
 data_install : pure_install
 	$(MOD_INSTALL) "share" "$(DESTDIR)$(DATADIR)"
@@ -266,7 +266,7 @@ setup_install : pure_install
 	    -e 's|datadir => .*|datadir => "$(DATADIR)",|;' \
 	    -e 's|libdir  => .*|libdir  => "$(DATADIR)/lib",|;' \
 	    -e 's|vardir  => .*|vardir  => "$(LOCALSTATEDIR)",|' \
-	        $(DESTDIR)$(DATADIR)/lib/setup.pm
+	        $(DESTDIR)$(INSTALLSITELIB)/setup.pm
 
 version_install : pure_install
 	# Cleanup and update Version module during install
@@ -274,7 +274,7 @@ version_install : pure_install
 	    -e 'last if m|^__END__|;' \
 	    -e 's|^our \$$VERSION =.*|our \$$VERSION = "$(VERSION)";|;' \
 	    -e 's|^our \$$COMMENTS =.*|our \$$COMMENTS = [$(RAWCOMMENTS)];|;' \
-	        $(DESTDIR)$(DATADIR)/lib/FusionInventory/Agent/Version.pm
+	        $(DESTDIR)$(INSTALLSITELIB)/FusionInventory/Agent/Version.pm
 EOF
     return $install;
 }
