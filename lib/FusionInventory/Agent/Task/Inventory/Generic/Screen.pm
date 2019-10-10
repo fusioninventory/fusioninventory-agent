@@ -245,7 +245,8 @@ sub _getScreensFromMacOS {
 
     my $logger = $params{logger};
 
-    $logger->debug("retrieving AppleBacklightDisplay datas:");
+    $logger->debug("retrieving AppleBacklightDisplay and AppleDisplay datas:")
+        if $logger;
 
     FusionInventory::Agent::Tools::MacOS->require();
 
@@ -253,7 +254,13 @@ sub _getScreensFromMacOS {
     my @displays = FusionInventory::Agent::Tools::MacOS::getIODevices(
         class   => 'AppleBacklightDisplay',
         options => '-r -lw0 -d 1',
-        logger => $params{logger},
+        logger  => $logger,
+    );
+
+    push @displays, FusionInventory::Agent::Tools::MacOS::getIODevices(
+        class   => 'AppleDisplay',
+        options => '-r -lw0 -d 1',
+        logger  => $logger,
     );
 
     foreach my $display (@displays) {
