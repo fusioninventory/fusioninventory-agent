@@ -493,7 +493,7 @@ foreach my $test (keys %tests) {
         \@interfaces,
         $tests{$test},
         "$test sample"
-    ) or diag explain @interfaces;
+    );
 }
 
 SKIP: {
