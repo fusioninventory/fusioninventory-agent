@@ -656,10 +656,12 @@ sub getInterfaces {
 
     my @configurations;
 
+    my $indexKey = 'InterfaceIndex';
+
     foreach my $object (getWMIObjects(
             class      => 'Win32_NetworkAdapterConfiguration',
             properties => [ qw/
-                Index Description IPEnabled DHCPServer MACAddress MTU
+                Index InterfaceIndex Description IPEnabled DHCPServer MACAddress MTU
                 DefaultIPGateway DNSServerSearchOrder IPAddress IPSubnet
                 DNSDomain
                 /
@@ -690,33 +692,60 @@ sub getInterfaces {
             }
         }
 
-        $configurations[$object->{Index}] = $configuration;
+        # XP compatibility
+        $indexKey = 'Index' if !exists $object->{$indexKey};
+
+        $configurations[$object->{$indexKey}] = $configuration;
     }
 
     my @interfaces;
 
-    foreach my $object (getWMIObjects(
-        class      => 'Win32_NetworkAdapter',
-        properties => [ qw/Index PNPDeviceID Speed PhysicalAdapter GUID/ ]
-    )) {
+    # For Win8 or Above
+    my @networkAdapter = getWMIObjects(
+        moniker    => 'winmgmts://./root/StandardCimv2',
+        class      => 'MSFT_NetAdapter',
+        properties => [ qw/InterfaceIndex PnPDeviceID Speed HardwareInterface InterfaceGuid InterfaceDescription/ ]
+    );
+    my $netAdapterKey = {
+        'PNPDeviceID' => 'PnPDeviceID',
+        'GUID' => 'InterfaceGuid',
+        'DESCRIPTION' => 'InterfaceDescription',
+        'PhysicalAdapter' => 'HardwareInterface'
+    };
+    
+    if (!@networkAdapter) {
+        # Legacy for Win<8
+        @networkAdapter = getWMIObjects(
+            class      => 'Win32_NetworkAdapter',
+            properties => [ qw/Index InterfaceIndex PNPDeviceID Speed PhysicalAdapter GUID/ ]
+        );
+        $netAdapterKey = {
+            'PNPDeviceID' => 'PNPDeviceID',
+            'GUID' => 'GUID',
+            'PhysicalAdapter' => 'PhysicalAdapter'
+        };
+    }
+
+
+    foreach my $object (@networkAdapter) {
         # http://comments.gmane.org/gmane.comp.monitoring.fusion-inventory.devel/34
-        next unless $object->{PNPDeviceID};
+        next unless $object->{$netAdapterKey->{PNPDeviceID}};
 
         my $pciid;
-        if ($object->{PNPDeviceID} =~ /PCI\\VEN_(\w{4})&DEV_(\w{4})&SUBSYS_(\w{4})(\w{4})/) {
+        if ($object->{$netAdapterKey->{PNPDeviceID}} =~ /PCI\\VEN_(\w{4})&DEV_(\w{4})&SUBSYS_(\w{4})(\w{4})/) {
             $pciid = join(':', $1 , $2 , $3 , $4);
         }
 
-        my $configuration = $configurations[$object->{Index}];
+        my $configuration = $configurations[$object->{$indexKey}];
 
         if ($configuration->{addresses}) {
             foreach my $address (@{$configuration->{addresses}}) {
 
                 my $interface = {
-                    PNPDEVICEID => $object->{PNPDeviceID},
+                    PNPDEVICEID => $object->{$netAdapterKey->{PNPDeviceID}},
                     PCIID       => $pciid,
                     MACADDR     => $configuration->{MACADDR},
-                    DESCRIPTION => $configuration->{DESCRIPTION},
+                    DESCRIPTION => exists $netAdapterKey->{DESCRIPTION} ? $object->{$netAdapterKey->{DESCRIPTION}} : $configuration->{DESCRIPTION},
                     STATUS      => $configuration->{STATUS},
                     MTU         => $configuration->{MTU},
                     dns         => $configuration->{dns}
@@ -740,14 +769,14 @@ sub getInterfaces {
                     );
                 }
 
-                $interface->{GUID} = $object->{GUID}
-                    if $object->{GUID};
+                $interface->{GUID} = $object->{$netAdapterKey->{GUID}}
+                    if $object->{$netAdapterKey->{GUID}};
                 $interface->{DNSDomain} = $configuration->{DNSDomain}
                     if $configuration->{DNSDomain};
 
                 $interface->{SPEED}      = int($object->{Speed} / 1_000_000)
                     if $object->{Speed};
-                $interface->{VIRTUALDEV} = _isVirtual($object, $configuration);
+                $interface->{VIRTUALDEV} = _isVirtual($object, $configuration, $netAdapterKey);
 
                 push @interfaces, $interface;
             }
@@ -755,23 +784,23 @@ sub getInterfaces {
             next unless $configuration->{MACADDR};
 
             my $interface = {
-                PNPDEVICEID => $object->{PNPDeviceID},
+                PNPDEVICEID => $object->{$netAdapterKey->{PNPDeviceID}},
                 PCIID       => $pciid,
                 MACADDR     => $configuration->{MACADDR},
-                DESCRIPTION => $configuration->{DESCRIPTION},
+                DESCRIPTION => exists $netAdapterKey->{DESCRIPTION} ? $object->{$netAdapterKey->{DESCRIPTION}} : $configuration->{DESCRIPTION},
                 STATUS      => $configuration->{STATUS},
                 MTU         => $configuration->{MTU},
                 dns         => $configuration->{dns}
             };
 
-            $interface->{GUID} = $object->{GUID}
-                if $object->{GUID};
+            $interface->{GUID} = $object->{$netAdapterKey->{GUID}}
+                if $object->{$netAdapterKey->{GUID}};
             $interface->{DNSDomain} = $configuration->{DNSDomain}
                 if $configuration->{DNSDomain};
 
             $interface->{SPEED}      = int($object->{Speed} / 1_000_000)
                 if $object->{Speed};
-            $interface->{VIRTUALDEV} = _isVirtual($object, $configuration);
+            $interface->{VIRTUALDEV} = _isVirtual($object, $configuration, $netAdapterKey);
 
             push @interfaces, $interface;
         }
@@ -783,14 +812,14 @@ sub getInterfaces {
 }
 
 sub _isVirtual {
-    my ($object, $configuration) = @_;
+    my ($object, $configuration, $netAdapterKey) = @_;
 
     # PhysicalAdapter only work on OS > XP
-    if (defined $object->{PhysicalAdapter}) {
+    if (defined $object->{$netAdapterKey->{PhysicalAdapter}}) {
         # Some virtual network adapters like VirtualBox or VPN ones could be set
         # as physical but with PNPDeviceID starting by ROOT
-        return 1 if (defined($object->{PNPDeviceID}) && $object->{PNPDeviceID} =~ /^ROOT/);
-        return $object->{PhysicalAdapter} ? 0 : 1;
+        return 1 if (defined($object->{$netAdapterKey->{PNPDeviceID}}) && $object->{$netAdapterKey->{PNPDeviceID}} =~ /^ROOT/);
+        return $object->{$netAdapterKey->{PhysicalAdapter}} ? 0 : 1;
     }
 
     # http://forge.fusioninventory.org/issues/1166

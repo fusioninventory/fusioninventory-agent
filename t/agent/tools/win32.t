@@ -151,6 +151,109 @@ my %tests = (
             MTU         => undef,
             DESCRIPTION => 'Teefer2 Miniport'
         }
+    ],
+    '10-net'    => [
+        {
+            DESCRIPTION => 'Targus Giga Ethernet',
+            DNSDomain   => 'contoso.com',
+            IPADDRESS   => '192.168.0.2',
+            IPDHCP      => '192.168.2.2',
+            IPGATEWAY   => '192.168.0.254',
+            IPMASK      => '255.255.255.0',
+            IPSUBNET    => '192.168.0.0',
+            MACADDR     => '00:50:00:00:F3:6D',
+            PNPDEVICEID => 'USB\\VID_17E9&PID_4306&MI_05\\7&25c647c&0&0005',
+            SPEED       => '1000',
+            STATUS      => 'Up',
+            VIRTUALDEV  => '0',
+            GUID        => '{FD7B5BF5-2E4B-4CA4-0000-F633D86283A1}',
+            dns         => '192.168.2.2',
+            PCIID       => undef,
+            MTU         => undef
+        },
+        {
+            DESCRIPTION => 'Targus Giga Ethernet',
+            DNSDomain   => 'contoso.com',
+            IPADDRESS6  => 'fe80::2c1f:9a1f:dedd:699c',
+            IPMASK6     => 'ffff:ffff:ffff:ffff::',
+            IPSUBNET6   => 'fe80::',
+            MACADDR     => '00:50:00:00:F3:6D',
+            PNPDEVICEID => 'USB\\VID_17E9&PID_4306&MI_05\\7&25c647c&0&0005',
+            SPEED       => '1000',
+            STATUS      => 'Up',
+            VIRTUALDEV  => '0',
+            GUID        => '{FD7B5BF5-2E4B-4CA4-0000-F633D86283A1}',
+            dns         => '192.168.2.2',
+            PCIID       => undef,
+            MTU         => undef
+        },
+        {
+            DESCRIPTION => 'Hyper-V Virtual Ethernet Adapter',
+            IPADDRESS   => '172.17.141.1',
+            IPMASK      => '255.255.255.240',
+            IPSUBNET    => '172.17.141.0',
+            MACADDR     => '00:15:5D:00:00:96',
+            PNPDEVICEID => 'ROOT\\VMS_MP\\0000',
+            SPEED       => '10000',
+            STATUS      => 'Up',
+            VIRTUALDEV  => '1',
+            GUID        => '{F2274B7D-033B-4FD1-B721-6B1E0E48D26D}',
+            IPDHCP      => undef,
+            IPGATEWAY   => undef,
+            PCIID       => undef,
+            MTU         => undef,
+            dns         => undef
+        },
+        {
+            DESCRIPTION => 'Hyper-V Virtual Ethernet Adapter',
+            IPADDRESS6  => 'fe80::e1b8:381c:382e:d940',
+            IPMASK6     => 'ffff:ffff:ffff:ffff::',
+            IPSUBNET6   => 'fe80::',
+            MACADDR     => '00:15:5D:00:00:96',
+            PNPDEVICEID => 'ROOT\\VMS_MP\\0000',
+            SPEED       => '10000',
+            STATUS      => 'Up',
+            VIRTUALDEV  => '1',
+            GUID        => '{F2274B7D-033B-4FD1-B721-6B1E0E48D26D}',
+            PCIID       => undef,
+            MTU         => undef,
+            dns         => undef
+        },
+        {
+            DESCRIPTION => 'Bluetooth Device (Personal Area Network) #3',
+            MACADDR     => '44:85:00:00:00:5F',
+            PNPDEVICEID => 'BTH\\MS_BTHPAN\\6&12f29cde&1&2',
+            SPEED       => '3',
+            STATUS      => 'Up',
+            VIRTUALDEV  => '0',
+            GUID        => '{73513F19-5210-45E7-9CB5-6DB761D8291A}',
+            PCIID       => undef,
+            MTU         => undef,
+            dns         => undef
+        },
+        {
+            DESCRIPTION => 'TAP-Windows Adapter V9 #3',
+            MACADDR     => '00:FF:20:00:00:80',
+            PNPDEVICEID => 'ROOT\\NET\\0000',
+            SPEED       => '100',
+            STATUS      => 'Up',
+            VIRTUALDEV  => '1',
+            GUID        => '{201DE880-FE07-47BE-0000-A3ABDE40367F}',
+            PCIID       => undef,
+            MTU         => undef,
+            dns         => undef
+        },
+        {
+            DESCRIPTION => 'Intel(R) Dual Band Wireless-AC 8260',
+            MACADDR     => '44:85:00:00:00:5B',
+            PCIID       => '8086:24F3:0130:8086',
+            PNPDEVICEID => 'PCI\\VEN_8086&DEV_24F3&SUBSYS_01308086&REV_3A\\448500000000005B00',
+            STATUS      => 'Up',
+            VIRTUALDEV  => '0',
+            GUID        => '{05CAEBD3-9408-4A3D-0000-EB10577755E3}',
+            MTU         => undef,
+            dns         => undef
+        }
     ]
 );
 
@@ -390,7 +493,7 @@ foreach my $test (keys %tests) {
         \@interfaces,
         $tests{$test},
         "$test sample"
-    );
+    ) or diag explain @interfaces;
 }
 
 SKIP: {
