@@ -264,7 +264,7 @@ setup_install : pure_install
 	    -e 'undef $$_ if m/^use (File::Spec|Cwd)/;' \
 	    -e 'if (m/# Compute/) { print "1;\n"; last; };' \
 	    -e 's|datadir => .*|datadir => "$(DATADIR)",|;' \
-	    -e 's|libdir  => .*|libdir  => "$(DATADIR)/lib",|;' \
+	    -e 's|libdir  => .*|libdir  => "$(INSTALLSITELIB)",|;' \
 	    -e 's|vardir  => .*|vardir  => "$(LOCALSTATEDIR)",|' \
 	        $(DESTDIR)$(INSTALLSITELIB)/setup.pm
 
@@ -290,7 +290,7 @@ sub installbin {
 
     $installbin .= <<'EOF';
 FINALIZE = $(ABSPERLRUN) -pi \
-    -e 's|use lib .*|use lib "$(DATADIR)/lib";|;' \
+    -e 's|use lib .*|use lib "$(INSTALLSITELIB)";|;' \
     --
 EOF
     return $installbin;
