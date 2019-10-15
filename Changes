@@ -14,6 +14,7 @@ inventory:
  - fix monitors inventory using ioreg as it provides EDID block from monitors
  - fix few perl error messages on exotic cases
 * win32: fix hyperv host wasn't filtered from installed virtual machines
+* win32: fix Adobe key detection
 
 netdiscovery/netinventory:
 * linux: avoid to share HTTP client with threads to fix RHEL/CentOS 7 crash
