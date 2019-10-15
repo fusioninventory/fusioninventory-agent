@@ -53,7 +53,7 @@ my $inventory_only_base_variables = {
         type => 'count',
     },
     MEMORY       => {
-        oid  => {'.1.3.6.1.2.1.25.2.3.1.5.1' => 'bytes'},
+        oid  => '.1.3.6.1.2.1.25.2.3.1.5.1',
         type => 'memory',
     },
     RAM          => {
