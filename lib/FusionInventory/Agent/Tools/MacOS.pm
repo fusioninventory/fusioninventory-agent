@@ -455,6 +455,8 @@ sub getIODevices {
     my $command = $params{class} ? "ioreg -c $params{class}" : "ioreg -l";
     my $filter = $params{class} || '[^,]+';
 
+    $command .= " $params{options}" if $params{options};
+
     my $handle = getFileHandle(command => $command, %params);
     return unless $handle;
 
@@ -478,7 +480,7 @@ sub getIODevices {
             next;
         }
 
-        if ($line =~ /"([^"]+)" \s = \s <? (?: "([^"]+)" | (\d+)) >?/x) {
+        if ($line =~ /"([^"]+)" \s = \s <? (?: "([^"]+)" | ([0-9a-f]+)) >?/ix) {
             # string or numeric property
             $device->{$1} = $2 || $3;
             next;
@@ -486,6 +488,9 @@ sub getIODevices {
 
     }
     close $handle;
+
+    # Always include last device
+    push @devices, $device if $device;
 
     return @devices;
 }
