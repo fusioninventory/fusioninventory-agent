@@ -20,7 +20,7 @@ my %adobe_tests = (
         {
             KEY        => '0054-9254-6813-4374-8223-9731',
             NAME       => 'DesignSuitePremium-CS5.5-Mac-GM',
-            COMPONENTS => 'Photoshop-CS5.5-Mac-GM/AcrobatPro-AS1-Mac-GM/Dreamweaver-CS5.5-Mac-GM/Fireworks-CS5.5-Mac-GM/FlashCatalyst-CS5.5-Mac-GM/FlashPro-CS5.5-Mac-GM/Illustrator-CS5.5-Mac-GM/InDesign-CS5.5-Mac-GM',
+            COMPONENTS => 'AcrobatPro-AS1-Mac-GM/Dreamweaver-CS5.5-Mac-GM/Fireworks-CS5.5-Mac-GM/FlashCatalyst-CS5.5-Mac-GM/FlashPro-CS5.5-Mac-GM/Illustrator-CS5.5-Mac-GM/InDesign-CS5.5-Mac-GM/Photoshop-CS5.5-Mac-GM',
             FULLNAME   => 'Creative Suite 5.5 Design Premium'
         }
     ]
@@ -55,7 +55,7 @@ my @microsoft_tests = (
 );
 
 plan tests =>
-    (scalar keys %adobe_tests) +
+    2*(scalar keys %adobe_tests) +
     (scalar @microsoft_tests) +
     1;
 
@@ -66,6 +66,13 @@ foreach my $test (keys %adobe_tests) {
         [ sort { compare() } @licenses ],
         [ sort { compare() } @{$adobe_tests{$test}} ],
         $test
+    );
+
+    my @licencesWithoutSqlIte = getAdobeLicensesWithoutSqlite($file.".db");
+    cmp_deeply(
+        [ sort { compare() } @licencesWithoutSqlIte ],
+        [ sort { compare() } @{$adobe_tests{$test}} ],
+        $test.'WithoutSqlite'
     );
 }
 
