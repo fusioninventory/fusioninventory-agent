@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<REQUEST>
+  <CONTENT>
+    <DEVICE>
+      <INFO>
+        <ID>0</ID>
+        <MEMORY>1</MEMORY>
+        <RAM>8161</RAM>
+        <TYPE /></INFO>
+    </DEVICE>
+    <MODULEVERSION>4.0</MODULEVERSION>
+    <PROCESSNUMBER>1</PROCESSNUMBER>
+  </CONTENT>
+  <DEVICEID>foo</DEVICEID>
+  <QUERY>SNMPQUERY</QUERY>
+</REQUEST>

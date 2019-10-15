@@ -57,11 +57,11 @@ my $inventory_only_base_variables = {
         type => 'memory',
     },
     RAM          => {
-        oid  => [
-            '.1.3.6.1.4.1.2021.4.5',
-            '.1.3.6.1.4.1.9.3.6.6.0',
-            '.1.3.6.1.2.1.25.2.2.0',
-        ],
+        oid  => {
+            '.1.3.6.1.4.1.2021.4.5'     => 'kb',
+            '.1.3.6.1.4.1.9.3.6.6.0'    => 'bytes',
+            '.1.3.6.1.2.1.25.2.2.0'     => 'kb',
+        },
         type => 'memory',
     },
 };
@@ -487,6 +487,12 @@ sub _set_from_oid_list {
         if (ref $variable->{oid} eq 'ARRAY') {
             foreach my $oid (@{$variable->{oid}}) {
                 $raw_value = $self->get($oid);
+                last if defined $raw_value;
+            }
+        } elsif (ref $variable->{oid} eq 'HASH') {
+            foreach my $oid (keys %{$variable->{oid}}) {
+                $raw_value = $self->get($oid);
+                $raw_value .= ' kB' if $raw_value && $variable->{oid}->{$oid} eq 'kb' && isInteger($raw_value);
                 last if defined $raw_value;
             }
         } else {
