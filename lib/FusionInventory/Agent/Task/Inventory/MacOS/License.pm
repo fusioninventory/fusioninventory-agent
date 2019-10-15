@@ -20,10 +20,16 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
+    my @found;
     # Adobe
-    my @found = getAdobeLicenses(
-        command => 'sqlite3 -separator " <> " "/Library/Application Support/Adobe/Adobe PCD/cache/cache.db" "SELECT * FROM domain_data"'
-    );
+    my $fileAdobe = '/Library/Application Support/Adobe/Adobe PCD/cache/cache.db';
+    if (-e $fileAdobe) {
+        push @found, getAdobeLicenses(
+            command => 'sqlite3 -separator " <> " "'.$fileAdobe.'" "SELECT * FROM domain_data"'
+        );
+
+        push @found, getAdobeLicensesWithoutSqlite($fileAdobe) if (scalar @found) == 0;
+    }
 
     # Transmit
     my @transmitFiles = glob('"/System/Library/User Template/*.lproj/Library/Preferences/com.panic.Transmit.plist"');

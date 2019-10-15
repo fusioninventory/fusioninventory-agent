@@ -10,6 +10,7 @@ use FusionInventory::Agent::Tools;
 
 our @EXPORT = qw(
     getAdobeLicenses
+    getAdobeLicensesWithoutSqlite
     decodeMicrosoftKey
 );
 
@@ -74,7 +75,48 @@ sub getAdobeLicenses {
             NAME       => $key,
             FULLNAME   => $data{$key}{ALM_LicInfo_EpicAppName},
             KEY        => _decodeAdobeKey($data{$key}{SN}) || 'n/a',
-            COMPONENTS => join('/', @{$data{$key}{with}})
+            COMPONENTS => join('/', sort @{$data{$key}{with}})
+        }
+    }
+
+    return @licenses;
+}
+
+sub getAdobeLicensesWithoutSqlite {
+    my ($fileAdobe) = @_;
+
+    my $contentFileAdobe = getAllLines(file => $fileAdobe) or return;
+
+    my @licenses;
+    $contentFileAdobe =~ s/\0//g;
+    my $copyContent = $contentFileAdobe;
+    my %products;
+    while ($copyContent =~ s/1([a-zA-Z0-9\-\.]+)[\{\|\}[a-zA-Z0-9\-_]*]?FLMap([a-zA-Z0-9\-\.]{3,}).{2,3}//) {
+        if (exists($products{$2})) {
+            push @{$products{$2}}, $1 if !grep (/^$1$/, @{$products{$2}});
+        } else {
+            $products{$2} = [$1];
+        }
+    }
+
+    while (my ($product, $component) = each %products) {
+        $copyContent = $contentFileAdobe;
+        my $regex = $product.'\{\|\}[a-zA-Z0-9\-_]+SN([0-9]{24})';
+        $copyContent =~ /$regex/;
+        if ($1) {
+            my $SN = _decodeAdobeKey($1);
+            $copyContent = $contentFileAdobe;
+            $regex = $product.'ALM_LicInfo_EpicAppName\{\|\}[0-9]+([a-zA-Z]+[a-zA-Z0-9\.\- ]+).{2}';
+            $copyContent =~ /$regex/;
+            my $fullName = $product;
+            $fullName = $1 if $1;
+
+            push @licenses, {
+                NAME       => $product,
+                FULLNAME   => $fullName,
+                KEY        => $SN,
+                COMPONENTS => join('/', sort @{$component})
+            }
         }
     }
 
@@ -161,6 +203,10 @@ This module provides some functions to access license information.
 =head2 getAdobeLicenses
 
 Returns a structured view of Adobe license.
+
+=head2 getAdobeLicensesWithoutSqlite
+
+Returns a structured view of Adobe license without Sqlite.
 
 =head2 decodeMicrosoftKey($string)
 
