@@ -706,6 +706,93 @@ my %pdlist_tests = (
             'WWN' => '5000C50097176410'
         }
     },
+    set4_PDlist => {
+        '1' => {
+            'Coerced Size' => '558.375 GB [0x45cc0000 Sectors]',
+            'Connected Port Number' => '4(path0)',
+            'Device Firmware Level' => 'DE11',
+            'Device Id' => '0',
+            'Device Speed' => '6.0Gb/s',
+            'Drive Temperature ' => '28C (82.40 F)',
+            'Drive has flagged a S.M.A.R.T alert ' => 'No',
+            'Drive is formatted for PI information' => 'No',
+            'Drive\'s position' => 'DiskGroup: 0, Span: 0, Arm: 0',
+            'Enclosure Device ID' => '32',
+            'Enclosure position' => 'N/A',
+            'FDE Capable' => 'Not Capable',
+            'FDE Enable' => 'Disable',
+            'Firmware state' => 'Online, Spun Up',
+            'Foreign State' => 'None',
+            'Inquiry Data' => 'TOSHIBA AL13SEB600      DE11Z390A051FRD3',
+            'Last Predictive Failure Event Seq Number' => '0',
+            'Link Speed' => '6.0Gb/s',
+            'Locked' => 'Unlocked',
+            'Media Error Count' => '0',
+            'Media Type' => 'Hard Disk Device',
+            'Needs EKM Attention' => 'No',
+            'Non Coerced Size' => '558.411 GB [0x45cd2fb0 Sectors]',
+            'Other Error Count' => '0',
+            'PD Type' => 'SAS',
+            'PI' => 'No PI',
+            'PI Eligibility' => 'No',
+            'Port status' => 'Active',
+            'Port\'s Linkspeed' => 'Unknown',
+            'Predictive Failure Count' => '0',
+            'Raw Size' => '558.911 GB [0x45dd2fb0 Sectors]',
+            'SAS Address(0)' => '0x50000395380bc01a',
+            'SAS Address(1)' => '0x0',
+            'Sector Size' => '0',
+            'Secured' => 'Unsecured',
+            'Sequence Number' => '2',
+            'Shield Counter' => '0',
+            'Slot Number' => '0',
+            'Successful diagnostics completion on ' => 'N/A',
+            'WWN' => '50000395380BC018'
+        },
+        '2' => {
+            'Coerced Size' => '558.375 GB [0x45cc0000 Sectors]',
+            'Connected Port Number' => '1(path0)',
+            'Device Firmware Level' => 'DE11',
+            'Device Id' => '1',
+            'Device Speed' => '6.0Gb/s',
+            'Drive Temperature ' => '28C (82.40 F)',
+            'Drive has flagged a S.M.A.R.T alert ' => 'No',
+            'Drive is formatted for PI information' => 'No',
+            'Drive\'s position' => 'DiskGroup: 0, Span: 0, Arm: 1',
+            'Enclosure Device ID' => '32',
+            'Enclosure position' => 'N/A',
+            'Exit Code' => '0x00',
+            'FDE Capable' => 'Not Capable',
+            'FDE Enable' => 'Disable',
+            'Firmware state' => 'Online, Spun Up',
+            'Foreign State' => 'None',
+            'Inquiry Data' => 'TOSHIBA AL13SEB600      DE1154O0A05KFRD4',
+            'Last Predictive Failure Event Seq Number' => '0',
+            'Link Speed' => '6.0Gb/s',
+            'Locked' => 'Unlocked',
+            'Media Error Count' => '0',
+            'Media Type' => 'Hard Disk Device',
+            'Needs EKM Attention' => 'No',
+            'Non Coerced Size' => '558.411 GB [0x45cd2fb0 Sectors]',
+            'Other Error Count' => '0',
+            'PD Type' => 'SAS',
+            'PI' => 'No PI',
+            'PI Eligibility' => 'No',
+            'Port status' => 'Active',
+            'Port\'s Linkspeed' => 'Unknown',
+            'Predictive Failure Count' => '0',
+            'Raw Size' => '558.911 GB [0x45dd2fb0 Sectors]',
+            'SAS Address(0)' => '0x500003958830c0ce',
+            'SAS Address(1)' => '0x0',
+            'Sector Size' => '0',
+            'Secured' => 'Unsecured',
+            'Sequence Number' => '2',
+            'Shield Counter' => '0',
+            'Slot Number' => '1',
+            'Successful diagnostics completion on ' => 'N/A',
+            'WWN' => '500003958830C0CD'
+        }
+    },
 );
 
 my %summary_tests = (
@@ -891,6 +978,26 @@ my %summary_tests = (
             'slot' => '3'
         }
     },
+    set4_ShowSummary => {
+        '0' => {
+            'Capacity' => '558.375 GB',
+            'Disk Type' => 'SAS,Hard Disk Device',
+            'Power State' => 'Active',
+            'Product Id' => 'AL13SEB600',
+            'State' => 'Online',
+            'Vendor Id' => 'TOSHIBA',
+            'slot' => '0',
+        },
+        '1' => {
+            'Capacity' => '558.375 GB',
+            'Disk Type' => 'SAS,Hard Disk Device',
+            'Power State' => 'Active',
+            'Product Id' => 'AL13SEB600',
+            'State' => 'Online',
+            'Vendor Id' => 'TOSHIBA',
+            'slot' => '1',
+        }
+    },
 );
 
 my %enclosure_tests = (
@@ -901,6 +1008,9 @@ my %enclosure_tests = (
         0 => 32,
     },
     set3_EncInfo => {
+        0 => 32,
+    },
+    set4_EncInfo => {
         0 => 32,
     },
 );
@@ -1069,6 +1179,28 @@ my %storage_tests = (
             'MODEL' => 'ST300MP0005',
             'NAME' => 'ST300MP0005',
             'SERIALNUMBER' => 'S7K13BDL',
+            'TYPE' => 'disk'
+        }
+    },
+    'set4' => {
+        '1' => {
+            'DESCRIPTION' => 'SAS',
+            'DISKSIZE' => '558911',
+            'FIRMWARE' => 'DE11',
+            'MANUFACTURER' => 'Toshiba',
+            'MODEL' => 'AL13SEB600',
+            'NAME' => 'AL13SEB600',
+            'SERIALNUMBER' => 'Z390A051FRD3',
+            'TYPE' => 'disk'
+        },
+        '2' => {
+            'DESCRIPTION' => 'SAS',
+            'DISKSIZE' => '558911',
+            'FIRMWARE' => 'DE11',
+            'MANUFACTURER' => 'Toshiba',
+            'MODEL' => 'AL13SEB600',
+            'NAME' => 'AL13SEB600',
+            'SERIALNUMBER' => '54O0A05KFRD4',
             'TYPE' => 'disk'
         }
     },

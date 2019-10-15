@@ -1,0 +1,101 @@
+                                     
+Adapter #0
+
+Enclosure Device ID: 32
+Slot Number: 0
+Drive's position: DiskGroup: 0, Span: 0, Arm: 0
+Enclosure position: N/A
+Device Id: 0
+WWN: 50000395380BC018
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SAS
+
+Raw Size: 558.911 GB [0x45dd2fb0 Sectors]
+Non Coerced Size: 558.411 GB [0x45cd2fb0 Sectors]
+Coerced Size: 558.375 GB [0x45cc0000 Sectors]
+Sector Size:  0
+Firmware state: Online, Spun Up
+Device Firmware Level: DE11
+Shield Counter: 0
+Successful diagnostics completion on :  N/A
+SAS Address(0): 0x50000395380bc01a
+SAS Address(1): 0x0
+Connected Port Number: 4(path0) 
+Inquiry Data: TOSHIBA AL13SEB600      DE11Z390A051FRD3        
+FDE Capable: Not Capable
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Needs EKM Attention: No
+Foreign State: None 
+Device Speed: 6.0Gb/s 
+Link Speed: 6.0Gb/s 
+Media Type: Hard Disk Device
+Drive Temperature :28C (82.40 F)
+PI Eligibility:  No 
+Drive is formatted for PI information:  No
+PI: No PI
+Port-0 :
+Port status: Active
+Port's Linkspeed: 6.0Gb/s 
+Port-1 :
+Port status: Active
+Port's Linkspeed: Unknown 
+Drive has flagged a S.M.A.R.T alert : No
+
+
+
+Enclosure Device ID: 32
+Slot Number: 1
+Drive's position: DiskGroup: 0, Span: 0, Arm: 1
+Enclosure position: N/A
+Device Id: 1
+WWN: 500003958830C0CD
+Sequence Number: 2
+Media Error Count: 0
+Other Error Count: 0
+Predictive Failure Count: 0
+Last Predictive Failure Event Seq Number: 0
+PD Type: SAS
+
+Raw Size: 558.911 GB [0x45dd2fb0 Sectors]
+Non Coerced Size: 558.411 GB [0x45cd2fb0 Sectors]
+Coerced Size: 558.375 GB [0x45cc0000 Sectors]
+Sector Size:  0
+Firmware state: Online, Spun Up
+Device Firmware Level: DE11
+Shield Counter: 0
+Successful diagnostics completion on :  N/A
+SAS Address(0): 0x500003958830c0ce
+SAS Address(1): 0x0
+Connected Port Number: 1(path0) 
+Inquiry Data: TOSHIBA AL13SEB600      DE1154O0A05KFRD4        
+FDE Capable: Not Capable
+FDE Enable: Disable
+Secured: Unsecured
+Locked: Unlocked
+Needs EKM Attention: No
+Foreign State: None 
+Device Speed: 6.0Gb/s 
+Link Speed: 6.0Gb/s 
+Media Type: Hard Disk Device
+Drive Temperature :28C (82.40 F)
+PI Eligibility:  No 
+Drive is formatted for PI information:  No
+PI: No PI
+Port-0 :
+Port status: Active
+Port's Linkspeed: 6.0Gb/s 
+Port-1 :
+Port status: Active
+Port's Linkspeed: Unknown 
+Drive has flagged a S.M.A.R.T alert : No
+
+
+
+
+Exit Code: 0x00

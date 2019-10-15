@@ -215,7 +215,6 @@ my %testsUSBStorage = (
             DESCRIPTION  => 'Optical USB 2.0',
             TYPE         => 'Disk drive',
             INTERFACE    => 'USB',
-            DISKSIZE     => ''
         }
     ],
     'SPUSBDataType_with_inserted_dvd.xml' => [
@@ -383,7 +382,6 @@ plan tests => (2 * scalar (keys %tests))
         + scalar (keys %testsUSBStorage)
         + scalar (keys %testsFireWireStorage)
         + scalar (keys %testsRecursiveParsing)
-        + 2
 ;
 
 my $inventory = FusionInventory::Test::Inventory->new();
@@ -482,12 +480,6 @@ SKIP: {
         );
     }
 }
-
-my $cleanedSizeStr = FusionInventory::Agent::Task::Inventory::MacOS::Storages::_cleanSizeString('297,29 GB');
-ok (defined $cleanedSizeStr && $cleanedSizeStr eq '297.29');
-$cleanedSizeStr = FusionInventory::Agent::Task::Inventory::MacOS::Storages::_cleanSizeString('2456 MB');
-ok (defined $cleanedSizeStr && $cleanedSizeStr eq '2456');
-
 
 sub compare {
     return
