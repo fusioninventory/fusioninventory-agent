@@ -22,6 +22,7 @@ netdiscovery/netinventory:
 * linux: avoid to share HTTP client with threads to fix RHEL/CentOS 7 crash
 * Add Tagged VLAN, work at least with HPE Switch, thanks to PR-gh
 * Enhanced Qlogic support to report device serial number, thanks to po1vo
+* Added StormShield support via FreeBSD MIBSupport, thanks to PR-gh
 
 2.5.1 Tue, 02 Jul 2019
 
