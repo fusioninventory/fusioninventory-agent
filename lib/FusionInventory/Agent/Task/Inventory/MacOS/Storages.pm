@@ -101,13 +101,7 @@ sub _getSerialATAStorages {
         my $storage = _extractStorage($hash);
         $storage->{TYPE} = 'Disk drive';
         $storage->{INTERFACE} = 'SERIAL-ATA';
-        %$storage = map {
-            my $value = $storage->{$_};
-            $value =~ s/^\s*//g;
-            $value =~ s/\s*$//g;
-            $_ => $value
-        } keys %$storage;
-        push @storages, $storage;
+        push @storages, _sanitizedHash($storage);
     }
 
     return @storages;
@@ -149,13 +143,7 @@ sub _getDiscBurningStorages {
     for my $hash (values %{$infos->{storages}}) {
         my $storage = _extractDiscBurning($hash);
         $storage->{TYPE} = 'Disk burning';
-        %$storage = map {
-            my $value = $storage->{$_};
-            $value =~ s/^\s*//g;
-            $value =~ s/\s*$//g;
-            $_ => $value
-        } keys %$storage;
-        push @storages, $storage;
+        push @storages, _sanitizedHash($storage);
     }
 
     return @storages;
@@ -200,13 +188,7 @@ sub _getCardReaderStorages {
             $storage = _extractSdCard($hash);
             $storage->{TYPE} = 'SD Card';
         }
-        %$storage = map {
-            my $value = $storage->{$_};
-            $value =~ s/^\s*//g;
-            $value =~ s/\s*$//g;
-            $_ => $value
-        } keys %$storage;
-        push @storages, $storage;
+        push @storages, _sanitizedHash($storage);
     }
 
     return @storages;
@@ -306,13 +288,7 @@ sub _getUSBStorages {
         my $storage = _extractUSBStorage($hash);
         $storage->{TYPE} = 'Disk drive';
         $storage->{INTERFACE} = 'USB';
-        %$storage = map {
-            my $value = $storage->{$_} || '';
-            $value =~ s/^\s*//g;
-            $value =~ s/\s*$//g;
-            $_ => $value
-        } keys %$storage;
-        push @storages, $storage;
+        push @storages, _sanitizedHash($storage);
     }
 
     return @storages;
@@ -342,24 +318,6 @@ sub _extractDiskSize {
             getCanonicalSize($hash->{size}, 1024);
 }
 
-sub _cleanSizeString {
-    my ($sizeString) = @_;
-
-    return unless $sizeString =~ /^(\d+(?:(?:\.|,)\d+)?) /;
-    my $nbStr = $1;
-    $nbStr =~ s/,/./;
-
-    return $nbStr;
-}
-
-sub _getSizeUnit {
-    my ($sizeString) = @_;
-
-    return 'GB' if $sizeString =~ /GB$/;
-    return 'MB' if $sizeString =~ /MB$/;
-    return '';
-}
-
 sub _extractValueInHashWithKeyPattern {
     my ($pattern, $hash) = @_;
 
@@ -387,13 +345,7 @@ sub _getFireWireStorages {
         my $storage = _extractFireWireStorage($hash);
         $storage->{TYPE} = 'Disk drive';
         $storage->{INTERFACE} = 'FireWire';
-        %$storage = map {
-            my $value = $storage->{$_} || '';
-            $value =~ s/^\s*//g;
-            $value =~ s/\s*$//g;
-            $_ => $value
-        } keys %$storage;
-        push @storages, $storage;
+        push @storages, _sanitizedHash($storage);
     }
 
     return @storages;
@@ -413,6 +365,18 @@ sub _extractFireWireStorage {
     };
 
     return $storage;
+}
+
+sub _sanitizedHash {
+    my ($hash) = @_;
+    foreach my $key (keys(%{$hash})) {
+        if (defined($hash->{$key})) {
+            $hash->{$key} = trimWhitespace($hash->{$key});
+        } else {
+            delete $hash->{$key};
+        }
+    }
+    return $hash;
 }
 
 1;

@@ -11,10 +11,9 @@ sub isEnabled {
     return canRun('megacli');
 }
 
-# The module gets a disk data from `megacli -PDlist` and `megacli -ShowSummary`.
+# The module gets disk data from `megacli -PDlist` and `megacli -ShowSummary`.
 # `PDlist` provides s/n and model in a single 'Inquiry Data' string, and
-# `ShowSummary` helps to "separate the wheat from the chaff". (Wish there was
-# an easier way).
+# `ShowSummary` helps unpacking this data.
 sub doInventory {
     my (%params) = @_;
 
@@ -62,9 +61,12 @@ sub _getStorages {
 
         # Lookup the disk info in 'ShowSummary'
         my $sum = first {
-            $adp->{$_->{encl_id}} == $pd->{'Enclosure Device ID'} &&
-            $_->{encl_pos}        eq $pd->{'Enclosure position'} &&
-            $_->{slot}            == $pd->{'Slot Number'}
+            ((exists $_->{encl_id}  && $adp->{$_->{encl_id}} == $pd->{'Enclosure Device ID'} &&
+              exists $_->{encl_pos} && $_->{encl_pos}        eq $pd->{'Enclosure position'})
+                or
+             (!exists $_->{encl_id} && !exists $_->{encl_pos}))
+                &&
+            $_->{slot} == $pd->{'Slot Number'}
         } values(%{$summary});
 
         if ($sum) {
@@ -80,7 +82,7 @@ sub _getStorages {
                 $serial =~ s/$vendor//;      # remove vendor part
             }
 
-            $serial =~ s/$model\S*//;      # remove model part
+            $serial =~ s/$model\S*//;        # remove model part
             $serial =~ s/\s//g;              # remove remaining spaces
             $storage->{SERIALNUMBER} = $serial;
 
@@ -172,15 +174,20 @@ sub _getSummary {
                 slot     => $3,
             };
             $drive{$n}->{'encl_id'} += 0;  # drop leading zeroes
+        } elsif ($line =~ /Connector\s*:\s*(?:\d+)(?:<Internal>):\s*Slot (\d+)/) {
+            $drive{$n} = {
+                slot     => $1,
+            };
         } elsif ($line =~ /^\s*(.+\S)\s*:\s*(.+\S)/) {
             $drive{$n}->{$1} = $2;
         }
     }
     close $handle;
 
-    #delete non-disks
-    foreach my $i (keys %drive) {
-        delete $drive{$i} unless defined $drive{$i}->{'slot'};
+    # delete non-disks
+    while (my ($k, $d) = each %drive) {
+        delete $drive{$k} if (!defined $d->{'slot'} or
+            exists $d->{'Product Id'} and $d->{'Product Id'} eq 'SAS2 EXP BP');
     }
 
     return \%drive;

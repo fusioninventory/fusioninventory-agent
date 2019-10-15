@@ -45,7 +45,7 @@ sub _getDevices {
                 SUBCLASS  => $_->{'bDeviceSubClass'}
             }
         }
-        getIODevices(class => 'IOUSBDevice', @_);
+        getIODevices(class => 'IOUSBDevice', options => '-r -l -w0 -d1', @_);
 }
 
 1;

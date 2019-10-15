@@ -3362,15 +3362,15 @@ my @ioreg_tests = (
                 'IOPolledInterface' => 'SMCPolledInterface is not serializable',
                 'compatible'        => 'MacBook2,1',
                 'model'             => 'MacBook2,1',
-                'serial-number' => '59413800000000000000000000573837333035554',
+                'serial-number' => '59413800000000000000000000573837333035554d59413800000000000000000000000000000000000000',
                 'version'       => '1.0',
                 'name'          => '/',
                 'board-id'      => 'Mac-F4208CAA',
-                'clock-frequency' => '00',
+                'clock-frequency' => '00d69327',
                 'system-type'     => '02',
                 'manufacturer'    => 'Apple Inc.',
                 'product-name'    => 'MacBook2,1',
-                'IOPlatformArgs'  => '0030'
+                'IOPlatformArgs'  => '0030aa0100c0a901906aaf0100000000'
             }
         ],
     }

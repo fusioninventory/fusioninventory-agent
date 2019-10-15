@@ -1,0 +1,61 @@
+[
+    {
+        "Name": "pinba_network",
+        "Id": "c9e960a0c68bf82b07d20c006a87bd7c1e2617247728df658f14133583daeb21",
+        "Created": "2018-01-23T21:07:27.985961851Z",
+        "Scope": "local",
+        "Driver": "macvlan",
+        "EnableIPv6": false,
+        "IPAM": {
+            "Driver": "default",
+            "Options": {},
+            "Config": [
+                {
+                    "Subnet": "10.20.210.0/24",
+                    "Gateway": "10.20.210.1"
+                }
+            ]
+        },
+        "Internal": false,
+        "Attachable": false,
+        "Ingress": false,
+        "ConfigFrom": {
+            "Network": ""
+        },
+        "ConfigOnly": false,
+        "Containers": {
+            "250fde844cdd06207f3574af85b8be4a3abf6d76b2517442a1d349cad538daf9": {
+                "Name": "pinbatwo-bmashard1",
+                "EndpointID": "441fa7af5e64496a3d2760b8ffba3791cbf02a859bfe2c09a62eae4a321a3659",
+                "MacAddress": "02:42:0a:14:d2:ab",
+                "IPv4Address": "10.20.210.171/24",
+                "IPv6Address": ""
+            },
+            "2bc3c90fe31188763536b144c7980c8d329db53405e70cdb00fe9240d15d5089": {
+                "Name": "pinbatwo-staging1",
+                "EndpointID": "82ee125ab2f5008406d32d35b83e97d7df2f793f9dee2c83931b55847bf1fe7e",
+                "MacAddress": "02:42:0a:14:d2:a2",
+                "IPv4Address": "10.20.210.162/24",
+                "IPv6Address": ""
+            },
+            "36058929d881512a6e6dad063c8e585d23040bb8ea1aebd94352c64231a9e88a": {
+                "Name": "pinbatwo-www1",
+                "EndpointID": "d917c97efed82e06179a2279c0f75b47383ff1ed96c797f4c4f38c3f92ae7fb1",
+                "MacAddress": "02:42:0a:14:d2:99",
+                "IPv4Address": "10.20.210.153/24",
+                "IPv6Address": ""
+            },
+            "ed1fdf204eba9095c66c4cb33dd8e557b3878266290e53b622c46ef11cccb058": {
+                "Name": "pinbatwo-cpp2",
+                "EndpointID": "81dc9c4a44c2dc2fb7bd0fccf21450b4e2aeeb27012830f6fff3e6cb6f8c4442",
+                "MacAddress": "02:42:0a:14:d2:a0",
+                "IPv4Address": "10.20.210.160/24",
+                "IPv6Address": ""
+            }
+        },
+        "Options": {
+            "parent": "macvlan0"
+        },
+        "Labels": {}
+    }
+]
