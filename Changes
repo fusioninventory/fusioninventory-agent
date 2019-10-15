@@ -14,6 +14,9 @@ inventory:
  - fix monitors inventory using ioreg as it provides EDID block from monitors
  - fix few perl error messages on exotic cases
 
+netdiscovery/netinventory:
+* linux: avoid to share HTTP client with threads to fix RHEL/CentOS 7 crash
+
 2.5.1 Tue, 02 Jul 2019
 
 core:
