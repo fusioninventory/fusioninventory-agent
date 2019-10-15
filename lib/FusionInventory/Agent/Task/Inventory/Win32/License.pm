@@ -36,12 +36,16 @@ sub doInventory {
     );
     push @licenses, _scanOfficeLicences($officeKey) if $officeKey;
 
+    my $fileAdobe = 'C:\Program Files\Common Files\Adobe\Adobe PCD\cache\cache.db';
     if (is64bit()) {
+        $fileAdobe = 'C:\Program Files (x86)\Common Files\Adobe\Adobe PCD\cache\cache.db';
         my $officeKey32 = getRegistryKey(
             path => "HKEY_LOCAL_MACHINE/SOFTWARE/Wow6432Node/Microsoft/Office"
         );
         push @licenses, _scanOfficeLicences($officeKey32) if $officeKey32;
     }
+
+    push @licenses, getAdobeLicensesWithoutSqlite($fileAdobe) if (-e $fileAdobe);
 
     push @licenses, _getWmiSoftwareLicensingProducts();
 

@@ -3,7 +3,7 @@ package FusionInventory::Agent::Tools::Hardware::Qlogic;
 use strict;
 use warnings;
 
-use FusionInventory::Agent::Tools::SNMP qw/getCanonicalMacAddress/;
+use FusionInventory::Agent::Tools::SNMP qw/getCanonicalMacAddress getCanonicalSerialNumber/;
 
 sub run {
    my (%params) = @_;
@@ -12,6 +12,9 @@ sub run {
    my $device = $params{device};
 
    my $ports = $device->{PORTS}->{PORT};
+
+   my $serial = getSerial(snmp => $snmp);
+   $device->{INFO}->{SERIAL} = $serial if $serial;
 
    my $fc_ports = getFcPorts(
       snmp => $snmp,
@@ -98,6 +101,19 @@ sub getConnectedWWNs {
     }
 
     return $results;
+}
+
+sub getSerial {
+    my (%params) = @_;
+    my $snmp = $params{snmp};
+
+    my $walk = $snmp->walk(".1.3.6.1.3.94.1.6.1.8.16.0.0.192.221.12");
+
+    if ($walk) {
+        while (my ($suffix, $serial) = each %$walk) {
+            return getCanonicalSerialNumber($serial) if $serial;
+        }
+    }
 }
 
 1;
