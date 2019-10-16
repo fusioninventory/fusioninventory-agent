@@ -114,7 +114,7 @@ sub getCanonicalMemory {
     # Don't try to analyse negative values
     return if $value =~ /^-/;
 
-    if ($value =~ /^(\d+) KBytes$/) {
+    if ($value =~ /^(\d+) (KBytes|kB)$/) {
         return int($1 / 1024);
     } else {
         return int($value / 1024 / 1024);
