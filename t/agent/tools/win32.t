@@ -83,7 +83,8 @@ my %tests = (
             MACADDR     => '50:50:54:50:30:30',
             STATUS      => 'Up',
             MTU         => undef,
-            DESCRIPTION => 'Minipuerto WAN (PPTP)'
+            DESCRIPTION => 'Minipuerto WAN (PPTP)',
+            GUID        => undef
         },
         {
             dns         => undef,
@@ -93,7 +94,8 @@ my %tests = (
             MACADDR     => '33:50:6F:45:30:30',
             STATUS      => 'Up',
             MTU         => undef,
-            DESCRIPTION => 'Minipuerto WAN (PPPOE)'
+            DESCRIPTION => 'Minipuerto WAN (PPPOE)',
+            GUID        => undef
         },
         {
             dns         => undef,
@@ -103,7 +105,8 @@ my %tests = (
             MACADDR     => '26:0F:20:52:41:53',
             STATUS      => 'Up',
             MTU         => undef,
-            DESCRIPTION => 'Minipuerto del administrador de paquetes'
+            DESCRIPTION => 'Minipuerto del administrador de paquetes',
+            GUID        => undef
         },
         {
             dns         => '10.36.6.100',
@@ -120,6 +123,7 @@ my %tests = (
             DESCRIPTION => 'Broadcom NetXtreme Gigabit Ethernet - Teefer2 Miniport',
             IPADDRESS   => '10.36.6.30',
             DNSDomain   => 'sociedad.imaginaria.es',
+            GUID        => undef
         },
         {
             dns         => undef,
@@ -129,7 +133,8 @@ my %tests = (
             MACADDR     => '00:14:C2:0D:B0:FB',
             STATUS      => 'Up',
             MTU         => undef,
-            DESCRIPTION => 'Minipuerto del administrador de paquetes'
+            DESCRIPTION => 'Minipuerto del administrador de paquetes',
+            GUID        => undef
         },
         {
             dns         => undef,
@@ -139,7 +144,8 @@ my %tests = (
             MACADDR     => '00:14:C2:0D:B0:FB',
             STATUS      => 'Up',
             MTU         => undef,
-            DESCRIPTION => 'Teefer2 Miniport'
+            DESCRIPTION => 'Teefer2 Miniport',
+            GUID        => undef
         },
         {
             dns         => undef,
@@ -149,7 +155,8 @@ my %tests = (
             MACADDR     => '26:0F:20:52:41:53',
             STATUS      => 'Up',
             MTU         => undef,
-            DESCRIPTION => 'Teefer2 Miniport'
+            DESCRIPTION => 'Teefer2 Miniport',
+            GUID        => undef
         }
     ],
     '10-net'    => [
