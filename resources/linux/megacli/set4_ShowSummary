@@ -1,0 +1,47 @@
+                                     
+System
+	Operating System:  Linux version 4.14.83-0.1-default 
+	Driver Version: 07.702.06.00-rc1
+	CLI Version: 8.07.14
+
+Hardware
+        Controller
+                 ProductName       : PERC H710P Mini(Bus 0, Dev 0)
+                 SAS Address       : 5c81f660e9b24400
+                 FW Package Version: 21.3.0-0009
+                 Status            : Optimal
+        BBU
+                 BBU Type          : BBU
+                 Status            : Healthy
+        Enclosure
+                 Product Id        : BP12G+          
+                 Type              : SES
+                 Status            : OK
+
+        PD 
+                Connector          : 00<Internal>: Slot 0 
+                Vendor Id          : TOSHIBA 
+                Product Id         : AL13SEB600      
+                State              : Online
+                Disk Type          : SAS,Hard Disk Device
+                Capacity           : 558.375 GB
+                Power State        : Active
+
+                Connector          : 00<Internal>: Slot 1 
+                Vendor Id          : TOSHIBA 
+                Product Id         : AL13SEB600      
+                State              : Online
+                Disk Type          : SAS,Hard Disk Device
+                Capacity           : 558.375 GB
+                Power State        : Active
+
+Storage
+
+       Virtual Drives
+                Virtual drive      : Target Id 0 ,VD name Virtual Disk0
+                Size               : 558.375 GB
+                State              : Optimal
+                RAID Level         : 1 
+
+
+Exit Code: 0x00

@@ -105,10 +105,10 @@ sub _makeProfileAndConnectionsAssociation {
     return unless $DNSRegisteredAdapters;
 
     foreach my $interface (getInterfaces()) {
-        next if ($interface->{STATUS} ne 'Up');
+        next if ($interface->{STATUS} ne 'Up') || !defined($interface->{GUID});
 
         my $profile;
-        my $domainSettings = $DNSRegisteredAdapters->{$interface->{GUID}.'/'};
+        my $domainSettings = defined($interface->{GUID}) ? $DNSRegisteredAdapters->{$interface->{GUID}.'/'} : undef;
         # check if connection with domain
         if ($domainSettings) {
             $profile = _retrieveFirewallProfileWithdomain(

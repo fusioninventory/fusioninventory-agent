@@ -11,9 +11,6 @@ use UNIVERSAL::require;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Virtualization;
 
-# Run after Win32::OS so hostname is still decided and set in inventory
-our $runAfter = ["FusionInventory::Agent::Task::Inventory::Win32::OS"];
-
 sub isEnabled {
     return $OSNAME eq 'MSWin32';
 }
@@ -26,9 +23,8 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = $params{inventory};
-    my $hostname  = $inventory->getHardware('NAME');
 
-    foreach my $machine (_getVirtualMachines($hostname)) {
+    foreach my $machine (_getVirtualMachines()) {
         $inventory->addEntry(
             section => 'VIRTUALMACHINES', entry => $machine
         );
@@ -36,7 +32,6 @@ sub doInventory {
 }
 
 sub _getVirtualMachines {
-    my ($hostname) = @_;
 
     FusionInventory::Agent::Tools::Win32->require();
 
@@ -84,10 +79,11 @@ sub _getVirtualMachines {
         moniker    => 'winmgmts://./root/virtualization/v2',
         altmoniker => 'winmgmts://./root/virtualization',
         class      => 'MSVM_ComputerSystem',
-        properties => [ qw/ElementName EnabledState Name/ ]
+        properties => [ qw/ElementName EnabledState Name InstallDate/ ]
     )) {
-        # skip host
-        next if ($hostname && lc($object->{Name}) eq lc($hostname));
+        # skip host as if has no InstallDate,
+        # see https://docs.microsoft.com/en-us/windows/desktop/hyperv_v2/msvm-computersystem
+        next unless $object->{InstallDate};
 
         my $status =
             $object->{EnabledState} == 2     ? STATUS_RUNNING  :

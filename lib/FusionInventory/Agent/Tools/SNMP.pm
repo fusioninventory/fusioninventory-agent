@@ -15,6 +15,7 @@ our @EXPORT = qw(
     getCanonicalCount
     isInteger
     getRegexpOidMatch
+    isStringHexadecimal
 );
 
 sub getCanonicalSerialNumber {
@@ -113,7 +114,7 @@ sub getCanonicalMemory {
     # Don't try to analyse negative values
     return if $value =~ /^-/;
 
-    if ($value =~ /^(\d+) KBytes$/) {
+    if ($value =~ /^(\d+) (KBytes|kB)$/) {
         return int($1 / 1024);
     } else {
         return int($value / 1024 / 1024);
@@ -142,6 +143,12 @@ sub getRegexpOidMatch {
     $match =~ s/\./\\./g;
 
     return qr/^$match/;
+}
+
+sub isStringHexadecimal {
+    my ($value) = @_;
+
+    return $value =~ /^0x[0-9a-fA-F]+$/;
 }
 
 1;
@@ -180,3 +187,7 @@ return true if value is an integer.
 =head2 getRegexpOidMatch($oid)
 
 return compiled regexp to match given oid.
+
+=head2 isStringHexadecimal($value)
+
+return true if value is a string hexadecimal (start with 0x).
