@@ -254,7 +254,9 @@ sub run {
     delete $self->{client} if $self->{_client_params};
 
     # Define a realistic block scan expiration : at least one minute by address
-    setExpirationTime( timeout => $max_count * 60 );
+    my $target_expiration = $params{target_expiration} || 60;
+    $target_expiration = 60 if ($target_expiration < 60);
+    setExpirationTime( timeout => $max_count * $target_expiration );
     my $expiration = getExpirationTime();
 
     # no need more threads than ips to scan
