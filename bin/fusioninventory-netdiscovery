@@ -124,7 +124,10 @@ if ($options->{save} && $options->{debug}) {
     print STDERR "====\n";
 }
 
-$discovery->run();
+# Set target expiration to 15 minutes if we are chaining inventory
+$discovery->run(
+    target_expiration   => $options->{inventory} ? 900 : 60
+);
 
 ## no critic (ProhibitMultiplePackages)
 package FusionInventory::Agent::Task::NetDiscovery::Client;

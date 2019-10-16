@@ -25,6 +25,8 @@ netdiscovery/netinventory:
 * Enhanced Qlogic support to report device serial number, thanks to po1vo
 * Added StormShield support via FreeBSD MIBSupport, thanks to PR-gh
 * Fix memory and storage size normalization in some cases, thanks to PR-gh
+* fix #738: fix time expiration when netinventory is chained with netdiscovery
+  while using fusioninventory-netdiscovery script --inventory option
 
 2.5.1 Tue, 02 Jul 2019
 
