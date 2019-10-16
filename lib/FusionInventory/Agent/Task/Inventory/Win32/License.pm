@@ -11,7 +11,6 @@ use FusionInventory::Agent::Tools::License;
 use FusionInventory::Agent::Tools::Win32;
 use FusionInventory::Agent::Tools;
 
-# Key : UUID, Value : Hash With two Keys, One 'REGISTRY' for registry information, one 'WMI' for WMI information
 my $seenProducts;
 
 sub isEnabled {
@@ -50,12 +49,12 @@ sub doInventory {
         );
         _scanOfficeLicences($officeKey32) if $officeKey32;
     }
-    
+
     push @licenses, getAdobeLicensesWithoutSqlite($fileAdobe) if (-e $fileAdobe);
 
     _scanWmiSoftwareLicensingProducts();
 
-    push @licenses, _mergeSeenProduct() if $seenProducts;
+    push @licenses, _getSeenProducts() if $seenProducts;
 
     foreach my $license (@licenses) {
         $inventory->addEntry(
@@ -65,6 +64,10 @@ sub doInventory {
     }
 
     resetSeenProducts();
+}
+
+sub _getSeenProducts {
+    return grep { defined $_->{KEY} } values(%{$seenProducts});
 }
 
 sub _scanWmiSoftwareLicensingProducts {
@@ -81,55 +84,32 @@ sub _scanWmiSoftwareLicensingProducts {
         # Skip operating system license as still set from OS module
         next if ($object->{'Description'} && $object->{'Description'} =~ /Operating System/i);
 
-        $seenProducts->{lc($object->{'ID'})}->{'WMI'} = $object if $object->{'ID'};
-    }
-}
-
-sub _mergeSeenProduct() {
-    my @licenses;
-
-    # uuid of ID Product already used by WMI to not create Duplicate when we read only Registry key
-    my @uuidUsed;
-    # Sort by presence of WMI Hash, that force implement WMI logic with @uuidUsed before Registry
-    my @seenProductsValuesSorted = sort {exists($b->{'WMI'}) <=> exists($a->{'WMI'})} values %{$seenProducts};
-
-    foreach my $seenProduct (@seenProductsValuesSorted) {
-        my $license;
-        my $updateByRegistry = 0;
-        if ($seenProduct->{'WMI'}) {
-            my $wmiKey = $seenProduct->{'WMI'}->{'PartialProductKey'};
-            $license = _getWmiLicense($seenProduct->{'WMI'});
-            if ($seenProduct->{'REGISTRY'}) {
-                my $productCodeUuid = lc($seenProduct->{'REGISTRY'}->{'/ProductCode'} =~ /([-\w]+)/ && $1)
-                    if $seenProduct->{'REGISTRY'}->{'/ProductCode'};
-                my $templicense = _getOfficeLicense($seenProducts->{$productCodeUuid}->{'REGISTRY'}) 
-                    if $productCodeUuid && $seenProducts->{$productCodeUuid}->{'REGISTRY'}->{'/DigitalProductID'};
-                if ($templicense) {
-                    push @uuidUsed, $productCodeUuid;
-                    if ($templicense->{'KEY'} =~ m/$wmiKey$/) {
-                        $license = $templicense;
-                    } else {
-                        $updateByRegistry = 1;
+        if ($object->{'ID'}) {
+            my $wmiLicence = _getWmiLicense($object);
+            my $uiidLC = lc($object->{'ID'});
+            if (!defined $seenProducts->{$uiidLC}) {
+                $seenProducts->{$uiidLC} = $wmiLicence;
+            } else {
+                $wmiLicence->{'FULLNAME'}       = $seenProducts->{$uiidLC}->{'FULLNAME'}    if $seenProducts->{$uiidLC}->{'FULLNAME'};
+                $wmiLicence->{'TRIAL'}          = $seenProducts->{$uiidLC}->{'TRIAL'}       if $seenProducts->{$uiidLC}->{'TRIAL'};
+                
+                my $uiidToDelete = $uiidLC;
+                if ($seenProducts->{$uiidLC}->{PRODUCTCODE}) {
+                    # Change key Target
+                    $uiidLC = $seenProducts->{$uiidLC}->{PRODUCTCODE};
+                    if ($seenProducts->{$uiidLC} && $seenProducts->{$uiidLC}->{KEY}) {
+                        my $wmiKey = substr $wmiLicence->{KEY}, -5;
+                        if ($seenProducts->{$uiidLC}->{'KEY'} =~ m/$wmiKey$/) {
+                            # Skip this licence - Registry give more information
+                            next;
+                        }
                     }
-                } else {
-                    $updateByRegistry = 1;
                 }
-
-                if ($updateByRegistry) {
-                    $license->{'FULLNAME'} = encodeFromRegistry($seenProduct->{'REGISTRY'}->{'/ProductName'})
-                        if $seenProduct->{'REGISTRY'}->{'/ProductName'};
-                    $license->{'TRIAL'} = 1 
-                        if $seenProduct->{'REGISTRY'}->{'/ProductNameBrand'} && $seenProduct->{'REGISTRY'}->{'/ProductNameBrand'} =~ /trial/i;
-                }
+                delete $seenProducts->{$uiidToDelete};
+                $seenProducts->{$uiidLC}        = $wmiLicence;
             }
         }
-        if (!$seenProduct->{'WMI'} && $seenProduct->{'REGISTRY'}->{'/DigitalProductID'} && !first {$seenProducts->{$_} eq $seenProduct} @uuidUsed) {
-            $license = _getOfficeLicense($seenProduct->{'REGISTRY'});
-        }
-        push @licenses, $license if $license;
     }
-    
-    return @licenses;
 }
 
 sub _scanOfficeLicences {
@@ -152,8 +132,15 @@ sub _scanOfficeLicences {
 
             my $cleanUuidKey = lc( $uuidKey =~ /([-\w]+)/ && $1 );
             # Keep in memory seen product with ProductCode value or DigitalProductID
-            $seenProducts->{$cleanUuidKey}->{'REGISTRY'} = $registrationKey->{$uuidKey} 
-                if ($registrationKey->{$uuidKey}->{'/ProductCode'} || $registrationKey->{$uuidKey}->{'/DigitalProductID'});
+            $seenProducts->{$cleanUuidKey} = _getOfficeLicense($registrationKey->{$uuidKey}) if $registrationKey->{$uuidKey}->{'/DigitalProductID'};
+            if ($registrationKey->{$uuidKey}->{'/ProductCode'} && $registrationKey->{$uuidKey}->{'/ProductName'}) {
+                $seenProducts->{$cleanUuidKey} = {
+                    PRODUCTCODE => lc($registrationKey->{$uuidKey}->{'/ProductCode'} =~ /([-\w]+)/ && $1),
+                    FULLNAME    => encodeFromRegistry($registrationKey->{$uuidKey}->{'/ProductName'}),
+                };
+                $seenProducts->{$cleanUuidKey}->{'TRIAL'}       = 1
+                    if $registrationKey->{$uuidKey}->{'/ProductNameBrand'} && $registrationKey->{$uuidKey}->{'/ProductNameBrand'} =~ /trial/i;
+            }
         }
     }
 }

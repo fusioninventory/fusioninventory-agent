@@ -84,7 +84,7 @@ foreach my $test (keys %licensing_tests) {
     );
     FusionInventory::Agent::Task::Inventory::Win32::License::resetSeenProducts();
     FusionInventory::Agent::Task::Inventory::Win32::License::_scanWmiSoftwareLicensingProducts();
-    my @licenses = FusionInventory::Agent::Task::Inventory::Win32::License::_mergeSeenProduct();
+    my @licenses = FusionInventory::Agent::Task::Inventory::Win32::License::_getSeenProducts();
 
     is_deeply(
         @licenses,
@@ -97,12 +97,12 @@ $module->mock( 'getWMIObjects', mockGetWMIObjects('office_2016_01') );
 my $key = loadRegistryDump("resources/win32/registry/office_2016_02.reg");
 FusionInventory::Agent::Task::Inventory::Win32::License::resetSeenProducts();
 FusionInventory::Agent::Task::Inventory::Win32::License::_scanOfficeLicences($key);
-my @licenses = FusionInventory::Agent::Task::Inventory::Win32::License::_mergeSeenProduct();
+my @licenses = FusionInventory::Agent::Task::Inventory::Win32::License::_getSeenProducts();
 
 ok( @licenses == 0 );
 
 FusionInventory::Agent::Task::Inventory::Win32::License::_scanWmiSoftwareLicensingProducts();
-@licenses = FusionInventory::Agent::Task::Inventory::Win32::License::_mergeSeenProduct();
+@licenses = FusionInventory::Agent::Task::Inventory::Win32::License::_getSeenProducts();
 
 ok( @licenses == 1 );
 ok( $licenses[0]->{'KEY'} eq 'XXXXX-XXXXX-XXXXX-XXXXX-WE9H9' );
@@ -113,14 +113,14 @@ ok( $licenses[0]->{'FULLNAME'} eq 'Microsoft Office Professional Plus 2016' );
 $key = loadRegistryDump("resources/win32/registry/office_2016_01.reg");
 FusionInventory::Agent::Task::Inventory::Win32::License::resetSeenProducts();
 FusionInventory::Agent::Task::Inventory::Win32::License::_scanOfficeLicences($key);
-@licenses = FusionInventory::Agent::Task::Inventory::Win32::License::_mergeSeenProduct();
+@licenses = FusionInventory::Agent::Task::Inventory::Win32::License::_getSeenProducts();
 
 ok( @licenses == 1 );
 ok( $licenses[0]->{'KEY'} eq 'YKP6Y-3MDM7-J8F3Q-9297J-3TF27' );
 ok( $licenses[0]->{'PRODUCTID'} eq '00339-10000-00000-AA310' );
 
 FusionInventory::Agent::Task::Inventory::Win32::License::_scanWmiSoftwareLicensingProducts();
-@licenses = FusionInventory::Agent::Task::Inventory::Win32::License::_mergeSeenProduct();
+@licenses = FusionInventory::Agent::Task::Inventory::Win32::License::_getSeenProducts();
 
 # License was still read from registry, no license added, but replaced by WMI Information
 ok( @licenses == 1 );
