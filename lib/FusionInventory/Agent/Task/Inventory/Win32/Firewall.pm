@@ -105,7 +105,7 @@ sub _makeProfileAndConnectionsAssociation {
     return unless $DNSRegisteredAdapters;
 
     foreach my $interface (getInterfaces()) {
-        next if ($interface->{STATUS} ne 'Up') || !defined($interface->{GUID});
+        next if ($interface->{STATUS} ne 'Up');
 
         my $profile;
         my $domainSettings = defined($interface->{GUID}) ? $DNSRegisteredAdapters->{$interface->{GUID}.'/'} : undef;
