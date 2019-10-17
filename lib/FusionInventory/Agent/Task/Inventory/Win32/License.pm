@@ -25,7 +25,7 @@ sub isEnabledForRemote {
     return 1;
 }
 
-sub resetSeenProducts {
+sub _resetSeenProducts {
     $seenProducts = {};
 }
 
@@ -54,7 +54,7 @@ sub doInventory {
 
     _scanWmiSoftwareLicensingProducts();
 
-    push @licenses, _getSeenProducts() if $seenProducts;
+    push @licenses, _getSeenProducts();
 
     foreach my $license (@licenses) {
         $inventory->addEntry(
@@ -63,10 +63,11 @@ sub doInventory {
         );
     }
 
-    resetSeenProducts();
+    _resetSeenProducts();
 }
 
 sub _getSeenProducts {
+    return unless $seenProducts;
     return grep { defined $_->{KEY} } values(%{$seenProducts});
 }
 
@@ -90,8 +91,10 @@ sub _scanWmiSoftwareLicensingProducts {
             if (!defined $seenProducts->{$uiidLC}) {
                 $seenProducts->{$uiidLC} = $wmiLicence;
             } else {
-                $wmiLicence->{'FULLNAME'}       = $seenProducts->{$uiidLC}->{'FULLNAME'}    if $seenProducts->{$uiidLC}->{'FULLNAME'};
-                $wmiLicence->{'TRIAL'}          = $seenProducts->{$uiidLC}->{'TRIAL'}       if $seenProducts->{$uiidLC}->{'TRIAL'};
+                $wmiLicence->{'FULLNAME'} = $seenProducts->{$uiidLC}->{'FULLNAME'}
+                    if $seenProducts->{$uiidLC}->{'FULLNAME'};
+                $wmiLicence->{'TRIAL'}    = $seenProducts->{$uiidLC}->{'TRIAL'}
+                    if $seenProducts->{$uiidLC}->{'TRIAL'};
                 
                 my $uiidToDelete = $uiidLC;
                 if ($seenProducts->{$uiidLC}->{PRODUCTCODE}) {
@@ -106,7 +109,7 @@ sub _scanWmiSoftwareLicensingProducts {
                     }
                 }
                 delete $seenProducts->{$uiidToDelete};
-                $seenProducts->{$uiidLC}        = $wmiLicence;
+                $seenProducts->{$uiidLC} = $wmiLicence;
             }
         }
     }
@@ -132,13 +135,14 @@ sub _scanOfficeLicences {
 
             my $cleanUuidKey = lc( $uuidKey =~ /([-\w]+)/ && $1 );
             # Keep in memory seen product with ProductCode value or DigitalProductID
-            $seenProducts->{$cleanUuidKey} = _getOfficeLicense($registrationKey->{$uuidKey}) if $registrationKey->{$uuidKey}->{'/DigitalProductID'};
+            $seenProducts->{$cleanUuidKey} = _getOfficeLicense($registrationKey->{$uuidKey})
+                if $registrationKey->{$uuidKey}->{'/DigitalProductID'};
             if ($registrationKey->{$uuidKey}->{'/ProductCode'} && $registrationKey->{$uuidKey}->{'/ProductName'}) {
                 $seenProducts->{$cleanUuidKey} = {
                     PRODUCTCODE => lc($registrationKey->{$uuidKey}->{'/ProductCode'} =~ /([-\w]+)/ && $1),
                     FULLNAME    => encodeFromRegistry($registrationKey->{$uuidKey}->{'/ProductName'}),
                 };
-                $seenProducts->{$cleanUuidKey}->{'TRIAL'}       = 1
+                $seenProducts->{$cleanUuidKey}->{'TRIAL'} = 1
                     if $registrationKey->{$uuidKey}->{'/ProductNameBrand'} && $registrationKey->{$uuidKey}->{'/ProductNameBrand'} =~ /trial/i;
             }
         }

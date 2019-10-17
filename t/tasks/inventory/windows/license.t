@@ -82,7 +82,7 @@ foreach my $test (keys %licensing_tests) {
         'getWMIObjects',
         mockGetWMIObjects($test)
     );
-    FusionInventory::Agent::Task::Inventory::Win32::License::resetSeenProducts();
+    FusionInventory::Agent::Task::Inventory::Win32::License::_resetSeenProducts();
     FusionInventory::Agent::Task::Inventory::Win32::License::_scanWmiSoftwareLicensingProducts();
     my @licenses = FusionInventory::Agent::Task::Inventory::Win32::License::_getSeenProducts();
 
@@ -95,7 +95,7 @@ foreach my $test (keys %licensing_tests) {
 
 $module->mock( 'getWMIObjects', mockGetWMIObjects('office_2016_01') );
 my $key = loadRegistryDump("resources/win32/registry/office_2016_02.reg");
-FusionInventory::Agent::Task::Inventory::Win32::License::resetSeenProducts();
+FusionInventory::Agent::Task::Inventory::Win32::License::_resetSeenProducts();
 FusionInventory::Agent::Task::Inventory::Win32::License::_scanOfficeLicences($key);
 my @licenses = FusionInventory::Agent::Task::Inventory::Win32::License::_getSeenProducts();
 
@@ -111,7 +111,7 @@ ok( $licenses[0]->{'PRODUCTID'} eq '00339-10000-00000-AA680' );
 ok( $licenses[0]->{'FULLNAME'} eq 'Microsoft Office Professional Plus 2016' );
 
 $key = loadRegistryDump("resources/win32/registry/office_2016_01.reg");
-FusionInventory::Agent::Task::Inventory::Win32::License::resetSeenProducts();
+FusionInventory::Agent::Task::Inventory::Win32::License::_resetSeenProducts();
 FusionInventory::Agent::Task::Inventory::Win32::License::_scanOfficeLicences($key);
 @licenses = FusionInventory::Agent::Task::Inventory::Win32::License::_getSeenProducts();
 
