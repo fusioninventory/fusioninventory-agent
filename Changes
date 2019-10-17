@@ -19,6 +19,7 @@ inventory:
 * linux: Added macvlan/docker network interfaces support, thanks to po1vo
 * win32: fix firewall inventory cases, thanks to PR-gh
 * win32: fix Office license inventory, thanks to PR-gh
+* win32: enhanced network card inventory, thanks to PR-gh
 
 netdiscovery/netinventory:
 * linux: avoid to share HTTP client with threads to fix RHEL/CentOS 7 crash
