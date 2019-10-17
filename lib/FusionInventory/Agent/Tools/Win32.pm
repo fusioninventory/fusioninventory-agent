@@ -28,7 +28,7 @@ use Win32::TieRegistry (
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Expiration;
-use FusionInventory::Agent::Tools::Win32::Network;
+use FusionInventory::Agent::Tools::Win32::NetAdapter;
 use FusionInventory::Agent::Version;
 
 my $localCodepage;
@@ -714,12 +714,12 @@ sub getInterfaces {
     my @interfaces;
 
     foreach my $wmiNetAdapter (@networkAdapter) {
-        my $netAdapter = FusionInventory::Agent::Tools::Win32::Network->new(
-            WMI             =>  $wmiNetAdapter,
+        my $netAdapter = FusionInventory::Agent::Tools::Win32::NetAdapter->new(
+            WMI             => $wmiNetAdapter,
             configurations  => \@configurations
         ) or next;
         
-        push @interfaces, ($netAdapter->hasAddresses()) ? $netAdapter->getInterfacesWithAddresses() : $netAdapter->getBaseInterface();
+        push @interfaces, $netAdapter->getInterfaces();
     }
 
     return @interfaces;

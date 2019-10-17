@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Tools::Win32::Network;
+package FusionInventory::Agent::Tools::Win32::NetAdapter;
 
 use warnings;
 use strict;
@@ -12,16 +12,25 @@ sub new {
 
     return unless defined $params{WMI} && defined $params{configurations};
 
-    my $self = {
-        WMI             => $params{WMI}
-    };
+    my $self = { %{$params{WMI}} };
     bless $self, $class;
 
-    $self->{config} = defined $params{configurations}[$self->_getObjectIndex()] ? $params{configurations}[$self->_getObjectIndex()] : undef;
+    $self->{_config} = $params{configurations}[$self->_getObjectIndex()]
+        or return;
 
-    return unless $self->_getPNPDeviceID() && $self->{config} && $self->{config}->{MACADDR};
+    return unless $self->_getPNPDeviceID();
 
     return $self;
+}
+
+sub getInterfaces {
+    my ($self) = @_;
+
+    return $self->getInterfacesWithAddresses() if $self->hasAddresses();
+
+    return unless $self->{_config}->{MACADDR};
+
+    return $self->getBaseInterface();
 }
 
 sub getBaseInterface {
@@ -29,18 +38,18 @@ sub getBaseInterface {
 
     my $interface = {
         PNPDEVICEID => $self->_getPNPDeviceID(),
-        PCIID       => $self->_getPciid(),
-        MACADDR     => $self->{config}->{MACADDR},
+        MACADDR     => $self->{_config}->{MACADDR},
         DESCRIPTION => $self->_getDescription(),
-        STATUS      => $self->{config}->{STATUS},
-        MTU         => $self->{config}->{MTU},
-        dns         => $self->{config}->{dns},
-        GUID        => $self->_getGUID(),
+        STATUS      => $self->{_config}->{STATUS},
+        MTU         => $self->{_config}->{MTU},
+        dns         => $self->{_config}->{dns},
         VIRTUALDEV  => $self->_isVirtual()
     };
-    
-    $interface->{DNSDomain}     = $self->{config}->{DNSDomain} if $self->{config}->{DNSDomain};
-    $interface->{SPEED}         = int($self->{WMI}->{Speed} / 1_000_000) if $self->{WMI}->{Speed};
+
+    $interface->{PCIID}     = $self->_getPciid() if $self->_getPciid();
+    $interface->{GUID}      = $self->_getGUID() if $self->_getGUID();
+    $interface->{DNSDomain} = $self->{_config}->{DNSDomain} if $self->{_config}->{DNSDomain};
+    $interface->{SPEED}     = int($self->{Speed} / 1_000_000) if $self->{Speed};
 
     return $interface;
 }
@@ -50,7 +59,7 @@ sub getInterfacesWithAddresses {
 
     my @interfaces;
 
-    foreach my $address (@{$self->{config}->{addresses}}) {
+    foreach my $address (@{$self->{_config}->{addresses}}) {
         my $interface = $self->getBaseInterface();
         if ($address->[0] =~ /$ip_address_pattern/) {
             $interface->{IPADDRESS} = $address->[0];
@@ -59,8 +68,8 @@ sub getInterfacesWithAddresses {
                 $interface->{IPADDRESS},
                 $interface->{IPMASK}
             );
-            $interface->{IPDHCP}        = $self->{config}->{IPDHCP};
-            $interface->{IPGATEWAY}     = $self->{config}->{IPGATEWAY};
+            $interface->{IPDHCP}        = $self->{_config}->{IPDHCP};
+            $interface->{IPGATEWAY}     = $self->{_config}->{IPGATEWAY};
         } else {
             $interface->{IPADDRESS6}    = $address->[0];
             $interface->{IPMASK6}       = getNetworkMaskIPv6($address->[1]);
@@ -78,7 +87,7 @@ sub getInterfacesWithAddresses {
 sub hasAddresses {
     my ($self) = @_;
 
-    return $self->{config}->{addresses} ? 1 : 0;
+    return $self->{_config}->{addresses} ? 1 : 0;
 }
 
 sub _isVirtual {
@@ -101,39 +110,41 @@ sub _isVirtual {
 sub _getPciid {
     my ($self) = @_;
 
-    return ($self->_getPNPDeviceID() =~ /PCI\\VEN_(\w{4})&DEV_(\w{4})&SUBSYS_(\w{4})(\w{4})/) ? join(':', $1 , $2 , $3 , $4) : undef;
+    return unless $self->_getPNPDeviceID() =~ /PCI\\VEN_(\w{4})&DEV_(\w{4})&SUBSYS_(\w{4})(\w{4})/;
+
+    return join(':', $1, $2, $3, $4);
 }
 
 sub _getObjectIndex {
     my ($self) = @_;
     
-    return defined($self->{WMI}->{InterfaceIndex}) ? $self->{WMI}->{InterfaceIndex} : $self->{WMI}->{Index};
+    return defined($self->{InterfaceIndex}) ? $self->{InterfaceIndex} : $self->{Index};
 }
 
-# Getters try get Information on MSFT_NetAdapter || Win32_NetworkAdapter || undef
+# Getters try get Information on MSFT_NetAdapter || Win32_NetworkAdapter
 
 sub _getGUID {
     my ($self) = @_;
 
-    return $self->{WMI}->{InterfaceGuid} || $self->{WMI}->{GUID} || undef;
+    return $self->{InterfaceGuid} || $self->{GUID};
 }
 
 sub _getPhysicalAdapter {
     my ($self) = @_;
 
-    return $self->{WMI}->{HardwareInterface} || $self->{WMI}->{PhysicalAdapter} || undef;
+    return $self->{HardwareInterface} || $self->{PhysicalAdapter};
 }
 
 sub _getPNPDeviceID {
     my ($self) = @_;
 
-    return $self->{WMI}->{PnPDeviceID} || $self->{WMI}->{PNPDeviceID} || undef;
+    return $self->{PnPDeviceID} || $self->{PNPDeviceID};
 }
 
 sub _getDescription {
     my ($self) = @_;
 
-    return $self->{WMI}->{InterfaceDescription} || $self->{config}->{DESCRIPTION} || undef;
+    return $self->{InterfaceDescription} || $self->{_config}->{DESCRIPTION};
 }
 
 1;

@@ -70,7 +70,6 @@ my %tests = (
             DESCRIPTION => "Périphérique Bluetooth (réseau personnel)",
             VIRTUALDEV  => 0,
             PNPDEVICEID => 'BTH\MS_BTHPAN\7&42D85A8&0&2',
-            PCIID       => undef,
             GUID        => '{DDE01862-B0C0-4715-AF6C-51D31172EBF9}',
         },
     ],
@@ -79,34 +78,28 @@ my %tests = (
             dns         => undef,
             VIRTUALDEV  => 1,
             PNPDEVICEID => 'ROOT\\MS_PPTPMINIPORT\\0000',
-            PCIID       => undef,
             MACADDR     => '50:50:54:50:30:30',
             STATUS      => 'Up',
             MTU         => undef,
-            DESCRIPTION => 'Minipuerto WAN (PPTP)',
-            GUID        => undef
+            DESCRIPTION => 'Minipuerto WAN (PPTP)'
         },
         {
             dns         => undef,
             VIRTUALDEV  => 1,
             PNPDEVICEID => 'ROOT\\MS_PPPOEMINIPORT\\0000',
-            PCIID       => undef,
             MACADDR     => '33:50:6F:45:30:30',
             STATUS      => 'Up',
             MTU         => undef,
-            DESCRIPTION => 'Minipuerto WAN (PPPOE)',
-            GUID        => undef
+            DESCRIPTION => 'Minipuerto WAN (PPPOE)'
         },
         {
             dns         => undef,
             VIRTUALDEV  => 1,
             PNPDEVICEID => 'ROOT\\MS_PSCHEDMP\\0000',
-            PCIID       => undef,
             MACADDR     => '26:0F:20:52:41:53',
             STATUS      => 'Up',
             MTU         => undef,
-            DESCRIPTION => 'Minipuerto del administrador de paquetes',
-            GUID        => undef
+            DESCRIPTION => 'Minipuerto del administrador de paquetes'
         },
         {
             dns         => '10.36.6.100',
@@ -123,40 +116,33 @@ my %tests = (
             DESCRIPTION => 'Broadcom NetXtreme Gigabit Ethernet - Teefer2 Miniport',
             IPADDRESS   => '10.36.6.30',
             DNSDomain   => 'sociedad.imaginaria.es',
-            GUID        => undef
         },
         {
             dns         => undef,
             VIRTUALDEV  => 1,
             PNPDEVICEID => 'ROOT\\MS_PSCHEDMP\\0002',
-            PCIID       => undef,
             MACADDR     => '00:14:C2:0D:B0:FB',
             STATUS      => 'Up',
             MTU         => undef,
-            DESCRIPTION => 'Minipuerto del administrador de paquetes',
-            GUID        => undef
+            DESCRIPTION => 'Minipuerto del administrador de paquetes'
         },
         {
             dns         => undef,
             VIRTUALDEV  => 1,
             PNPDEVICEID => 'ROOT\\SYMC_TEEFER2MP\\0000',
-            PCIID       => undef,
             MACADDR     => '00:14:C2:0D:B0:FB',
             STATUS      => 'Up',
             MTU         => undef,
-            DESCRIPTION => 'Teefer2 Miniport',
-            GUID        => undef
+            DESCRIPTION => 'Teefer2 Miniport'
         },
         {
             dns         => undef,
             VIRTUALDEV  => 1,
             PNPDEVICEID => 'ROOT\\SYMC_TEEFER2MP\\0002',
-            PCIID       => undef,
             MACADDR     => '26:0F:20:52:41:53',
             STATUS      => 'Up',
             MTU         => undef,
-            DESCRIPTION => 'Teefer2 Miniport',
-            GUID        => undef
+            DESCRIPTION => 'Teefer2 Miniport'
         }
     ],
     '10-net'    => [
@@ -175,7 +161,6 @@ my %tests = (
             VIRTUALDEV  => '0',
             GUID        => '{FD7B5BF5-2E4B-4CA4-0000-F633D86283A1}',
             dns         => '192.168.2.2',
-            PCIID       => undef,
             MTU         => undef
         },
         {
@@ -191,7 +176,6 @@ my %tests = (
             VIRTUALDEV  => '0',
             GUID        => '{FD7B5BF5-2E4B-4CA4-0000-F633D86283A1}',
             dns         => '192.168.2.2',
-            PCIID       => undef,
             MTU         => undef
         },
         {
@@ -207,7 +191,6 @@ my %tests = (
             GUID        => '{F2274B7D-033B-4FD1-B721-6B1E0E48D26D}',
             IPDHCP      => undef,
             IPGATEWAY   => undef,
-            PCIID       => undef,
             MTU         => undef,
             dns         => undef
         },
@@ -222,7 +205,6 @@ my %tests = (
             STATUS      => 'Up',
             VIRTUALDEV  => '1',
             GUID        => '{F2274B7D-033B-4FD1-B721-6B1E0E48D26D}',
-            PCIID       => undef,
             MTU         => undef,
             dns         => undef
         },
@@ -234,7 +216,6 @@ my %tests = (
             STATUS      => 'Up',
             VIRTUALDEV  => '0',
             GUID        => '{73513F19-5210-45E7-9CB5-6DB761D8291A}',
-            PCIID       => undef,
             MTU         => undef,
             dns         => undef
         },
@@ -246,7 +227,6 @@ my %tests = (
             STATUS      => 'Up',
             VIRTUALDEV  => '1',
             GUID        => '{201DE880-FE07-47BE-0000-A3ABDE40367F}',
-            PCIID       => undef,
             MTU         => undef,
             dns         => undef
         },
