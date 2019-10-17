@@ -68,8 +68,8 @@ sub new {
         );
         die "no response from host $params{hostname}\n"
             if !$response;
-        die "empty response from host $params{hostname} on System variables request\n"
-            if !$response->{$oid};
+        die "missing response from host $params{hostname}\n"
+            unless defined $response->{$oid};
         die "no response from host $params{hostname}\n"
             if $response->{$oid} =~ /No response from remote host/;
     }
