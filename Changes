@@ -4,6 +4,9 @@ Revision history for FusionInventory agent
 
 core:
 * fix HTTP server IPv6 support as HTTP::Daemon module now supports IPv6 natively
+* Always compile IPv4 address as IPv6 too for trusted ips. This is needed when
+  system default is to listen other IPv6 or you set httpd-ip to IPv6 address
+  like '::' or '::1'.
 
 inventory:
 * unix: fix last log user after a reboot

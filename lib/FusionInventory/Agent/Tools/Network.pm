@@ -218,17 +218,31 @@ sub resolve {
     return map { Net::IP->new($_) } @addresses;
 }
 
+sub _expand_ipv4_to_ipv6 {
+    my @expanded;
+    foreach my $netip (@_) {
+        my $version = ip_get_version($netip->ip());
+        next unless $version == 4;
+        my $prefix = 128 - 32 + $netip->prefixlen();
+        my $ipv6_string = "::ffff:".$netip->ip()."/".$prefix;
+        push @expanded, Net::IP->new($ipv6_string);
+        # Also include shorten ipv6 loopback address if needed
+        push @expanded, Net::IP->new("::1") if $netip->print() eq "127.0.0.1/32";
+    }
+    return @_, @expanded;
+}
+
 sub compile {
     my ($string, $logger) = @_;
 
     return unless $string;
 
     # that's already an IP address, just convert it
-    return Net::IP->new($string)
+    return _expand_ipv4_to_ipv6(Net::IP->new($string))
         if $string =~ /^$ip_address_pattern/;
 
     # otherwise resolve the name
-    return resolve($string, $logger);
+    return _expand_ipv4_to_ipv6(resolve($string, $logger));
 }
 
 sub isPartOf {
@@ -244,7 +258,15 @@ sub isPartOf {
         return;
     }
 
-    foreach my $range (@{$ranges}) {
+    my $version = ip_get_version($string);
+    if (!$version) {
+        $logger->error("Source IP error '$string': ".Net::IP::Error());
+        return;
+    }
+
+    # We only want to compare on same kind of ips
+    my @ranges = grep { ip_get_version($_->ip()) == $version } @{$ranges};
+    foreach my $range (@ranges) {
         my $result = $address->overlaps($range);
 
         if (!$result && Net::IP::Error()) {

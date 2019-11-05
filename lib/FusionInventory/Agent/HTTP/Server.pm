@@ -92,11 +92,14 @@ sub setTrustedAddresses {
         my $host = URI->new($url)->host();
         my @addresses = compile($host, $self->{logger});
         $self->{trust}->{$url} = \@addresses;
+        $self->{logger}->debug("Trusted target ip: ".join(", ",map { $_->print() } @addresses));
     }
     if ($params{trust}) {
         foreach my $string (@{$params{trust}}) {
-            my @addresses = compile($string);
-            $self->{trust}->{$string} = \@addresses if @addresses;
+            my @addresses = compile($string, $self->{logger})
+                or next;
+            $self->{trust}->{$string} = \@addresses;
+            $self->{logger}->debug("Trusted client ip: ".join(", ",map { $_->print() } @addresses));
         }
     }
 }
