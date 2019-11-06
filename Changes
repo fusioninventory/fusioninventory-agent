@@ -23,6 +23,7 @@ inventory:
 * win32: fix firewall inventory cases, thanks to PR-gh
 * win32: fix Office license inventory, thanks to PR-gh
 * win32: enhanced network card inventory, thanks to PR-gh
+* linux: provides debian installed software filesize in bytes
 
 netdiscovery/netinventory:
 * linux: avoid to share HTTP client with threads to fix RHEL/CentOS 7 crash
