@@ -19,6 +19,7 @@ use FusionInventory::Agent::Task::Inventory::Generic::Softwares::Deb;
 use FusionInventory::Agent::Task::Inventory::Generic::Softwares::Gentoo;
 use FusionInventory::Agent::Task::Inventory::Generic::Softwares::Nix;
 use FusionInventory::Agent::Task::Inventory::Generic::Softwares::Pacman;
+use FusionInventory::Agent::Task::Inventory::Generic::Softwares::Snap;
 
 my $rpm_packages = [
     {
@@ -388,7 +389,37 @@ my $pacman_packages = [
     }
 ];
 
-plan tests => 11;
+my $snap_packages = [
+    {
+        COMMENTS    => 'KDE Frameworks 5',
+        FILESIZE    => 286261248,
+        FROM        => 'snap',
+        HELPLINK    => 'https://www.kde.org/support/',
+        NAME        => 'kde-frameworks-5-core18',
+        PUBLISHER   => 'KDE',
+        VERSION     => '5.61.0'
+    },
+    {
+        COMMENTS    => 'Kdenlive video editor',
+        FILESIZE    => 104857600,
+        FROM        => 'snap',
+        HELPLINK    => 'https://bugs.kde.org/enter_bug.cgi?product=neon&component=Snaps',
+        NAME        => 'kdenlive',
+        PUBLISHER   => 'KDE',
+        VERSION     => '19.08.2'
+    },
+    {
+        COMMENTS    => 'Display and control your Android device',
+        FILESIZE    => 84934656,
+        FROM        => 'snap',
+        HELPLINK    => 'https://github.com/sisco311/scrcpy-snap/issues',
+        NAME        => 'scrcpy',
+        PUBLISHER   => 'sisco311',
+        VERSION     => 'v1.10'
+    }
+];
+
+plan tests => 12;
 
 my $inventory = FusionInventory::Test::Inventory->new();
 
@@ -446,3 +477,14 @@ ok(
     ),
     "new equery version"
 );
+
+$packages = FusionInventory::Agent::Task::Inventory::Generic::Softwares::Snap::_getPackagesList(
+    file => "resources/linux/packaging/snap"
+);
+foreach my $snap (@{$packages}) {
+    FusionInventory::Agent::Task::Inventory::Generic::Softwares::Snap::_getPackagesInfo(
+        snap => $snap,
+        file => "resources/linux/packaging/snap_".$snap->{NAME}
+    );
+}
+cmp_deeply($packages, $snap_packages, 'snap: parsing');

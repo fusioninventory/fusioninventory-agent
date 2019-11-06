@@ -1,0 +1,6 @@
+Name                     Version   Rev   Tracking  Publisher   Notes
+core18                   20191030  1265  stable    canonical*  base
+kde-frameworks-5-core18  5.61.0    32    stable    kde*        -
+kdenlive                 19.08.2   22    stable    kde*        -
+scrcpy                   v1.10     174   stable    sisco311    -
+snapd                    2.42      4992  stable    canonical*  snapd

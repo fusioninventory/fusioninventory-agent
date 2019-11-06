@@ -1,0 +1,16 @@
+name:      kde-frameworks-5-core18
+summary:   KDE Frameworks 5
+publisher: KDE*
+contact:   https://www.kde.org/support/
+license:   unset
+description: |
+  KDE Frameworks are addons and useful extensions to Qt
+snap-id:      GeIofQKAwadB4OEM8lOzdSMAc56sCNdL
+tracking:     stable
+refresh-date: 2019-11-06T15:24:41+01:00
+channels:
+  stable:    5.61.0                         2019-08-27T16:01:56Z (32) 273MB -
+  candidate: 5.61.0                         2019-08-26T15:39:47Z (32) 273MB -
+  beta:      ^                                                              
+  edge:      5.54.0+p18.04+git20190115.0202 2019-01-16T15:00:05Z (25) 250MB -
+installed:   5.61.0                                              (32) 273MB -

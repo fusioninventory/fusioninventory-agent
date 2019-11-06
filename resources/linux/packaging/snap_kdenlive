@@ -1,0 +1,27 @@
+name:      kdenlive
+summary:   Kdenlive video editor
+publisher: KDE*
+contact:   https://bugs.kde.org/enter_bug.cgi?product=neon&component=Snaps
+license:   unset
+description: |
+  Kdenlive is a non linear video editor. It is based on the MLT framework and
+  accepts many audio and video formats, allows you to add effects,
+  transitions and render into the format of your choice.
+  
+  Features:
+  
+      Intuitive multitrack interface.
+      Many effects and transitions.
+      Colour scopes
+      Basic DVD Wizard
+commands:
+  - kdenlive
+snap-id:      VJV60ZSgXvOHQRwhT4RLdnKgp1C0qg6f
+tracking:     stable
+refresh-date: 2019-11-06T15:24:43+01:00
+channels:
+  stable:    19.08.2        2019-10-15T13:06:05Z (22) 100MB -
+  candidate: 19.08.2        2019-10-09T10:29:30Z (22) 100MB -
+  beta:      16.12          2017-05-17T21:17:52Z  (4) 312MB devmode
+  edge:      master+0b3bc44 2017-11-15T13:19:28Z  (9)   7MB -
+installed:   19.08.2                             (22) 100MB -
