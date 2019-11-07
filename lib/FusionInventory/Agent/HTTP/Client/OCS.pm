@@ -62,7 +62,7 @@ sub send { ## no critic (ProhibitBuiltinHomonyms)
     my $request_content = $message->getContent();
     $logger->debug2($log_prefix . "sending message:\n $request_content");
 
-    $request_content = $self->_compress(encode('UTF-8', $request_content));
+    $request_content = $self->_compress( $request_content);
     if (!$request_content) {
         $logger->error($log_prefix . 'inflating problem');
         return;
