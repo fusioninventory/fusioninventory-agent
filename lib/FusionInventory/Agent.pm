@@ -71,6 +71,10 @@ sub init {
 
     $self->_handlePersistentState();
 
+    # Persistent data can store a set "forcerun" value to be handled during start
+    # Mainly used by win32 service installer
+    my $forced_run = delete $self->{_forced_run};
+
     # Always reset targets to handle re-init case
     $self->{targets} = $config->getTargets(
         logger      => $self->{logger},
@@ -106,6 +110,9 @@ sub init {
     foreach my $target ($self->getTargets()) {
         if ($target->isType('local') || $target->isType('server')) {
             $logger->debug("target $target->{id}: " . $target->getType() . " " . $target->getName());
+
+            # Handle forced run request
+            $target->setNextRunDateFromNow() if $forced_run;
         } else {
             $logger->debug("target $target->{id}: " . $target->getType());
         }
@@ -382,25 +389,29 @@ sub _handlePersistentState {
     # Load current agent state
     my $data = $self->{storage}->restore(name => "$PROVIDER-Agent");
 
-    $self->{deviceid} = $data->{deviceid} if $data->{deviceid};
-
-    if (!$self->{deviceid}) {
+    if (!$self->{deviceid} && !$data->{deviceid}) {
         # compute an unique agent identifier, based on host name and current time
         my $hostname = getHostname();
 
         my ($year, $month , $day, $hour, $min, $sec) =
             (localtime (time))[5, 4, 3, 2, 1, 0];
 
-        $self->{deviceid} = sprintf "%s-%02d-%02d-%02d-%02d-%02d-%02d",
+        $data->{deviceid} = sprintf "%s-%02d-%02d-%02d-%02d-%02d-%02d",
             $hostname, $year + 1900, $month + 1, $day, $hour, $min, $sec;
+    } elsif (!$data->{deviceid}) {
+        $data->{deviceid} = $self->{deviceid};
     }
+
+    $self->{deviceid} = $data->{deviceid};
+
+    # Handle the option to force a run during start/init/reinit if "forcerun" has
+    # been set in storage datas
+    $self->{_forced_run} = delete $data->{forcerun} || 0;
 
     # Always save agent state
     $self->{storage}->save(
         name => "$PROVIDER-Agent",
-        data => {
-            deviceid => $self->{deviceid},
-        }
+        data => $data
     );
 }
 

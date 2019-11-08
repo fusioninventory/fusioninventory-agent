@@ -9,6 +9,10 @@ core:
   like '::' or '::1'.
 * win32: always detach agent thread after 10 seconds when stopping the agent
   service when it is blocking on anything to guaranty the service stops in 10s max
+* check agent persistent datas for a "forcerun" set flag. This is firstly intended
+  to be used by win32 installer to handle the "start inventory after installation"
+  option directly from the service.
+  This can also be used to change or reset the agent deviceid.
 
 inventory:
 * unix: fix last log user after a reboot
