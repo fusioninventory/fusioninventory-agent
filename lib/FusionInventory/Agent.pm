@@ -415,6 +415,24 @@ sub _handlePersistentState {
     );
 }
 
+sub setForceRun {
+    my ($self, $forcerun) = @_;
+
+    my $storage = FusionInventory::Agent::Storage->new(
+        logger    => $self->{logger},
+        directory => $self->{vardir}
+    );
+
+    my $data = $storage->restore(name => "$PROVIDER-Agent");
+
+    $data->{forcerun} = defined($forcerun) ? $forcerun : 1;
+
+    $storage->save(
+        name => "$PROVIDER-Agent",
+        data => $data
+    );
+}
+
 sub _appendElementsNotAlreadyInList {
     my ($list, $elements, $logger) = @_;
 
@@ -553,6 +571,12 @@ pairs:
     'Foo' => x,
     'Bar' => y,
 );
+
+=head2 setForceRun($forcerun)
+
+Set "forcerun" option to 1 (by default) in persistent state storage. This option
+is only read during start, init or reinit. If set to true, the next run is planned
+to be started as soon as possible.
 
 =head1 LICENSE
 

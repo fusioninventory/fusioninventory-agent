@@ -53,6 +53,7 @@ GetOptions(
     'httpd-port=s',
     'httpd-trust=s',
     'listen',
+    'set-forcerun',
     'scan-homedirs',
     'scan-profiles',
     'server|s=s',
@@ -139,6 +140,11 @@ if ($options->{wait}) {
     sleep $time;
 }
 
+if ($options->{'set-forcerun'}) {
+    $agent->setForceRun();
+    exit 0;
+}
+
 eval {
     $agent->init(options => $options);
 
@@ -182,6 +188,8 @@ fusioninventory-agent [options] [--server server|--local path]
                                      each new failed attempt until reaching max
     --lazy                         do not contact the target before
                                    next scheduled time
+    --set-forcerun                 set persistent state 'forcerun' option so a run
+                                   will be started immediatly during a start or init
 
   Task selection options:
     --list-tasks                   list available tasks and exit

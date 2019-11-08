@@ -13,6 +13,7 @@ core:
   to be used by win32 installer to handle the "start inventory after installation"
   option directly from the service.
   This can also be used to change or reset the agent deviceid.
+* Add --set-forcerun option support to fusioninventory-agent script
 
 inventory:
 * unix: fix last log user after a reboot
