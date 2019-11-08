@@ -239,29 +239,27 @@ sub _start_agent {
 sub _stop_agent {
     my ($self) = @_;
 
-    my $timer = time-10;
-    my $tries = 3;
+    my $timer = time-1;
+    my $tries = 10;
 
     while ( $self->{agent_thread} ) {
-        if ($self->{agent_thread}->is_running() && time-$timer >= 10) {
+        if ($self->{agent_thread}->is_running() && time-$timer >= 1) {
             $self->{agent_thread}->kill('SIGINT');
-            Win32::Daemon::State(SERVICE_STOP_PENDING, 10000);
-            $timer = time-1;
+            Win32::Daemon::State(SERVICE_STOP_PENDING, $tries * 1000);
+            if (!$tries-- && !$self->{agent_thread}->is_detached()) {
+                $self->{agent_thread}->detach();
+                last;
+            }
+            $timer = time;
 
         } elsif ($self->{agent_thread}->is_joinable()) {
             $self->{agent_thread}->join();
-
-            delete $self->{agent_thread};
-
             last;
-
-        } elsif ( time-$timer >= 10 ) {
-            last unless $tries--;
-            Win32::Daemon::State(SERVICE_STOP_PENDING, 10000);
-            $timer = time-1;
         }
         usleep( SERVICE_USLEEP_TIME );
     }
+
+    delete $self->{agent_thread};
 }
 
 sub Pause {

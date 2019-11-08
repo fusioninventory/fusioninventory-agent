@@ -7,6 +7,8 @@ core:
 * Always compile IPv4 address as IPv6 too for trusted ips. This is needed when
   system default is to listen other IPv6 or you set httpd-ip to IPv6 address
   like '::' or '::1'.
+* win32: always detach agent thread after 10 seconds when stopping the agent
+  service when it is blocking on anything to guaranty the service stops in 10s max
 
 inventory:
 * unix: fix last log user after a reboot
