@@ -63,7 +63,8 @@ sub _getInterfaces {
         );
 
         # check if it is a physical interface
-        if (-d "/sys/class/net/$interface->{DESCRIPTION}/device") {
+        if (-d "/sys/class/net/$interface->{DESCRIPTION}/device" &&
+           !-d "/sys/devices/virtual/net/$interface->{DESCRIPTION}") {
             my $info = _getUevent($interface->{DESCRIPTION});
             $interface->{DRIVER}  = $info->{DRIVER}
                 if $info->{DRIVER};

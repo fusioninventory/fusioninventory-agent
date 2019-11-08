@@ -27,6 +27,7 @@ inventory:
 * win32: enhanced network card inventory, thanks to PR-gh
 * linux: provides debian installed software filesize in bytes
 * linux: Added support for installed softwares by Snap
+* linux: double-check a network interface is not virtual
 
 netdiscovery/netinventory:
 * linux: avoid to share HTTP client with threads to fix RHEL/CentOS 7 crash
