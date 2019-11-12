@@ -7,6 +7,7 @@
  * [Unix](contrib/unix):
    * legacy Debian and Redhat init scripts
    * systemd sample service file
+   * install-deb.sh by @J-C-P, script to simplify installation on debian/ubuntu, see [README](contrib/unix/install-deb-README.md)
  * [Windows](contrib/windows):
    * [fusioninventory-agent-deployment.vbs](contrib/windows/fusioninventory-agent-deployment.vbs):
      FusionInventory Agent deployment helper script

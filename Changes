@@ -14,6 +14,7 @@ core:
   option directly from the service.
   This can also be used to change or reset the agent deviceid.
 * Add --set-forcerun option support to fusioninventory-agent script
+* Add J-C-P contribution to simplify agent installation under linux debian/ubuntu
 
 inventory:
 * unix: fix last log user after a reboot
