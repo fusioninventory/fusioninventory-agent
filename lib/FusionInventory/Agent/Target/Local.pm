@@ -26,6 +26,10 @@ sub new {
     return $self;
 }
 
+sub reset {
+    $count = 0;
+}
+
 sub getPath {
     my ($self) = @_;
 
@@ -82,6 +86,10 @@ hash:
 the output directory path (mandatory)
 
 =back
+
+=head2 reset()
+
+Reset the local target counter.
 
 =head2 getPath()
 
