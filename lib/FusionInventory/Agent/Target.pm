@@ -164,10 +164,16 @@ sub _computeNextRunDate {
         $ret = time + ($self->{initialDelay} / 2) + int rand($self->{initialDelay} / 2);
         $self->{initialDelay} = undef;
     } else {
-        $ret =
-            time                   +
-            $self->{maxDelay} / 2  +
-            int rand($self->{maxDelay} / 2);
+        # By default, reduce randomly the delay by 0 to 3600 seconds (1 hour max)
+        my $max_random_delay_reduc = 3600;
+        # For delays until 6 hours, reduce randomly the delay by 10 minutes for each hour: 600*(T/3600) = T/6
+        if ($self->{maxDelay} < 21600) {
+            $max_random_delay_reduc = $self->{maxDelay} / 6;
+        } elsif ($self->{maxDelay} > 86400) {
+            # Finally reduce randomly the delay by 1 hour for each 24 hours, for delay other than a day
+            $max_random_delay_reduc = $self->{maxDelay} / 24;
+        }
+        $ret = time + $self->{maxDelay} - int(rand($max_random_delay_reduc));
     }
 
     return $ret;
