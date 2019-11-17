@@ -91,6 +91,9 @@ sub reloadFromInputAndBackend {
     $self->_loadFromBackend($self->{'conf-file'}, $self->{config});
 
     $self->_checkContent();
+
+    # delaytime must not be used after a reload
+    $self->{delaytime} = 0;
 }
 
 sub _loadFromBackend {
@@ -450,7 +453,7 @@ sub getTargets {
             # Schedule it to run every 2 minutes max by default
             my $scheduler = FusionInventory::Agent::Target::Scheduler->new(
                 logger      => $params{logger},
-                delaytime   => 60,
+                delaytime   => $self->{delaytime} ? 60 : 0,
                 maxDelay    => 120,
                 basevardir  => $params{vardir},
                 storage     => $server->getStorage(),

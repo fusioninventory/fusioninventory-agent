@@ -8,16 +8,25 @@ use English qw(-no_match_vars);
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Storage;
 
+my $errMaxDelay = 0;
+
 sub new {
     my ($class, %params) = @_;
 
     die "no basevardir parameter for target\n" unless $params{basevardir};
 
+    # errMaxDelay is the maximum delay on network error. Delay on network error starts
+    # from 60, is doubled at each new failed attempt until reaching delaytime.
+    # Take the first provided delaytime for the agent lifetime
+    unless ($errMaxDelay) {
+        $errMaxDelay = $params{delaytime} || 3600;
+    }
+
     my $self = {
         logger       => $params{logger} ||
                         FusionInventory::Agent::Logger->new(),
         maxDelay     => $params{maxDelay} || 3600,
-        errMaxDelay  => $params{delaytime},
+        errMaxDelay  => $errMaxDelay,
         initialDelay => $params{delaytime},
     };
     bless $self, $class;
