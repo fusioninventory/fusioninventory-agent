@@ -309,7 +309,10 @@ sub loadHttpInterface {
 
     if ($config->{'no-httpd'}) {
         # Handle re-init case
-        $self->{server}->stop() if ($self->{server});
+        if ($self->{server}) {
+            $self->{server}->stop() ;
+            delete $self->{server};
+        }
         return;
     }
 
@@ -328,6 +331,7 @@ sub loadHttpInterface {
     if ($self->{server}) {
         return unless $self->{server}->needToRestart(%server_config);
         $self->{server}->stop();
+        delete $self->{server};
     }
 
     FusionInventory::Agent::HTTP::Server->require();
