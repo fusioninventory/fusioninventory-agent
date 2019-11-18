@@ -59,13 +59,6 @@ sub getStorage {
     return $self->{storage};
 }
 
-sub setNextRunDate {
-    my ($self, $nextRunDate) = @_;
-
-    $self->{nextRunDate} = $nextRunDate;
-    $self->_saveState();
-}
-
 sub setNextRunDateFromNow {
     my ($self, $nextRunDelay) = @_;
 
@@ -81,6 +74,9 @@ sub setNextRunDateFromNow {
     }
     $self->{nextRunDate} = time + ($nextRunDelay || 0);
     $self->_saveState();
+
+    # Remove initialDelay to support case we are still forced to run at start
+    $self->{initialDelay} = undef;
 }
 
 sub resetNextRunDate {
@@ -242,10 +238,6 @@ Get nextRunDate attribute.
 =head2 getFormatedNextRunDate()
 
 Get nextRunDate attribute as a formated string.
-
-=head2 setNextRunDate($nextRunDate)
-
-Set next execution date.
 
 =head2 setNextRunDateFromNow($nextRunDelay)
 
