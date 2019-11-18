@@ -61,7 +61,7 @@ sub init {
     $self->{target} = FusionInventory::Agent::Target::Listener->new(
         logger     => $self->{logger},
         basevardir => $self->{server}->{agent}->{config}->{vardir},
-    );
+    ) unless $self->{target};
 
     # Check secret is set if plugin is enabled
     if (!$self->disabled() && !$self->config('token')) {
