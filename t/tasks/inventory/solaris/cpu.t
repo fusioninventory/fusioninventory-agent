@@ -31,6 +31,7 @@ my %vpcu_tests = (
         _map(4, { speed =>  '900', type => 'sparcv9' }) ,
         _map(8, { speed => '1350', type => 'sparcv9' }) ,
     ],
+    'sparc-t5'  => [ _map(64, { speed => '3600', type => 'sparcv9' }) ],
 );
 
 my %pcpu_tests = (
@@ -73,6 +74,9 @@ my %pcpu_tests = (
     e6900 => [
         _map(8, { speed => '1350', type => 'UltraSPARC-IV'  , count => 2 }),
         _map(4, { speed =>  '900', type => 'UltraSPARC-III+', count => 1 }),
+    ],
+    'sparc-t5' => [
+        _map(1, { speed => '3600', type => 'SPARC-T5', count => 64 })
     ],
 );
 

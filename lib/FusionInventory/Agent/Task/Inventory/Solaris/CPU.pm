@@ -83,6 +83,10 @@ sub _getCPUs {
             $type eq 'UltraSPARC-T2'  ? (undef, 8) : # Niagara-II
             $type eq 'UltraSPARC-T2+' ? (undef, 8) : # Victoria Falls
             $type eq 'SPARC-T3'       ? (undef, 8) : # Rainbow Falls
+            $type eq 'SPARC-T4'       ? (8    , 8) : # Yosemite Falls
+            $type eq 'SPARC-T5'       ? (16   , 8) :
+            $type eq 'SPARC-M7'       ? (32   , 8) :
+            $type eq 'SPARC-M8'       ? (32   , 8) :
             $type eq 'SPARC64-VI'     ? (2,     2) : # Olympus-C SPARC64-VI
             $type eq 'SPARC64-VII'    ? (4,     2) : # Jupiter SPARC64-VII
             $type eq 'SPARC64-VII+'   ? (4,     2) : # Jupiter+ SPARC64-VII+
