@@ -29,6 +29,10 @@ sub new {
     return $self;
 }
 
+sub reset {
+    $count = 0;
+}
+
 sub getName {
     my ($self) = @_;
 
@@ -107,3 +111,7 @@ hash:
 the server target storage object (mandatory)
 
 =back
+
+=head2 reset()
+
+Reset the scheduler target counter.

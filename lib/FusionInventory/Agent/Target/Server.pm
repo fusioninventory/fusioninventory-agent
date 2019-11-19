@@ -32,6 +32,10 @@ sub new {
     return $self;
 }
 
+sub reset {
+    $count = 0;
+}
+
 sub _getCanonicalURL {
     my ($string) = @_;
 
@@ -110,6 +114,10 @@ hash:
 the server URL (mandatory)
 
 =back
+
+=head2 reset()
+
+Reset the server target counter.
 
 =head2 getUrl()
 

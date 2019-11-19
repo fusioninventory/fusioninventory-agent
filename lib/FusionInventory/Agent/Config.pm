@@ -91,6 +91,9 @@ sub reloadFromInputAndBackend {
     $self->_loadFromBackend($self->{'conf-file'}, $self->{config});
 
     $self->_checkContent();
+
+    # delaytime must not be used after a reload
+    $self->{delaytime} = 0;
 }
 
 sub _loadFromBackend {
@@ -420,6 +423,7 @@ sub getTargets {
     # create target list
     if ($self->{local}) {
         FusionInventory::Agent::Target::Local->require();
+        FusionInventory::Agent::Target::Local->reset();
         foreach my $path (@{$self->{local}}) {
             push @targets,
                 FusionInventory::Agent::Target::Local->new(
@@ -435,6 +439,8 @@ sub getTargets {
     if ($self->{server}) {
         FusionInventory::Agent::Target::Server->require();
         FusionInventory::Agent::Target::Scheduler->require();
+        FusionInventory::Agent::Target::Server->reset();
+        FusionInventory::Agent::Target::Scheduler->reset();
         foreach my $url (@{$self->{server}}) {
             my $server = FusionInventory::Agent::Target::Server->new(
                 logger     => $params{logger},
@@ -450,7 +456,7 @@ sub getTargets {
             # Schedule it to run every 2 minutes max by default
             my $scheduler = FusionInventory::Agent::Target::Scheduler->new(
                 logger      => $params{logger},
-                delaytime   => 60,
+                delaytime   => $self->{delaytime} ? 60 : 0,
                 maxDelay    => 120,
                 basevardir  => $params{vardir},
                 storage     => $server->getStorage(),
