@@ -43,6 +43,7 @@ inventory:
 * linux: provides debian installed software filesize in bytes
 * linux: Added support for installed softwares by Snap
 * linux: double-check a network interface is not virtual
+* fix #723: check debian linux version in /etc/debian_version
 
 netdiscovery/netinventory:
 * linux: avoid to share HTTP client with threads to fix RHEL/CentOS 7 crash

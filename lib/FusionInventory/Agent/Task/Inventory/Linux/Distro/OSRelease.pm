@@ -30,6 +30,14 @@ sub doInventory {
         OSNAME => $description,
     });
 
+    # Handle Debian case where version is not complete like in Ubuntu
+    # by checking /etc/debian_version
+    if (-r '/etc/debian_version') {
+        my $debian_version = getFirstLine(file => '/etc/debian_version');
+        $version = $debian_version
+            if $debian_version && $debian_version =~ /^\d/;
+    }
+
     $inventory->setOperatingSystem({
         NAME      => $name,
         VERSION   => $version,
