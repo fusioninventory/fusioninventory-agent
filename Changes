@@ -15,6 +15,15 @@ core:
   This can also be used to change or reset the agent deviceid.
 * Add --set-forcerun option support to fusioninventory-agent script
 * Add J-C-P contribution to simplify agent installation under linux debian/ubuntu
+* fix: don't reschedule too early on a forced run at start
+* fix: Don't use delaytime on config reload
+* fix: use target counters reset to better support config reload
+* feature: limit next run delay reduction
+  Limit next run random delay reduction to max 1/6 of the delay if less than 6 hours,
+  limit to max an hour for delay from 6 hours to 24 hours,
+  and limit to max 1/24 of the delay for delay greater than a day.
+  This would keep enough delay randomization to avoid mass agent server connection and
+  keep next seen run more coherent with the requested delay.
 
 inventory:
 * unix: fix last log user after a reboot
