@@ -55,6 +55,9 @@ netdiscovery/netinventory:
   while using fusioninventory-netdiscovery script --inventory option
 * fix #741: device with empty description was no more inventoried
 * fix #726: Added support for latest SPARC cpus on Solaris
+* fix #717: use cdpCacheSysName when available to enhance connection detection
+  Try also to extract remote mac address from deviceId when possible (fix Meraki
+  connection detection, even support Yealink SIP phones)
 
 2.5.1 Tue, 02 Jul 2019
 

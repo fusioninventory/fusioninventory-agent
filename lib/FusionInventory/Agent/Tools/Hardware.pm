@@ -1230,6 +1230,7 @@ sub _getCDPInfo {
     my $cdpCacheDeviceId   = $snmp->walk('.1.3.6.1.4.1.9.9.23.1.2.1.1.6');
     my $cdpCacheDevicePort = $snmp->walk('.1.3.6.1.4.1.9.9.23.1.2.1.1.7');
     my $cdpCachePlatform   = $snmp->walk('.1.3.6.1.4.1.9.9.23.1.2.1.1.8');
+    my $cdpCacheSysName    = $snmp->walk('.1.3.6.1.4.1.9.9.23.1.2.1.1.17');
 
     # each cdp variable matches the following scheme:
     # $prefix.x.y = $value
@@ -1258,6 +1259,10 @@ sub _getCDPInfo {
             $connection->{IFDESCR} = getCanonicalString($devicePort);
         }
 
+        my $sysname = getCanonicalString($cdpCacheSysName->{$suffix});
+        $connection->{SYSNAME} = $sysname
+            if $sysname;
+
         # cdpCacheDeviceId is either remote host name, either remote mac address
         my $deviceId = $cdpCacheDeviceId->{$suffix};
         if ($deviceId =~ /^0x/) {
@@ -1265,15 +1270,25 @@ sub _getCDPInfo {
                 # let's assume it is a mac address if the length is 6 bytes
                 $connection->{SYSMAC} = lc(alt2canonical($deviceId));
             } else {
-                # otherwise it's an hex-encode hostname
-                $connection->{SYSNAME} = getCanonicalString($deviceId);
+                # otherwise it's may be an hex-encode hostname
+                $deviceId = getCanonicalString($deviceId);
+                if ($deviceId =~ /^[0-9A-Fa-f]{12}$/) {
+                    # let's assume it is a mac address if the length is 12 chars
+                    $connection->{SYSMAC} = lc(alt2canonical($deviceId));
+                } elsif (!$connection->{SYSNAME}) {
+                    $connection->{SYSNAME} = $deviceId;
+                }
             }
-        } else {
+        } elsif (!$connection->{SYSNAME}) {
             $connection->{SYSNAME} = $deviceId;
         }
 
         if ($connection->{SYSNAME} &&
             $connection->{SYSNAME} =~ /^SIP([A-F0-9a-f]*)$/) {
+            $connection->{SYSMAC} = lc(alt2canonical("0x".$1));
+        } elsif ($connection->{SYSNAME} &&
+            $connection->{SYSNAME} =~ /^SIP-(.*)$/ &&
+            $deviceId =~ /^$1([0-9A-Fa-f]{12})$/) {
             $connection->{SYSMAC} = lc(alt2canonical("0x".$1));
         }
 
