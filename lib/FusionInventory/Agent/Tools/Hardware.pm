@@ -1414,7 +1414,7 @@ sub _getVlans {
     if ($dot1qVlanStaticRowStatus && $dot1qVlanStaticRowStatus && $dot1qVlanCurrentEgressPorts && $dot1qVlanCurrentUntaggedPorts) {
         foreach my $vlan_id (sort keys %{$dot1qVlanStaticRowStatus}) {
             if ($dot1qVlanStaticRowStatus->{$vlan_id} eq 1) {
-                my $name = $dot1qVlanStaticName->{$vlan_id};
+                my $name = getCanonicalString($dot1qVlanStaticName->{$vlan_id});
 
                 my $suffix = defined($dot1qVlanCurrentEgressPorts->{$vlan_id}) ? $vlan_id : ("0.".$vlan_id);
                 next if !defined($dot1qVlanCurrentEgressPorts->{$suffix});
