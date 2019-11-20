@@ -10,6 +10,7 @@ use Test::More;
 use Test::NoWarnings;
 
 use FusionInventory::Test::Inventory;
+use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Task::Inventory::MacOS::Softwares;
 
 use English;
