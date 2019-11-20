@@ -68,10 +68,20 @@ subtest "first inventory execution and content" => sub {
     check_content_ok($out);
 };
 
-ok(
-    exists $content->{REQUEST}->{CONTENT}->{SOFTWARES},
-    'inventory has software'
-);
+SKIP: {
+    # On MacOSX, skip test as system_profiler may return no software in container, CircleCI case
+    if ($OSNAME eq "darwin") {
+        my @hasSoftwareOutput = getAllLines(
+            command => "/usr/sbin/system_profiler SPApplicationsDataType"
+        );
+        skip "No installed software seen on this system", 1
+            if @hasSoftwareOutput == 0;
+    }
+    ok(
+        exists $content->{REQUEST}->{CONTENT}->{SOFTWARES},
+        'inventory has software'
+    );
+}
 
 ok(
     exists $content->{REQUEST}->{CONTENT}->{ENVS},

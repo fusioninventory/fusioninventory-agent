@@ -3692,7 +3692,7 @@ my $datesStr = {
 plan tests => 2 * scalar (keys %tests)
     + 1
     + scalar (keys %$datesStr)
-    + 9;
+    + 7;
 
 for my $dateStr (keys %$datesStr) {
     my $formatted = FusionInventory::Agent::Task::Inventory::MacOS::Softwares::_formatDate($dateStr);
@@ -3725,12 +3725,15 @@ sub compare {
 }
 
 SKIP: {
-    skip "Only if OS is darwin (Mac OS X) and command 'system_profiler' is available", 8 unless $OSNAME eq 'darwin' && FusionInventory::Agent::Task::Inventory::MacOS::Softwares::isEnabled();
+    skip "Only if OS is darwin (Mac OS X) and command 'system_profiler' is available", 6
+        unless $OSNAME eq 'darwin' && FusionInventory::Agent::Task::Inventory::MacOS::Softwares::isEnabled();
 
-    my $comm = '/usr/sbin/system_profiler -xml SPApplicationsDataType';
-    my @xmlStr = FusionInventory::Agent::Tools::getAllLines(command => $comm);
-    ok (@xmlStr);
-    ok (scalar(@xmlStr) > 0);
+    my @hasSoftwareOutput = getAllLines(
+        command => "/usr/sbin/system_profiler SPApplicationsDataType"
+    );
+    # On MacOSX, skip test as system_profiler may return no software in container, CircleCI case
+    skip "No installed software seen on this system", 6
+        if @hasSoftwareOutput == 0;
 
     my $softs = FusionInventory::Agent::Tools::MacOS::_getSystemProfilerInfosXML(
         type            => 'SPApplicationsDataType',
@@ -3750,7 +3753,6 @@ SKIP: {
 
     my $softwareHash = FusionInventory::Agent::Task::Inventory::MacOS::Softwares::_getSoftwaresList(
         format => 'xml',
-        toNotMemoize => time
     );
     ok (defined $softwareHash);
     ok (scalar(@{$softwareHash}) > 1);
