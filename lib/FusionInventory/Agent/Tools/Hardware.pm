@@ -1426,7 +1426,7 @@ sub _getVlans {
     my $dot1qVlanCurrentEgressPorts = $snmp->walk('.1.3.6.1.2.1.17.7.1.4.2.1.4');
     my $dot1qVlanCurrentUntaggedPorts = $snmp->walk('.1.3.6.1.2.1.17.7.1.4.2.1.5');
 
-    if ($dot1qVlanStaticRowStatus && $dot1qVlanStaticRowStatus && $dot1qVlanCurrentEgressPorts && $dot1qVlanCurrentUntaggedPorts) {
+    if ($dot1qVlanStaticName && $dot1qVlanStaticRowStatus && $dot1qVlanCurrentEgressPorts && $dot1qVlanCurrentUntaggedPorts) {
         foreach my $vlan_id (sort keys %{$dot1qVlanStaticRowStatus}) {
             if ($dot1qVlanStaticRowStatus->{$vlan_id} eq 1) {
                 my $name = getCanonicalString($dot1qVlanStaticName->{$vlan_id});
@@ -1463,7 +1463,9 @@ sub _getVlans {
                 }
             }
         }
-    } else {
+    }
+
+    unless ($results) {
         # For other switches, we use another methods
         # used for Alcatel-Lucent and ExtremNetworks (and perhaps others)
         my $vlanIdName = $snmp->walk('.1.0.8802.1.1.2.1.5.32962.1.2.3.1.2');
