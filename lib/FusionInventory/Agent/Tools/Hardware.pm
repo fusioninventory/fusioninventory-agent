@@ -1432,29 +1432,27 @@ sub _getVlans {
                 my $name = getCanonicalString($dot1qVlanStaticName->{$vlan_id});
 
                 my $suffix = defined($dot1qVlanCurrentEgressPorts->{$vlan_id}) ? $vlan_id : ("0.".$vlan_id);
-                next if !defined($dot1qVlanCurrentEgressPorts->{$suffix});
+                # Suffix may not start by "0." for other vendors
+                unless (defined($dot1qVlanCurrentEgressPorts->{$suffix})) {
+                    ($suffix) = grep { /\.$vlan_id$/ } keys(%{$dot1qVlanCurrentEgressPorts});
+                }
+                next if !$suffix || !defined($dot1qVlanCurrentEgressPorts->{$suffix});
 
                 # Tagged & Untagged VLAN
-                my $bEgress = '';
-                if (isStringHexadecimal($dot1qVlanCurrentEgressPorts->{$suffix})) {
-                    for (my $i=2; $i< length($dot1qVlanCurrentEgressPorts->{$suffix}); $i++) {
-                        $bEgress .= sprintf('%04b', hex(substr($dot1qVlanCurrentEgressPorts->{$suffix}, $i, 1)));
-                    }
-                }
+                my $bEgress = unpack("B*", hex2char($dot1qVlanCurrentEgressPorts->{$suffix}));
+                my @bEgress = split(//,$bEgress);
+                next unless @bEgress;
 
                 # Untagged VLAN 
-                my $bUntagged = '';
-                if (isStringHexadecimal($dot1qVlanCurrentUntaggedPorts->{$suffix})) {
-                    for (my $i=2; $i< length($dot1qVlanCurrentUntaggedPorts->{$suffix}); $i++) {
-                        $bUntagged .= sprintf('%04b', hex(substr($dot1qVlanCurrentUntaggedPorts->{$suffix}, $i, 1)));
-                    }
-                }
-
-                next if ($bUntagged eq '' && $bEgress eq '');
+                my $bUntagged = unpack("B*", hex2char($dot1qVlanCurrentUntaggedPorts->{$suffix}));
+                my @bUntagged = split(//,$bUntagged);
+                next unless @bUntagged;
 
                 foreach my $port_id (keys %{$ports}) {
-                    my $isUntagged = ($port_id-1 <= length($bUntagged)) ? substr($bUntagged, $port_id-1, 1) : '0';
-                    my $isTagged = ($isUntagged eq '0' && ($port_id-1 <= length($bEgress))) ? substr($bEgress, $port_id-1, 1) : '0';
+                    next if $port_id > @bEgress || $port_id > @bUntagged;
+                    my $port_index = $port_id - 1;
+                    my $isUntagged = $bUntagged[$port_index];
+                    my $isTagged   = $isUntagged eq '0' ? $bEgress[$port_index] : '0';
                     push @{$results->{$port_id}}, {
                         NUMBER  => $vlan_id,
                         NAME    => $name,

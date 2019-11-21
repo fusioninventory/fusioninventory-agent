@@ -145,12 +145,6 @@ sub getRegexpOidMatch {
     return qr/^$match/;
 }
 
-sub isStringHexadecimal {
-    my ($value) = @_;
-
-    return $value =~ /^0x[0-9a-fA-F]+$/;
-}
-
 1;
 __END__
 
@@ -187,7 +181,3 @@ return true if value is an integer.
 =head2 getRegexpOidMatch($oid)
 
 return compiled regexp to match given oid.
-
-=head2 isStringHexadecimal($value)
-
-return true if value is a string hexadecimal (start with 0x).
