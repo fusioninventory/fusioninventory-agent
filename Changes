@@ -44,6 +44,8 @@ inventory:
 * linux: Added support for installed softwares by Snap
 * linux: double-check a network interface is not virtual
 * fix #723: check debian linux version in /etc/debian_version
+* Updated pci.ids to 2019.11.10 version
+* Updated usb.ids to 2019.11.05 version
 
 netdiscovery/netinventory:
 * linux: avoid to share HTTP client with threads to fix RHEL/CentOS 7 crash
