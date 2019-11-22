@@ -60,6 +60,7 @@ netdiscovery/netinventory:
 * fix #717: use cdpCacheSysName when available to enhance connection detection
   Try also to extract remote mac address from deviceId when possible (fix Meraki
   connection detection, even support Yealink SIP phones)
+* fix #684: Added IAP Aruba serial number support
 
 2.5.1 Tue, 02 Jul 2019
 
