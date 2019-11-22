@@ -1419,6 +1419,8 @@ sub _getVlans {
 
     # For Switch with dot1qVlanStaticEntry and dot1qVlanCurrent Present
     my $dot1qVlanStaticName = $snmp->walk('.1.3.6.1.2.1.17.7.1.4.3.1.1');
+    my $dot1qVlanStaticEgressPorts = $snmp->walk('.1.3.6.1.2.1.17.7.1.4.3.1.2');
+    my $dot1qVlanStaticUntaggedPorts = $snmp->walk('.1.3.6.1.2.1.17.7.1.4.3.1.4');
     my $dot1qVlanStaticRowStatus = $snmp->walk('.1.3.6.1.2.1.17.7.1.4.3.1.5');
     # each result matches either of the following schemes :
     # $prefix.$i    = $value with $i as vlan_id, and each bit of $value represent the Egress (or Untagged) is present (1st bit = ifnumber 1, 2nd bit => ifnumber 2, etc...)
@@ -1435,15 +1437,31 @@ sub _getVlans {
                 unless (defined($dot1qVlanCurrentEgressPorts->{$suffix})) {
                     ($suffix) = grep { /\.$vlan_id$/ } keys(%{$dot1qVlanCurrentEgressPorts});
                 }
-                next if !$suffix || !defined($dot1qVlanCurrentEgressPorts->{$suffix});
+                my $EgressPorts;
+                if ($suffix && defined($dot1qVlanCurrentEgressPorts->{$suffix})) {
+                    $EgressPorts = $dot1qVlanCurrentEgressPorts->{$suffix};
+                } elsif (defined($dot1qVlanStaticEgressPorts->{$vlan_id})) {
+                    $EgressPorts = $dot1qVlanStaticEgressPorts->{$vlan_id};
+                } else {
+                    next;
+                }
 
                 # Tagged & Untagged VLAN
-                my $bEgress = unpack("B*", hex2char($dot1qVlanCurrentEgressPorts->{$suffix}));
+                my $bEgress = unpack("B*", hex2char($EgressPorts));
                 my @bEgress = split(//,$bEgress);
                 next unless @bEgress;
 
+                my $UntaggedPorts;
+                if ($suffix && defined($dot1qVlanCurrentUntaggedPorts->{$suffix})) {
+                    $UntaggedPorts = $dot1qVlanCurrentUntaggedPorts->{$suffix};
+                } elsif (defined($dot1qVlanStaticUntaggedPorts->{$vlan_id})) {
+                    $UntaggedPorts = $dot1qVlanStaticUntaggedPorts->{$vlan_id};
+                } else {
+                    next;
+                }
+
                 # Untagged VLAN 
-                my $bUntagged = unpack("B*", hex2char($dot1qVlanCurrentUntaggedPorts->{$suffix}));
+                my $bUntagged = unpack("B*", hex2char($UntaggedPorts));
                 my @bUntagged = split(//,$bUntagged);
                 next unless @bUntagged;
 
