@@ -1366,7 +1366,6 @@ sub _getEDPInfo {
     return $results;
 }
 
-
 sub _setVlans {
     my (%params) = @_;
 
@@ -1383,9 +1382,9 @@ sub _setVlans {
         # safety check
         if (! exists $ports->{$port_id}) {
             $logger->debug(
-                "invalid interface ID $port_id while setting vlans, aborting"
+                "invalid interface ID $port_id while setting vlans, skipping"
             ) if $logger;
-            last;
+            next;
         }
         $ports->{$port_id}->{VLANS}->{VLAN} = $vlans->{$port_id};
     }
