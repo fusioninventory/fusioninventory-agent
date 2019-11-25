@@ -1427,23 +1427,28 @@ sub _getVlans {
     my $dot1qVlanCurrentEgressPorts = $snmp->walk('.1.3.6.1.2.1.17.7.1.4.2.1.4');
     my $dot1qVlanCurrentUntaggedPorts = $snmp->walk('.1.3.6.1.2.1.17.7.1.4.2.1.5');
 
-    if ($dot1qVlanStaticName && $dot1qVlanStaticRowStatus && $dot1qVlanCurrentEgressPorts && $dot1qVlanCurrentUntaggedPorts) {
+    if ($dot1qVlanStaticName && $dot1qVlanStaticRowStatus) {
         foreach my $vlan_id (sort keys %{$dot1qVlanStaticRowStatus}) {
             if ($dot1qVlanStaticRowStatus->{$vlan_id} eq 1) {
                 my $name = getCanonicalString($dot1qVlanStaticName->{$vlan_id});
 
-                my $suffix = defined($dot1qVlanCurrentEgressPorts->{$vlan_id}) ? $vlan_id : ("0.".$vlan_id);
-                # Suffix may not start by "0." for other vendors
-                unless (defined($dot1qVlanCurrentEgressPorts->{$suffix})) {
-                    ($suffix) = grep { /\.$vlan_id$/ } keys(%{$dot1qVlanCurrentEgressPorts});
+                my ($suffix, $EgressPorts);
+                if ($dot1qVlanCurrentEgressPorts) {
+                    $suffix = defined($dot1qVlanCurrentEgressPorts->{$vlan_id}) ? $vlan_id : "0.".$vlan_id;
+                    # Suffix may not start by "0." for other vendors
+                    unless (defined($dot1qVlanCurrentEgressPorts->{$suffix})) {
+                        ($suffix) = grep { /\.$vlan_id$/ } keys(%{$dot1qVlanCurrentEgressPorts});
+                    }
+                    if ($suffix && defined($dot1qVlanCurrentEgressPorts->{$suffix})) {
+                        $EgressPorts = $dot1qVlanCurrentEgressPorts->{$suffix};
+                    }
                 }
-                my $EgressPorts;
-                if ($suffix && defined($dot1qVlanCurrentEgressPorts->{$suffix})) {
-                    $EgressPorts = $dot1qVlanCurrentEgressPorts->{$suffix};
-                } elsif (defined($dot1qVlanStaticEgressPorts->{$vlan_id})) {
-                    $EgressPorts = $dot1qVlanStaticEgressPorts->{$vlan_id};
-                } else {
-                    next;
+                if (!defined($EgressPorts)) {
+                    if ($dot1qVlanStaticEgressPorts && defined($dot1qVlanStaticEgressPorts->{$vlan_id})) {
+                        $EgressPorts = $dot1qVlanStaticEgressPorts->{$vlan_id};
+                    } else {
+                        next;
+                    }
                 }
 
                 # Tagged & Untagged VLAN
@@ -1452,9 +1457,9 @@ sub _getVlans {
                 next unless @bEgress;
 
                 my $UntaggedPorts;
-                if ($suffix && defined($dot1qVlanCurrentUntaggedPorts->{$suffix})) {
+                if ($suffix && $dot1qVlanCurrentUntaggedPorts && defined($dot1qVlanCurrentUntaggedPorts->{$suffix})) {
                     $UntaggedPorts = $dot1qVlanCurrentUntaggedPorts->{$suffix};
-                } elsif (defined($dot1qVlanStaticUntaggedPorts->{$vlan_id})) {
+                } elsif ($dot1qVlanStaticUntaggedPorts && defined($dot1qVlanStaticUntaggedPorts->{$vlan_id})) {
                     $UntaggedPorts = $dot1qVlanStaticUntaggedPorts->{$vlan_id};
                 } else {
                     next;
