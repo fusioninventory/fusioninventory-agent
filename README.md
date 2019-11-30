@@ -109,7 +109,7 @@ See [CONTRIB](CONTRIB.md) to find references to FusionInventory Agent related sc
 Project websites:
 
 * main site: <http://www.fusioninventory.org>
-* forge: <http://forge.fusioninventory.org>
+* Github org: <http://github.com/fusioninventory/>
 
 Project mailing lists:
 
@@ -120,7 +120,7 @@ Project IRC channel:
 
 * #FusionInventory on FreeNode IRC Network
 
-Please report any issues on project forge bugtracker.
+Please report any issues on Github.
 
 ## Active authors
 
