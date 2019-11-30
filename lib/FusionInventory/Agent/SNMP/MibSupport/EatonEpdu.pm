@@ -25,19 +25,19 @@ our $mibSupport = [
 sub getSerial {
     my ($self) = @_;
 
-    return hex2char($self->get(serial));
+    return $self->get(serial);
 }
 
 sub getModel {
     my ($self) = @_;
 
-    return hex2char($self->get(model));
+    return $self->get(model);
 }
 
 sub getFirmware {
     my ($self) = @_;
 
-    return hex2char($self->get(firmware));
+    return $self->get(firmware);
 }
 
 1;
