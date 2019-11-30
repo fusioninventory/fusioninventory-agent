@@ -107,7 +107,8 @@ sub loadMibSupport {
     # identify device supported MIBs
     $self->{MIBSUPPORT} = FusionInventory::Agent::SNMP::MibSupport->new(
         sysobjectid  => $sysobjectid,
-        device       => $self
+        device       => $self,
+        logger       => $self->{logger}
     );
 }
 
