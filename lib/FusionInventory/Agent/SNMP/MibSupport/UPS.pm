@@ -14,6 +14,9 @@ use constant    riello => '.1.3.6.1.4.1.5491' ;
 # See PowerNet-MIB
 
 use constant    upsAdvIdentSerialNumber => apc . '.1.1.1.1.2.3.0';
+use constant    sPDUIdentFirmwareRev    => apc . '.1.1.4.1.2.0';
+use constant    sPDUIdentModelNumber    => apc . '.1.1.4.1.4.0';
+use constant    sPDUIdentSerialNumber   => apc . '.1.1.4.1.5.0';
 
 # See UPS-MIB
 
@@ -34,19 +37,19 @@ our $mibSupport = [
 sub getModel {
     my ($self) = @_;
 
-    return $self->get(upsIdentModel);
+    return $self->get(upsIdentModel) || $self->get(sPDUIdentModelNumber);
 }
 
 sub getSerial {
     my ($self) = @_;
 
-    return $self->get(upsAdvIdentSerialNumber);
+    return $self->get(upsAdvIdentSerialNumber) || $self->get(sPDUIdentSerialNumber);
 }
 
 sub getFirmware {
     my ($self) = @_;
 
-    return $self->get(upsIdentUPSSoftwareVersion);
+    return $self->get(upsIdentUPSSoftwareVersion) || $self->get(sPDUIdentFirmwareRev);
 }
 
 sub getManufacturer {
