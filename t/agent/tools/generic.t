@@ -8804,6 +8804,10 @@ my %hdparm_tests = (
         size      => '256060',
         transport => 'SATA',
         wwn       => '5002538043584d30'
+    },
+    linux2 => {
+        serial    => '',
+        size      => '77309',
     }
 );
 
