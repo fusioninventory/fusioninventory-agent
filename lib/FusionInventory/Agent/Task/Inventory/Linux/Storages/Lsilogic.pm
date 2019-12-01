@@ -18,7 +18,10 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my @devices = getDevicesFromUdev(logger => $logger);
+    my @devices = map +{SCSI_UNID => $_}, map {/Found SCSI id=(\d+)/}
+                  getAllLines(command => 'mpt-status -p', logger  => $logger)
+                     ||
+                  getDevicesFromUdev(logger => $logger);
 
     foreach my $device (@devices) {
         foreach my $disk (_getDiskFromMptStatus(
@@ -47,22 +50,26 @@ sub _getDiskFromMptStatus {
     my @disks;
     while (my $line = <$handle>) {
         next unless $line =~ /
-            phys_id:(\d+) \s
-            scsi_id:\d+ \s
-            vendor:\S+ \s+
-            product_id:(\S.+\S) \s+
-            revision:(\S+) \s+
+            phys_id:(\d+)\s+
+            scsi_id:\d+\s+
+            vendor:(\S+)\s+
+            product_id:(\S+).*
+            revision:(\S+)\s+
             size\(GB\):(\d+)
         /x;
 
         my $disk = {
             NAME         => $params{name},
             device       => "/dev/sg$1",
-            MODEL        => $2,
             MANUFACTURER => getCanonicalManufacturer($2),
-            FIRMWARE     => $3,
-            DISKSIZE     => $4 * 1024
+            MODEL        => $3,
+            FIRMWARE     => $4,
+            DISKSIZE     => $5 * 1024
         };
+
+        if ($disk->{MANUFACTURER} =~ /^ATA$/i) {
+            $disk->{MANUFACTURER} = getCanonicalManufacturer($disk->{MODEL});
+        }
 
         push @disks, $disk;
     }

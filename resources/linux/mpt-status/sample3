@@ -1,0 +1,13 @@
+ioc:0 vol_id:0 type:IME raidlevel:RAID-1E num_disks:6 size(GB):837 state: OPTIMAL flags: ENABLED
+ioc:0 phys_id:5 scsi_id:6 vendor:HP       product_id:EG0300FBDBR      revision:HPD5 size(GB):279 state: ONLINE flags: NONE sync_state: 100 ASC/ASCQ:0xff/0xff SMART ASC/ASCQ:0xff/0xff
+ioc:0 phys_id:4 scsi_id:1 vendor:HP       product_id:EG0300FBDBR      revision:HPD5 size(GB):279 state: ONLINE flags: NONE sync_state: 100 ASC/ASCQ:0xff/0xff SMART ASC/ASCQ:0xff/0xff
+ioc:0 phys_id:3 scsi_id:2 vendor:HP       product_id:EG0300FBDSP      revision:HPD4 size(GB):279 state: ONLINE flags: NONE sync_state: 100 ASC/ASCQ:0xff/0xff SMART ASC/ASCQ:0xff/0xff
+ioc:0 phys_id:2 scsi_id:3 vendor:HP       product_id:EG0300FBDBR      revision:HPD5 size(GB):279 state: ONLINE flags: NONE sync_state: 100 ASC/ASCQ:0xff/0xff SMART ASC/ASCQ:0xff/0xff
+ioc:0 phys_id:1 scsi_id:4 vendor:HP       product_id:EG0300FBDBR      revision:HPD5 size(GB):279 state: ONLINE flags: NONE sync_state: 100 ASC/ASCQ:0xff/0xff SMART ASC/ASCQ:0xff/0xff
+ioc:0 phys_id:0 scsi_id:5 vendor:HP       product_id:EG0300FBDBR      revision:HPD5 size(GB):279 state: ONLINE flags: NONE sync_state: 100 ASC/ASCQ:0xff/0xff SMART ASC/ASCQ:0xff/0xff
+scsi_id:5 100%
+scsi_id:4 100%
+scsi_id:3 100%
+scsi_id:2 100%
+scsi_id:1 100%
+scsi_id:0 100%
