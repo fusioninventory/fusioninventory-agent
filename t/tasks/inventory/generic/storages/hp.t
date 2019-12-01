@@ -30,17 +30,27 @@ my %storage_tests = (
         TYPE         => 'disk',
         DISKSIZE     => '74300',
         DESCRIPTION  => 'SATA',
-        MODEL        => 'WDC WD740ADFD-00',
+        MODEL        => 'WD740ADFD-00',
         MANUFACTURER => 'Western Digital'
     },
     sample2 => {
         NAME         => 'Hitachi HUA72201',
-        MODEL        => 'Hitachi HUA72201',
+        MODEL        => 'HUA72201',
         FIRMWARE     => 'JP4OA3MA',
         DISKSIZE     => '1000000',
         MANUFACTURER => 'Hitachi',
         SERIALNUMBER => 'JPW9K0N02UPXHL',
         DESCRIPTION  => 'SATA',
+        TYPE         => 'disk'
+    },
+    sample3 => {
+        NAME         => 'HP EG0300FBDBR',
+        MODEL        => 'EG0300FBDBR',
+        FIRMWARE     => 'HPD7',
+        DISKSIZE     => '300000',
+        MANUFACTURER => 'Hewlett-Packard',
+        SERIALNUMBER => 'PMVXYSZB',
+        DESCRIPTION  => 'SAS',
         TYPE         => 'disk'
     }
 );
