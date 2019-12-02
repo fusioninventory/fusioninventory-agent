@@ -425,7 +425,10 @@ sub _getAppxPackages {
 
     return unless canRun('powershell');
 
-    XML::TreePP->require();
+    XML::XPath->require();
+
+    # Don't validate XML against DTD, parsing may fail if a proxy is active
+    $XML::XPath::ParseParamEnt = 0;
 
     my $logger    = $params{logger};
 
@@ -473,14 +476,13 @@ sub _getAppxPackages {
         if ($key eq 'FOLDER' && $value && -d $value) {
             my $xml = $value . '/appxmanifest.xml';
             if (-f $xml) {
-                my $tpp = XML::TreePP->new()
+                my $xpp = XML::XPath->new(filename => $xml)
                     or next;
-                my $tree = $tpp->parsefile($xml);
                 foreach my $property (keys(%manifest_mapping)) {
                     my $key = $manifest_mapping{$property};
-                    my $value = $tree->{Package}->{Properties}->{$property}
+                    my $value = $xpp->getNodeText("/Package/Properties/$property")
                         or next;
-                    $package->{$key} = decode('UTF-8', $value);
+                    $package->{$key} = $value;
                 }
             }
         }
