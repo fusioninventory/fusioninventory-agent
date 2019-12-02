@@ -17,6 +17,8 @@ use FusionInventory::Agent::Tools;
 #
 # HP Array Configuration Utility CLI 7.85-18.0
 
+# This speeds up hpacucli startup by skipping non-local (iSCSI, Fibre) storages.
+# See https://support.hpe.com/hpsc/doc/public/display?docId=emr_na-c03696601
 $ENV{INFOMGR_BYPASS_NONSA} = "1";
 
 sub _getHpacuacliFromWinRegistry {
