@@ -1,0 +1,86 @@
+
+/dev/sdb:
+
+ATA device, with non-removable media
+	Model Number:       HITACHI HUA7210SASUN1.0T 0812G2959E     
+	Serial Number:      GTE000PAJ2959E      
+	Firmware Revision:  GKAOAC5A
+Standards:
+	Used: ATA/ATAPI-7 T13 1532D revision 1 
+	Supported: 7 6 5 4 & some of 8
+Configuration:
+	Logical		max	current
+	cylinders	16383	16383
+	heads		16	16
+	sectors/track	63	63
+	--
+	CHS current addressable sectors:   16514064
+	LBA    user addressable sectors:  268435455
+	LBA48  user addressable sectors: 1953525168
+	Logical/Physical Sector size:           512 bytes
+	device size with M = 1024*1024:      953869 MBytes
+	device size with M = 1000*1000:     1000204 MBytes (1000 GB)
+	cache/buffer size  = 31157 KBytes (type=DualPortCache)
+Capabilities:
+	LBA, IORDY(can be disabled)
+	Queue depth: 32
+	Standby timer values: spec'd by Standard, no device specific minimum
+	R/W multiple sector transfer: Max = 16	Current = 0
+	Advanced power management level: disabled
+	Recommended acoustic management value: 128, current value: 254
+	DMA: mdma0 mdma1 mdma2 udma0 udma1 udma2 udma3 udma4 udma5 *udma6 
+	     Cycle time: min=120ns recommended=120ns
+	PIO: pio0 pio1 pio2 pio3 pio4 
+	     Cycle time: no flow control=120ns  IORDY flow control=120ns
+Commands/features:
+	Enabled	Supported:
+	   *	SMART feature set
+	   *	Power Management feature set
+	    	Write cache
+	   *	Look-ahead
+	   *	Host Protected Area feature set
+	   *	WRITE_BUFFER command
+	   *	READ_BUFFER command
+	   *	DOWNLOAD_MICROCODE
+	    	Advanced Power Management feature set
+	    	Power-Up In Standby feature set
+	    	SET_FEATURES required to spinup after power up
+	    	Address Offset Reserved Area Boot
+	    	SET_MAX security extension
+	    	Automatic Acoustic Management feature set
+	   *	48-bit Address feature set
+	   *	Device Configuration Overlay feature set
+	   *	Mandatory FLUSH_CACHE
+	   *	FLUSH_CACHE_EXT
+	   *	SMART error logging
+	   *	SMART self-test
+	    	Media Card Pass-Through
+	   *	General Purpose Logging feature set
+	   *	WRITE_{DMA|MULTIPLE}_FUA_EXT
+	   *	64-bit World wide name
+	   *	URG for READ_STREAM[_DMA]_EXT
+	   *	URG for WRITE_STREAM[_DMA]_EXT
+	   *	WRITE_UNCORRECTABLE_EXT command
+	   *	Segmented DOWNLOAD_MICROCODE
+	   *	Gen1 signaling speed (1.5Gb/s)
+	   *	Gen2 signaling speed (3.0Gb/s)
+	   *	Native Command Queueing (NCQ)
+	   *	Host-initiated interface power management
+	   *	Phy event counters
+	   *	NCQ priority information
+	    	Non-Zero buffer offsets in DMA Setup FIS
+	   *	DMA Setup Auto-Activate optimization
+	    	Device-initiated interface power management
+	    	In-order data delivery
+	   *	Software settings preservation
+	   *	SMART Command Transport (SCT) feature set
+	   *	SCT Read/Write Long (AC1), obsolete
+	   *	SCT Write Same (AC2)
+	   *	SCT Error Recovery Control (AC3)
+	   *	SCT Features Control (AC4)
+	   *	SCT Data Tables (AC5)
+Logical Unit WWN Device Identifier: 5000cca216dd3a2d
+	NAA		: 5
+	IEEE OUI	: 000cca
+	Unique ID	: 216dd3a2d
+Checksum: correct

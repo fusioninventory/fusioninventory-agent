@@ -1,0 +1,47 @@
+
+/dev/sdb:
+
+ATA device, with non-removable media
+	Model Number:       Í]	öS}=	⁄
+	Serial Number:      	 e%	™
+	Firmware Revision:  ÖE	
+	Media Serial Num:   /	æèO	˛`Ps
+	Media Manufacturer: p0	¡
+
+	Transport:          Parallel; Revision: 0x0058
+Standards:
+	Used: unknown (minor revision code 0x0023) 
+	Supported: 11 
+	Likely used: 11
+Configuration:
+	Logical		max	current
+	cylinders	21	2048
+	heads		258	141
+	sectors/track	2048	2048
+	--
+	CHS current addressable sectors:  150995021
+	Logical/Physical Sector size:           512 bytes
+	device size with M = 1024*1024:       73728 MBytes
+	device size with M = 1000*1000:       77309 MBytes (77 GB)
+	cache/buffer size  = unknown
+Capabilities:
+	IORDY(may be)(cannot be disabled)
+	Queue depth: 7
+	Standby timer values: spec'd by Vendor
+	R/W multiple sector transfer: Max = 109	Current = ?
+	Recommended acoustic management value: 8, current value: 0
+	DMA: not supported
+	PIO: unknown
+	   *	reserved 69[0]
+	   *	reserved 69[1]
+	   *	Data Set Management TRIM supported (limit 59 blocks)
+Security: 
+	Master password revision code = 1808
+	not	supported
+	not	enabled
+	not	locked
+	not	frozen
+	not	expired: security count
+	not	supported: enhanced erase
+	134min for SECURITY ERASE UNIT. 4608min for ENHANCED SECURITY ERASE UNIT. 
+Integrity word not set (found 0x0054, expected 0xcba5)

@@ -8804,6 +8804,17 @@ my %hdparm_tests = (
         size      => '256060',
         transport => 'SATA',
         wwn       => '5002538043584d30'
+    },
+    linux2 => {
+        serial    => '',
+        size      => '77309',
+    },
+    linux3 => {
+        firmware  => 'GKAOAC5A',
+        model     => 'HITACHI HUA7210SASUN1.0T 0812G2959E',
+        serial    => 'GTE000PAJ2959E',
+        size      => '1000204',
+        wwn       => '5000cca216dd3a2d'
     }
 );
 
