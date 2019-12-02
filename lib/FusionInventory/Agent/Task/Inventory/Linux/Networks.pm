@@ -155,6 +155,8 @@ sub _getInterfaces {
                     );
                 }
             }
+        } else {
+            $interface->{SPEED} = 0;
         }
     }
 
