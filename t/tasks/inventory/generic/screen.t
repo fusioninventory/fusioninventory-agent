@@ -156,7 +156,7 @@ my %edid_tests = (
         MANUFACTURER => 'Iiyama North America',
         CAPTION      => 'PL2779Q',
         SERIAL       => '01010101',
-        DESCRIPTION  => '255/2013'
+        DESCRIPTION  => '2013'
     },
     'lcd.acer-al1921' => {
         MANUFACTURER => 'Acer Technologies',

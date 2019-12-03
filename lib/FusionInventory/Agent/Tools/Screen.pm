@@ -81,7 +81,9 @@ sub altserial {
 
 sub week_year_manufacture {
     my ($self) = @_;
-    return $self->{edid}->{week} . "/" . $self->{edid}->{year};
+    # We should skip week if set to 255 (see specs)
+    return $self->{edid}->{week} == 255 ? $self->{edid}->{year}
+        : $self->{edid}->{week} . "/" . $self->{edid}->{year};
 }
 
 sub caption {
