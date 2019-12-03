@@ -1,0 +1,2 @@
+Checking for SCSI ID:0
+Found SCSI id=0, use ''mpt-status -i 0`` to get more information.

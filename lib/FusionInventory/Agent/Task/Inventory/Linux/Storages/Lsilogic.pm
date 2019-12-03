@@ -18,10 +18,7 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my @devices = map +{SCSI_UNID => $_}, map {/Found SCSI id=(\d+)/}
-                  getAllLines(command => 'mpt-status -p', logger  => $logger)
-                     ||
-                  getDevicesFromUdev(logger => $logger);
+    my @devices = _getDevicesFromMptStatus(logger => $logger) || getDevicesFromUdev(logger => $logger);
 
     foreach my $device (@devices) {
         foreach my $disk (_getDiskFromMptStatus(
@@ -39,6 +36,18 @@ sub doInventory {
         }
     }
 
+}
+
+sub _getDevicesFromMptStatus {
+    my (%params) = @_;
+
+    $params{command} = 'mpt-status -p';
+
+    my @devices = map { { SCSI_UNID => $_ } }
+                  map { /Found SCSI id=(\d+)/ }
+                  getAllLines(%params);
+
+    return @devices;
 }
 
 sub _getDiskFromMptStatus {

@@ -12,7 +12,7 @@ use Test::NoWarnings;
 use FusionInventory::Test::Inventory;
 use FusionInventory::Agent::Task::Inventory::Linux::Storages::Lsilogic;
 
-my %tests = (
+my %disk_tests = (
     sample1 => {
         name       => 'foo',
         disks   => [
@@ -142,19 +142,36 @@ my %tests = (
     }
 );
 
-plan tests => (2 * scalar keys %tests) + 1;
+my %controller_tests = (
+    ctrl1 => [
+        {
+            SCSI_UNID => '0'
+        }
+    ]
+);
+
+plan tests =>
+    (2 * scalar keys %disk_tests) +
+    (scalar keys %controller_tests) +
+    1;
 
 my $inventory = FusionInventory::Test::Inventory->new();
 
-foreach my $test (keys %tests) {
+foreach my $test (keys %disk_tests) {
     my $file = "resources/linux/mpt-status/$test";
     my @disks = FusionInventory::Agent::Task::Inventory::Linux::Storages::Lsilogic::_getDiskFromMptStatus(
         file       => $file,
-        name       => $tests{$test}->{name},
+        name       => $disk_tests{$test}->{name},
     );
-    cmp_deeply(\@disks, $tests{$test}->{disks}, "$test: parsing");
+    cmp_deeply(\@disks, $disk_tests{$test}->{disks}, "$test: parsing");
     delete $_->{device} foreach @disks;
     lives_ok {
         $inventory->addEntry(section => 'STORAGES', entry => $_) foreach @disks;
     } "$test: registering";
+}
+
+foreach my $test (keys %controller_tests) {
+    my $file = "resources/linux/mpt-status/$test";
+    my @devices = FusionInventory::Agent::Task::Inventory::Linux::Storages::Lsilogic::_getDevicesFromMptStatus(file => $file);
+    cmp_deeply(\@devices, $controller_tests{$test}, "$test: mpt-status -p parsing");
 }
