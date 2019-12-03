@@ -156,6 +156,8 @@ sub _getInterfaces {
                 }
             }
         } else {
+            # Report zero speed in case the interface went from up to down
+            # or the server has non-zero interface speed
             $interface->{SPEED} = 0;
         }
     }
