@@ -144,9 +144,11 @@ my %disk_tests = (
 
 my %controller_tests = (
     ctrl1 => [
-        {
-            SCSI_UNID => '0'
-        }
+        { SCSI_UNID => '0' }
+    ],
+    ctrl2 => [],
+    ctrl3 => [
+        { SCSI_UNID => '2' }
     ]
 );
 

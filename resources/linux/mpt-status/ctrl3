@@ -1,0 +1,4 @@
+Checking for SCSI ID:0
+Checking for SCSI ID:1
+Checking for SCSI ID:2
+Found SCSI id=2, use ''mpt-status -i 2`` to get more information.
