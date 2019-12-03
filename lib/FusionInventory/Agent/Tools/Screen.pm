@@ -26,9 +26,11 @@ sub new {
     # References:
     # http://forge.fusioninventory.org/issues/1607
     # http://forge.fusioninventory.org/issues/1614
-    $self->{_serial} = $self->{edid}->{serial_number2} ?
-        $self->{edid}->{serial_number2}->[0]           :
-        sprintf("%08x", $self->{edid}->{serial_number});
+    if ($self->{edid}->{serial_number2} && $self->{edid}->{serial_number2}->[0]) {
+        $self->{_serial} = $self->{edid}->{serial_number2}->[0];
+    } else {
+        $self->{_serial} = sprintf("%08x", $self->{edid}->{serial_number});
+    }
 
     # Setup manufacturer
     $self->manufacturer(getEDIDVendor(

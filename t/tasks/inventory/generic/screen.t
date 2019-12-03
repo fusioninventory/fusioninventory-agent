@@ -152,6 +152,12 @@ my %edid_tests = (
         SERIAL       => '0000033f',
         DESCRIPTION  => '52/2004'
     },
+    'iiyama-PL2779A' => {
+        MANUFACTURER => 'Iiyama North America',
+        CAPTION      => 'PL2779Q',
+        SERIAL       => '01010101',
+        DESCRIPTION  => '255/2013'
+    },
     'lcd.acer-al1921' => {
         MANUFACTURER => 'Acer Technologies',
         CAPTION      => 'Acer AL1921',
@@ -291,7 +297,7 @@ my %edid_tests = (
     'lcd.cmc-17-AD' => {
         MANUFACTURER => 'Chi Mei Optoelectronics corp.',
         CAPTION      => 'CMC 17" AD',
-        SERIAL       => '0',
+        SERIAL       => '00000000',
         DESCRIPTION  => '34/2004'
     },
     'lcd.compaq-evo-n1020v' => {
