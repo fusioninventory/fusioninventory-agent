@@ -17,6 +17,10 @@ use FusionInventory::Agent::Tools;
 #
 # HP Array Configuration Utility CLI 7.85-18.0
 
+# This speeds up hpacucli startup by skipping non-local (iSCSI, Fibre) storages.
+# See https://support.hpe.com/hpsc/doc/public/display?docId=emr_na-c03696601
+$ENV{INFOMGR_BYPASS_NONSA} = "1";
+
 sub _getHpacuacliFromWinRegistry {
 
     my $Registry;
@@ -120,8 +124,9 @@ sub _getStorage {
 
     my %data;
     while (my $line = <$handle>) {
-        next unless $line =~ /(\S[^:]+) : \s+ (.+)/x;
+        next unless $line =~ /^\s*(\S[^:]+):\s+(.+)$/x;
         $data{$1} = $2;
+        $data{$1} =~ s/\s+$//;
     }
     close $handle;
 
@@ -131,13 +136,22 @@ sub _getStorage {
         FIRMWARE     => $data{'Firmware Revision'}
     };
 
+    # Possible models:
+    # HP      EG0300FBDBR
+    # ATA     WDC WD740ADFD-00
     my $model = $data{'Model'};
-    $model =~ s/^ATA\s+//; # ex: ATA     WDC WD740ADFD-00
+    $model =~ s/^ATA\s+//;
     $model =~ s/\s+/ /;
-    $storage->{NAME}  = $model;
-    $storage->{MODEL} = $model;
+    $storage->{NAME} = $model;
 
-    $storage->{MANUFACTURER} = getCanonicalManufacturer($model);
+    if ($model =~ /^(\S+)\s+(\S+)$/) {
+        $storage->{MANUFACTURER} = getCanonicalManufacturer($1);
+        $storage->{MODEL}  = $2;
+    } else {
+        $storage->{MANUFACTURER} = getCanonicalManufacturer($model);
+        $storage->{MODEL} = $model;
+    }
+
     $storage->{DISKSIZE} = getCanonicalSize($data{'Size'});
 
     $storage->{TYPE} = $data{'Drive Type'} eq 'Data Drive' ?

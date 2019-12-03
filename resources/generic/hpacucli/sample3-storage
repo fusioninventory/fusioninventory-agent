@@ -1,0 +1,26 @@
+
+Smart Array P420i in Slot 0 (Embedded)
+
+   array A
+
+      physicaldrive 1I:1:1
+         Port: 1I
+         Box: 1
+         Bay: 1
+         Status: OK
+         Drive Type: Data Drive
+         Interface Type: SAS
+         Size: 300 GB
+         Rotational Speed: 10000
+         Firmware Revision: HPD7
+         Serial Number:         PMVXYSZB
+         Model: HP      EG0300FBDBR     
+         Current Temperature (C): 23
+         Maximum Temperature (C): 44
+         PHY Count: 2
+         PHY Transfer Rate: 6.0Gbps, Unknown
+         Drive Authentication Status: OK
+         Carrier Application Version: 11
+         Carrier Bootloader Version: 6
+
+
