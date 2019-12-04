@@ -702,7 +702,7 @@ sub getInterfaces {
         class      => 'MSFT_NetAdapter',
         properties => [ qw/InterfaceIndex PnPDeviceID Speed HardwareInterface InterfaceGuid InterfaceDescription/ ]
     );
-    
+
     if (!@networkAdapter) {
         # Legacy for Win<8
         @networkAdapter = getWMIObjects(
@@ -718,7 +718,7 @@ sub getInterfaces {
             WMI             => $wmiNetAdapter,
             configurations  => \@configurations
         ) or next;
-        
+
         push @interfaces, $netAdapter->getInterfaces();
     }
 
