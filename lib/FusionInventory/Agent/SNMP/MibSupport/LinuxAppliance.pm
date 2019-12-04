@@ -8,6 +8,7 @@ use parent 'FusionInventory::Agent::SNMP::MibSupportTemplate';
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::SNMP;
 
+use constant    iso         => '.1.3.6.1.2.1';
 use constant    enterprises => '.1.3.6.1.4.1' ;
 use constant    linux       => enterprises . '.8072.3.2.10' ;
 
@@ -35,6 +36,14 @@ use constant    svnApplianceSerialNumber    => checkpoint  . '.1.6.16.3.0';
 use constant    svnApplianceModel           => checkpoint  . '.1.6.16.7.0';
 use constant    svnApplianceManufacturer    => checkpoint  . '.1.6.16.9.0';
 
+# SNMP-FRAMEWORK-MIB
+use constant    snmpModules     => '.1.3.6.1.6.3';
+use constant    snmpEngine      => snmpModules . '.10.2.1';
+use constant    snmpEngineID    => snmpEngine . '.1.0';
+
+# HOST-RESOURCES-MIB
+use constant    hrStorageEntry  => iso . '.25.2.3.1.3';
+
 our $mibSupport = [
     {
         name        => "linux",
@@ -47,6 +56,16 @@ sub getType {
 
     my $device = $self->device
         or return;
+
+    # Seagate NAS detection
+    my $hrStorageEntry = $self->walk(hrStorageEntry);
+    if ($hrStorageEntry && grep { m|^/lacie|i } values(%{$hrStorageEntry})) {
+        $device->{_Appliance} = {
+            MODEL           => 'Seagate NAS',
+            MANUFACTURER    => 'Seagate'
+        };
+        return 'STORAGE';
+    }
 
     # Quescom detection
     my $dlmodName = $self->get(dlmodName);
@@ -111,6 +130,13 @@ sub getSerial {
         $serial = $self->get(dsmInfo_serialNumber);
     } elsif ($manufacturer eq 'CheckPoint') {
         $serial = $self->get(svnApplianceSerialNumber);
+    } elsif ($manufacturer eq 'Seagate') {
+        my $snmpEngineID = $self->get(snmpEngineID);
+        if ($snmpEngineID) {
+            # Use stripped snmpEngineID as serial when found
+            $snmpEngineID =~ s/^0x//;
+            $serial = $snmpEngineID;
+        }
     }
 
     return $serial;
