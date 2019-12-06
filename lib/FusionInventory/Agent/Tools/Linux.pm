@@ -276,14 +276,10 @@ sub _getValueFromSysProc {
 
     return undef unless $file;
 
-    my $handle = getFileHandle(file => $file, logger => $logger);
-    return undef unless $handle;
-
-    my $value = <$handle>;
-    close $handle;
+    my $value = getFirstLine(file => $file, logger => $logger);
 
     return undef unless defined $value;
-    $value =~ s/^(\w+)\W*/$1/;
+    $value =~ s/^\W*([\w\s]+)\W*$/$1/;
 
     return trimWhitespace($value);
 }
