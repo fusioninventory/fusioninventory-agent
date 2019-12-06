@@ -10,6 +10,8 @@ use English qw(-no_match_vars);
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Network;
 
+our $runMeIfTheseChecksFailed = ['FusionInventory::Agent::Task::Inventory::Generic::Ipmi::Lan'];
+
 sub isEnabled {
     return $OSNAME eq 'MSWin32' ?
         canRun("C:\\Program\ Files\\HP\\hponcfg\\hponcfg.exe") :
