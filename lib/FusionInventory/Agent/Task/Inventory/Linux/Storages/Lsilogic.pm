@@ -8,6 +8,8 @@ use parent 'FusionInventory::Agent::Task::Inventory::Module';
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Linux;
 
+our $runMeIfTheseChecksFailed = ['FusionInventory::Agent::Task::Inventory::Linux::Storages'];
+
 sub isEnabled {
     return canRun('mpt-status');
 }
