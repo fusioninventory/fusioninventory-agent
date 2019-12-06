@@ -195,23 +195,6 @@ sub getDevicesFromProc {
         push @names, $1;
     }
 
-    my $command = getFirstLine(command => '/sbin/fdisk -v') =~ '^GNU' ?
-        "/sbin/fdisk -p -l" :
-        "/sbin/fdisk -l"    ;
-
-    my $handle = getFileHandle(
-        command => $command,
-        logger  => $logger
-    );
-
-    if ($handle) {
-        while (my $line = <$handle>) {
-            next unless $line =~ m{^/dev/([shv]d[a-z]+)};
-            push @names, $1;
-        }
-        close $handle;
-    }
-
     foreach my $file (glob ("/sys/class/scsi_generic/*")) {
         # block devices should have been handled in the previous step
         next if -d "$file/device/block/";
