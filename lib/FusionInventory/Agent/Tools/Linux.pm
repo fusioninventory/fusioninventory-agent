@@ -10,6 +10,7 @@ use constant ETHTOOL_GSET  => 0x00000001 ; # See linux/ethtool.h
 use constant SPEED_UNKNOWN =>      65535 ; # See linux/ethtool.h, to be read as -1
 
 use English qw(-no_match_vars);
+use File::Basename qw(basename);
 use Memoize;
 use Socket qw(PF_INET SOCK_DGRAM);
 
@@ -211,6 +212,20 @@ sub getDevicesFromProc {
         close $handle;
     }
 
+    foreach my $file (glob ("/sys/class/scsi_generic/*")) {
+        # block devices should have been handled in the previous step
+        next if -d "$file/device/block/";
+
+        my $type = getFirstLine(
+            file   => "$file/device/type",
+            logger => $logger);
+
+        # if not disk
+        next if (!defined($type) || $type != 0);
+
+        push @names, basename($file);
+    }
+
     # filter duplicates
     my %seen;
     @names = grep { !$seen{$_}++ } @names;
@@ -271,7 +286,18 @@ sub _getValueFromSysProc {
         -f "/sys/block/$device/$key"        ? "/sys/block/$device/$key" :
         -f "/sys/block/$device/device/$key" ? "/sys/block/$device/device/$key" :
         -f "/proc/ide/$device/$key"         ? "/proc/ide/$device/$key" :
+        -f "/sys/class/scsi_generic/$device/device/$key" ?
+           "/sys/class/scsi_generic/$device/device/$key" :
                                               undef;
+
+    if (!defined($file) && $key eq 'serial') {
+        $file =
+            -f "/sys/block/$device/device/vpd_pg80" ?
+               "/sys/block/$device/device/vpd_pg80" :
+            -f "/sys/class/scsi_generic/$device/device/vpd_80" ?
+               "/sys/class/scsi_generic/$device/device/vpd_80" :
+                undef;
+    }
 
     return undef unless $file;
 
