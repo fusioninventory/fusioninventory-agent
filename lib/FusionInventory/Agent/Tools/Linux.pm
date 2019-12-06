@@ -241,7 +241,8 @@ sub getDevicesFromProc {
             MODEL        => _getValueFromSysProc($logger, $name, 'model'),
             FIRMWARE     => _getValueFromSysProc($logger, $name, 'rev')
                 || _getValueFromSysProc($logger, $name, 'firmware_rev'),
-            SERIALNUMBER => _getValueFromSysProc($logger, $name, 'serial'),
+            SERIALNUMBER => _getValueFromSysProc($logger, $name, 'serial')
+                || _getValueFromSysProc($logger, $name, 'vpd_pg80'),
             TYPE         =>
                 _getValueFromSysProc($logger, $name, 'removable') ?
                     'removable' : 'disk'
@@ -289,15 +290,6 @@ sub _getValueFromSysProc {
         -f "/sys/class/scsi_generic/$device/device/$key" ?
            "/sys/class/scsi_generic/$device/device/$key" :
                                               undef;
-
-    if (!defined($file) && $key eq 'serial') {
-        $file =
-            -f "/sys/block/$device/device/vpd_pg80" ?
-               "/sys/block/$device/device/vpd_pg80" :
-            -f "/sys/class/scsi_generic/$device/device/vpd_80" ?
-               "/sys/class/scsi_generic/$device/device/vpd_80" :
-                undef;
-    }
 
     return undef unless $file;
 
