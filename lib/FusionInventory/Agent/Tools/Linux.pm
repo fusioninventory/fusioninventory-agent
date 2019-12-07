@@ -36,7 +36,7 @@ sub getDevicesFromUdev {
 
     my @devices;
 
-    foreach my $file (glob ("/dev/.udev/db/*")) {
+    foreach my $file (glob "/dev/.udev/db/*") {
         my $device = getFirstMatch(
             file    => $file,
             pattern => qr/^N:(\S+)/
@@ -183,19 +183,19 @@ sub getDevicesFromProc {
     # compute list of devices
     my @names;
 
-    foreach my $file (glob ("/sys/block/*")) {
+    foreach my $file (glob "/sys/block/*") {
         next unless $file =~ /([shv]d[a-z]+|fd\d)$/;
         push @names, $1;
     }
 
     # add any block device identified as device by the kernel like SSD disks or
     # removable disks (SD cards and others)
-    foreach my $file (glob ("/sys/block/*/device")) {
+    foreach my $file (glob "/sys/block/*/device") {
         next unless $file =~ m|([^/]*)/device$|;
         push @names, $1;
     }
 
-    foreach my $file (glob ("/sys/class/scsi_generic/*")) {
+    foreach my $file (glob "/sys/class/scsi_generic/*") {
         # block devices should have been handled in the previous step
         next if -d "$file/device/block/";
 
