@@ -6,6 +6,7 @@ use warnings;
 use parent 'FusionInventory::Agent::Task::Inventory::Module';
 
 use English qw(-no_match_vars);
+use File::Basename qw(basename);
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Generic;
@@ -21,10 +22,12 @@ sub isEnabled {
 sub doInventory {
     my (%params) = @_;
 
-    my $inventory = $params{inventory};
+    my $inventory = delete $params{inventory};
     my $logger    = $params{logger};
 
-    foreach my $device (_getDevices(logger => $logger)) {
+    $params{root} = $params{test_path} || "";
+
+    foreach my $device (_getDevices(%params)) {
         $inventory->addEntry(section => 'STORAGES', entry => $device);
     }
 }
@@ -32,15 +35,16 @@ sub doInventory {
 sub _getDevices {
     my (%params) = @_;
 
-    my $logger    = $params{logger};
+    my $logger = $params{logger};
+    my $root   = $params{root};
 
-    my @devices = _getDevicesBase(logger => $logger);
+    my @devices = _getDevicesBase(%params);
 
     # complete with udev for missing bits, if available
-    if (-d '/dev/.udev/db/') {
+    if (-d "$root/dev/.udev/db/") {
 
         my %udev_devices = map { $_->{NAME} => $_ }
-            getDevicesFromUdev(logger => $logger);
+            getDevicesFromUdev(%params);
 
         foreach my $device (@devices) {
             # find corresponding udev entry
@@ -55,12 +59,12 @@ sub _getDevices {
     }
 
     # get serial & firmware numbers from hdparm, if available
-    if (_correctHdparmAvailable()) {
+    if (_correctHdparmAvailable(%params)) {
         foreach my $device (@devices) {
             next if $device->{SERIALNUMBER} && $device->{FIRMWARE};
             my $info = getHdparmInfo(
                 device => "/dev/" . $device->{NAME},
-                logger  => $logger
+                %params
             );
 
             $device->{SERIALNUMBER} = $info->{serial}
@@ -94,12 +98,16 @@ sub _getDevices {
         }
 
         if (!$device->{DISKSIZE} && $device->{TYPE} !~ /^cd/) {
-            $device->{DISKSIZE} = getDeviceCapacity(device => '/dev/' . $device->{NAME});
+            $device->{DISKSIZE} = getDeviceCapacity(
+                device => '/dev/' . $device->{NAME},
+                %params
+            );
         }
 
         # In some case, serial can't be defined using hdparm (command missing or virtual disk)
         # Then we can define a serial searching for few specific identifiers
-        if (!$device->{SERIALNUMBER}) {
+        # But avoid to search S/N for empty removable meaning no disk has been inserted
+        if (!$device->{SERIALNUMBER} && !($device->{TYPE} eq 'removable' && !$device->{DISKSIZE})) {
             $params{device} = '/dev/' . $device->{NAME};
             my $sn = _getDiskIdentifier(%params) || _getPVUUID(%params);
             $device->{SERIALNUMBER} = $sn if $sn;
@@ -112,11 +120,13 @@ sub _getDevices {
 sub _getDevicesBase {
     my (%params) = @_;
 
+    # We need to support dump params to permit full testing when root params is set
+    my $root   = $params{root};
     my $logger = $params{logger};
     $logger->debug("retrieving devices list:");
 
-    if (-d '/sys/block') {
-        my @devices = getDevicesFromProc(logger => $logger);
+    if (-d "$root/sys/block") {
+        my @devices = getDevicesFromProc(%params);
         $logger->debug_result(
             action => 'reading /sys/block content',
             data   => scalar @devices
@@ -129,8 +139,8 @@ sub _getDevicesBase {
         );
     }
 
-    if (canRun('/usr/bin/lshal')) {
-        my @devices = getDevicesFromHal(logger => $logger);
+    if ((!$root && canRun("/usr/bin/lshal")) || ($root && -e "$root/lshal")) {
+        my @devices = getDevicesFromHal(%params);
         $logger->debug_result(
             action => 'running lshal command',
             data   => scalar @devices
@@ -178,11 +188,25 @@ sub _fixDescription {
 # run on CDROM device
 # http://forums.ocsinventory-ng.org/viewtopic.php?pid=20810
 sub _correctHdparmAvailable {
-    return unless canRun('hdparm');
+    my (%params) = @_;
+
+    $params{command} = "hdparm -V";
+
+    # We need to support dump params to permit full testing when root params is set
+    if ($params{root}) {
+        $params{file} = $params{root}."/hdparm";
+        return unless -e $params{file};
+    }
+
+    return unless canRun('hdparm') || $params{file};
+
+    if ($params{dump}) {
+        $params{dump}->{"hdparm"} = getAllLines(%params);
+    }
 
     my ($major, $minor) = getFirstMatch(
-        command => 'hdparm -V',
-        pattern => qr/^hdparm v(\d+)\.(\d+)/
+        pattern => qr/^hdparm v(\d+)\.(\d+)/,
+        %params
     );
 
     # we need at least version 9.15
@@ -193,17 +217,37 @@ sub _correctHdparmAvailable {
 sub _getDiskIdentifier {
     my (%params) = @_;
 
-    return unless $params{device} && canRun("fdisk");
+    # We need to support dump params to permit full testing when root params is set
+    if ($params{root}) {
+        $params{file} = $params{root}."/fdisk";
+        return unless -e $params{file};
+    } else {
+        $params{command} = "fdisk -v";
+    }
+
+    return unless $params{device} && (canRun("fdisk") || $params{file});
+
+    if ($params{dump}) {
+        $params{dump}->{"fdisk"} = getAllLines(%params);
+    }
 
     # GNU version requires -p flag
-    my $command = getFirstLine(command => 'fdisk -v') =~ '^GNU' ?
+    $params{command} = getFirstLine(%params) =~ '^GNU' ?
         "fdisk -p -l $params{device}" :
         "fdisk -l $params{device}"    ;
 
+    if ($params{root}) {
+        my $devname = basename($params{device});
+        $params{file} = $params{root}."/fdisk-$devname";
+        return unless -e $params{file};
+    } elsif ($params{dump}) {
+        my $devname = basename($params{device});
+        $params{dump}->{"fdisk-$devname"} = getAllLines(%params);
+    }
+
     my $identifier = getFirstMatch(
-        command => $command,
         pattern => qr/^Disk identifier:\s*(?:0x)?(\S+)$/i,
-        logger  => $params{logger},
+        %params
     );
 
     return $identifier;
@@ -212,14 +256,25 @@ sub _getDiskIdentifier {
 sub _getPVUUID {
     my (%params) = @_;
 
-    return unless $params{device} && canRun("lvm");
+    # We need to support dump params to permit full testing when root params is set
+    if ($params{root}) {
+        my $devname = basename($params{device});
+        $params{file} = $params{root}."/lvm-$devname";
+        return unless -e $params{file};
+    }
 
-    my $command = "lvm pvdisplay -C -o pv_uuid --noheadings $params{device}" ;
+    return unless $params{device} && (canRun("lvm") || $params{file});
+
+    $params{command} = "lvm pvdisplay -C -o pv_uuid --noheadings $params{device}" ;
+
+    if ($params{dump}) {
+        my $devname = basename($params{device});
+        $params{dump}->{"lvm-$devname"} = getAllLines(%params);
+    }
 
     my $uuid = getFirstMatch(
-        command => $command,
         pattern => qr/^\s*(\S+)/,
-        logger  => $params{logger},
+        %params
     );
 
     return $uuid;

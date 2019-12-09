@@ -7,6 +7,7 @@ use parent 'Exporter';
 use English qw(-no_match_vars);
 use Memoize;
 use File::stat;
+use File::Basename qw(basename);
 
 use FusionInventory::Agent::Tools;
 
@@ -174,11 +175,19 @@ sub getCpusFromDmidecode {
 sub getHdparmInfo {
     my (%params) = @_;
 
-    my $handle = getFileHandle(
-        %params,
-        command => $params{device} ? "hdparm -I $params{device}" : undef,
-    );
-    return unless $handle;
+    return unless $params{device} || $params{file};
+
+    $params{command} = "hdparm -I $params{device}" if $params{device};
+
+    # We need to support dump params to permit full testing when root params is set
+    if ($params{root}) {
+        $params{file} = "$params{root}/hdparm-".basename($params{device});
+    } elsif ($params{dump}) {
+        $params{dump}->{"hdparm-".basename($params{device})} = getAllLines(%params);
+    }
+
+    my $handle = getFileHandle(%params)
+        or return;
 
     my $info;
     while (my $line = <$handle>) {
@@ -299,9 +308,12 @@ sub _getIdsFile {
     return "$params{datadir}/$params{idsfile}"
         unless @datadirs;
 
+    # Initialize datadir to share if run from tests
+    my $datadir = $params{datadir} || "share";
+
     # Try to use the most recent ids file from well-known places
     my %files = map { $_ => stat($_)->ctime() } grep { -s $_ }
-        map { "$_/$params{idsfile}" } @datadirs, $params{datadir} ;
+        map { "$_/$params{idsfile}" } @datadirs, $datadir ;
 
     # Sort by creation time
     my @sorted_files = sort { $files{$a} <=> $files{$b} } keys(%files);

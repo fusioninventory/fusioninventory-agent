@@ -50,6 +50,7 @@ inventory:
 * fix minor edid parsing issue
 * linux: fix downed network interface speed, thanks to po1vo
 * linux: enhanced generic SCSI storage support, thanks to po1vo
+* linux: added process to enhance storage support testing
 * Updated pci.ids to 2019.11.10 version
 * Updated usb.ids to 2019.11.05 version
 

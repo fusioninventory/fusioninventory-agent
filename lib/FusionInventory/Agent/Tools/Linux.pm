@@ -10,7 +10,7 @@ use constant ETHTOOL_GSET  => 0x00000001 ; # See linux/ethtool.h
 use constant SPEED_UNKNOWN =>      65535 ; # See linux/ethtool.h, to be read as -1
 
 use English qw(-no_match_vars);
-use File::Basename qw(basename);
+use File::Basename qw(basename dirname);
 use Memoize;
 use Socket qw(PF_INET SOCK_DGRAM);
 
@@ -36,21 +36,35 @@ sub getDevicesFromUdev {
 
     my @devices;
 
-    foreach my $file (glob "/dev/.udev/db/*") {
+    # We need to support dump params to permit full testing when root params is set
+    my $root = $params{root} || "";
+
+    foreach my $file (glob "$root/dev/.udev/db/*") {
+        if ($params{dump} && -e $file) {
+            my $base = basename($file);
+            my $content = getAllLines(file => $file);
+            $params{dump}->{dev}->{'.udev'}->{db}->{$base} = $content;
+        }
         my $device = getFirstMatch(
             file    => $file,
             pattern => qr/^N:(\S+)/
         );
         next unless $device;
         next unless $device =~ /([hsv]d[a-z]+|sr\d+)$/;
-        push (@devices, _parseUdevEntry(
-                logger => $params{logger}, file => $file, device => $device
-            ));
+        my $parsed = _parseUdevEntry(
+                logger => $params{logger},
+                file   => $file,
+                device => $device
+        );
+        push @devices, $parsed if $parsed;
     }
 
     foreach my $device (@devices) {
         next if $device->{TYPE} && $device->{TYPE} eq 'cd';
-        $device->{DISKSIZE} = getDeviceCapacity(device => '/dev/' . $device->{NAME})
+        $device->{DISKSIZE} = getDeviceCapacity(
+            device => '/dev/' . $device->{NAME},
+            %params
+        );
     }
 
     return @devices;
@@ -136,6 +150,14 @@ sub getDevicesFromHal {
         command => '/usr/bin/lshal',
         @_
     );
+
+    # We need to support dump params to permit full testing when root params is set
+    if ($params{root}) {
+        $params{file} = "$params{root}/lshal";
+    } elsif ($params{dump}) {
+        $params{dump}->{lshal} = getAllLines(%params);
+    }
+
     my $handle = getFileHandle(%params);
 
     my (@devices, $device);
@@ -178,35 +200,56 @@ sub getDevicesFromHal {
 sub getDevicesFromProc {
     my (%params) = @_;
 
+    # We need to support dump params to permit full testing when root params is set
+    my $dump   = $params{dump};
+    my $root   = $params{root} || "";
     my $logger = $params{logger};
 
     # compute list of devices
     my @names;
 
-    foreach my $file (glob "/sys/block/*") {
+    foreach my $file (glob "$root/sys/block/*") {
+        if ($dump && -d $file) {
+            my $basename = basename($file);
+            $dump->{sys}->{block}->{$basename} = {};
+        }
         next unless $file =~ /([shv]d[a-z]+|fd\d)$/;
         push @names, $1;
     }
 
     # add any block device identified as device by the kernel like SSD disks or
     # removable disks (SD cards and others)
-    foreach my $file (glob "/sys/block/*/device") {
+    foreach my $file (glob "$root/sys/block/*/device") {
+        if ($dump && -d $file) {
+            my $dirname = basename(dirname($file));
+            $dump->{sys}->{block}->{$dirname}->{device} = {};
+        }
         next unless $file =~ m|([^/]*)/device$|;
         push @names, $1;
     }
 
-    foreach my $file (glob "/sys/class/scsi_generic/*") {
+    foreach my $file (glob "$root/sys/class/scsi_generic/*") {
         # block devices should have been handled in the previous step
         next if -d "$file/device/block/";
 
+        my $basename = basename($file);
+        if ($dump && -d "$file/device/type") {
+            my $base = $dump->{sys}->{class}->{scsi_generic}->{$basename} = {};
+            if (-e "$file/device/type") {
+                my $content = getAllLines(file => "$file/device/type");
+                $base->{device}->{type} = $content;
+            }
+        }
+
         my $type = getFirstLine(
             file   => "$file/device/type",
-            logger => $logger);
+            logger => $logger
+        );
 
         # if not disk
         next if (!defined($type) || $type != 0);
 
-        push @names, basename($file);
+        push @names, $basename;
     }
 
     # filter duplicates
@@ -214,43 +257,52 @@ sub getDevicesFromProc {
     @names = grep { !$seen{$_}++ } @names;
 
     my $udisksctl = canRun('udisksctl');
+    $dump->{udisksctl} = 1 if ($dump && $udisksctl);
+    $udisksctl = 1 if $root && -e "$root/udisksctl";
 
     # extract information
     my @devices;
     foreach my $name (@names) {
         my $device = {
             NAME         => $name,
-            MANUFACTURER => _getValueFromSysProc($logger, $name, 'vendor'),
-            MODEL        => _getValueFromSysProc($logger, $name, 'model'),
-            FIRMWARE     => _getValueFromSysProc($logger, $name, 'rev')
-                || _getValueFromSysProc($logger, $name, 'firmware_rev'),
-            SERIALNUMBER => _getValueFromSysProc($logger, $name, 'serial')
-                || _getValueFromSysProc($logger, $name, 'vpd_pg80'),
+            MANUFACTURER => _getValueFromSysProc($logger, $name, 'vendor', $root, $dump),
+            MODEL        => _getValueFromSysProc($logger, $name, 'model', $root, $dump),
+            FIRMWARE     => _getValueFromSysProc($logger, $name, 'rev', $root, $dump)
+                || _getValueFromSysProc($logger, $name, 'firmware_rev', $root, $dump),
+            SERIALNUMBER => _getValueFromSysProc($logger, $name, 'serial', $root, $dump)
+                || _getValueFromSysProc($logger, $name, 'vpd_pg80', $root, $dump),
             TYPE         =>
-                _getValueFromSysProc($logger, $name, 'removable') ?
+                _getValueFromSysProc($logger, $name, 'removable', $root, $dump) ?
                     'removable' : 'disk'
         };
 
         # Support PCI or other bus case as description
         foreach my $subsystem ("device/subsystem","device/device/subsystem") {
-            my $link = _readLinkFromSysFs($logger,"/sys/block/$name/$subsystem");
+            my $link = _readLinkFromSysFs("/sys/block/$name/$subsystem", $root, $dump);
             next unless ($link && $link =~ m|^/sys/bus/(\w+)$|);
             $device->{DESCRIPTION} = uc($1);
             last;
         }
 
         # Support disk size from /sys/block
-        my $size_by_sectors = _getValueFromSysProc($logger, $name, 'size');
+        my $size_by_sectors = _getValueFromSysProc($logger, $name, 'size', $root, $dump);
         if ($size_by_sectors) {
             $device->{DISKSIZE} = int($size_by_sectors * 512 / 1_000_000);
         }
 
         # Check removable capacity as HintAuto via udiskctl while available
         if ($udisksctl && $device->{TYPE} eq 'disk') {
-            my $hintauto = getFirstMatch(
-                    command => "udisksctl info -b /dev/$name",
-                    pattern => qr/^\s+HintAuto:\s+(true|false)$/
+            my %match = (
+                pattern => qr/^\s+HintAuto:\s+(true|false)$/,
+                logger  => $logger
             );
+            if ($root) {
+                $match{file} = "$root/udisksctl-$name";
+            } else {
+                $match{command} = "udisksctl info -b /dev/$name";
+            }
+            $dump->{"udisksctl-$name"} = getAllLines(%match) if ($dump);
+            my $hintauto = getFirstMatch(%match);
             $device->{TYPE} = 'removable'
                 if ( $hintauto && $hintauto eq 'true' );
         }
@@ -262,21 +314,29 @@ sub getDevicesFromProc {
 }
 
 sub _getValueFromSysProc {
-    my ($logger, $device, $key) = @_;
+    my ($logger, $device, $key, $root, $dump) = @_;
 
     ## no critic (ExplicitReturnUndef)
 
-    my $file =
-        -f "/sys/block/$device/$key"        ? "/sys/block/$device/$key" :
-        -f "/sys/block/$device/device/$key" ? "/sys/block/$device/device/$key" :
-        -f "/proc/ide/$device/$key"         ? "/proc/ide/$device/$key" :
-        -f "/sys/class/scsi_generic/$device/device/$key" ?
-           "/sys/class/scsi_generic/$device/device/$key" :
-                                              undef;
+    my $file = first { -f $root.$_ }
+        "/sys/block/$device/$key",
+        "/sys/block/$device/device/$key",
+        "/proc/ide/$device/$key",
+        "/sys/class/scsi_generic/$device/device/$key";
 
     return undef unless $file;
 
-    my $value = getFirstLine(file => $file, logger => $logger);
+    # We need to support dump params to permit full testing when root params is set
+    if ($dump) {
+        foreach my $sub (split('/',dirname($file))) {
+            next unless $sub;
+            $dump->{$sub} = {} unless $dump->{$sub};
+            $dump = $dump->{$sub};
+        }
+        $dump->{basename($file)} = getAllLines(file => $file);
+    }
+
+    my $value = getFirstLine(file => $root.$file, logger => $logger);
 
     return undef unless defined $value;
     $value =~ s/^\W*([\w\s]+)\W*$/$1/;
@@ -285,7 +345,7 @@ sub _getValueFromSysProc {
 }
 
 sub _readLinkFromSysFs {
-    my ($logger, $path) = @_;
+    my ($path, $root, $dump) = @_;
 
     ## no critic (ExplicitReturnUndef)
 
@@ -295,9 +355,19 @@ sub _readLinkFromSysFs {
 
     my @sys = ();
 
+    # We need to support dump params to permit full testing when root params is set
+    if ($dump) {
+        foreach my $sub (split('/',dirname($path))) {
+            next unless $sub;
+            $dump->{$sub} = {} unless $dump->{$sub};
+            $dump = $dump->{$sub};
+        }
+        $dump->{basename($path)} = [ link => readlink($path) ];
+    }
+
     while (@path) {
         push @sys, shift(@path);
-        my $link = readlink('/sys/'.join('/', @sys));
+        my $link = readlink($root.'/sys/'.join('/', @sys));
         next unless $link;
         pop @sys;
         foreach my $sub (split('/',$link)) {

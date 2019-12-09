@@ -7,6 +7,7 @@ use parent 'Exporter';
 use English qw(-no_match_vars);
 use File::stat;
 use File::Which;
+use File::Basename qw(basename);
 use Memoize;
 use Time::Local;
 
@@ -29,14 +30,36 @@ sub getDeviceCapacity {
 
     return unless $params{device};
 
+    my $logger = delete $params{logger};
+    # We need to support dump params to permit full testing when root params is set
+    my $name = basename($params{device});
+    my $root = $params{root} || "";
+    $params{command} = "/sbin/fdisk -v";
+    if ($params{dump}) {
+        $params{dump}->{"fdisk-v"} = getAllLines(%params);
+    }
+    if ($root) {
+        $params{file} = "$root/fdisk-v";
+    }
+
     # GNU version requires -p flag
-    my $command = getFirstLine(command => '/sbin/fdisk -v') =~ '^GNU' ?
+    $params{command} = getFirstLine(%params) =~ '^GNU' ?
         "/sbin/fdisk -p -s $params{device}" :
         "/sbin/fdisk -s $params{device}"    ;
 
+    # Always override with a file if testing under $root
+    $params{file} = "$root/fdisk-$name" if $root;
+
+    if ($params{dump}) {
+        $params{dump}->{"fdisk-$name"} = getAllLines(
+            logger => $logger,
+            %params
+        );
+    }
+
     my $capacity = getFirstLine(
-        command => $command,
-        logger  => $params{logger},
+        logger => $logger,
+        %params
     );
 
     $capacity = int($capacity / 1000) if $capacity;

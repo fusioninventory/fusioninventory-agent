@@ -1,0 +1,32 @@
+
+This folder contains linux storage dumps to test linux storage algorithm.
+
+Related unit test file: t/tasks/inventory/linux/storages.t
+
+To generate a dump:
+
+ 1. download agent sources to a machine for which you want the dump to be included.
+
+ 2. from the sources base path, run the command:
+    sudo perl -Ilib t/tasks/inventory/linux/storages.t --dump SYS-DESCRIPTION
+
+    This will generate the resources/linux/storage/SYS-DESCRIPTION.dump with all
+    the necessary for unittest and start immediatly the related tests:
+     - used system file dumps
+     - storage structure result
+    You should set SYS-DESCRIPTION to a safe name, different from any existing
+    and if possible lightly describing your system or your storage config.
+
+    You can edit the comments at the end of the dump to limit or enhanced the
+    provided information.
+
+ 4. To test again your file, just run the test file like this:
+    perl -Ilib t/tasks/inventory/linux/storages.t
+
+    If you seen any problem, you should probably open an issue on github, providing
+    the generated dump and explaining the error.
+
+ 5. Don't forget to inspect the generated $STORAGE structure in the dump to verify
+    all expected information are there and well-formatted.
+
+ 6. Finally you can open an issue or even a PR to have your dump(s) included.

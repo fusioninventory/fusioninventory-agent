@@ -1,0 +1,92 @@
+$SYSTEM = {
+  'hdparm' => 'hdparm v9.54
+',
+  'sys' => {
+    'block' => {
+      'loop0' => {},
+      'loop1' => {},
+      'loop2' => {},
+      'loop3' => {},
+      'loop4' => {},
+      'loop5' => {},
+      'loop6' => {},
+      'loop7' => {},
+      'loop8' => {},
+      'loop9' => {},
+      'nvme0n1' => {
+        'device' => {
+          'device' => {
+            'subsystem' => [
+              'link',
+              '../../../../bus/pci'
+            ]
+          },
+          'firmware_rev' => 'BXV77D0Q
+',
+          'model' => 'PM951 NVMe SAMSUNG 256GB                
+',
+          'serial' => '      S29NNXAH146772
+',
+          'subsystem' => [
+            'link',
+            '../../../../../../class/nvme'
+          ]
+        },
+        'removable' => '0
+',
+        'size' => '500118192
+'
+      }
+    }
+  },
+  'udisksctl' => 1,
+  'udisksctl-nvme0n1' => '/org/freedesktop/UDisks2/block_devices/nvme0n1:
+  org.freedesktop.UDisks2.Block:
+    Configuration:              []
+    CryptoBackingDevice:        \'/\'
+    Device:                     /dev/nvme0n1
+    DeviceNumber:               66304
+    Drive:                      \'/org/freedesktop/UDisks2/drives/PM951_NVMe_SAMSUNG_256GB_S29NNXAH146772\'
+    HintAuto:                   false
+    HintIconName:               
+    HintIgnore:                 false
+    HintName:                   
+    HintPartitionable:          true
+    HintSymbolicIconName:       
+    HintSystem:                 true
+    Id:                         by-id-nvme-PM951_NVMe_SAMSUNG_256GB__S29NNXAH146772
+    IdLabel:                    
+    IdType:                     
+    IdUUID:                     
+    IdUsage:                    
+    IdVersion:                  
+    MDRaid:                     \'/\'
+    MDRaidMember:               \'/\'
+    PreferredDevice:            /dev/nvme0n1
+    ReadOnly:                   false
+    Size:                       256060514304
+    Symlinks:                   /dev/disk/by-id/nvme-PM951_NVMe_SAMSUNG_256GB__S29NNXAH146772
+                                /dev/disk/by-id/nvme-eui.0025384161b4bf61
+                                /dev/disk/by-path/pci-0000:3c:00.0-nvme-1
+    UserspaceMountOptions:      
+  org.freedesktop.UDisks2.PartitionTable:
+    Partitions:         [\'/org/freedesktop/UDisks2/block_devices/nvme0n1p4\', \'/org/freedesktop/UDisks2/block_devices/nvme0n1p3\', \'/org/freedesktop/UDisks2/block_devices/nvme0n1p2\', \'/org/freedesktop/UDisks2/block_devices/nvme0n1p1\']
+    Type:               gpt
+'
+};
+$STORAGE = [
+  {
+    'DESCRIPTION' => 'PCI',
+    'DISKSIZE' => 256060,
+    'FIRMWARE' => 'BXV77D0Q',
+    'MANUFACTURER' => 'Samsung',
+    'MODEL' => 'PM951 NVMe SAMSUNG 256GB',
+    'NAME' => 'nvme0n1',
+    'SERIALNUMBER' => 'S29NNXAH146772',
+    'TYPE' => 'disk'
+  }
+];
+
+# Dump date: Mon Dec  9 20:09:35 2019
+# Dump system: Linux LU004 4.15.0-72-generic #81-Ubuntu SMP Tue Nov 26 12:20:02 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux
+# Dumped by: root
