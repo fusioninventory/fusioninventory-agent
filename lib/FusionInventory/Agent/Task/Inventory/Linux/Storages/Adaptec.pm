@@ -10,6 +10,8 @@ use English qw(-no_match_vars);
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Linux;
 
+our $runMeIfTheseChecksFailed = ['FusionInventory::Agent::Task::Inventory::Linux::Storages'];
+
 sub isEnabled {
     return -r '/proc/scsi/scsi';
 }

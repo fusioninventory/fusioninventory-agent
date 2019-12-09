@@ -163,6 +163,8 @@ sub _fixDescription {
         } else {
             return "SCSI";
         }
+    } elsif ($name =~ /^sg/) { # "g" stands for Generic SCSI
+        return "SCSI";
     } elsif ($name =~ /^vd/  ||
             ($description && $description =~ /VIRTIO/)
         ) {
