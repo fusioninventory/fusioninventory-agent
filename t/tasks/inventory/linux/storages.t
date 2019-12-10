@@ -7,16 +7,22 @@ use lib 't/lib';
 use English qw(-no_match_vars);
 use Data::Dumper;
 use File::Temp qw(tempdir);
+use UNIVERSAL::require;
 
 use Test::Deep;
 use Test::Exception;
 use Test::More;
-use Test::NoWarnings;
 
 use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Config;
 use FusionInventory::Agent::Inventory;
 use FusionInventory::Agent::Task::Inventory::Linux::Storages;
+
+# Tests need symlink function
+plan(skip_all => 'symlink function not implemented on win32')
+     if ($OSNAME eq 'MSWin32');
+
+Test::NoWarnings->use();
 
 # This test file can also be used to dump a resource file for inclusion
 my $dump = shift @ARGV;
