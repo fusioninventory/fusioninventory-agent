@@ -305,11 +305,11 @@ my @datadirs = ($OSNAME ne 'linux') ? () : (
 sub _getIdsFile {
     my (%params) = @_;
 
-    return "$params{datadir}/$params{idsfile}"
-        unless @datadirs;
-
     # Initialize datadir to share if run from tests
     my $datadir = $params{datadir} || "share";
+
+    return "$datadir/$params{idsfile}"
+        unless @datadirs;
 
     # Try to use the most recent ids file from well-known places
     my %files = map { $_ => stat($_)->ctime() } grep { -s $_ }
