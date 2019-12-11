@@ -141,10 +141,6 @@ sub handle {
 
         $client->send_response($response);
 
-        # Expect another client request if possible
-        $self->{keepalive} = 1
-            if $request->header('Keep-Alive');
-
         return 200;
     }
 
@@ -228,15 +224,7 @@ sub handle {
 
     $self->info("Inventory returned to $remoteid");
 
-    $self->{keepalive} = 0;
-
     return 200;
-}
-
-sub keepalive {
-    my ($self) = @_;
-    # Always reset the keepalive state
-    return delete $self->{keepalive};
 }
 
 1;

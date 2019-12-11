@@ -19,6 +19,9 @@ use FusionInventory::Agent::Logger;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Network;
 
+# Limit maximum requests number handled in a keep-alive connection
+use constant MaxKeepAlive => 8;
+
 my $log_prefix = "[http server] ";
 
 sub new {
@@ -105,7 +108,7 @@ sub setTrustedAddresses {
 }
 
 sub _handle {
-    my ($self, $client, $request, $clientIp) = @_;
+    my ($self, $client, $request, $clientIp, $maxKeepAlive) = @_;
 
     my $logger = $self->{logger};
 
@@ -118,7 +121,7 @@ sub _handle {
     my $method = $request->method();
     $logger->debug($log_prefix . "$method request $path from client $clientIp");
 
-    my $keepalive = 0;
+    my $keepalive = $request->header('connection') =~ /keep-alive/i;
     my $status = 400;
     my $error_400 = $log_prefix . "invalid request type: $method";
 
@@ -144,7 +147,6 @@ sub _handle {
                 undef $error_400;
                 last SWITCH unless $plugin->supported_method($method);
                 $status = $plugin->handle($client, $request, $clientIp);
-                $keepalive = $plugin->keepalive();
                 last SWITCH if $status;
             }
         }
@@ -182,16 +184,17 @@ sub _handle {
 
     $logger->debug($log_prefix . "response status $status");
 
-    if ($keepalive) {
+    if ($keepalive && --$maxKeepAlive) {
         # Looking for another request
-        $self->_handle($client, $client->get_request(), $clientIp);
-    } else {
-        $client->close();
+        $request = $client->get_request();
+        $self->_handle($client, $request, $clientIp, $maxKeepAlive) if $request;
     }
+
+    $client->close();
 }
 
 sub _handle_plugins {
-    my ($self, $client, $request, $clientIp, $plugins) = @_;
+    my ($self, $client, $request, $clientIp, $plugins, $maxKeepAlive) = @_;
 
     my $logger = $self->{logger};
 
@@ -202,7 +205,7 @@ sub _handle_plugins {
 
     my $path = $request->uri()->path();
     my $method = $request->method();
-    my $keepalive = 0;
+    my $keepalive = $request->header('connection') =~ /keep-alive/i;
     $logger->debug($log_prefix . "$method request $path from client $clientIp via plugin");
     my $status = 400;
     my $match  = 0;
@@ -213,7 +216,6 @@ sub _handle_plugins {
             $match = 1;
             last unless ($plugin->supported_method($method));
             $status = $plugin->handle($client, $request, $clientIp);
-            $keepalive = $plugin->keepalive();
             last if $status;
         }
     }
@@ -226,12 +228,13 @@ sub _handle_plugins {
 
     $logger->debug($log_prefix . "response status $status");
 
-    if ($keepalive) {
+    if ($keepalive && --$maxKeepAlive) {
         # Looking for another request
-        $self->_handle_plugins($client, $client->get_request(), $clientIp, $plugins);
-    } else {
-        $client->close();
+        $request = $client->get_request();
+        $self->_handle_plugins($client, $request, $clientIp, $maxKeepAlive) if $request;
     }
+
+    $client->close();
 }
 
 sub _handle_root {
@@ -596,7 +599,7 @@ sub handleRequests {
                      INADDR_ANY;
         my $clientIp = inet_ntop($family, $iaddr);
         my $request = $client->get_request();
-        $self->_handle_plugins($client, $request, $clientIp, $self->{listeners}->{$port}->{plugins});
+        $self->_handle_plugins($client, $request, $clientIp, $self->{listeners}->{$port}->{plugins}, MaxKeepAlive);
     }
 
     my ($client, $socket) = $self->{listener}->accept();
@@ -614,7 +617,7 @@ sub handleRequests {
                  INADDR_ANY;
     my $clientIp = inet_ntop($family, $iaddr);
     my $request = $client->get_request();
-    $self->_handle($client, $request, $clientIp);
+    $self->_handle($client, $request, $clientIp, MaxKeepAlive);
 
     return 1;
 }

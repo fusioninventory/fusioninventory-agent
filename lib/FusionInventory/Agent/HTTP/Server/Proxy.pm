@@ -224,10 +224,6 @@ sub handle {
 
             $client->send_response($response);
 
-            # Expect another client request if possible
-            $self->{keepalive} = 1
-                if $request->header('Keep-Alive');
-
             return 200;
         }
     } else {
@@ -318,8 +314,6 @@ sub handle {
     }
 
     $client->send_response($response);
-
-    $self->{keepalive} = 0;
 
     return $response->code();
 }
