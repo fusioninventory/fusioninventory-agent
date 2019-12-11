@@ -24,6 +24,8 @@ core:
   and limit to max 1/24 of the delay for delay greater than a day.
   This would keep enough delay randomization to avoid mass agent server connection and
   keep next seen run more coherent with the requested delay.
+* fix service shutdown when HTTP client close the connection before the agent
+* fix HTTP server keep-alive support with a 8 requests by connection maximum limit
 
 inventory:
 * unix: fix last log user after a reboot
