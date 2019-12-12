@@ -56,22 +56,76 @@ my %tests = (
                 VCPU      => 0
             }
         ]
+    },
+    sample2 => {
+        ctid_template   => 'sample2-ctid-conf',
+        expected        => [
+            {
+                MAC         => '00:18:51:5e:cc:ad',
+                MEMORY      => 512,
+                NAME        => 'info',
+                STATUS      => 'running',
+                SUBSYSTEM   => 'debian-6.0.2-amd64',
+                UUID        => 'fakeUUID-136',
+                VCPU        => 0,
+                VMTYPE      => 'Virtuozzo'
+            },
+            {
+                MAC         => '00:18:51:9a:87:03',
+                MEMORY      => 512,
+                NAME        => 'dns1',
+                STATUS      => 'running',
+                SUBSYSTEM   => 'debian-4.0-i386-minimal',
+                UUID        => 'fakeUUID-8102',
+                VCPU        => 0,
+                VMTYPE      => 'Virtuozzo'
+            },
+            {
+                MAC         => '00:18:51:4a:b6:9d',
+                MEMORY      => 512,
+                NAME        => 'surveys',
+                STATUS      => 'running',
+                SUBSYSTEM   => 'debian-4.0-i386-minimal',
+                UUID        => 'fakeUUID-21179',
+                VCPU        => 0,
+                VMTYPE      => 'Virtuozzo'
+            },
+            {
+                MAC         => '00:18:51:38:b2:0f/00:18:51:65:86:c3',
+                MEMORY      => 512,
+                NAME        => 'release-notes.mobiletouch-fmcg.c',
+                STATUS      => 'running',
+                SUBSYSTEM   => 'debian-7.8-x86_64',
+                UUID        => 'fakeUUID-208185',
+                VCPU        => 0,
+                VMTYPE      => 'Virtuozzo'
+            },
+            {
+                MAC         => '00:18:51:6f:c7:67',
+                MEMORY      => 512,
+                NAME        => 'cas-erpavp',
+                STATUS      => 'running',
+                SUBSYSTEM   => 'debian-8.1-x86_64',
+                UUID        => 'fakeUUID-1951898610',
+                VCPU        => 0,
+                VMTYPE      => 'Virtuozzo'
+            }
+        ]
     }
 );
 
-plan tests => (2 * scalar keys %tests) + 1;
+plan tests => scalar(keys(%tests)) + 1;
 
 my $module = Test::MockModule->new(
     'FusionInventory::Agent::Task::Inventory::Virtualization::Virtuozzo'
 );
 
-my $inventory = FusionInventory::Test::Inventory->new();
-
-# Set a fake UUID as host UUID as used to create VM UUID
-$inventory->setHardware({ UUID => "fakeUUID" });
-
 foreach my $test (keys %tests) {
     my $file = "resources/virtualization/virtuozzo/$test";
+
+    my $inventory = FusionInventory::Test::Inventory->new();
+    # Set a fake UUID as host UUID as used to create VM UUID
+    $inventory->setHardware({ UUID => "fakeUUID" });
 
     $module->mock(
         '_getMACs',
@@ -88,14 +142,10 @@ foreach my $test (keys %tests) {
         }
     );
 
-    my $machines = FusionInventory::Agent::Task::Inventory::Virtualization::Virtuozzo::_parseVzlist(
+    FusionInventory::Agent::Task::Inventory::Virtualization::Virtuozzo::doInventory(
         file            => $file,
         inventory       => $inventory,
         ctid_template   => "resources/virtualization/virtuozzo/".$tests{$test}->{ctid_template}
     );
-    cmp_deeply($machines, $tests{$test}->{expected}, "$test: parsing");
-    lives_ok {
-        $inventory->addEntry(section => 'VIRTUALMACHINES', entry => $_)
-            foreach @{$machines};
-    } "$test: registering";
+    cmp_deeply($inventory->{content}->{VIRTUALMACHINES}, $tests{$test}->{expected}, "$test: virtuozzo inventory");
 }

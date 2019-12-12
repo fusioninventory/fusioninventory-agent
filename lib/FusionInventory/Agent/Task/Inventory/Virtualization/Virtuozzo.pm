@@ -21,7 +21,7 @@ sub doInventory {
 
     my $inventory = $params{inventory};
 
-    foreach my $vz (_parseVzlist(%params)) {
+    foreach my $vz (@{_parseVzlist(%params)}) {
         $inventory->addEntry(
             section => 'VIRTUALMACHINES',
             entry => $vz

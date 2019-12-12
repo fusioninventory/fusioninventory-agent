@@ -1,0 +1,57 @@
+#  Copyright (C) 2000-2006 SWsoft. All rights reserved.
+#
+#  This program is free software; you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation; either version 2 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this program; if not, write to the Free Software
+#  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+#
+
+ONBOOT="yes"
+
+PHYSPAGES="0:512M"
+SWAPPAGES="0:512M"
+KMEMSIZE="unlimited"
+LOCKEDPAGES="unlimited"
+PRIVVMPAGES="unlimited"
+SHMPAGES="unlimited"
+NUMPROC="unlimited"
+VMGUARPAGES="unlimited"
+OOMGUARPAGES="unlimited"
+NUMTCPSOCK="unlimited"
+NUMFLOCK="unlimited"
+NUMPTY="unlimited"
+NUMSIGINFO="unlimited"
+TCPSNDBUF="unlimited"
+TCPRCVBUF="unlimited"
+OTHERSOCKBUF="unlimited"
+DGRAMRCVBUF="unlimited"
+NUMOTHERSOCK="unlimited"
+DCACHESIZE="unlimited"
+NUMFILE="unlimited"
+NUMIPTENT="unlimited"
+# Disk quota parameters (in form of softlimit:hardlimit)
+DISKSPACE="1048576:1153434"
+DISKINODES="200000:220000"
+QUOTATIME="0"
+
+# CPU fair sheduler parameter
+CPUUNITS="42125"
+NAME="info"
+VE_ROOT="/fs/v/info/root/"
+VE_PRIVATE="/fs/v/info/private/"
+OSTEMPLATE="debian-6.0.2-amd64"
+ORIGIN_SAMPLE="vps.basic"
+HOSTNAME="info"
+#IP_ADDRESS="193.138.208.136 193.138.208.179"
+NAMESERVER="172.17.3.251 172.17.3.251 195.117.194.18"
+NETIF="ifname=eth0,mac=00:18:51:5E:CC:AD,host_ifname=veth136.0,host_mac=00:18:51:8F:85:91"
+VE_LAYOUT="simfs"

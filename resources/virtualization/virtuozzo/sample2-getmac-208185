@@ -1,0 +1,8 @@
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN 
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+2: venet0: <BROADCAST,POINTOPOINT,NOARP> mtu 1500 qdisc noop state DOWN 
+    link/void 
+3: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UNKNOWN 
+    link/ether 00:18:51:38:b2:0f brd ff:ff:ff:ff:ff:ff
+4: eth1: <BROADCAST,MULTICAST> mtu 1500 qdisc noop state DOWN 
+    link/ether 00:18:51:65:86:c3 brd ff:ff:ff:ff:ff:ff
