@@ -42,8 +42,8 @@ sub _getVideoCards {
     foreach my $videoName (keys %{$infos->{'Graphics/Displays'}}) {
         my $videoCardInfo = $infos->{'Graphics/Displays'}->{$videoName};
 
-        my $memory = $videoCardInfo->{'VRAM (Total)'} ||
-            $videoCardInfo->{'VRAM (Dynamic, Max)'};
+        my $memory = getCanonicalSize($videoCardInfo->{'VRAM (Total)'} ||
+            $videoCardInfo->{'VRAM (Dynamic, Max)'}, 1024);
         $memory =~ s/\ .*//g if $memory;
 
         my $video = {

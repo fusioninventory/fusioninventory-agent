@@ -34,6 +34,21 @@ my %tests = (
             PCISLOT     => 'PCIe'
         }
     ],
+    'mojave-dual-video-cards' => [
+        {
+            NAME        => 'Intel HD Graphics 530',
+            CHIPSET     => 'Intel HD Graphics 530',
+            RESOLUTION  => '2880x1800',
+            MEMORY      => '1536',
+            PCISLOT     => 'Built-In'
+        },
+        {
+            NAME        => 'Radeon Pro 450',
+            CHIPSET     => 'AMD Radeon Pro 450',
+            MEMORY      => '2048',
+            PCISLOT     => 'PCIe'
+        }
+    ],
     'asus-geforce-gt-730' => [
         {
             MEMORY      => '1024',
