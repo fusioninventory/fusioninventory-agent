@@ -10,7 +10,7 @@ use base "FusionInventory::Agent::HTTP::Server::Proxy";
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::HTTP::Client::OCS;
 
-our $VERSION = "1.0";
+our $VERSION = "1.1";
 
 sub log_prefix {
     return "[proxy2 server plugin] ";

@@ -14,7 +14,7 @@ use base "FusionInventory::Agent::HTTP::Server::Plugin";
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::HTTP::Client::OCS;
 
-our $VERSION = "1.0";
+our $VERSION = "1.1";
 
 sub urlMatch {
     my ($self, $path) = @_;
@@ -40,6 +40,7 @@ sub defaults {
         only_local_store    => "no",
         local_store         => '',
         prolog_freq         => 24,
+        max_proxy_threads   => 10,
         # Supported by class FusionInventory::Agent::HTTP::Server::Plugin
         maxrate             => 30,
         maxrate_period      => 3600,
@@ -76,8 +77,7 @@ sub init {
 sub handle {
     my ($self, $client, $request, $clientIp) = @_;
 
-    my $logger = $self->{logger};
-    my $target = $self->{target};
+    my $agent  = $self->{server}->{agent};
 
     # rate limit by ip to avoid abuse
     if ($self->rate_limited($clientIp)) {
@@ -98,9 +98,42 @@ sub handle {
         return 200;
     }
 
+    my $retcode = $self->_handle_proxy_request($client, $request, $clientIp);
+
+    # In the case we run in a fork, just close the socket and quit
+    if ($agent->forked()) {
+        $self->debug("response status $retcode");
+        $client->close();
+        $agent->fork_exit(logger => $self, name => $self->name());
+    }
+
+    return $retcode;
+}
+
+sub _handle_proxy_request {
+    my ($self, $client, $request, $clientIp) = @_;
+
+    return unless $client && $request && $clientIp;
+
+    my $target = $self->{target};
+
     my $remoteid = $clientIp;
 
     # /proxy/fusioninventory request
+
+    # From here we should fork and return
+    my $agent = $self->{server}->{agent};
+    unless ($agent->forked()) {
+        # check against max_proxy_threads
+        my $current_requests = $agent->forked(name => $self->name());
+
+        if ($current_requests >= $self->config('max_proxy_threads')) {
+            $client->send_error(429); # Too Many Requests
+            return 429;
+        }
+
+        return 1 if $agent->fork(name => $self->name(), description => $self->name()." request");
+    }
 
     my $content_type = $request->header('Content-type');
 
@@ -236,7 +269,7 @@ sub handle {
     $self->debug("proxy request for $remoteid");
 
     my @servers = ();
-    my $serverconfig = $self->{server}->{agent}->{config};
+    my $serverconfig = $agent->{config};
 
     unless ($serverconfig) {
         $client->send_error(500, 'Server configuration missing');
@@ -255,7 +288,7 @@ sub handle {
         $response = HTTP::Response->new(500, 'No local storage for inventory')
             unless ($self->config('local_store') && -d $self->config('local_store'));
     } else {
-        @servers = grep { $_->isType('server') } $self->{server}->{agent}->getTargets();
+        @servers = grep { $_->isType('server') } $agent->getTargets();
     }
 
     if ($self->config('local_store') && -d $self->config('local_store')) {

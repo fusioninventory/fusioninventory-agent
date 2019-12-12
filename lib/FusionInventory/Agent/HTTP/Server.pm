@@ -182,9 +182,9 @@ sub _handle {
         $client->send_error(400)
     }
 
-    $logger->debug($log_prefix . "response status $status");
+    $logger->debug($log_prefix . "response status $status") unless $status == 1;
 
-    if ($keepalive && --$maxKeepAlive) {
+    if ($status == 200 && $keepalive && --$maxKeepAlive) {
         # Looking for another request
         $request = $client->get_request();
         $self->_handle($client, $request, $clientIp, $maxKeepAlive) if $request;
@@ -226,9 +226,10 @@ sub _handle_plugins {
         $status = 400;
     }
 
-    $logger->debug($log_prefix . "response status $status");
+    # Don't log status if we forked
+    $logger->debug($log_prefix . "response status $status") unless $status == 1;
 
-    if ($keepalive && --$maxKeepAlive) {
+    if ($status == 200 && $keepalive && --$maxKeepAlive) {
         # Looking for another request
         $request = $client->get_request();
         $self->_handle_plugins($client, $request, $clientIp, $maxKeepAlive) if $request;

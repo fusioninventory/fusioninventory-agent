@@ -26,6 +26,10 @@ core:
   keep next seen run more coherent with the requested delay.
 * fix service shutdown when HTTP client close the connection before the agent
 * fix HTTP server keep-alive support with a 8 requests by connection maximum limit
+* service update to support a safe forking system to firstly support handling
+  parallel http request for the Proxy HTTP server plugin.
+* Proxy HTTP server plugin now support max_proxy_threads configuration which is
+  set to 10 maximum concurrent requests by default.
 
 inventory:
 * unix: fix last log user after a reboot

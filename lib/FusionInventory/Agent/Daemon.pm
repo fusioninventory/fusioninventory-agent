@@ -8,6 +8,11 @@ use English qw(-no_match_vars);
 use UNIVERSAL::require;
 use POSIX ":sys_wait_h"; # WNOHANG
 
+# By convention, we just use 5 chars string as possible internal IPC messages.
+# As of this writing, only IPC_LEAVE from children is supported and is only
+# really useful while debugging.
+use constant IPC_LEAVE  => 'LEAVE';
+
 use parent 'FusionInventory::Agent';
 
 use FusionInventory::Agent::Logger;
@@ -174,15 +179,17 @@ sub runTask {
 
     } else {
         # child
-        die "fork failed: $ERRNO" unless defined $pid;
+        die "fork failed: $ERRNO\n" unless defined $pid;
 
         # Don't handle HTTPD interface in forked child
         delete $self->{server};
+        delete $self->{pidfile};
+        delete $self->{_fork};
 
         # Mostly to update process name on unix platforms
         $self->setStatus("task $name");
 
-        $self->{logger}->debug("forking process $pid to handle task $name");
+        $self->{logger}->debug("forking process $$ to handle task $name");
 
         $self->runTaskReal($target, $name, $response);
 
@@ -286,20 +293,186 @@ sub createDaemon {
 
     # From here we can enable our pidfile deletion on terminate
     $self->{pidfile} = $pidfile;
+
+    # From here we can also support process forking
+    $self->{_fork} = {} unless $self->{_fork};
+}
+
+sub handleChildren {
+    my ($self) = @_;
+
+    return unless $self->{_fork};
+
+    my @processes = keys(%{$self->{_fork}});
+    foreach my $pid (@processes) {
+        my $child = $self->{_fork}->{$pid};
+
+        # Check if any forked process is communicating
+        delete $child->{in} unless $child->{in} && $child->{in}->opened;
+        if ($child->{in} && $child->{pollin} && $child->{pollin}->poll(0)) {
+            my $msg = " " x 5;
+            if ($child->{in}->sysread($msg, 5)) {
+                $self->{logger}->debug2($child->{name} . "[$pid] message: ".($msg||"n/a"));
+                if ($msg eq IPC_LEAVE) {
+                    $self->child_exit($pid);
+                }
+            }
+        }
+
+        # Check if any forked process has been finished
+        waitpid($pid, WNOHANG)
+            or next;
+        $self->child_exit($pid);
+        delete $self->{_fork}->{$pid};
+        $self->{logger}->debug2($child->{name} . "[$pid] finished");
+    }
 }
 
 sub sleep {
     my ($self, $delay) = @_;
 
+    # Check if any forked process has been finished or is speaking
+    $self->handleChildren();
+
     eval {
         local $SIG{PIPE} = 'IGNORE';
-        if ($self->{server}) {
-            # Check for http interface messages, default timeout is 1 second
-            $self->{server}->handleRequests() or delay($delay || 1);
-        } else {
+        # Check for http interface messages, default timeout is 1 second
+        unless ($self->{server} && $self->{server}->handleRequests()) {
             delay($delay || 1);
         }
     };
+    $self->{logger}->error($EVAL_ERROR) if ($EVAL_ERROR && $self->{logger});
+}
+
+sub fork {
+    my ($self, %params) = @_;
+
+    # Only fork if we are authorized
+    return unless $self->{_fork};
+
+    my ($child_ipc, $parent_ipc, $ipc_poller);
+    my $logger = $self->{logger};
+    my $name = $params{name} || "child";
+    my $info = $params{description} || "$name job";
+
+    # Try to setup an optimized internal IPC based on IO::Pipe & IO::Poll objects
+    IO::Pipe->require();
+    if ($EVAL_ERROR) {
+        $logger->debug("Can't use IO::Pipe for internal IPC support: $!");
+    } else {
+        unless ($child_ipc = IO::Pipe->new()) {
+            $logger->debug("forking $name process without IO::Pipe support: $!");
+        }
+
+        if ($child_ipc && not $parent_ipc = IO::Pipe->new()) {
+            $logger->debug("forking $name process without IO::Pipe support: $!");
+        }
+
+        IO::Poll->require();
+        if ($EVAL_ERROR) {
+            $logger->debug("Can't use IO::Poll to support internal IPC: $!");
+        } else {
+            $ipc_poller = IO::Poll->new();
+        }
+    }
+
+    my $pid = fork();
+
+    unless (defined($pid)) {
+        $logger->error("Can't fork a $name process: $!");
+        return;
+    }
+
+    if ($pid) {
+        # In parent
+        $self->{_fork}->{$pid} = { name => $name };
+        if ($child_ipc && $parent_ipc) {
+            # Try to setup an optimized internal IPC based on IO::Pipe objects
+            $child_ipc->reader();
+            $parent_ipc->writer();
+            if ($ipc_poller) {
+                $ipc_poller->mask($child_ipc => IO::Poll::POLLIN);
+                $self->{_fork}->{$pid}->{pollin} = $ipc_poller;
+            }
+            $self->{_fork}->{$pid}->{in}  = $child_ipc;
+            $self->{_fork}->{$pid}->{out} = $parent_ipc;
+        }
+        $logger->debug("forking process $pid to handle $info");
+    } else {
+        # In child
+        $self->setStatus("processing $info");
+        delete $self->{server};
+        delete $self->{pidfile};
+        delete $self->{current_runtask};
+        delete $self->{_fork};
+        if ($child_ipc && $parent_ipc) {
+            # Try to setup an optimized internal IPC based on IO::Pipe objects
+            $child_ipc->writer();
+            $parent_ipc->reader();
+            if ($ipc_poller) {
+                $ipc_poller->mask($parent_ipc => IO::Poll::POLLIN);
+                $self->{_ipc_pollin} = $ipc_poller;
+            }
+            $self->{_ipc_in}  = $parent_ipc;
+            $self->{_ipc_out} = $child_ipc;
+        }
+        $self->{_forked} = 1;
+        $logger->debug2("$name\[$$]: forked");
+    }
+
+    return $pid;
+}
+
+sub forked {
+    my ($self, %params) = @_;
+
+    return 1 if $self->{_forked};
+
+    return 0 unless $self->{_fork} && $params{name};
+
+    # Be sure finished children are forgotten before counting forked named children
+    $self->handleChildren();
+
+    my @forked = grep { $self->{_fork}->{$_}->{name} eq $params{name} && kill 0, $_ }
+        keys(%{$self->{_fork}});
+
+    return scalar(@forked);
+}
+
+sub fork_exit {
+    my ($self) = @_;
+
+    return unless $self->forked();
+
+    if ($self->{_ipc_out}) {
+        $self->{_ipc_out}->syswrite(IPC_LEAVE);
+        $self->{_ipc_out}->close();
+        delete $self->{_ipc_out};
+    }
+    if ($self->{_ipc_in}) {
+        $self->{_ipc_in}->close();
+        delete $self->{_ipc_in};
+        delete $self->{_ipc_pollin};
+    }
+
+    exit(0);
+}
+
+sub child_exit {
+    my ($self, $pid) = @_;
+
+    if ($self->{_fork} && $self->{_fork}->{$pid}) {
+        my $child = $self->{_fork}->{$pid};
+        if ($child->{out}) {
+            $child->{out}->close();
+            delete $child->{out};
+        }
+        if ($child->{in}) {
+            $child->{in}->close();
+            delete $child->{in};
+            delete $child->{pollin};
+        }
+    }
 }
 
 sub loadHttpInterface {
@@ -363,11 +536,22 @@ sub RunningServiceOptimization {
 sub terminate {
     my ($self) = @_;
 
+    # Handle forked processes
+    $self->fork_exit();
+    my $children = delete $self->{_fork};
+    if ($children) {
+        my @pids = keys(%{$children});
+        foreach my $pid (@pids) {
+            $self->child_exit($pid);
+            kill 'TERM', $pid;
+        }
+    }
+
     # Still stop HTTP interface
     $self->{server}->stop() if ($self->{server});
 
-    $self->{logger}->info("$PROVIDER Agent exiting")
-        unless ($self->{current_task});
+    $self->{logger}->info("$PROVIDER Agent exiting ($$)")
+        unless ($self->{current_task} || $self->forked());
 
     $self->SUPER::terminate();
 
