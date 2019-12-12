@@ -292,7 +292,7 @@ sub sleep {
     my ($self, $delay) = @_;
 
     eval {
-        local $SIG{CHLD} = 'IGNORE';
+        local $SIG{PIPE} = 'IGNORE';
         if ($self->{server}) {
             # Check for http interface messages, default timeout is 1 second
             $self->{server}->handleRequests() or delay($delay || 1);
