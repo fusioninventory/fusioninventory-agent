@@ -1,0 +1,27 @@
+
+Hardware Port: Ethernet
+Device: en0
+Ethernet Address: 0c:4d:e9:c9:6c:3c
+
+Hardware Port: Wi-Fi
+Device: en1
+Ethernet Address: 88:63:df:b1:e6:cb
+
+Hardware Port: Bluetooth PAN
+Device: en4
+Ethernet Address: 88:63:df:b1:e6:cc
+
+Hardware Port: Thunderbolt 1
+Device: en2
+Ethernet Address: 32:00:1e:77:00:00
+
+Hardware Port: Thunderbolt 2
+Device: en3
+Ethernet Address: 32:00:1e:77:00:01
+
+Hardware Port: Thunderbolt Bridge
+Device: bridge0
+Ethernet Address: 32:00:1e:77:00:00
+
+VLAN Configurations
+===================
