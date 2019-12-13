@@ -739,7 +739,7 @@ sub _setPrinterProperties {
         if (ref $variable->{oid} eq 'ARRAY') {
             foreach my $oid (@{$variable->{oid}}) {
                 $value = $snmp->get($oid);
-                last if $value && isInteger($value);
+                last if defined($value) && isInteger($value);
             }
         } else {
             my $oid = $variable->{oid};
