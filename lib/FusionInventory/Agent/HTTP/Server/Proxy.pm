@@ -115,8 +115,6 @@ sub _handle_proxy_request {
 
     return unless $client && $request && $clientIp;
 
-    my $target = $self->{target};
-
     my $remoteid = $clientIp;
 
     # /proxy/fusioninventory request

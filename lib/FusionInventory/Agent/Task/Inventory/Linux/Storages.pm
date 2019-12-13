@@ -23,7 +23,6 @@ sub doInventory {
     my (%params) = @_;
 
     my $inventory = delete $params{inventory};
-    my $logger    = $params{logger};
 
     $params{root} = $params{test_path} || "";
 
@@ -35,7 +34,6 @@ sub doInventory {
 sub _getDevices {
     my (%params) = @_;
 
-    my $logger = $params{logger};
     my $root   = $params{root};
 
     my @devices = _getDevicesBase(%params);
