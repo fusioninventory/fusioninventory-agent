@@ -60,6 +60,7 @@ inventory:
 * fix #769: fix Virtuozzo virtualization inventory
 * fix #752: normalize video cards memory on macosx
 * fix #452, #642: better macosx network cards support
+* fix #359: try to remote litemanager ID under win32
 * Updated pci.ids to 2019.11.10 version
 * Updated usb.ids to 2019.11.05 version
 
