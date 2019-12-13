@@ -484,17 +484,26 @@ sub _set_from_oid_list {
 
     foreach my $key (keys %{$list}) {
         my $variable = $list->{$key};
+        my $type = $variable->{type};
 
         my $raw_value;
         if (ref $variable->{oid} eq 'ARRAY') {
             foreach my $oid (@{$variable->{oid}}) {
                 $raw_value = $self->get($oid);
+                if (defined($raw_value) && $type =~ /^memory|count$/) {
+                    # Skip value if it seems not to include a number for memory & count
+                    undef $raw_value unless $raw_value =~ /\d+/;
+                }
                 last if defined $raw_value;
             }
         } elsif (ref $variable->{oid} eq 'HASH') {
             foreach my $oid (keys %{$variable->{oid}}) {
                 $raw_value = $self->get($oid);
-                $raw_value .= ' kB' if $raw_value && $variable->{oid}->{$oid} eq 'kb' && isInteger($raw_value);
+                if (defined($raw_value) && $type =~ /^memory|count$/) {
+                    # Skip value if it seems not to include a number for memory & count
+                    undef $raw_value unless $raw_value =~ /\d+/;
+                    $raw_value .= ' kB' if $variable->{oid}->{$oid} eq 'kb' && isInteger($raw_value);
+                }
                 last if defined $raw_value;
             }
         } else {
@@ -502,7 +511,6 @@ sub _set_from_oid_list {
         }
         next unless defined $raw_value;
 
-        my $type = $variable->{type};
         my $value =
             $type eq 'memory' ? getCanonicalMemory($raw_value) :
             $type eq 'string' ? getCanonicalString($raw_value) :

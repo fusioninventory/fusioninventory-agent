@@ -79,6 +79,7 @@ netdiscovery/netinventory:
 * moved APC pdu support to mibsupport, thanks to po1vo
 * fix #751: Added Seagate storage support
 * enhanced VLAN support
+* fix #734: Fix issue with Ricoh printers
 
 2.5.1 Tue, 02 Jul 2019
 
