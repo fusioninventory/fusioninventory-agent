@@ -541,6 +541,7 @@ sub _getRegistryKeyFromWMI{
         foreach my $subkey (@{$ret->{keys}}) {
             $ret->{result}{"$subkey/"} = _getRegistryKeyFromWMI(
                 path    => $params{path}."/".$keyName,
+                wmiopts => \%wmiopts,
                 keyName => $subkey
             );
         }
