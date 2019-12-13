@@ -80,6 +80,7 @@ netdiscovery/netinventory:
 * fix #751: Added Seagate storage support
 * enhanced VLAN support
 * fix #734: Fix issue with Ricoh printers
+* fix #722: Enhance LinuxAppliance support with Sophos UTG support
 
 2.5.1 Tue, 02 Jul 2019
 

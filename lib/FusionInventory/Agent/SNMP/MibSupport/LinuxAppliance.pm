@@ -43,6 +43,7 @@ use constant    snmpEngineID    => snmpEngine . '.1.0';
 
 # HOST-RESOURCES-MIB
 use constant    hrStorageEntry  => iso . '.25.2.3.1.3';
+use constant    hrSWRunName     => iso . '.25.4.2.1.2';
 
 our $mibSupport = [
     {
@@ -96,6 +97,28 @@ sub getType {
         };
         return 'NETWORKING';
     }
+
+    # Sophos detection, just lookup for an existing process
+    if ($self->_hasProcess('mdw.plx')) {
+        $device->{_Appliance} = {
+            MODEL           => 'Sophos UTM',
+            MANUFACTURER    => 'Sophos'
+        };
+        return 'NETWORKING';
+    }
+}
+
+sub _hasProcess {
+    my ($self, $name) = @_;
+
+    return unless $name;
+
+    # Cache the walk result in the case we have to answer many _hasProcess() calls
+    $self->{hrSWRunName} ||= $self->walk(hrSWRunName);
+
+    return unless $self->{hrSWRunName};
+
+    return any { getCanonicalString($_) eq $name } values(%{$self->{hrSWRunName}});
 }
 
 sub getModel {
