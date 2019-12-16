@@ -29,7 +29,7 @@ sub getSerial {
 sub getModel {
     my ($self) = @_;
 
-    return $self->get(model)
+    return $self->get(model);
 }
 
 sub run {
