@@ -1,6 +1,6 @@
 Revision history for FusionInventory agent
 
-2.5.2 not released yet
+2.5.2 Mon, 16 Dec 2019
 
 core:
 * fix HTTP server IPv6 support as HTTP::Daemon module now supports IPv6 natively
@@ -32,6 +32,7 @@ core:
   set to 10 maximum concurrent requests by default.
 
 inventory:
+* Bump Inventory task version to 1.9
 * unix: fix last log user after a reboot
 * added Samsung monitor serial support for models: B1940MR, B1940W, S22A450BW,
   S22B420, S22E450, S22F350FHU, S27D390H, S27D850T, S27H850QFU, S19A450, SM943BM,
@@ -62,10 +63,12 @@ inventory:
 * fix #452, #642: better macosx network cards support
 * fix #359: try to obtain remote management litemanager ID under win32
 * improved Ricoh printer support
-* Updated pci.ids to 2019.11.10 version
+* Updated pci.ids to 2019.12.11 version
 * Updated usb.ids to 2019.11.05 version
 
 netdiscovery/netinventory:
+* Bump NetDiscovery task version to 4.1
+* Bump NetInventory task version to 4.1
 * linux: avoid to share HTTP client with threads to fix RHEL/CentOS 7 crash
 * Add Tagged VLAN, work at least with HPE Switch, thanks to PR-gh
 * Enhanced Qlogic support to report device serial number, thanks to po1vo
@@ -84,6 +87,7 @@ netdiscovery/netinventory:
 * enhanced VLAN support
 * fix #734: Fix issue with Ricoh printers
 * fix #722: Enhance LinuxAppliance support with Sophos UTG support
+* Updated sysobject.ids (tagged fia-2.5.2 tag on github repository)
 
 2.5.1 Tue, 02 Jul 2019
 
