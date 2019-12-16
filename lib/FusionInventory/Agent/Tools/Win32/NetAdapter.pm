@@ -117,7 +117,7 @@ sub _getPciid {
 
 sub _getObjectIndex {
     my ($self) = @_;
-    
+
     return defined($self->{InterfaceIndex}) ? $self->{InterfaceIndex} : $self->{Index};
 }
 

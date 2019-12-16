@@ -54,7 +54,7 @@ sub getType {
 
 sub getModel {
     my ($self) = @_;
-    
+
     return $self->get(stormshield_model) if $self->_is_stormshield();
 }
 

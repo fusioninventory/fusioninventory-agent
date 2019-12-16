@@ -95,7 +95,7 @@ sub _scanWmiSoftwareLicensingProducts {
                     if $seenProducts->{$uiidLC}->{'FULLNAME'};
                 $wmiLicence->{'TRIAL'}    = $seenProducts->{$uiidLC}->{'TRIAL'}
                     if $seenProducts->{$uiidLC}->{'TRIAL'};
-                
+
                 my $uiidToDelete = $uiidLC;
                 if ($seenProducts->{$uiidLC}->{PRODUCTCODE}) {
                     # Change key Target

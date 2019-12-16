@@ -1465,7 +1465,7 @@ sub _getVlans {
                     next;
                 }
 
-                # Untagged VLAN 
+                # Untagged VLAN
                 my $bUntagged = unpack("B*", hex2char($UntaggedPorts));
                 my @bUntagged = split(//,$bUntagged);
                 next unless @bUntagged;
