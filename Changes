@@ -62,7 +62,6 @@ inventory:
 * fix #752: normalize video cards memory on macosx
 * fix #452, #642: better macosx network cards support
 * fix #359: try to obtain remote management litemanager ID under win32
-* improved Ricoh printer support
 * Updated pci.ids to 2019.12.11 version
 * Updated usb.ids to 2019.11.05 version
 
@@ -87,6 +86,7 @@ netdiscovery/netinventory:
 * enhanced VLAN support
 * fix #734: Fix issue with Ricoh printers
 * fix #722: Enhance LinuxAppliance support with Sophos UTG support
+* improved Ricoh printer support
 * Updated sysobject.ids (tagged fia-2.5.2 tag on github repository)
 
 2.5.1 Tue, 02 Jul 2019
