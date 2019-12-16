@@ -51,6 +51,7 @@ inventory:
 * linux: Added support for installed softwares by Snap
 * linux: double-check a network interface is not virtual
 * fix #723: check debian linux version in /etc/debian_version
+* fix #726: Added support for latest SPARC cpus on Solaris
 * hdparm support fixes by, thanks to po1vo
 * win32: fix software inventory failing due to unsupported UTF-16 Appx manifest XML
 * improved HP storage support, thanks to po1vo
@@ -76,7 +77,6 @@ netdiscovery/netinventory:
 * fix #738: fix time expiration when netinventory is chained with netdiscovery
   while using fusioninventory-netdiscovery script --inventory option
 * fix #741: device with empty description was no more inventoried
-* fix #726: Added support for latest SPARC cpus on Solaris
 * fix #717: use cdpCacheSysName when available to enhance connection detection
   Try also to extract remote mac address from deviceId when possible (fix Meraki
   connection detection, even support Yealink SIP phones)
