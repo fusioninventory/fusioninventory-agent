@@ -33,6 +33,7 @@ requires 'UNIVERSAL::require' => '0';
 requires 'XML::TreePP'        => '0.26';
 requires 'XML::XPath'         => '0';
 requires 'YAML::Tiny'         => '0';
+requires 'Memoize'            => '0';
 
 if ($OSNAME eq 'MSWin32') {
     requires 'Win32::OLE'         => '0';
