@@ -33,6 +33,8 @@ sub _parseProcessList {
             $values->{name} = $1 if !$values->{name};
         } elsif ($option =~ m/^name (\S+)/) {
             $values->{name} = $1;
+        } elsif ($option =~ m/^\/usr\/(s?)bin\/(\S+)/) {
+            $values->{vmtype} = $2;
         } elsif ($option =~ m/^m .*size=(\S+)/) {
             my ($mem) = split(/,/,$1);
             $values->{mem} = getCanonicalSize($mem);
