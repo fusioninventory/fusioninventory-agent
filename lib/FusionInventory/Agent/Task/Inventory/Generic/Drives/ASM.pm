@@ -21,10 +21,19 @@ sub doInventory {
 
     # Oracle documentation:
     # see https://docs.oracle.com/cd/E11882_01/server.112/e18951/asm_util004.htm#OSTMG94549
+    # But also try oracle user if grid user doesn't exist, and finally try as root
     my $diskgroups = _getDisksGroups(
         command => "su - grid -c 'asmcmd lsdg'",
         logger  => $logger
     );
+    $diskgroups = _getDisksGroups(
+        command => "su - oracle -c 'asmcmd lsdg'",
+        logger  => $logger
+    ) unless $diskgroups;
+    $diskgroups = _getDisksGroups(
+        command => "asmcmd lsdg",
+        logger  => $logger
+    ) unless $diskgroups;
 
     return unless $diskgroups;
 
@@ -66,23 +75,23 @@ sub _getDisksGroups {
         next if ($line_count == 1 && $line =~ /^State.*Name$/);
 
         my @infos = split(/\s+/, $line);
-        next unless (@infos == 13);
+        next unless @infos == 13 || @infos == 14;
 
         # Cleanup trailing slash on NAME
-        $infos[12] =~ s|/+$||;
+        $infos[$#infos] =~ s|/+$||;
 
         # Fix total against TYPE field
-        my $total = int($infos[6] || 0) - int($infos[8] || 0);
+        my $total = int($infos[$#infos-6] || 0) - int($infos[$#infos-4] || 0);
         if ($infos[1] =~ /^NORMAL|HIGH$/) {
             $total /= $infos[1] eq 'HIGH' ? 3 : 2;
         }
 
         push @groups, {
-            NAME        => $infos[12] || 'NONAME',
+            NAME        => $infos[$#infos] || 'NONAME',
             STATE       => $infos[0]  || 'UNKNOWN',
             TYPE        => $infos[1]  || 'EXTERN',
             TOTAL       => int($total),
-            FREE        => int($infos[9])
+            FREE        => int($infos[$#infos-3])
         };
     }
 
