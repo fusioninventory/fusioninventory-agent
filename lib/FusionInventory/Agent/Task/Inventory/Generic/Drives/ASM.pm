@@ -29,11 +29,11 @@ sub doInventory {
     $diskgroups = _getDisksGroups(
         command => "su - oracle -c 'asmcmd lsdg'",
         logger  => $logger
-    ) unless $diskgroups;
+    ) unless $diskgroups && @{$diskgroups};
     $diskgroups = _getDisksGroups(
         command => "asmcmd lsdg",
         logger  => $logger
-    ) unless $diskgroups;
+    ) unless $diskgroups && @{$diskgroups};
 
     return unless $diskgroups;
 
