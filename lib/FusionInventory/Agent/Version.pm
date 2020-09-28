@@ -3,6 +3,10 @@ package FusionInventory::Agent::Version;
 use strict;
 use warnings;
 
+# For CPAN releases right versions ordering, as 2.6 is evaluated to v2.600 by
+# version module for versions comparaison, 2.6 following versions should be:
+# - kept as major.minor (2.7, 2.8, ...)
+# - or use the "alpha" notation to set revision: 2.6_01 is evaluated to v2.601
 our $VERSION = "2.6-dev";
 our $PROVIDER = "FusionInventory";
 our $COMMENTS = [];
