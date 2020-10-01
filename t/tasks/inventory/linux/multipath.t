@@ -14,28 +14,22 @@ use FusionInventory::Agent::Tools::Linux;
 my %multipath_tests = (
     multipath1 => {
         names_in => [
-            'sdo' .. 'sdz',
-            'sdaa' .. 'sdaz',
-            'sdba' .. 'sdbj',
+            'sdo'  .. 'sdz',
+            'sdaa' .. 'sdbj',
         ],
         names_out => [
-            'sdo' .. 'sdz',
+            'sdo'  .. 'sdz',
             'sdaa' .. 'sdal',
         ],
     },
     multipath2 => {
         names_in => [
-            'sda' .. 'sdz',
-            'sdaa' .. 'sdaz',
-            'sdba' .. 'sdbz',
-            'sdca' .. 'sdcz',
-            'sdda' .. 'sddz',
-            'sdea' .. 'sdej',
+            'sda'  .. 'sdz',
+            'sdaa' .. 'sdej',
         ],
         names_out => [
-            'sda' .. 'sdz',
-            'sdaa' .. 'sdaz',
-            'sdba' .. 'sdbs',
+            'sda'  .. 'sdz',
+            'sdaa' .. 'sdbs',
         ],
     }
 );
