@@ -33,16 +33,16 @@ sub doInventory {
         my $ldinfo = _getLDinfo(adp => $adp);
 
         while (my ($id, $pd) = each %$pdlist) {
-            # skip JBOD and Non-RAID
+            # JBOD and Non-RAID are processed by the parent module, skip.
             next if (
                 (defined $pd->{__diskgroup} &&
                  defined $ldinfo->{ $pd->{__diskgroup} } &&
                  defined $ldinfo->{ $pd->{__diskgroup} }->{'Number Of Drives'} &&
                  defined $ldinfo->{ $pd->{__diskgroup} }->{'Name'} &&
                  $ldinfo->{ $pd->{__diskgroup} }->{'Number Of Drives'} eq '1' &&
-                 $ldinfo->{ $pd->{__diskgroup} }->{'Name'} =~ /NonRAID/)
+                 $ldinfo->{ $pd->{__diskgroup} }->{'Name'} =~ /Non\s*\-*RAID/i)
                     ||
-                $pd->{'Firmware state'} =~ /JBOD/
+                $pd->{'Firmware state'} =~ /JBOD/i
             );
 
             my $storage = getInfoFromSmartctl(
