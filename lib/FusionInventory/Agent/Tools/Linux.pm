@@ -385,8 +385,12 @@ sub _readLinkFromSysFs {
 sub getInfoFromSmartctl {
     my (%params) = @_;
 
-    $params{command} = $params{device} ? "smartctl -i $params{device} " : undef;
-    $params{command} .= $params{extra} if (defined $params{command} and defined $params{extra});
+    my @lines = getAllLines(
+        %params,
+        command => $params{device} ?
+            "smartctl -i $params{device} " . ($params{extra} // "") : undef,
+    );
+    return unless @lines;
 
     my $info = {
         TYPE        => 'disk',
@@ -430,7 +434,7 @@ sub getInfoFromSmartctl {
 
     my %smartctl;
 
-    for my $line (getAllLines(%params)) {
+    for my $line (@lines) {
         next unless $line =~ $regexp->{__smartctl};
         $smartctl{lc $1} = $2;
     }
@@ -439,8 +443,7 @@ sub getInfoFromSmartctl {
         for my $s (@{$val->{src}}) {
             next unless defined $smartctl{$s};
 
-            my $re = defined $regexp->{$s} ? $regexp->{$s} : $regexp->{__default};
-            my ($data) = ($smartctl{$s} =~ $re);
+            my ($data) = ($smartctl{$s} =~ ($regexp->{$s} // $regexp->{__default}));
 
             $info->{$attr} = exists $val->{func} ?
                 &{$val->{func}}($data, @{$val->{args}}) : $data;
