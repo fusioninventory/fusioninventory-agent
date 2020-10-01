@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Inventory::Linux::Storages::Megacli2;
+package FusionInventory::Agent::Task::Inventory::Linux::Storages::MegacliWithSmartctl;
 
 use strict;
 use warnings;
@@ -137,7 +137,7 @@ __END__
 
 =head1 NAME
 
-FusionInventory::Agent::Task::Inventory::Linux::Storages::Megacli2 - LSI Megaraid inventory
+FusionInventory::Agent::Task::Inventory::Linux::Storages::MegacliWithSmartctl - LSI Megaraid inventory
 
 =head1 DESCRIPTION
 

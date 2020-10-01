@@ -10,7 +10,7 @@ use Test::More;
 use Test::NoWarnings;
 
 use FusionInventory::Test::Inventory;
-use FusionInventory::Agent::Task::Inventory::Linux::Storages::Megacli2;
+use FusionInventory::Agent::Task::Inventory::Linux::Storages::MegacliWithSmartctl;
 
 my %pdlist_tests = (
     set6_PDlist => {
@@ -1668,18 +1668,18 @@ plan tests =>
 
 foreach my $test (keys %pdlist_tests) {
     my $file = "resources/linux/megacli/$test";
-    my $results = FusionInventory::Agent::Task::Inventory::Linux::Storages::Megacli2::_getPDlist(file => $file);
+    my $results = FusionInventory::Agent::Task::Inventory::Linux::Storages::MegacliWithSmartctl::_getPDlist(file => $file);
     cmp_deeply($results, $pdlist_tests{$test}, "$test: `megacli -PDlist' parsing");
 }
 
 foreach my $test (keys %ldinfo_tests) {
     my $file = "resources/linux/megacli/$test";
-    my $results = FusionInventory::Agent::Task::Inventory::Linux::Storages::Megacli2::_getLDinfo(file => $file);
+    my $results = FusionInventory::Agent::Task::Inventory::Linux::Storages::MegacliWithSmartctl::_getLDinfo(file => $file);
     cmp_deeply($results, $ldinfo_tests{$test}, "$test: `megacli -LDInfo -lAll' parsing");
 }
 
 foreach my $test (keys %adppciinfo_tests) {
     my $file = "resources/linux/megacli/$test";
-    my $results = FusionInventory::Agent::Task::Inventory::Linux::Storages::Megacli2::_getAdpPciInfo(file => $file);
+    my $results = FusionInventory::Agent::Task::Inventory::Linux::Storages::MegacliWithSmartctl::_getAdpPciInfo(file => $file);
     cmp_deeply($results, $adppciinfo_tests{$test}, "$test: `megacli -AdpGetPciInfo' parsing");
 }
