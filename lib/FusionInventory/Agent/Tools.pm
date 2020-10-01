@@ -214,7 +214,7 @@ sub getCanonicalSize {
     return undef unless $size =~ /^([,.\d]+) (\S+)$/x;
     my $value = $1;
     my $unit = lc($2);
-    $value =~ s/,/\./;
+    $value =~ s/,| //g;
 
     return
         $unit eq 'tb'    ? $value * $base * $base        :
