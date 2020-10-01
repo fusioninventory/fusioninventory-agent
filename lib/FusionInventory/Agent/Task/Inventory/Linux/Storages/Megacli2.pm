@@ -62,25 +62,24 @@ sub _getPDlist {
 
     $params{command} = defined $params{adp} ? "megacli -pdlist -a$params{adp}" : undef;
 
-    my (%srclist, %pdlist);
-    my $n = 0;
+    my %pdlist;
+    my $src = {};
 
     foreach my $line (getAllLines(%params)) {
-        next unless $line =~ RE;
-        my ($key, $val) = ($1, $2);
-        $n++ if $key =~ /Enclosure Device ID/;
-        $srclist{$n}->{$key} = $val;
+        my ($key, $val) = $line =~ RE
+            or next;
+
+        if ($key eq 'Enclosure Device ID') {
+            $pdlist{ $src->{'Device Id'} } = $src if defined $src->{'Device Id'};
+            $src = {};
+        } elsif ($key eq 'Drive\'s position') {
+            ($src->{__diskgroup}, $src->{__span}, $src->{__arm}) =
+                ($val =~ /DiskGroup: (\d+), Span: (\d+), Arm: (\d+)/);
+        }
+
+        $src->{$key} = $val;
     }
-
-    for my $val (values %srclist) {
-        next unless defined $val->{'Device Id'};
-
-        $pdlist{ $val->{'Device Id'} } = $val;
-
-        next unless defined $val->{'Drive\'s position'};
-        ($val->{__diskgroup}, $val->{__span}, $val->{__arm}) =
-            ($val->{'Drive\'s position'} =~ /DiskGroup: (\d+), Span: (\d+), Arm: (\d+)/);
-    }
+    $pdlist{ $src->{'Device Id'} } = $src if defined $src->{'Device Id'};
 
     return \%pdlist;
 }
@@ -94,8 +93,8 @@ sub _getLDinfo {
     my $n = -1;
 
     foreach my $line (getAllLines(%params)) {
-        next unless $line =~ RE;
-        my ($key, $val) = ($1, $2);
+        my ($key, $val) = $line =~ RE
+            or next;
 
         if ($key eq 'Virtual Drive') {
             ($n) = ($val =~ /^\s*(\d+)/);
