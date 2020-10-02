@@ -10,8 +10,9 @@ use Test::More;
 use Test::NoWarnings;
 
 use FusionInventory::Test::Inventory;
+use FusionInventory::Agent::Tools::IpmiFru qw(clearFruCache);
 use FusionInventory::Agent::Task::Inventory::Generic::Dmidecode::Psu;
-use FusionInventory::Agent::Task::Inventory::Generic::Ipmi::Fru;
+use FusionInventory::Agent::Task::Inventory::Generic::Ipmi::Fru::Psu;
 
 my %tests = (
     '1' => {
@@ -45,13 +46,13 @@ my %tests = (
             {
                 PARTNUM        => 'H66158-007',
                 SERIALNUMBER   => 'CNS2221A4SG7Q0942',
-                MANUFACTURER   => 'SAMSUNG ELECTRO-MECHANICS CO.,LTD',
+                MANUFACTURER   => 'Samsung',
                 NAME           => 'PSSF222201A',
             },
             {
                 PARTNUM        => 'H66158-007',
                 SERIALNUMBER   => 'CNS2221A4SG7Q0944',
-                MANUFACTURER   => 'SAMSUNG ELECTRO-MECHANICS CO.,LTD',
+                MANUFACTURER   => 'Samsung',
                 NAME           => 'PSSF222201A',
             },
         ],
@@ -61,6 +62,8 @@ my %tests = (
 plan tests => 4 *(scalar keys %tests) + 1;
 
 foreach my $index (keys %tests) {
+    clearFruCache();
+
     my $dmidecode = "resources/generic/powersupplies/dmidecode_$index.txt";
     my $inventory = FusionInventory::Test::Inventory->new();
 
@@ -81,7 +84,7 @@ foreach my $index (keys %tests) {
 
     my $fru = "resources/generic/powersupplies/fru_$index.txt";
     lives_ok {
-        FusionInventory::Agent::Task::Inventory::Generic::Ipmi::Fru::doInventory(
+        FusionInventory::Agent::Task::Inventory::Generic::Ipmi::Fru::Psu::doInventory(
             inventory   => $inventory,
             file        => $fru
         );

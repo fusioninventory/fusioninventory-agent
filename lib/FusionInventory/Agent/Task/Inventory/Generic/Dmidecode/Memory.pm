@@ -28,7 +28,7 @@ sub doInventory {
     my $inventory = $params{inventory};
     my $logger    = $params{logger};
 
-    my $memories = _getMemories(logger => $logger);
+    my $memories = _getMemories(logger => $logger, %params);
 
     return unless $memories;
 

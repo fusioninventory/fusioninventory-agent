@@ -39,6 +39,7 @@ my %fields = (
     BATTERIES        => [ qw/CAPACITY CHEMISTRY DATE NAME SERIAL MANUFACTURER
                              VOLTAGE/ ],
     CONTROLLERS      => [ qw/CAPTION DRIVER NAME MANUFACTURER PCICLASS VENDORID
+                             SERIAL MODEL
                              PRODUCTID PCISUBSYSTEMID PCISLOT TYPE REV/ ],
     CPUS             => [ qw/CACHE CORE DESCRIPTION MANUFACTURER NAME THREAD
                              SERIAL STEPPING FAMILYNAME FAMILYNUMBER MODEL
@@ -58,7 +59,7 @@ my %fields = (
                              VG_UUID/ ],
     MEMORIES         => [ qw/CAPACITY CAPTION FORMFACTOR REMOVABLE PURPOSE
                              SPEED SERIALNUMBER TYPE DESCRIPTION NUMSLOTS
-                             MEMORYCORRECTION MANUFACTURER/ ],
+                             MEMORYCORRECTION MANUFACTURER MODEL/ ],
     MODEMS           => [ qw/DESCRIPTION NAME TYPE MODEL/ ],
     MONITORS         => [ qw/BASE64 CAPTION DESCRIPTION MANUFACTURER SERIAL
                              UUENCODE NAME TYPE ALTSERIAL PORT/ ],
