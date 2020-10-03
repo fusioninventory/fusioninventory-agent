@@ -6,10 +6,9 @@ use warnings;
 use parent 'FusionInventory::Agent::Task::Inventory::Module';
 
 use FusionInventory::Agent::Tools;
-use FusionInventory::Agent::Tools::IpmiFru;
 
 sub isEnabled {
-    return canRun('ipmitool') && getIpmiFru();
+    return canRun('ipmitool');
 }
 
 sub doInventory {}
