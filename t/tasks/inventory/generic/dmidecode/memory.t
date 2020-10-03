@@ -23,7 +23,7 @@ my %tests = (
             CAPTION          => 'A0',
             CAPACITY         => '512',
             MANUFACTURER     => undef,
-            MEMORYCORRECTION => 'None',
+            MEMORYCORRECTION => 'None'
 
         }
     ],
@@ -37,8 +37,8 @@ my %tests = (
             CAPACITY         => '2048',
             CAPTION          => 'Bottom - Slot 1',
             MANUFACTURER     => 'Hynix',
-            MEMORYCORRECTION => 'None',
             MODEL            => 'HMT125S6BFR8C-H9'
+            MEMORYCORRECTION => 'None'
         },
         {
             NUMSLOTS         => 2,
@@ -49,8 +49,8 @@ my %tests = (
             CAPACITY         => '2048',
             CAPTION          => 'Bottom - Slot 2',
             MANUFACTURER     => 'Hynix',
-            MEMORYCORRECTION => 'None',
-            MODEL            => 'HMT125S6BFR8C-H9'
+            MODEL            => 'HMT125S6BFR8C-H9',
+            MEMORYCORRECTION => 'None'
 
         }
     ],
@@ -170,8 +170,8 @@ my %tests = (
             CAPTION          => 'DIMM1_A',
             CAPACITY         => '512',
             MANUFACTURER     => undef,
-            MEMORYCORRECTION => 'Multi-bit ECC',
-            MODEL            => 'M3 93T6450FZ0-CCC'
+            MODEL            => 'M3 93T6450FZ0-CCC',
+            MEMORYCORRECTION => 'Multi-bit ECC'
         },
         {
             NUMSLOTS         => 2,
@@ -182,8 +182,8 @@ my %tests = (
             CAPTION          => 'DIMM1_B',
             CAPACITY         => '512',
             MANUFACTURER     => undef,
-            MEMORYCORRECTION => 'Multi-bit ECC',
-            MODEL            => 'M3 93T6450FZ0-CCC'
+            MODEL            => 'M3 93T6450FZ0-CCC',
+            MEMORYCORRECTION => 'Multi-bit ECC'
         },
         {
             NUMSLOTS         => 3,
@@ -284,8 +284,8 @@ my %tests = (
             CAPTION          => 'D11',
             CAPACITY         => '32768',
             MANUFACTURER     => 'Samsung',
-            MEMORYCORRECTION => 'Multi-bit ECC',
-            MODEL            => 'M386A4G40DM0-CPB'
+            MODEL            => 'M386A4G40DM0-CPB',
+            MEMORYCORRECTION => 'Multi-bit ECC'
         },
         {
             NUMSLOTS         => 2,
@@ -296,8 +296,8 @@ my %tests = (
             CAPTION          => 'D10',
             CAPACITY         => '32768',
             MANUFACTURER     => 'Samsung',
-            MEMORYCORRECTION => 'Multi-bit ECC',
-            MODEL            => 'M386A4G40DM0-CPB'
+            MODEL            => 'M386A4G40DM0-CPB',
+            MEMORYCORRECTION => 'Multi-bit ECC'
         },
         {
             NUMSLOTS         => 3,
@@ -318,8 +318,8 @@ my %tests = (
             CAPTION          => 'D8',
             CAPACITY         => '32768',
             MANUFACTURER     => 'Samsung',
-            MEMORYCORRECTION => 'Multi-bit ECC',
-            MODEL            => 'M386A4G40DM0-CPB'
+            MODEL            => 'M386A4G40DM0-CPB',
+            MEMORYCORRECTION => 'Multi-bit ECC'
         },
         {
             NUMSLOTS         => 5,
@@ -330,8 +330,8 @@ my %tests = (
             CAPTION          => 'D7',
             CAPACITY         => '32768',
             MANUFACTURER     => 'Samsung',
-            MEMORYCORRECTION => 'Multi-bit ECC',
-            MODEL            => 'M386A4G40DM0-CPB'
+            MODEL            => 'M386A4G40DM0-CPB',
+            MEMORYCORRECTION => 'Multi-bit ECC'
         },
         {
             NUMSLOTS         => 6,
@@ -352,8 +352,8 @@ my %tests = (
             CAPTION          => 'D0',
             CAPACITY         => '32768',
             MANUFACTURER     => 'Samsung',
-            MEMORYCORRECTION => 'Multi-bit ECC',
-            MODEL            => 'M386A4G40DM0-CPB'
+            MODEL            => 'M386A4G40DM0-CPB',
+            MEMORYCORRECTION => 'Multi-bit ECC'
         },
         {
             NUMSLOTS         => 8,
@@ -364,8 +364,8 @@ my %tests = (
             CAPTION          => 'D1',
             CAPACITY         => '32768',
             MANUFACTURER     => 'Samsung',
-            MEMORYCORRECTION => 'Multi-bit ECC',
-            MODEL            => 'M386A4G40DM0-CPB'
+            MODEL            => 'M386A4G40DM0-CPB',
+            MEMORYCORRECTION => 'Multi-bit ECC'
         },
         {
             NUMSLOTS         => 9,
@@ -386,8 +386,8 @@ my %tests = (
             CAPTION          => 'D3',
             CAPACITY         => '32768',
             MANUFACTURER     => 'Samsung',
-            MEMORYCORRECTION => 'Multi-bit ECC',
-            MODEL            => 'M386A4G40DM0-CPB'
+            MODEL            => 'M386A4G40DM0-CPB',
+            MEMORYCORRECTION => 'Multi-bit ECC'
         },
         {
             NUMSLOTS         => 11,
@@ -398,8 +398,8 @@ my %tests = (
             CAPTION          => 'D4',
             CAPACITY         => '32768',
             MANUFACTURER     => 'Samsung',
-            MEMORYCORRECTION => 'Multi-bit ECC',
-            MODEL            => 'M386A4G40DM0-CPB'
+            MODEL            => 'M386A4G40DM0-CPB',
+            MEMORYCORRECTION => 'Multi-bit ECC'
         },
         {
             NUMSLOTS         => 12,
@@ -420,8 +420,8 @@ my %tests = (
             CAPTION          => 'D11',
             CAPACITY         => '32768',
             MANUFACTURER     => 'Samsung',
-            MEMORYCORRECTION => 'Multi-bit ECC',
-            MODEL            => 'M386A4G40DM0-CPB'
+            MODEL            => 'M386A4G40DM0-CPB',
+            MEMORYCORRECTION => 'Multi-bit ECC'
         },
         {
             NUMSLOTS         => 14,
@@ -432,8 +432,8 @@ my %tests = (
             CAPTION          => 'D10',
             CAPACITY         => '32768',
             MANUFACTURER     => 'Samsung',
-            MEMORYCORRECTION => 'Multi-bit ECC',
-            MODEL            => 'M386A4G40DM0-CPB'
+            MODEL            => 'M386A4G40DM0-CPB',
+            MEMORYCORRECTION => 'Multi-bit ECC'
         },
         {
             NUMSLOTS         => 15,
@@ -454,8 +454,8 @@ my %tests = (
             CAPTION          => 'D8',
             CAPACITY         => '32768',
             MANUFACTURER     => 'Samsung',
-            MEMORYCORRECTION => 'Multi-bit ECC',
-            MODEL            => 'M386A4G40DM0-CPB'
+            MODEL            => 'M386A4G40DM0-CPB',
+            MEMORYCORRECTION => 'Multi-bit ECC'
         },
         {
             NUMSLOTS         => 17,
@@ -466,8 +466,8 @@ my %tests = (
             CAPTION          => 'D7',
             CAPACITY         => '32768',
             MANUFACTURER     => 'Samsung',
-            MEMORYCORRECTION => 'Multi-bit ECC',
-            MODEL            => 'M386A4G40DM0-CPB'
+            MODEL            => 'M386A4G40DM0-CPB',
+            MEMORYCORRECTION => 'Multi-bit ECC'
         },
         {
             NUMSLOTS         => 18,
@@ -488,8 +488,8 @@ my %tests = (
             CAPTION          => 'D0',
             CAPACITY         => '32768',
             MANUFACTURER     => 'Samsung',
-            MEMORYCORRECTION => 'Multi-bit ECC',
-            MODEL            => 'M386A4G40DM0-CPB'
+            MODEL            => 'M386A4G40DM0-CPB',
+            MEMORYCORRECTION => 'Multi-bit ECC'
         },
         {
             NUMSLOTS         => 20,
@@ -500,8 +500,8 @@ my %tests = (
             CAPTION          => 'D1',
             CAPACITY         => '32768',
             MANUFACTURER     => 'Samsung',
-            MEMORYCORRECTION => 'Multi-bit ECC',
-            MODEL            => 'M386A4G40DM0-CPB'
+            MODEL            => 'M386A4G40DM0-CPB',
+            MEMORYCORRECTION => 'Multi-bit ECC'
         },
         {
             NUMSLOTS         => 21,
@@ -522,8 +522,8 @@ my %tests = (
             CAPTION          => 'D3',
             CAPACITY         => '32768',
             MANUFACTURER     => 'Samsung',
-            MEMORYCORRECTION => 'Multi-bit ECC',
-            MODEL            => 'M386A4G40DM0-CPB'
+            MODEL            => 'M386A4G40DM0-CPB',
+            MEMORYCORRECTION => 'Multi-bit ECC'
         },
         {
             NUMSLOTS         => 23,
@@ -534,8 +534,8 @@ my %tests = (
             CAPTION          => 'D4',
             CAPACITY         => '32768',
             MANUFACTURER     => 'Samsung',
-            MEMORYCORRECTION => 'Multi-bit ECC',
-            MODEL            => 'M386A4G40DM0-CPB'
+            MODEL            => 'M386A4G40DM0-CPB',
+            MEMORYCORRECTION => 'Multi-bit ECC'
         },
         {
             NUMSLOTS         => 24,
@@ -569,8 +569,8 @@ my %tests = (
             CAPTION          => 'DIMM 1',
             CAPACITY         => '512',
             MANUFACTURER     => undef,
-            MEMORYCORRECTION => 'Single-bit ECC',
-            MODEL            => 'M3 93T6553BZ3-CCC'
+            MODEL            => 'M3 93T6553BZ3-CCC',
+            MEMORYCORRECTION => 'Single-bit ECC'
         },
         {
             NUMSLOTS         => 2,
@@ -581,8 +581,8 @@ my %tests = (
             CAPTION          => 'DIMM 2',
             CAPACITY         => '512',
             MANUFACTURER     => undef,
-            MEMORYCORRECTION => 'Single-bit ECC',
-            MODEL            => 'M3 93T6553BZ3-CCC'
+            MODEL            => 'M3 93T6553BZ3-CCC',
+            MEMORYCORRECTION => 'Single-bit ECC'
         },
         {
             NUMSLOTS         => 3,
@@ -741,8 +741,8 @@ my %tests = (
             CAPACITY         => '2048',
             CAPTION          => 'PROC 1 DIMM 2A',
             MANUFACTURER     => 'Micron',
-            MEMORYCORRECTION => 'Single-bit ECC',
-            MODEL            => '18JSF25672AZ-1G4F1'
+            MODEL            => '18JSF25672AZ-1G4F1',
+            MEMORYCORRECTION => 'Single-bit ECC'
 
         },
         {
@@ -764,8 +764,8 @@ my %tests = (
             CAPACITY         => '2048',
             CAPTION          => 'PROC 1 DIMM 4B',
             MANUFACTURER     => 'Micron',
-            MEMORYCORRECTION => 'Single-bit ECC',
-            MODEL            => '18JSF25672AZ-1G4F1'
+            MODEL            => '18JSF25672AZ-1G4F1',
+            MEMORYCORRECTION => 'Single-bit ECC'
         },
         {
             NUMSLOTS         => 4,
@@ -868,8 +868,8 @@ my %tests = (
             CAPACITY         => '1024',
             CAPTION          => 'J8J1',
             MANUFACTURER     => undef,
-            MEMORYCORRECTION => 'None',
-            MODEL            => '0x4D332037385432393533455A332D43453620'
+            MODEL            => '0x4D332037385432393533455A332D43453620',
+            MEMORYCORRECTION => 'None'
 
         },
         {
@@ -881,8 +881,8 @@ my %tests = (
             CAPACITY         => '2048',
             CAPTION          => 'J8J2',
             MANUFACTURER     => undef,
-            MEMORYCORRECTION => 'None',
-            MODEL            => '0x4B0000000000000000000000000000000000'
+            MODEL            => '0x4B0000000000000000000000000000000000',
+            MEMORYCORRECTION => 'None'
 
         },
         {
@@ -894,8 +894,8 @@ my %tests = (
             CAPACITY         => '1024',
             CAPTION          => 'J9J1',
             MANUFACTURER     => undef,
-            MEMORYCORRECTION => 'None',
-            MODEL            => '0x4D332037385432393533455A332D43453620'
+            MODEL            => '0x4D332037385432393533455A332D43453620',
+            MEMORYCORRECTION => 'None'
 
         },
         {
@@ -1297,8 +1297,8 @@ my %tests = (
             MEMORYCORRECTION => 'None',
             DESCRIPTION      => 'DIMM',
             MANUFACTURER     => 'Elpida',
-            CAPACITY         => '2048',
-            MODEL            => 'EBE21UE8ACUA-8G-E'
+            MODEL            => 'EBE21UE8ACUA-8G-E',
+            CAPACITY         => '2048'
         },
         {
             NUMSLOTS         => 2,
@@ -1309,8 +1309,8 @@ my %tests = (
             MEMORYCORRECTION => 'None',
             DESCRIPTION      => 'DIMM',
             MANUFACTURER     => 'Elpida',
-            CAPACITY         => '2048',
-            MODEL            => 'EBE21UE8ACUA-8G-E'
+            MODEL            => 'EBE21UE8ACUA-8G-E',
+            CAPACITY         => '2048'
         }
     ],
     'windows-7' => [
@@ -1333,8 +1333,8 @@ my %tests = (
             MEMORYCORRECTION => 'None',
             DESCRIPTION      => 'DIMM',
             MANUFACTURER     => undef,
-            CAPACITY         => '2048',
-            MODEL            => 'F3-12800CL9-2GBXL'
+            MODEL            => 'F3-12800CL9-2GBXL',
+            CAPACITY         => '2048'
         },
         {
             NUMSLOTS         => 3,
@@ -1355,8 +1355,8 @@ my %tests = (
             MEMORYCORRECTION => 'None',
             DESCRIPTION      => 'DIMM',
             MANUFACTURER     => undef,
-            CAPACITY         => '2048',
-            MODEL            => 'F3-12800CL9-2GBXL'
+            MODEL            => 'F3-12800CL9-2GBXL',
+            CAPACITY         => '2048'
         }
     ],
     'dell-fx160' => [
@@ -1369,8 +1369,8 @@ my %tests = (
             CAPACITY         => '1024',
             CAPTION          => 'DIMM_1',
             MANUFACTURER     => 'Nanya',
-            MEMORYCORRECTION => 'None',
-            MODEL            => 'NT1GT64U88D0BY-AD'
+            MODEL            => 'NT1GT64U88D0BY-AD',
+            MEMORYCORRECTION => 'None'
         },{
             NUMSLOTS         => 2,
             SERIALNUMBER     => 'SerNum01',

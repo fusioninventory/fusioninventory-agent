@@ -130,6 +130,7 @@ sub _getMemories {
                 $memory->{MANUFACTURER} = getCanonicalManufacturer($manufacturer);
             } elsif (defined $memory->{MODEL}) {
                 my $m = getCanonicalManufacturer($memory->{MODEL});
+                # Do not update if manufacturer is the same as model
                 $memory->{MANUFACTURER} = $m if $m ne $memory->{MODEL};
             }
 
