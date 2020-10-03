@@ -121,36 +121,42 @@ sub getCanonicalManufacturer {
         HygonGenuine => 'Hygon'
     );
 
+    my %regexp = (
+        "Apple"           => qr/^APPLE/i,
+        "Elpida"          => qr/^EB[EJ]/,
+        "Hewlett-Packard" => qr/^(hp|HP|(?i)hewlett[ -]packard)/,
+        "Hitachi"         => qr/^(HD|IC|HU|HGST)/,
+        "Hynix"           => qr/^(?:HMT|HMA|00AD0)/,
+        "Micron"          => qr/^002C0/,
+        "Samsung"         => qr/^00CE0/,
+        "Seagate"         => qr/^(ST|(?i)seagate)/,
+        "Sony"            => qr/^OPTIARC/i,
+        "Toshiba"         => qr/^THNSF/,
+        "Western Digital" => qr/^(WDC|(?i)western)/,
+    );
+
     if (exists $manufacturers{$manufacturer}) {
         $manufacturer = $manufacturers{$manufacturer};
     } elsif ($manufacturer =~ /(
-        maxtor     |
-        sony       |
-        compaq     |
-        ibm        |
-        toshiba    |
-        fujitsu    |
         \blg\b     |
-        samsung    |
-        nec        |
-        transcend  |
-        matshita   |
+        compaq     |
+        fujitsu    |
         hitachi    |
-        pioneer
+        ibm        |
+        intel      |
+        matshita   |
+        maxtor     |
+        nec        |
+        pioneer    |
+        samsung    |
+        sony       |
+        toshiba    |
+        transcend
     )/xi) {
         $manufacturer = ucfirst(lc($1));
-    } elsif ($manufacturer =~ /^(hp|HP|(?i)hewlett[ -]packard)/) {
-        $manufacturer = "Hewlett-Packard";
-    } elsif ($manufacturer =~ /^(WDC|(?i)western)/) {
-        $manufacturer = "Western Digital";
-    } elsif ($manufacturer =~ /^(ST|(?i)seagate)/) {
-        $manufacturer = "Seagate";
-    } elsif ($manufacturer =~ /^(HD|IC|HU|HGST)/) {
-        $manufacturer = "Hitachi";
-    } elsif ($manufacturer =~ /^APPLE/i) {
-        $manufacturer = "Apple";
-    } elsif ($manufacturer =~ /^OPTIARC/i) {
-        $manufacturer = "Sony";
+    } else {
+        my @matches = grep { $manufacturer =~ $regexp{$_} } keys %regexp;
+        $manufacturer = $matches[0] if @matches;
     }
 
     return $manufacturer;

@@ -103,11 +103,34 @@ sub _getMemories {
                 TYPE             => $info->{'Type'},
                 SERIALNUMBER     => $info->{'Serial Number'},
                 MEMORYCORRECTION => $infos->{16}[0]{'Error Correction Type'},
-                MANUFACTURER     => $manufacturer
+                MANUFACTURER     => undef,
             };
 
             if ($info->{'Size'} && $info->{'Size'} =~ /^(\d+ \s .B)$/x) {
                 $memory->{CAPACITY} = getCanonicalSize($1, 1024);
+            }
+
+            if ($info->{'Part Number'}
+                    &&
+                $info->{'Part Number'} !~ /
+                    Not\s*Specified |
+                    NOT\s*AVAILABLE |
+                    Unknown         |
+                    Ser\s*Num       |
+                    None            |
+                    O\.E\.M\.       |
+                    DIMM            |
+                    Part\s*Number
+                /xi
+            ) {
+                $memory->{MODEL} = $info->{'Part Number'}
+            }
+
+            if (defined $manufacturer) {
+                $memory->{MANUFACTURER} = getCanonicalManufacturer($manufacturer);
+            } elsif (defined $memory->{MODEL}) {
+                my $m = getCanonicalManufacturer($memory->{MODEL});
+                $memory->{MANUFACTURER} = $m if $m ne $memory->{MODEL};
             }
 
             push @$memories, $memory;
