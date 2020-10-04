@@ -37,7 +37,7 @@ my %tests = (
             CAPACITY         => '2048',
             CAPTION          => 'Bottom - Slot 1',
             MANUFACTURER     => 'Hynix',
-            MODEL            => 'HMT125S6BFR8C-H9'
+            MODEL            => 'HMT125S6BFR8C-H9',
             MEMORYCORRECTION => 'None'
         },
         {
