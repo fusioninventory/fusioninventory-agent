@@ -155,8 +155,11 @@ sub getCanonicalManufacturer {
     )/xi) {
         $manufacturer = ucfirst(lc($1));
     } else {
-        my @matches = grep { $manufacturer =~ $regexp{$_} } keys %regexp;
-        $manufacturer = $matches[0] if @matches;
+        for (keys %regexp) {
+            $manufacturer =~ $regexp{$_} || next;
+            $manufacturer = $_;
+            last;
+        }
     }
 
     return $manufacturer;
