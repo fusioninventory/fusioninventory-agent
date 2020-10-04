@@ -28,23 +28,27 @@ sub doInventory {
     my $fru = getIpmiFru(%params)
         or return;
 
-    my @fru_keys = grep { / DIMM / } keys %$fru
+    my @fru_keys = grep { / DIMM\d* / } keys %$fru
         or return;
 
     my $memories = $inventory->getSection('MEMORIES') || [];
     my @fields = keys %{$inventory->getFields()->{'MEMORIES'}};
 
     for my $fru_key (@fru_keys) {
-        my ($cpu, $dimm) = $fru_key =~ /^CPU\s+(\d+)\s+DIMM\s+(\d+)/
+        my ($cpu, $dimm) = $fru_key =~ /^CPU\s*(\d+)[\s_]+DIMM\s*(\d+)/
             or next;
 
-        my @mems = grep { $_->{CAPTION} =~ /^PROC\s+$cpu\s+DIMM\s+$dimm(?:[A-Z])?$/ } @$memories;
+        my @mems = grep {
+            $_->{CAPTION} =~ /^(PROC|CPU)\s*\Q$cpu\E[\s_]+DIMM\s*$dimm(?:[A-Z])?$/
+        } @$memories;
+
         next unless scalar @mems == 1;
 
         my $parsed_fru = parseFru($fru->{$fru_key}, \@fields);
 
         for my $field (@fields) {
-            next unless defined $parsed_fru->{$field} && !defined $mems[0]->{$field};
+            next unless defined $parsed_fru->{$field} &&
+                (!defined $mems[0]->{$field} || $mems[0]->{$field} =~ /^SerNum/);
             $mems[0]->{$field} = $parsed_fru->{$field};
         }
     }

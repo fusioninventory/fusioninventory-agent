@@ -998,6 +998,200 @@ my %tests = (
             'SERIALNUMBER'     => 'db7b949f',
             'TYPE'             => 'DDR3'
         }
+    ],
+    'sun-x2200-m2' => [
+        {
+            'CAPACITY'         => '2048',
+            'CAPTION'          => 'CPU0_DIMM0',
+            'DESCRIPTION'      => 'DIMM',
+            'MANUFACTURER'     => 'SK Hynix',
+            'MEMORYCORRECTION' => 'Single-bit ECC',
+            'MODEL'            => 'HYMP525P72CP4-Y5',
+            'NUMSLOTS'         => 1,
+            'SERIALNUMBER'     => '04008093',
+            'SPEED'            => '533',
+            'TYPE'             => 'DDR2'
+        },
+        {
+            'CAPACITY'         => '2048',
+            'CAPTION'          => 'CPU0_DIMM1',
+            'DESCRIPTION'      => 'DIMM',
+            'MANUFACTURER'     => 'SK Hynix',
+            'MEMORYCORRECTION' => 'Single-bit ECC',
+            'MODEL'            => 'HYMP525P72CP4-Y5',
+            'NUMSLOTS'         => 2,
+            'SERIALNUMBER'     => '04004090',
+            'SPEED'            => '533',
+            'TYPE'             => 'DDR2'
+        },
+        {
+            'CAPACITY'         => '2048',
+            'CAPTION'          => 'CPU0_DIMM2',
+            'DESCRIPTION'      => 'DIMM',
+            'MANUFACTURER'     => 'SK Hynix',
+            'MEMORYCORRECTION' => 'Single-bit ECC',
+            'MODEL'            => 'HYMP525P72CP4-Y5',
+            'NUMSLOTS'         => 3,
+            'SERIALNUMBER'     => '00003097',
+            'SPEED'            => '533',
+            'TYPE'             => 'DDR2'
+        },
+        {
+            'CAPACITY'         => '2048',
+            'CAPTION'          => 'CPU0_DIMM3',
+            'DESCRIPTION'      => 'DIMM',
+            'MANUFACTURER'     => 'SK Hynix',
+            'MEMORYCORRECTION' => 'Single-bit ECC',
+            'MODEL'            => 'HYMP525P72CP4-Y5',
+            'NUMSLOTS'         => 4,
+            'SERIALNUMBER'     => '00002120',
+            'SPEED'            => '533',
+            'TYPE'             => 'DDR2'
+        },
+        {
+            'CAPACITY'         => '2048',
+            'CAPTION'          => 'CPU0_DIMM4',
+            'DESCRIPTION'      => 'DIMM',
+            'MANUFACTURER'     => 'SK Hynix',
+            'MEMORYCORRECTION' => 'Single-bit ECC',
+            'MODEL'            => 'HYMP525P72CP4-Y5',
+            'NUMSLOTS'         => 5,
+            'SERIALNUMBER'     => '00002124',
+            'SPEED'            => '533',
+            'TYPE'             => 'DDR2'
+        },
+        {
+            'CAPACITY'         => '2048',
+            'CAPTION'          => 'CPU0_DIMM5',
+            'DESCRIPTION'      => 'DIMM',
+            'MANUFACTURER'     => 'SK Hynix',
+            'MEMORYCORRECTION' => 'Single-bit ECC',
+            'MODEL'            => 'HYMP525P72CP4-Y5',
+            'NUMSLOTS'         => 6,
+            'SERIALNUMBER'     => '04008121',
+            'SPEED'            => '533',
+            'TYPE'             => 'DDR2'
+        },
+        {
+            'CAPACITY'         => '2048',
+            'CAPTION'          => 'CPU0_DIMM6',
+            'DESCRIPTION'      => 'DIMM',
+            'MANUFACTURER'     => 'SK Hynix',
+            'MEMORYCORRECTION' => 'Single-bit ECC',
+            'MODEL'            => 'HYMP525P72CP4-Y5',
+            'NUMSLOTS'         => 7,
+            'SERIALNUMBER'     => '00005086',
+            'SPEED'            => '533',
+            'TYPE'             => 'DDR2'
+        },
+        {
+            'CAPACITY'         => '2048',
+            'CAPTION'          => 'CPU0_DIMM7',
+            'DESCRIPTION'      => 'DIMM',
+            'MANUFACTURER'     => 'SK Hynix',
+            'MEMORYCORRECTION' => 'Single-bit ECC',
+            'MODEL'            => 'HYMP525P72CP4-Y5',
+            'NUMSLOTS'         => 8,
+            'SERIALNUMBER'     => '00005005',
+            'SPEED'            => '533',
+            'TYPE'             => 'DDR2'
+        },
+        {
+            'CAPACITY'         => '2048',
+            'CAPTION'          => 'CPU1_DIMM0',
+            'DESCRIPTION'      => 'DIMM',
+            'MANUFACTURER'     => 'SK Hynix',
+            'MEMORYCORRECTION' => 'Single-bit ECC',
+            'MODEL'            => 'HYMP525P72CP4-Y5',
+            'NUMSLOTS'         => 9,
+            'SERIALNUMBER'     => '04004004',
+            'SPEED'            => '533',
+            'TYPE'             => 'DDR2'
+        },
+        {
+            'CAPACITY'         => '2048',
+            'CAPTION'          => 'CPU1_DIMM1',
+            'DESCRIPTION'      => 'DIMM',
+            'MANUFACTURER'     => 'SK Hynix',
+            'MEMORYCORRECTION' => 'Single-bit ECC',
+            'MODEL'            => 'HYMP525P72CP4-Y5',
+            'NUMSLOTS'         => 10,
+            'SERIALNUMBER'     => '04004122',
+            'SPEED'            => '533',
+            'TYPE'             => 'DDR2'
+        },
+        {
+            'CAPACITY'         => '2048',
+            'CAPTION'          => 'CPU1_DIMM2',
+            'DESCRIPTION'      => 'DIMM',
+            'MANUFACTURER'     => 'SK Hynix',
+            'MEMORYCORRECTION' => 'Single-bit ECC',
+            'MODEL'            => 'HYMP525P72CP4-Y5',
+            'NUMSLOTS'         => 11,
+            'SERIALNUMBER'     => '00007090',
+            'SPEED'            => '533',
+            'TYPE'             => 'DDR2'
+        },
+        {
+            'CAPACITY'         => '2048',
+            'CAPTION'          => 'CPU1_DIMM3',
+            'DESCRIPTION'      => 'DIMM',
+            'MANUFACTURER'     => 'SK Hynix',
+            'MEMORYCORRECTION' => 'Single-bit ECC',
+            'MODEL'            => 'HYMP525P72CP4-Y5',
+            'NUMSLOTS'         => 12,
+            'SERIALNUMBER'     => '00002009',
+            'SPEED'            => '533',
+            'TYPE'             => 'DDR2'
+        },
+        {
+            'CAPACITY'         => '2048',
+            'CAPTION'          => 'CPU1_DIMM4',
+            'DESCRIPTION'      => 'DIMM',
+            'MANUFACTURER'     => 'SK Hynix',
+            'MEMORYCORRECTION' => 'Single-bit ECC',
+            'MODEL'            => 'HYMP525P72CP4-Y5',
+            'NUMSLOTS'         => 13,
+            'SERIALNUMBER'     => '00006009',
+            'SPEED'            => '533',
+            'TYPE'             => 'DDR2'
+        },
+        {
+            'CAPACITY'         => '2048',
+            'CAPTION'          => 'CPU1_DIMM5',
+            'DESCRIPTION'      => 'DIMM',
+            'MANUFACTURER'     => 'SK Hynix',
+            'MEMORYCORRECTION' => 'Single-bit ECC',
+            'MODEL'            => 'HYMP525P72CP4-Y5',
+            'NUMSLOTS'         => 14,
+            'SERIALNUMBER'     => '00007010',
+            'SPEED'            => '533',
+            'TYPE'             => 'DDR2'
+        },
+        {
+            'CAPACITY'         => '2048',
+            'CAPTION'          => 'CPU1_DIMM6',
+            'DESCRIPTION'      => 'DIMM',
+            'MANUFACTURER'     => 'SK Hynix',
+            'MEMORYCORRECTION' => 'Single-bit ECC',
+            'MODEL'            => 'HYMP525P72CP4-Y5',
+            'NUMSLOTS'         => 15,
+            'SERIALNUMBER'     => '00001067',
+            'SPEED'            => '533',
+            'TYPE'             => 'DDR2'
+        },
+        {
+            'CAPACITY'         => '2048',
+            'CAPTION'          => 'CPU1_DIMM7',
+            'DESCRIPTION'      => 'DIMM',
+            'MANUFACTURER'     => 'SK Hynix',
+            'MEMORYCORRECTION' => 'Single-bit ECC',
+            'MODEL'            => 'HYMP525P72CP4-Y5',
+            'NUMSLOTS'         => 16,
+            'SERIALNUMBER'     => '04008004',
+            'SPEED'            => '533',
+            'TYPE'             => 'DDR2'
+        }
     ]
 );
 
