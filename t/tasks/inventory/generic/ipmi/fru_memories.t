@@ -773,6 +773,174 @@ my %tests = (
             'TYPE'             => 'DDR3'
         }
     ],
+    'hp-dl360-gen7_2' => [
+        {
+            'CAPTION'          => 'PROC 1 DIMM 1G',
+            'DESCRIPTION'      => 'DIMM',
+            'MEMORYCORRECTION' => 'Single-bit ECC',
+            'NUMSLOTS'         => 1,
+            'TYPE'             => 'DDR3'
+        },
+        {
+            'CAPACITY'         => '16384',
+            'CAPTION'          => 'PROC 1 DIMM 2D',
+            'DESCRIPTION'      => 'DIMM',
+            'MANUFACTURER'     => 'Samsung',
+            'MEMORYCORRECTION' => 'Single-bit ECC',
+            'NUMSLOTS'         => 2,
+            'SERIALNUMBER'     => '185e62c7',
+            'SPEED'            => '1600',
+            'MODEL'            => 'M393B2G70EB0-CMA',
+            'TYPE'             => 'DDR3'
+        },
+        {
+            'CAPACITY'         => '16384',
+            'CAPTION'          => 'PROC 1 DIMM 3A',
+            'DESCRIPTION'      => 'DIMM',
+            'MANUFACTURER'     => 'Samsung',
+            'MEMORYCORRECTION' => 'Single-bit ECC',
+            'NUMSLOTS'         => 3,
+            'SERIALNUMBER'     => '185e7605',
+            'SPEED'            => '1600',
+            'MODEL'            => 'M393B2G70EB0-CMA',
+            'TYPE'             => 'DDR3'
+        },
+        {
+            'CAPTION'          => 'PROC 1 DIMM 4H',
+            'DESCRIPTION'      => 'DIMM',
+            'MEMORYCORRECTION' => 'Single-bit ECC',
+            'NUMSLOTS'         => 4,
+            'TYPE'             => 'DDR3'
+        },
+        {
+            'CAPTION'          => 'PROC 1 DIMM 5E',
+            'DESCRIPTION'      => 'DIMM',
+            'MEMORYCORRECTION' => 'Single-bit ECC',
+            'NUMSLOTS'         => 5,
+            'TYPE'             => 'DDR3'
+        },
+        {
+            'CAPACITY'         => '16384',
+            'CAPTION'          => 'PROC 1 DIMM 6B',
+            'DESCRIPTION'      => 'DIMM',
+            'MANUFACTURER'     => 'Samsung',
+            'MEMORYCORRECTION' => 'Single-bit ECC',
+            'NUMSLOTS'         => 6,
+            'SERIALNUMBER'     => '185e782f',
+            'SPEED'            => '1600',
+            'MODEL'            => 'M393B2G70EB0-CMA',
+            'TYPE'             => 'DDR3'
+        },
+        {
+            'CAPTION'          => 'PROC 1 DIMM 7I',
+            'DESCRIPTION'      => 'DIMM',
+            'MEMORYCORRECTION' => 'Single-bit ECC',
+            'NUMSLOTS'         => 7,
+            'TYPE'             => 'DDR3'
+        },
+        {
+            'CAPTION'          => 'PROC 1 DIMM 8F',
+            'DESCRIPTION'      => 'DIMM',
+            'MEMORYCORRECTION' => 'Single-bit ECC',
+            'NUMSLOTS'         => 8,
+            'TYPE'             => 'DDR3'
+        },
+        {
+            'CAPACITY'         => '16384',
+            'CAPTION'          => 'PROC 1 DIMM 9C',
+            'DESCRIPTION'      => 'DIMM',
+            'MANUFACTURER'     => 'Samsung',
+            'MEMORYCORRECTION' => 'Single-bit ECC',
+            'NUMSLOTS'         => 9,
+            'SERIALNUMBER'     => '185ee93c',
+            'SPEED'            => '1600',
+            'MODEL'            => 'M393B2G70EB0-CMA',
+            'TYPE'             => 'DDR3'
+        },
+        {
+            'CAPTION'          => 'PROC 2 DIMM 1G',
+            'DESCRIPTION'      => 'DIMM',
+            'MEMORYCORRECTION' => 'Single-bit ECC',
+            'NUMSLOTS'         => 10,
+            'TYPE'             => 'DDR3'
+        },
+        {
+            'CAPACITY'         => '16384',
+            'CAPTION'          => 'PROC 2 DIMM 2D',
+            'DESCRIPTION'      => 'DIMM',
+            'MANUFACTURER'     => 'Samsung',
+            'MEMORYCORRECTION' => 'Single-bit ECC',
+            'NUMSLOTS'         => 11,
+            'SERIALNUMBER'     => '185ee82f',
+            'SPEED'            => '1600',
+            'MODEL'            => 'M393B2G70EB0-CMA',
+            'TYPE'             => 'DDR3'
+        },
+        {
+            'CAPACITY'         => '16384',
+            'CAPTION'          => 'PROC 2 DIMM 3A',
+            'DESCRIPTION'      => 'DIMM',
+            'MANUFACTURER'     => 'Samsung',
+            'MEMORYCORRECTION' => 'Single-bit ECC',
+            'NUMSLOTS'         => 12,
+            'SERIALNUMBER'     => '185e5374',
+            'SPEED'            => '1600',
+            'MODEL'            => 'M393B2G70EB0-CMA',
+            'TYPE'             => 'DDR3'
+        },
+        {
+            'CAPTION'          => 'PROC 2 DIMM 4H',
+            'DESCRIPTION'      => 'DIMM',
+            'MEMORYCORRECTION' => 'Single-bit ECC',
+            'NUMSLOTS'         => 13,
+            'TYPE'             => 'DDR3'
+        },
+        {
+            'CAPTION'          => 'PROC 2 DIMM 5E',
+            'DESCRIPTION'      => 'DIMM',
+            'MEMORYCORRECTION' => 'Single-bit ECC',
+            'NUMSLOTS'         => 14,
+            'TYPE'             => 'DDR3'
+        },
+        {
+            'CAPACITY'         => '16384',
+            'CAPTION'          => 'PROC 2 DIMM 6B',
+            'DESCRIPTION'      => 'DIMM',
+            'MANUFACTURER'     => 'Samsung',
+            'MEMORYCORRECTION' => 'Single-bit ECC',
+            'NUMSLOTS'         => 15,
+            'SERIALNUMBER'     => '185e5c9d',
+            'SPEED'            => '1600',
+            'MODEL'            => 'M393B2G70EB0-CMA',
+            'TYPE'             => 'DDR3'
+        },
+        {
+            'CAPTION'          => 'PROC 2 DIMM 7I',
+            'DESCRIPTION'      => 'DIMM',
+            'MEMORYCORRECTION' => 'Single-bit ECC',
+            'NUMSLOTS'         => 16,
+            'TYPE'             => 'DDR3'
+        },
+        {
+            'CAPTION'          => 'PROC 2 DIMM 8F',
+            'DESCRIPTION'      => 'DIMM',
+            'MEMORYCORRECTION' => 'Single-bit ECC',
+            'NUMSLOTS'         => 17,
+            'TYPE'             => 'DDR3'
+        },
+        {
+            'CAPACITY'         => '16384',
+            'CAPTION'          => 'PROC 2 DIMM 9C',
+            'DESCRIPTION'      => 'DIMM',
+            'MANUFACTURER'     => 'Samsung',
+            'MEMORYCORRECTION' => 'Single-bit ECC',
+            'NUMSLOTS'         => 18,
+            'SERIALNUMBER'     => '185e3526',
+            'SPEED'            => '1600',
+            'MODEL'            => 'M393B2G70EB0-CMA',
+            'TYPE'             => 'DDR3'
+        }
+    ],
     'hp-dl360-gen8' => [
         {
             'CAPACITY'         => '8192',
