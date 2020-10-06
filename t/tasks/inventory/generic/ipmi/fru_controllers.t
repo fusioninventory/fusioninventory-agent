@@ -12,7 +12,6 @@ use Test::NoWarnings;
 use Data::Dumper;
 
 use FusionInventory::Test::Inventory;
-use FusionInventory::Agent::Tools::IpmiFru qw(clearFruCache);
 use FusionInventory::Agent::Task::Inventory::Generic::Ipmi::Fru::Controllers;
 
 my %tests = (
@@ -99,8 +98,6 @@ my %tests = (
 plan tests => 2 * (scalar keys %tests) + 1;
 
 foreach my $test (keys %tests) {
-    clearFruCache();
-
     my $file = "resources/generic/ipmitool/fru/$test";
     my $inventory = FusionInventory::Test::Inventory->new();
 

@@ -11,11 +11,7 @@ use FusionInventory::Agent::Tools;
 
 our @EXPORT = qw(
     getIpmiFru
-);
-
-our @EXPORT_OK = qw(
     parseFru
-    clearFruCache
 );
 
 my %MAPPING = (
@@ -50,12 +46,18 @@ my $__fru;
 
 
 sub getIpmiFru {
-    return $__fru if keys %$__fru;
-
     my (%params) = (
         command => 'ipmitool fru print',
         @_
     );
+
+    if ($params{file}) {
+        # clear cache if testing
+        $__fru = undef;
+    } elsif ($__fru) {
+        # return if cached
+        return $__fru;
+    }
 
     my $handle = getFileHandle(%params);
     return unless $handle;
@@ -95,10 +97,6 @@ sub getIpmiFru {
     return $__fru;
 }
 
-sub clearFruCache {
-    $__fru = undef;
-}
-
 sub parseFru {
     my ($fru, $fields, $device) = (@_, {});
 
@@ -134,10 +132,6 @@ IPMI FRU functions
 =head2 getIpmiFru()
 
 Returns list of FRU entries
-
-=head2 clearFruCache()
-
-Clears cached fru structure. Useful when testing
 
 =head2 parseFru()
 

@@ -10,7 +10,6 @@ use Test::More;
 use Test::NoWarnings;
 
 use FusionInventory::Test::Inventory;
-use FusionInventory::Agent::Tools::IpmiFru qw(clearFruCache);
 use FusionInventory::Agent::Task::Inventory::Generic::Dmidecode::Memory;
 use FusionInventory::Agent::Task::Inventory::Generic::Ipmi::Fru::Memory;
 
@@ -1366,8 +1365,6 @@ my %tests = (
 plan tests => 3 * (scalar keys %tests) + 1;
 
 foreach my $test (keys %tests) {
-    clearFruCache();
-
     my $dmidecode = "resources/generic/dmidecode/$test";
     my $fru = "resources/generic/ipmitool/fru/$test";
     my $inventory = FusionInventory::Test::Inventory->new();

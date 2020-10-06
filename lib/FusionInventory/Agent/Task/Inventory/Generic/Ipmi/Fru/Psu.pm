@@ -6,7 +6,7 @@ use warnings;
 use parent 'FusionInventory::Agent::Task::Inventory::Module';
 
 use FusionInventory::Agent::Tools;
-use FusionInventory::Agent::Tools::IpmiFru qw(getIpmiFru parseFru);
+use FusionInventory::Agent::Tools::IpmiFru;
 use FusionInventory::Agent::Tools::PowerSupplies;
 
 # Run after virtualization to decide if found component is virtual

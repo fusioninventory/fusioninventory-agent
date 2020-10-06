@@ -10,7 +10,6 @@ use Test::More;
 use Test::NoWarnings;
 
 use FusionInventory::Test::Inventory;
-use FusionInventory::Agent::Tools::IpmiFru qw(clearFruCache);
 use FusionInventory::Agent::Task::Inventory::Generic::Dmidecode::Psu;
 use FusionInventory::Agent::Task::Inventory::Generic::Ipmi::Fru::Psu;
 
@@ -62,8 +61,6 @@ my %tests = (
 plan tests => 4 *(scalar keys %tests) + 1;
 
 foreach my $index (keys %tests) {
-    clearFruCache();
-
     my $dmidecode = "resources/generic/powersupplies/dmidecode_$index.txt";
     my $inventory = FusionInventory::Test::Inventory->new();
 
