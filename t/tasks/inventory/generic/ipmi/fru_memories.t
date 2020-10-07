@@ -1358,23 +1358,24 @@ my %tests = (
             'SERIALNUMBER'     => '04008004',
             'SPEED'            => '533',
             'TYPE'             => 'DDR2'
-        }
+        },
     ]
 );
 
-plan tests => 3 * (scalar keys %tests) + 1;
+plan tests => 2 * (scalar keys %tests) + 1;
 
 foreach my $test (keys %tests) {
     my $dmidecode = "resources/generic/dmidecode/$test";
     my $fru = "resources/generic/ipmitool/fru/$test";
     my $inventory = FusionInventory::Test::Inventory->new();
 
-    lives_ok {
-        FusionInventory::Agent::Task::Inventory::Generic::Dmidecode::Memory::doInventory(
-            inventory => $inventory,
-            file      => $dmidecode
+    my $memories = FusionInventory::Agent::Task::Inventory::Generic::Dmidecode::Memory::_getMemories(file => $dmidecode);
+    foreach my $memory (@$memories) {
+        $inventory->addEntry(
+            section => 'MEMORIES',
+            entry   => $memory
         );
-    } "test $test: dmidecode/memory doInventory()";
+    }
 
     lives_ok {
         FusionInventory::Agent::Task::Inventory::Generic::Ipmi::Fru::Memory::doInventory(
