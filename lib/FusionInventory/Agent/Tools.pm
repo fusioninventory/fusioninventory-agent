@@ -155,11 +155,8 @@ sub getCanonicalManufacturer {
     )/xi) {
         $manufacturer = ucfirst(lc($1));
     } else {
-        for (keys %regexp) {
-            $manufacturer =~ $regexp{$_} || next;
-            $manufacturer = $_;
-            last;
-        }
+        my $match = first { $manufacturer =~ $regexp{$_} } keys %regexp;
+        $manufacturer = $match if $match;
     }
 
     return $manufacturer;
