@@ -1385,12 +1385,14 @@ foreach my $test (keys %tests) {
     } "test $test: fru/memory doInventory()";
 
     my $mem = $inventory->getSection('MEMORIES') || [];
+
+    # produce more sensible error if the test fails
     my %result = map { $_->{CAPTION} => $_ } @$mem;
-    my %default = map { $_->{CAPTION} => $_ } @{$tests{$test}};
+    my %expected = map { $_->{CAPTION} => $_ } @{$tests{$test}};
 
     cmp_deeply(
         \%result,
-        \%default,
+        \%expected,
         "test $test: final"
     );
 }
