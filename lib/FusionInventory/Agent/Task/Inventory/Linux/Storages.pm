@@ -7,11 +7,14 @@ use parent 'FusionInventory::Agent::Task::Inventory::Module';
 
 use English qw(-no_match_vars);
 use File::Basename qw(basename);
+use Memoize;
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Generic;
 use FusionInventory::Agent::Tools::Linux;
 use FusionInventory::Agent::Tools::Unix;
+
+memoize('_correctHdparmAvailable');
 
 sub isEnabled {
     my (%params) = @_;
@@ -36,6 +39,13 @@ sub _getDevices {
 
     my $root   = $params{root};
 
+    my %map = (
+        'MODEL'    => [ \&_getHdparmInfo, \&getInfoFromSmartctl ],
+        'CAPACITY' => [ \&getInfoFromSmartctl ],
+        'WWN'      => [ \&_getHdparmInfo ],
+    );
+    $map{MODEL} = $map{FIRMWARE} = $map{DESCRIPTION} = $map{MANUFACTURER};
+
     my @devices = _getDevicesBase(%params);
 
     # complete with udev for missing bits, if available
@@ -56,24 +66,25 @@ sub _getDevices {
         }
     }
 
-    # get serial & firmware numbers from hdparm, if available
-    if (_correctHdparmAvailable(%params)) {
-        foreach my $device (@devices) {
-            next if $device->{SERIALNUMBER} && $device->{FIRMWARE};
-            my $info = getHdparmInfo(
-                device => "/dev/" . $device->{NAME},
-                %params
+    # get missing fields using functions defined in %map
+    for my $device (@devices) {
+        # the hash keys are function references from %map
+        my %info;
+
+        OUTER: for my $field (keys %map) {
+            next unless (!$device->{$field}
+                || ($field eq 'MANUFACTURER' && $device->{$field} eq 'ATA')
             );
 
-            $device->{SERIALNUMBER} = $info->{serial}
-                if $info->{serial} && !$device->{SERIALNUMBER};
+            INNER: for my $sub (@{$map{$field}}) {
+                # get info once for each device
+                $info{$sub} = &$sub(device => $device->{NAME}, %params) unless $info{$sub};
 
-            $device->{FIRMWARE} = $info->{firmware}
-                if $info->{firmware} && !$device->{FIRMWARE};
-
-            $device->{DESCRIPTION} = $info->{transport} if $info->{transport};
-            $device->{MODEL}       = $info->{model} if $info->{model};
-            $device->{WWN}         = $info->{wwn} if $info->{wwn};
+                if (defined $info{$sub}->{$field}) {
+                    $device->{$field} = $info{$sub}->{$field};
+                    next OUTER;
+                }
+            }
         }
     }
 
@@ -113,6 +124,35 @@ sub _getDevices {
     }
 
     return @devices;
+}
+
+# get serial & firmware numbers from hdparm, if available
+sub _getHdparmInfo {
+    my (%params) = @_;
+
+    return unless _correctHdparmAvailable(%params);
+
+    my %map = (
+        'serial'    => 'SERIALNUMBER',
+        'firmware'  => 'FIRMWARE',
+        'transport' => 'DESCRIPTION',
+        'model'     => 'MODEL',
+        'wwn'       => 'WWN'
+    );
+
+    my $hdparm = getHdparmInfo(
+        device => "/dev/" . $params{device},
+        %params
+    );
+
+    my %info = map { $map{$_} => $hdparm->{$_} }
+        grep { defined $hdparm->{$_} && exists $map{$_} }
+    keys %$hdparm;
+
+    $info{MANUFACTURER} = getCanonicalManufacturer($info{MANUFACTURER})
+        if defined $info{MANUFACTURER};
+
+    return \%info;
 }
 
 sub _getDevicesBase {
