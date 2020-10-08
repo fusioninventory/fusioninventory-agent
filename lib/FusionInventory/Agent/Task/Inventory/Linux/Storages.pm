@@ -71,7 +71,11 @@ sub _getDevices {
         my %info;
 
         OUTER: for my $field (keys %map) {
-            next unless (($field eq 'MANUFACTURER' && $device->{$field} eq 'ATA') ||
+            next unless (
+                ($field eq 'MANUFACTURER'
+                 && defined $device->{$field}
+                 && $device->{$field} eq 'ATA')
+                      ||
                 !$device->{$field}
             );
 

@@ -281,7 +281,7 @@ sub getDevicesFromProc {
 
         # WWN
         my $wwn = _getValueFromSysProc($logger, $name, 'wwid', $root, $dump);
-        $device->{WWN} = $wwn if $wwn =~ s/^naa\./wwn-/;
+        $device->{WWN} = $wwn if $wwn && $wwn =~ s/^naa\./wwn-/;
 
         # Support PCI or other bus case as description
         foreach my $subsystem ("device/subsystem","device/device/subsystem") {
