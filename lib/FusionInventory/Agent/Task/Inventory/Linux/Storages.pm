@@ -7,13 +7,14 @@ use parent 'FusionInventory::Agent::Task::Inventory::Module';
 
 use English qw(-no_match_vars);
 use File::Basename qw(basename);
+use Memoize;
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Generic;
 use FusionInventory::Agent::Tools::Linux;
 use FusionInventory::Agent::Tools::Unix;
 
-my $__is_valid_hdparm;
+memoize('_correctHdparmAvailable');
 
 sub isEnabled {
     my (%params) = @_;
@@ -70,22 +71,17 @@ sub _getDevices {
         # the hash keys are function references from %map
         my %info;
 
-        OUTER: for my $field (keys %map) {
-            next unless (
-                ($field eq 'MANUFACTURER'
-                 && defined $device->{$field}
-                 && $device->{$field} eq 'ATA')
-                      ||
-                !$device->{$field}
-            );
+        for my $field (keys %map) {
+            next if defined $device->{$field}
+                && !($field eq 'MANUFACTURER' && $device->{$field} eq 'ATA');
 
-            INNER: for my $sub (@{$map{$field}}) {
+            for my $sub (@{$map{$field}}) {
                 # get info once for each device
                 $info{$sub} = &$sub(device => '/dev/' . $device->{NAME}, %params) unless $info{$sub};
 
                 if (defined $info{$sub}->{$field}) {
                     $device->{$field} = $info{$sub}->{$field};
-                    next OUTER;
+                    last;
                 }
             }
         }
@@ -133,7 +129,10 @@ sub _getDevices {
 sub _getHdparmInfo {
     my (%params) = @_;
 
-    return unless _correctHdparmAvailable(%params);
+    return unless _correctHdparmAvailable(
+        root => $params{root},
+        dump => $params{dump},
+    );
 
     my %map = (
         'serial'    => 'SERIALNUMBER',
@@ -149,9 +148,9 @@ sub _getHdparmInfo {
         %params
     );
 
-    return { map  { $map{$_} => $hdparm->{$_} }
-             grep { defined $hdparm->{$_} && exists $map{$_} }
-             keys %$hdparm };
+    return {
+        map { defined $hdparm->{$_} ? ($map{$_} => $hdparm->{$_}) : () } keys %map
+    };
 }
 
 sub _getDevicesBase {
@@ -227,12 +226,6 @@ sub _fixDescription {
 sub _correctHdparmAvailable {
     my (%params) = @_;
 
-    if ($params{file}) {
-        $__is_valid_hdparm = undef;
-    } elsif (defined $__is_valid_hdparm)  {
-        return $__is_valid_hdparm;
-    }
-
     $params{command} = "hdparm -V";
 
     # We need to support dump params to permit full testing when root params is set
@@ -253,9 +246,8 @@ sub _correctHdparmAvailable {
     );
 
     # we need at least version 9.15
-    $__is_valid_hdparm = compareVersion($major, $minor, 9, 15);
+    return compareVersion($major, $minor, 9, 15);
 
-    return $__is_valid_hdparm;
 }
 
 sub _getDiskIdentifier {
