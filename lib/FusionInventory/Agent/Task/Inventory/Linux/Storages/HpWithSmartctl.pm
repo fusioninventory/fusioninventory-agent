@@ -24,8 +24,6 @@ sub doInventory {
 
     my $adp = _getData(%params);
 
-    _adpToDevice($adp);
-
     for my $data (values %$adp) {
         next unless $data->{drives_total} && $data->{device};
 
@@ -65,6 +63,8 @@ sub _getData {
         }
     }
 
+    _adpToDevice($adp);
+
     return $data;
 }
 
@@ -76,6 +76,7 @@ sub _adpToDevice {
             file    => $file,
             pattern => qr/(\w+)/
         );
+        next unless $serial;
 
         my $slot = first { $adp->{$_}->{serial} eq $serial } keys %$adp;
         next unless defined $slot;

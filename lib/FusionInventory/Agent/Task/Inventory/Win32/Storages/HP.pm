@@ -10,6 +10,20 @@ use UNIVERSAL::require;
 
 use FusionInventory::Agent::Tools::Storages::HP;
 
+sub isEnabled {
+    return _getHpacuacliFromWinRegistry();
+}
+
+sub doInventory {
+    my (%params) = @_;
+    my $logger   = $params{logger};
+
+    HpInventory(
+        path => _getHpacuacliFromWinRegistry($logger),
+        %params
+    );
+}
+
 sub _getHpacuacliFromWinRegistry {
 
     my $Registry;
@@ -36,20 +50,6 @@ sub _getHpacuacliFromWinRegistry {
     return unless -f $hpacuacliPath;
 
     return $hpacuacliPath;
-}
-
-sub isEnabled {
-    return _getHpacuacliFromWinRegistry();
-}
-
-sub doInventory {
-    my (%params) = @_;
-    my $logger   = $params{logger};
-
-    HpInventory(
-        path => _getHpacuacliFromWinRegistry($logger),
-        %params
-    );
 }
 
 1;
