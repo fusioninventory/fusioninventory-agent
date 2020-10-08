@@ -7,14 +7,13 @@ use parent 'FusionInventory::Agent::Task::Inventory::Module';
 
 use English qw(-no_match_vars);
 use File::Basename qw(basename);
-use Memoize;
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Generic;
 use FusionInventory::Agent::Tools::Linux;
 use FusionInventory::Agent::Tools::Unix;
 
-memoize('_correctHdparmAvailable');
+my $__is_valid_hdparm;
 
 sub isEnabled {
     my (%params) = @_;
@@ -40,11 +39,11 @@ sub _getDevices {
     my $root   = $params{root};
 
     my %map = (
-        'MODEL'    => [ \&_getHdparmInfo, \&getInfoFromSmartctl ],
-        'CAPACITY' => [ \&getInfoFromSmartctl ],
-        'WWN'      => [ \&_getHdparmInfo ],
+        'MODEL'        => [ \&_getHdparmInfo, \&getInfoFromSmartctl ],
+        'MANUFACTURER' => [ \&getInfoFromSmartctl ],
+        'WWN'          => [ \&_getHdparmInfo ],
     );
-    $map{MODEL} = $map{FIRMWARE} = $map{DESCRIPTION} = $map{MANUFACTURER};
+    $map{DISKSIZE} = $map{FIRMWARE} = $map{DESCRIPTION} = $map{MODEL};
 
     my @devices = _getDevicesBase(%params);
 
@@ -72,13 +71,13 @@ sub _getDevices {
         my %info;
 
         OUTER: for my $field (keys %map) {
-            next unless (!$device->{$field}
-                || ($field eq 'MANUFACTURER' && $device->{$field} eq 'ATA')
+            next unless (($field eq 'MANUFACTURER' && $device->{$field} eq 'ATA') ||
+                !$device->{$field}
             );
 
             INNER: for my $sub (@{$map{$field}}) {
                 # get info once for each device
-                $info{$sub} = &$sub(device => $device->{NAME}, %params) unless $info{$sub};
+                $info{$sub} = &$sub(device => '/dev/' . $device->{NAME}, %params) unless $info{$sub};
 
                 if (defined $info{$sub}->{$field}) {
                     $device->{$field} = $info{$sub}->{$field};
@@ -135,24 +134,20 @@ sub _getHdparmInfo {
     my %map = (
         'serial'    => 'SERIALNUMBER',
         'firmware'  => 'FIRMWARE',
+        'size'      => 'DISKSIZE',
         'transport' => 'DESCRIPTION',
         'model'     => 'MODEL',
         'wwn'       => 'WWN'
     );
 
     my $hdparm = getHdparmInfo(
-        device => "/dev/" . $params{device},
+        device => $params{device},
         %params
     );
 
-    my %info = map { $map{$_} => $hdparm->{$_} }
-        grep { defined $hdparm->{$_} && exists $map{$_} }
-    keys %$hdparm;
-
-    $info{MANUFACTURER} = getCanonicalManufacturer($info{MANUFACTURER})
-        if defined $info{MANUFACTURER};
-
-    return \%info;
+    return { map  { $map{$_} => $hdparm->{$_} }
+             grep { defined $hdparm->{$_} && exists $map{$_} }
+             keys %$hdparm };
 }
 
 sub _getDevicesBase {
@@ -228,6 +223,12 @@ sub _fixDescription {
 sub _correctHdparmAvailable {
     my (%params) = @_;
 
+    if ($params{file}) {
+        $__is_valid_hdparm = undef;
+    } elsif (defined $__is_valid_hdparm)  {
+        return $__is_valid_hdparm;
+    }
+
     $params{command} = "hdparm -V";
 
     # We need to support dump params to permit full testing when root params is set
@@ -248,8 +249,9 @@ sub _correctHdparmAvailable {
     );
 
     # we need at least version 9.15
-    return compareVersion($major, $minor, 9, 15);
+    $__is_valid_hdparm = compareVersion($major, $minor, 9, 15);
 
+    return $__is_valid_hdparm;
 }
 
 sub _getDiskIdentifier {
