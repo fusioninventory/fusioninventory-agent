@@ -9,7 +9,6 @@ use Test::Exception;
 use Test::More;
 use Test::NoWarnings;
 
-use FusionInventory::Test::Inventory;
 use FusionInventory::Agent::Tools::Storages::HP;
 
 my %slots_tests = (
@@ -60,8 +59,6 @@ plan tests =>
     (scalar keys %drives_tests)  +
     (scalar keys %storage_tests) +
     1;
-
-my $inventory = FusionInventory::Test::Inventory->new();
 
 foreach my $test (keys %slots_tests) {
     my $file  = "resources/generic/hpacucli/$test-slots";
