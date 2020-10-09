@@ -134,23 +134,12 @@ sub _getHdparmInfo {
         dump => $params{dump},
     );
 
-    my %map = (
-        'serial'    => 'SERIALNUMBER',
-        'firmware'  => 'FIRMWARE',
-        'size'      => 'DISKSIZE',
-        'transport' => 'DESCRIPTION',
-        'model'     => 'MODEL',
-        'wwn'       => 'WWN'
-    );
-
     my $hdparm = getHdparmInfo(
         device => $params{device},
         %params
     );
 
-    return {
-        map { defined $hdparm->{$_} ? ($map{$_} => $hdparm->{$_}) : () } keys %map
-    };
+    return $hdparm;
 }
 
 sub _getDevicesBase {
