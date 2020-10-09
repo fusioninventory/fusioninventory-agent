@@ -63,7 +63,7 @@ sub _getData {
         }
     }
 
-    _adpToDevice($adp);
+    _adpToDevice($data);
 
     return $data;
 }
