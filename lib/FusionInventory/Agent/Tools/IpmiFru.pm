@@ -123,11 +123,11 @@ sub _postprocess {
 
     # Dell: remove revision suffix from the p/n
     if (defined $device->{MANUFACTURER} && $device->{MANUFACTURER} =~ /dell/i) {
-        my $pn_key = defined $device->{MODEL}   ? 'MODEL' :
-                     defined $device->{PARTNUM} ? 'PARTNUM' :
-                     undef;
-        if ($pn_key && $device->{$pn_key} =~ /^([0-9A-Z]{6})([A-B]\d{2})$/) {
-            $device->{$pn_key} = $1;
+        for my $k ('MODEL', 'PARTNUM') {
+            next unless defined $device->{$k}
+                && $device->{$k} =~ /^([0-9A-Z]{6})([A-B]\d{2})$/;
+
+            $device->{$k}  = $1;
             $device->{REV} = $2 if any { $_ eq 'REV' } @$fields;
         }
     }
