@@ -39,6 +39,8 @@ sub doInventory {
         my $ctrl = parseFru($fru->{$descr}, \@fields);
         next unless keys %$ctrl;
 
+        $ctrl->{TYPE} = $1 if $descr =~ /^([\w\s]+[[:alpha:]])/;
+
         $inventory->addEntry(
             section => 'CONTROLLERS',
             entry   => $ctrl

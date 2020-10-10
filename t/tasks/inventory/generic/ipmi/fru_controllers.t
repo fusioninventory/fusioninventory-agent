@@ -21,21 +21,24 @@ my %tests = (
             'MODEL'        => '0GDJ3J',
             'NAME'         => 'Dell Storage Cntlr. H330 Mini-',
             'REV'          => 'A03',
-            'SERIAL'       => 'CN7792169T02BB'
+            'SERIAL'       => 'CN7792169T02BB',
+            'TYPE'         => 'PERC'
         },
         {
             'MANUFACTURER' => 'DELL',
             'MODEL'        => '0MG81C',
             'NAME'         => 'DRIVE BACKPLANE',
             'REV'          => 'A02',
-            'SERIAL'       => 'CNIVC007CD4368'
+            'SERIAL'       => 'CNIVC007CD4368',
+            'TYPE'         => 'BP',
         },
         {
             'MANUFACTURER' => 'DELL',
             'MODEL'        => '0G8RPD',
             'NAME'         => 'BRCM 10G/GbE 2+2P 57800-t rNDC',
             'REV'          => 'A00',
-            'SERIAL'       => 'CN7543546H00HB'
+            'SERIAL'       => 'CN7543546H00HB',
+            'TYPE'         => 'NDC'
         }
     ],
     'dell-r640' => [
@@ -44,21 +47,24 @@ my %tests = (
             'MODEL'        => '0PGJ4P',
             'NAME'         => 'DRIVE BACKPLANE',
             'REV'          => 'A00',
-            'SERIAL'       => 'CNIVC009C10097'
+            'SERIAL'       => 'CNIVC009C10097',
+            'TYPE'         => 'BP',
         },
         {
             'MANUFACTURER' => 'DELL',
             'MODEL'        => '00878M',
             'NAME'         => 'Dell Storage Cntlr. H740P - Mini',
             'REV'          => 'A03',
-            'SERIAL'       => 'CNFCP0005M01NC'
+            'SERIAL'       => 'CNFCP0005M01NC',
+            'TYPE'         => 'PERC',
         },
         {
             'MANUFACTURER' => 'DELL',
             'MODEL'        => '01224N',
             'NAME'         => 'BRCM 2P 1G BT + 2P 10G BT rNDC',
             'REV'          => 'A06',
-            'SERIAL'       => 'VNFCVBA02O00AZ'
+            'SERIAL'       => 'VNFCVBA02O00AZ',
+            'TYPE'         => 'NDC',
         }
     ],
     'dell-r720' => [
@@ -67,28 +73,32 @@ my %tests = (
             'MODEL'        => '00JDG3',
             'NAME'         => 'DRIVE BACKPLANE',
             'REV'          => 'A00',
-            'SERIAL'       => 'CN7543547100IK'
+            'SERIAL'       => 'CN7543547100IK',
+            'TYPE'         => 'BP',
         },
         {
             'MANUFACTURER' => 'DELL',
             'MODEL'        => '0TY8F9',
             'NAME'         => 'Dell Storage Cntlr. H710P-Mini',
             'REV'          => 'A03',
-            'SERIAL'       => 'CN7792147F03B1'
+            'SERIAL'       => 'CN7792147F03B1',
+            'TYPE'         => 'PERC',
         },
         {
             'MANUFACTURER' => 'DELL',
             'MODEL'        => '0PGXHP',
             'NAME'         => 'DRIVE BACKPLANE',
             'REV'          => 'A02',
-            'SERIAL'       => 'CN7792146F02MU'
+            'SERIAL'       => 'CN7792146F02MU',
+            'TYPE'         => 'BP',
         },
         {
             'MANUFACTURER' => 'DELL',
             'MODEL'        => '0FM487',
             'NAME'         => 'BRCM GbE 4P 5720-t rNDC',
             'REV'          => 'A03',
-            'SERIAL'       => 'CN7543545U06YB'
+            'SERIAL'       => 'CN7543545U06YB',
+            'TYPE'         => 'NDC',
         }
     ],
     'hp-dl360-gen7' => [],
@@ -110,9 +120,9 @@ foreach my $test (keys %tests) {
 
     my $ctrl = $inventory->getSection('CONTROLLERS') || [];
 
-    cmp_deeply(
+    cmp_bag(
         $ctrl,
-        bag(@{$tests{$test}}),
+        $tests{$test},
         "test $test: section"
     );
 }
