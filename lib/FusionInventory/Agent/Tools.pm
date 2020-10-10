@@ -123,15 +123,10 @@ sub getCanonicalManufacturer {
 
     my %regexp = (
         "Apple"           => qr/^APPLE/i,
-        "Elpida"          => qr/^EB[EJ]/,
         "Hewlett-Packard" => qr/^(hp|HP|(?i)hewlett[ -]packard)/,
         "Hitachi"         => qr/^(HD|IC|HU|HGST)/,
-        "Hynix"           => qr/^(?:HMT|HMA|00AD0)/,
-        "Micron"          => qr/^002C0/,
-        "Samsung"         => qr/^00CE0/,
         "Seagate"         => qr/^(ST|(?i)seagate)/,
         "Sony"            => qr/^OPTIARC/i,
-        "Toshiba"         => qr/^THNSF/,
         "Western Digital" => qr/^(WDC|(?i)western)/,
     );
 
@@ -146,7 +141,7 @@ sub getCanonicalManufacturer {
         intel      |
         matshita   |
         maxtor     |
-        nec        |
+        \bnec\b    |
         pioneer    |
         samsung    |
         sony       |
