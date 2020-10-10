@@ -39,11 +39,6 @@ sub doInventory {
         my $ctrl = parseFru($fru->{$descr}, \@fields);
         next unless keys %$ctrl;
 
-        # remove revision suffix from the p/n
-        if ($ctrl->{MANUFACTURER} =~ /dell/i && $ctrl->{MODEL} =~ /^([0-9A-Z]{6})([A-B]\d{2})$/) {
-            ($ctrl->{MODEL}, $ctrl->{REV}) = ($1, $2);
-        }
-
         $inventory->addEntry(
             section => 'CONTROLLERS',
             entry   => $ctrl

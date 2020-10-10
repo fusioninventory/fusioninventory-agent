@@ -18,13 +18,13 @@ my %tests = (
         dmidecode   => [],
         fru         => [
             {
-                PARTNUM        => '05NF18A01',
+                PARTNUM        => '05NF18',
                 SERIALNUMBER   => 'CN1797238QA8B4',
                 MANUFACTURER   => 'DELL',
                 NAME           => 'PWR SPLY,750WP,RDNT,DELTA',
             },
             {
-                PARTNUM        => '05NF18A01',
+                PARTNUM        => '05NF18',
                 SERIALNUMBER   => 'CN1797238QA8EI',
                 MANUFACTURER   => 'DELL',
                 NAME           => 'PWR SPLY,750WP,RDNT,DELTA',

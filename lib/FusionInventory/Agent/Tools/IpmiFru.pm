@@ -100,7 +100,9 @@ sub getIpmiFru {
 sub parseFru {
     my ($fru, $fields, $device) = (@_, {});
 
-    for my $attr (@$fields) {
+    my %hfields = map { $_ => 1 } @$fields;
+
+    for my $attr (keys %hfields) {
         my $val = $MAPPING{$attr} or next;
 
         for my $src (@{$val->{src}}) {
@@ -110,6 +112,17 @@ sub parseFru {
                 &{$val->{sub}}( $fru->{$src} ) : $fru->{$src};
 
             last;
+        }
+    }
+
+    # Dell: remove revision suffix from the p/n
+    if (defined $device->{MANUFACTURER} && $device->{MANUFACTURER} =~ /dell/i) {
+        my $pn_key = defined $device->{MODEL}   ? 'MODEL' :
+                     defined $device->{PARTNUM} ? 'PARTNUM' :
+                     undef;
+        if ($pn_key && $device->{$pn_key} =~ /^([0-9A-Z]{6})([A-B]\d{2})$/) {
+            $device->{$pn_key} = $1;
+            $device->{REV} = $2 if exists $hfields{REV};
         }
     }
 
