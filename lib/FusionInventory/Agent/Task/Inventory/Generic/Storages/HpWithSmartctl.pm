@@ -6,6 +6,7 @@ use warnings;
 use parent 'FusionInventory::Agent::Task::Inventory::Module';
 
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Linux;
 
 # This speeds up hpacucli startup by skipping non-local (iSCSI, Fibre) storages.
 # See https://support.hpe.com/hpsc/doc/public/display?docId=emr_na-c03696601
