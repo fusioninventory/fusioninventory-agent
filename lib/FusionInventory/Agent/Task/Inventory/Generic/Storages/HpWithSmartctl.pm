@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Inventory::Linux::Storages::HpWithSmartctl;
+package FusionInventory::Agent::Task::Inventory::Generic::Storages::HpWithSmartctl;
 
 use strict;
 use warnings;
@@ -13,7 +13,10 @@ use FusionInventory::Agent::Tools::Linux;
 $ENV{INFOMGR_BYPASS_NONSA} = "1";
 
 sub isEnabled {
-    return canRun('hpacucli') && canRun('smartctl');
+    return canRun('hpacucli')
+        && canRun('smartctl')
+        # TODO: find a generic solution
+        && glob "/sys/class/scsi_generic/sg*/device/vpd_pg80";
 }
 
 sub doInventory {
@@ -68,6 +71,7 @@ sub _getData {
     return $data;
 }
 
+# Linux case
 sub _adpToDevice {
     my ($adp) = @_;
 

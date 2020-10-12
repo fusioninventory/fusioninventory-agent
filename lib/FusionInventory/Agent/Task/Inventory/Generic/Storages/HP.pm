@@ -1,4 +1,4 @@
-package FusionInventory::Agent::Task::Inventory::Linux::Storages::HP;
+package FusionInventory::Agent::Task::Inventory::Generic::Storages::HP;
 
 use strict;
 use warnings;
@@ -8,7 +8,7 @@ use parent 'FusionInventory::Agent::Task::Inventory::Module';
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Storages::HP;
 
-our $runMeIfTheseChecksFailed = ['FusionInventory::Agent::Task::Inventory::Linux::Storages::HpWithSmartctl'];
+our $runMeIfTheseChecksFailed = ['FusionInventory::Agent::Task::Inventory::Generic::Storages::HpWithSmartctl'];
 
 sub isEnabled {
     return canRun('hpacucli');
