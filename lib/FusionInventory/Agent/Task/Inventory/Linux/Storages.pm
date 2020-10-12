@@ -39,12 +39,14 @@ sub _getDevices {
 
     my $root   = $params{root};
 
-    my %map = (
-        'MODEL'        => [ \&_getHdparmInfo, \&getInfoFromSmartctl ],
+    my %sources = (
+        'DESCRIPTION'  => [ \&_getHdparmInfo, \&getInfoFromSmartctl ],
+        'DISKSIZE'     => [ \&_getHdparmInfo, \&getInfoFromSmartctl ],
+        'FIRMWARE'     => [ \&_getHdparmInfo, \&getInfoFromSmartctl ],
         'MANUFACTURER' => [ \&getInfoFromSmartctl ],
+        'MODEL'        => [ \&_getHdparmInfo, \&getInfoFromSmartctl ],
         'WWN'          => [ \&_getHdparmInfo ],
     );
-    $map{DISKSIZE} = $map{FIRMWARE} = $map{DESCRIPTION} = $map{MODEL};
 
     my @devices = _getDevicesBase(%params);
 
@@ -66,16 +68,16 @@ sub _getDevices {
         }
     }
 
-    # get missing fields using functions defined in %map
+    # get missing fields using functions defined in %sources
     for my $device (@devices) {
-        # the hash keys are function references from %map
+        # the hash keys are function references from %sources
         my %info;
 
-        for my $field (keys %map) {
+        for my $field (keys %sources) {
             next if defined $device->{$field}
                 && !($field eq 'MANUFACTURER' && $device->{$field} eq 'ATA');
 
-            for my $sub (@{$map{$field}}) {
+            for my $sub (@{$sources{$field}}) {
                 # get info once for each device
                 $info{$sub} = &$sub(device => '/dev/' . $device->{NAME}, %params) unless $info{$sub};
 
