@@ -48,7 +48,18 @@ sub doInventory {
 
         for my $field (@fields) {
             next unless defined $parsed_fru->{$field} &&
-                (!defined $mems[0]->{$field} || $mems[0]->{$field} =~ /^SerNum/);
+                (!defined $mems[0]->{$field}
+                    || $mems[0]->{$field} =~ /
+                        NOT\s*AVAILABLE |
+                        None            |
+                        Not\s*Specified |
+                        O\.E\.M\.       |
+                        Part\s*Number   |
+                        Ser\s*Num       |
+                        Serial\s*Num    |
+                        Unknown
+                    /xi);
+
             $mems[0]->{$field} = $parsed_fru->{$field};
         }
     }
