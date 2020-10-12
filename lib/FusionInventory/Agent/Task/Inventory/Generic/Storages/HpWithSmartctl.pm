@@ -60,7 +60,7 @@ sub _getData {
                 drives_total => 0,
             };
             $slot = $1;
-        } elsif ($line =~ /^\s+physicaldrive\s/) {
+        } elsif ($line =~ /^\s+physicaldrive\s/ && $line !~ /Failed/) {
             $data->{$slot}->{drives_total}++;
         }
     }
