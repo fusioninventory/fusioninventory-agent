@@ -54,7 +54,7 @@ sub doInventory {
                         None            |
                         Not\s*Specified |
                         O\.E\.M\.       |
-                        Part\s*Number   |
+                        Part\s*Num      |
                         Ser\s*Num       |
                         Serial\s*Num    |
                         Unknown
