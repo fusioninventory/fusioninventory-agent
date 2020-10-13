@@ -16,14 +16,20 @@ our @EXPORT = qw(
 
 my %MAPPING = (
     CAPACITY => {
-        src  => ['Memory size'],
-        func => \&getCanonicalSize,
+        src => ['Memory size'],
+        sub => \&getCanonicalSize,
     },
     NAME => {
         src => ['Board Product', 'Product Name']
     },
+    MODEL => {
+        src => ['Board Part Number', 'Product Part Number', 'Part Number']
+    },
     PARTNUM => {
         src => ['Board Part Number', 'Product Part Number', 'Part Number']
+    },
+    SERIAL => {
+        src => ['Board Serial', 'Product Serial', 'Serial Number']
     },
     SERIALNUMBER => {
         src => ['Board Serial', 'Product Serial', 'Serial Number']
@@ -39,8 +45,6 @@ my %MAPPING = (
         src => ['Max Power Capacity']
     },
 );
-$MAPPING{'MODEL'}  = $MAPPING{'PARTNUM'};
-$MAPPING{'SERIAL'} = $MAPPING{'SERIALNUMBER'};
 
 my $__fru;
 
