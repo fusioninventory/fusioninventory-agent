@@ -868,7 +868,7 @@ my %tests = (
             CAPACITY         => '1024',
             CAPTION          => 'J8J1',
             MANUFACTURER     => undef,
-            MODEL            => '0x4D332037385432393533455A332D43453620',
+            MODEL            => 'M3 78T2953EZ3-CE6',
             MEMORYCORRECTION => 'None'
 
         },
@@ -881,7 +881,7 @@ my %tests = (
             CAPACITY         => '2048',
             CAPTION          => 'J8J2',
             MANUFACTURER     => undef,
-            MODEL            => '0x4B0000000000000000000000000000000000',
+            MODEL            => 'K',
             MEMORYCORRECTION => 'None'
 
         },
@@ -894,7 +894,7 @@ my %tests = (
             CAPACITY         => '1024',
             CAPTION          => 'J9J1',
             MANUFACTURER     => undef,
-            MODEL            => '0x4D332037385432393533455A332D43453620',
+            MODEL            => 'M3 78T2953EZ3-CE6',
             MEMORYCORRECTION => 'None'
 
         },

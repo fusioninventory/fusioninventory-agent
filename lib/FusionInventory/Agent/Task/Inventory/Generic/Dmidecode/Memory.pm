@@ -113,17 +113,19 @@ sub _getMemories {
             if ($info->{'Part Number'}
                     &&
                 $info->{'Part Number'} !~ /
-                    Not\s*Specified |
-                    NOT\s*AVAILABLE |
-                    Unknown         |
-                    Ser\s*Num       |
-                    None            |
-                    O\.E\.M\.       |
                     DIMM            |
-                    Part\s*Number
+                    NOT\s*AVAILABLE |
+                    None            |
+                    Not\s*Specified |
+                    O\.E\.M\.       |
+                    Part\s*Num      |
+                    Ser\s*Num       |
+                    Unknown
                 /xi
             ) {
-                $memory->{MODEL} = $info->{'Part Number'};
+                $memory->{MODEL} = trimWhitespace(
+                    getSanitizedString( hex2char($info->{'Part Number'}) )
+                );
             }
 
             push @$memories, $memory;
