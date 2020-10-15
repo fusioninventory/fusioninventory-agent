@@ -25,7 +25,7 @@ sub doInventory {
         if ($user eq 'root') {
             $grid_home = $ENV{GRID_HOME};
         } else {
-            $grid_home = getFirstLine("su - $user -c 'echo \$GRID_HOME'")
+            $grid_home = getFirstLine("su - $user -c 'echo \$GRID_HOME'");
             last if $grid_home;
         }
     }
