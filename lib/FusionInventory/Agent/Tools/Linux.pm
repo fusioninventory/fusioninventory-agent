@@ -439,7 +439,6 @@ sub getInfoFromSmartctl {
         MANUFACTURER => {
             src  => ['vendor', 'model family', 'add. product id', 'device model', 'product'],
             func => \&getCanonicalManufacturer,
-            args => undef
         },
         MODEL => {
             src => ['product', 'device model', 'model family']
@@ -450,7 +449,6 @@ sub getInfoFromSmartctl {
         DISKSIZE => {
             src  => ['user capacity'],
             func => \&getCanonicalSize,
-            args => [1000]
         },
         DESCRIPTION => {
             src => ['transport protocol']
@@ -484,8 +482,7 @@ sub getInfoFromSmartctl {
 
             my ($data) = ($smartctl{$s} =~ ($regexp->{$s} // $regexp->{__default}));
 
-            $info->{$attr} = exists $val->{func} ?
-                &{$val->{func}}($data, @{$val->{args}}) : $data;
+            $info->{$attr} = exists $val->{func} ? &{$val->{func}}($data) : $data;
 
             last;
         }
