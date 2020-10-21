@@ -465,7 +465,7 @@ sub getInfoFromSmartctl {
         WWN => {
             src  => ['lu wwn device id'],
             # remove whitespaces
-            func => sub { return shift =~ s/\s+//gr },
+            func => sub { shift =~ s/\s+//gr },
         }
     };
 
