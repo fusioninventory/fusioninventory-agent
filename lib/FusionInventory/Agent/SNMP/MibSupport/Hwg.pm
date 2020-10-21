@@ -23,14 +23,10 @@ our $mibSupport = [
 ];
 
 sub getType {
-    my ($self) = @_;
-
     return 'NETWORKING';
 }
 
 sub getManufacturer {
-    my ($self) = @_;
-
     return 'HW group s.r.o';
 }
 
