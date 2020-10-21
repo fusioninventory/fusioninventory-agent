@@ -8,6 +8,7 @@ use parent 'Exporter';
 
 use FusionInventory::Agent::Inventory;
 use FusionInventory::Agent::Tools;
+use FusionInventory::Agent::Tools::Generic qw(processDeviceFields);
 
 our @EXPORT = qw(
     getIpmiFru
@@ -117,24 +118,9 @@ sub parseFru {
         }
     }
 
-    _postprocess($device, $fields);
+    processDeviceFields($device, $fields);
 
     return $device;
-}
-
-sub _postprocess {
-    my ($device, $fields) = @_;
-
-    # Dell: remove revision suffix from the p/n
-    if (defined $device->{MANUFACTURER} && $device->{MANUFACTURER} =~ /dell/i) {
-        for my $k ('MODEL', 'PARTNUM') {
-            next unless defined $device->{$k}
-                && $device->{$k} =~ /^([0-9A-Z]{6})([A-B]\d{2})$/;
-
-            $device->{$k}  = $1;
-            $device->{REV} = $2 if any { $_ eq 'REV' } @$fields;
-        }
-    }
 }
 
 1;

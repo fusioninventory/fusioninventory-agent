@@ -21,6 +21,7 @@ our @EXPORT = qw(
     getUSBDeviceVendor
     getUSBDeviceClass
     getEDIDVendor
+    processDeviceFields
 );
 
 my $PCIVendors;
@@ -295,6 +296,23 @@ sub getEDIDVendor {
 
     return unless $params{id};
     return $EDIDVendors->{$params{id}};
+}
+
+sub processDeviceFields {
+    my ($device, $fields) = @_;
+
+    @$fields = keys %$device unless $fields;
+
+    # Dell: remove revision suffix from the p/n
+    if (defined $device->{MANUFACTURER} and $device->{MANUFACTURER} =~ /dell/i) {
+        for my $k ('MODEL', 'PARTNUM') {
+            next unless defined $device->{$k}
+                && $device->{$k} =~ /^([0-9A-Z]{6})([A-B]\d{2})$/;
+
+            $device->{$k}  = $1;
+            $device->{REV} = $2 if any { $_ eq 'REV' } @$fields;
+        }
+    }
 }
 
 my @datadirs = ($OSNAME ne 'linux') ? () : (

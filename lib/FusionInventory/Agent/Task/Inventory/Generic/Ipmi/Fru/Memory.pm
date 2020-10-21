@@ -46,6 +46,11 @@ sub doInventory {
 
         my $parsed_fru = parseFru($fru->{$fru_key}, \@fields);
 
+        $parsed_fru->{MANUFACTURER} = getCanonicalMemoryManufacturer(
+            manufacturer => $parsed_fru->{MANUFACTURER},
+            model        => $parsed_fru->{MODEL}
+        );
+
         for my $field (@fields) {
             next unless defined $parsed_fru->{$field} &&
                 (!defined $mems[0]->{$field}

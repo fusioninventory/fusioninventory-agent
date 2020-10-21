@@ -29,6 +29,7 @@ our @EXPORT = qw(
     getFormatedGMTTime
     getFormatedDate
     getCanonicalManufacturer
+    getCanonicalMemoryManufacturer
     getCanonicalSpeed
     getCanonicalInterfaceSpeed
     getCanonicalSize
@@ -109,7 +110,7 @@ sub getFormatedDate {
 sub getCanonicalManufacturer {
     my ($manufacturer) = @_;
 
-    return unless $manufacturer;
+    return undef unless defined $manufacturer;
 
     my %manufacturers = (
         GenuineIntel => 'Intel',
@@ -134,6 +135,7 @@ sub getCanonicalManufacturer {
         $manufacturer = $manufacturers{$manufacturer};
     } elsif ($manufacturer =~ /(
         \blg\b     |
+        broadcom   |
         compaq     |
         fujitsu    |
         hitachi    |
@@ -141,6 +143,7 @@ sub getCanonicalManufacturer {
         intel      |
         matshita   |
         maxtor     |
+        nvidia     |
         \bnec\b    |
         pioneer    |
         samsung    |
@@ -230,6 +233,49 @@ sub getCanonicalSize {
         $unit eq 'kb'    ? int($value / ($base))         :
         $unit eq 'bytes' ? int($value / ($base * $base)) :
                            undef                         ;
+}
+
+sub getManufacturerFromPartnum {
+    my $param = shift;
+
+    my %regexp = (
+        'Elpida'  => qr/^EB[EJ]/,
+        'Hynix'   => qr/^(?:HMT|HMA)/,
+        'Toshiba' => qr/^THNSF/,
+    );
+
+    return first { $param =~ $regexp{$_} } keys %regexp;
+}
+
+sub getDecodedManufacturer {
+    my $param = shift;
+
+    my %regexp = (
+        'Hynix'   => qr/^00AD0/,
+        'Micron'  => qr/^002C0/,
+        'Samsung' => qr/^00CE0/,
+    );
+
+    return first { $param =~ $regexp{$_} } keys %regexp;
+}
+
+sub getCanonicalMemoryManufacturer {
+    my (%param) = @_;
+
+    if (defined $param{manufacturer}) {
+        my $result = getCanonicalManufacturer($param{manufacturer});
+        return $result if $result ne $param{manufacturer};
+
+        $result = getDecodedManufacturer($param{manufacturer});
+        return $result if $result;
+    }
+
+    if (defined $param{model}) {
+        my $result = getManufacturerFromPartnum($param{model});
+        return $result if $result;
+    }
+
+    return $param{manufacturer};
 }
 
 sub compareVersion {

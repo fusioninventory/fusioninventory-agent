@@ -53,6 +53,8 @@ sub doInventory {
         next unless $psu;
         next unless ($psu->{'NAME'} || $psu->{'SERIALNUMBER'} || $psu->{'PARTNUM'});
 
+        processDeviceFields($psu, [keys %fields]);
+
         $inventory->addEntry(
             section => 'POWERSUPPLIES',
             entry   => $psu

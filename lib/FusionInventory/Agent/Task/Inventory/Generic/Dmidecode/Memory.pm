@@ -103,7 +103,6 @@ sub _getMemories {
                 TYPE             => $info->{'Type'},
                 SERIALNUMBER     => $info->{'Serial Number'},
                 MEMORYCORRECTION => $infos->{16}[0]{'Error Correction Type'},
-                MANUFACTURER     => $manufacturer
             };
 
             if ($info->{'Size'} && $info->{'Size'} =~ /^(\d+ \s .B)$/x) {
@@ -127,6 +126,11 @@ sub _getMemories {
                     getSanitizedString( hex2char($info->{'Part Number'}) )
                 );
             }
+
+            $memory->{MANUFACTURER} = getCanonicalMemoryManufacturer(
+                manufacturer => $manufacturer,
+                model        => $memory->{MODEL}
+            );
 
             push @$memories, $memory;
         }
