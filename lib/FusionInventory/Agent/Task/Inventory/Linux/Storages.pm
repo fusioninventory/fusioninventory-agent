@@ -37,15 +37,39 @@ sub doInventory {
 sub _getDevices {
     my (%params) = @_;
 
-    my $root   = $params{root};
+    my $root = $params{root};
 
     my %sources = (
-        'DESCRIPTION'  => [ \&_getHdparmInfo, \&getInfoFromSmartctl ],
-        'DISKSIZE'     => [ \&_getHdparmInfo, \&getInfoFromSmartctl ],
-        'FIRMWARE'     => [ \&_getHdparmInfo, \&getInfoFromSmartctl ],
-        'MANUFACTURER' => [ \&getInfoFromSmartctl ],
-        'MODEL'        => [ \&_getHdparmInfo, \&getInfoFromSmartctl ],
-        'WWN'          => [ \&_getHdparmInfo ],
+        'DESCRIPTION' => {
+            subs    => [ \&getInfoFromSmartctl, \&_getHdparmInfo ],
+            next_if => sub { 1 },
+        },
+        'DISKSIZE' => {
+            subs    => [ \&getInfoFromSmartctl, \&_getHdparmInfo ],
+            next_if => sub { 1 },
+        },
+        'FIRMWARE' => {
+            subs    => [ \&getInfoFromSmartctl, \&_getHdparmInfo ],
+            next_if => sub { 1 },
+        },
+        'INTERFACE' => {
+            subs    => [ \&getInfoFromSmartctl, \&_getHdparmInfo ],
+            next_if => sub { 1 },
+        },
+        'MANUFACTURER' => {
+            subs    => [ \&getInfoFromSmartctl ],
+            # get a more sensible manufacturer
+            next_if => sub { shift ne 'ATA' },
+        },
+        'MODEL' => {
+            subs    => [ \&getInfoFromSmartctl, \&_getHdparmInfo ],
+            # overwrite the field with whatever returned from the subs
+            next_if => sub { 0 },
+        },
+        'WWN' => {
+            subs    => [ \&getInfoFromSmartctl, \&_getHdparmInfo ],
+            next_if => sub { 1 },
+        },
     );
 
     my @devices = _getDevicesBase(%params);
@@ -73,11 +97,10 @@ sub _getDevices {
         # the hash keys are function references from %sources
         my %info;
 
-        for my $field (keys %sources) {
-            next if defined $device->{$field}
-                && !($field eq 'MANUFACTURER' && $device->{$field} eq 'ATA');
+        while (my ($field, $data) = each %sources) {
+            next if defined $device->{$field} && $data->{next_if}->($device->{$field});
 
-            for my $sub (@{$sources{$field}}) {
+            for my $sub (@{$data->{subs}}) {
                 # get info once for each device
                 $info{$sub} = &$sub(device => '/dev/' . $device->{NAME}, %params) unless $info{$sub};
 

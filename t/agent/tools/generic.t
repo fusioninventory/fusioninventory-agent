@@ -8803,10 +8803,10 @@ my %hdparm_tests = (
         SERIALNUMBER => 'S0XPNYAD412339',
         DISKSIZE     => '256060',
         DESCRIPTION  => 'SATA',
+        INTERFACE    => 'SATA',
         WWN          => '5002538043584d30'
     },
     linux2 => {
-        SERIALNUMBER => '',
         DISKSIZE     => '77309',
     },
     linux3 => {
