@@ -189,19 +189,25 @@ sub getHdparmInfo {
     my $handle = getFileHandle(%params)
         or return;
 
-    my $info;
+    my ($info, $abort);
+
     while (my $line = <$handle>) {
+        if ($line =~ /Integrity word not set/) {
+            $abort = 1;
+            last;
+        }
+
         $info->{DESCRIPTION}  = $1 if $line =~ /Transport:.+(SATA|SAS|SCSI|USB)/;
         $info->{DISKSIZE}     = $1 if $line =~ /1000:\s+(\d*)\sMBytes/;
         $info->{FIRMWARE}     = $1 if $line =~ /Firmware Revision:\s+(\w+)/;
         $info->{INTERFACE}    = $1 if $line =~ /Transport:.+(SATA|SAS|SCSI|USB)/;
-        $info->{MODEL}        = $1 if $line =~ /Model Number:\s+([\w\h\-\.]*\w)/;
-        $info->{SERIALNUMBER} = $1 if $line =~ /Serial Number:\s+([\w\h\-\.]*\w)/;
+        $info->{MODEL}        = $1 if $line =~ /Model Number:\s+(\w.+\w)/;
+        $info->{SERIALNUMBER} = $1 if $line =~ /Serial Number:\s+(\w*)/;
         $info->{WWN}          = $1 if $line =~ /WWN Device Identifier:\s+(\w+)/;
     }
     close $handle;
 
-    return $info;
+    return $abort ? {} : $info;
 }
 
 sub getPCIDevices {
