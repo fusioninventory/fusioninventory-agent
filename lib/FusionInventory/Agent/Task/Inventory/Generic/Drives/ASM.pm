@@ -11,7 +11,7 @@ use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Unix;
 
 sub isEnabled {
-    return canRun('asmcmd');
+    return grep { $_->{CMD} =~ /^asm_pmon/ } getProcesses();
 }
 
 sub doInventory {
