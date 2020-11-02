@@ -41,7 +41,7 @@ sub doInventory {
     # Oracle documentation:
     # see https://docs.oracle.com/cd/E11882_01/server.112/e18951/asm_util004.htm#OSTMG94549
     # But also try oracle user if grid user doesn't exist, and finally try as root
-    my $cmd = ($grid_home ? "ORACLE_HOME='$grid_home' ORACLE_SID=$asm " : "")."asmcmd lsdg";
+    my $cmd = ($grid_home ? "ORACLE_SID=$asm $grid_home/bin/" : "")."asmcmd lsdg";
     $cmd = "su - $user -c \"$cmd\"" unless $user eq "root";
     my $diskgroups = _getDisksGroups(
         command => $cmd,
