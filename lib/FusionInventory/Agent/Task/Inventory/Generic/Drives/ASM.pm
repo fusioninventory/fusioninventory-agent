@@ -29,7 +29,7 @@ sub doInventory {
         or return;
 
     # Then lookup GRID_HOME in user's environment
-    my $grid_home = getFirstLine(command => "su - $user -c 'echo \$GRID_HOME'");
+    my $grid_home = $user eq 'root' ? $ENV{GRID_HOME} : getFirstLine(command => "su - $user -c 'echo \$GRID_HOME'");
     if (!$grid_home && -e "/etc/oratab") {
         my @oratab = getAllLines(file => "/etc/oratab");
         my $asm_for_re = $asm;
