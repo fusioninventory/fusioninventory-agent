@@ -33,7 +33,7 @@ sub getManufacturer {
 sub getSerial {
     my ($self) = @_;
 
-    my $serial = getCanonicalMacAddress($self->get(hwgWldMac) || $self->get(hwgSteMac));
+    my $serial = getCanonicalMacAddress(getCanonicalString($self->get(hwgWldMac) || $self->get(hwgSteMac)));
     $serial =~ s/://g;
 
     return $serial;
