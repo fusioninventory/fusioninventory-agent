@@ -189,11 +189,11 @@ sub getHdparmInfo {
     my $handle = getFileHandle(%params)
         or return;
 
-    my ($info, $abort);
+    my $info;
 
     while (my $line = <$handle>) {
         if ($line =~ /Integrity word not set/) {
-            $abort = 1;
+            $info = {};
             last;
         }
 
@@ -207,7 +207,7 @@ sub getHdparmInfo {
     }
     close $handle;
 
-    return $abort ? {} : $info;
+    return $info;
 }
 
 sub getPCIDevices {

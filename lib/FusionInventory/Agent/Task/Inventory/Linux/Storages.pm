@@ -39,39 +39,6 @@ sub _getDevices {
 
     my $root = $params{root};
 
-    my %sources = (
-        'DESCRIPTION' => {
-            subs    => [ \&getInfoFromSmartctl, \&_getHdparmInfo ],
-            next_if => sub { 1 },
-        },
-        'DISKSIZE' => {
-            subs    => [ \&getInfoFromSmartctl, \&_getHdparmInfo ],
-            next_if => sub { 1 },
-        },
-        'FIRMWARE' => {
-            subs    => [ \&getInfoFromSmartctl, \&_getHdparmInfo ],
-            next_if => sub { 1 },
-        },
-        'INTERFACE' => {
-            subs    => [ \&getInfoFromSmartctl, \&_getHdparmInfo ],
-            next_if => sub { 1 },
-        },
-        'MANUFACTURER' => {
-            subs    => [ \&getInfoFromSmartctl ],
-            # get a more sensible manufacturer
-            next_if => sub { shift ne 'ATA' },
-        },
-        'MODEL' => {
-            subs    => [ \&getInfoFromSmartctl, \&_getHdparmInfo ],
-            # overwrite the field with whatever returned from the subs
-            next_if => sub { 0 },
-        },
-        'WWN' => {
-            subs    => [ \&getInfoFromSmartctl, \&_getHdparmInfo ],
-            next_if => sub { 1 },
-        },
-    );
-
     my @devices = _getDevicesBase(%params);
 
     # complete with udev for missing bits, if available
@@ -92,22 +59,29 @@ sub _getDevices {
         }
     }
 
-    # get missing fields using functions defined in %sources
-    for my $device (@devices) {
-        # the hash keys are function references from %sources
+    # By default, we will get other info from smartctl and then from hdparm
+    my $default_subs = [ \&getInfoFromSmartctl, \&_getHdparmInfo ];
+    foreach my $field (qw(DESCRIPTION DISKSIZE FIRMWARE INTERFACE MANUFACTURER MODEL WWN)) {
+        my $subs = $default_subs;
+        if ($field eq 'MANUFACTURER') {
+            # Try to update manufacturer if set to ATA
+            next if defined $device->{$field} && $device->{$field} ne 'ATA';
+            $subs = [ \&getInfoFromSmartctl ];
+        } elsif ($field eq 'MODEL') {
+            # proceed in any case to overwrite MODEL with whatever returned from subs
+        } elsif (defined $device->{$field}) {
+            next;
+        }
+
         my %info;
 
-        while (my ($field, $data) = each %sources) {
-            next if defined $device->{$field} && $data->{next_if}->($device->{$field});
+        for my $sub (@$subs) {
+            # get info once for each device
+            $info{$sub} = &$sub(device => '/dev/' . $device->{NAME}, %params) unless $info{$sub};
 
-            for my $sub (@{$data->{subs}}) {
-                # get info once for each device
-                $info{$sub} = &$sub(device => '/dev/' . $device->{NAME}, %params) unless $info{$sub};
-
-                if (defined $info{$sub}->{$field}) {
-                    $device->{$field} = $info{$sub}->{$field};
-                    last;
-                }
+            if (defined $info{$sub}->{$field}) {
+                $device->{$field} = $info{$sub}->{$field};
+                last;
             }
         }
     }
