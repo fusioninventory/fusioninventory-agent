@@ -42,7 +42,7 @@ sub getSerial {
 sub getMacAddress {
     my ($self) = @_;
 
-    return $self->get(hwgWldMac) || $self->get(hwgSteMac);
+    return getCanonicalMacAddress(getCanonicalString($self->get(hwgWldMac) || $self->get(hwgSteMac)));
 }
 
 sub getModel {
