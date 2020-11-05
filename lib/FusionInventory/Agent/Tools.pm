@@ -123,7 +123,7 @@ sub getCanonicalManufacturer {
 
     my %regexp = (
         "Apple"           => qr/^APPLE/i,
-        "Hewlett-Packard" => qr/^(hp|HP|(?i)hewlett[ -]packard)/,
+        "Hewlett-Packard" => qr/^(hp|HPE?|(?i)hewlett[ -]packard)/,
         "Hitachi"         => qr/^(HD|IC|HU|HGST)/,
         "Seagate"         => qr/^(ST|(?i)seagate)/,
         "Sony"            => qr/^OPTIARC/i,
@@ -134,17 +134,21 @@ sub getCanonicalManufacturer {
         $manufacturer = $manufacturers{$manufacturer};
     } elsif ($manufacturer =~ /(
         \blg\b     |
+        broadcom   |
         compaq     |
+        dell       |
         fujitsu    |
         hitachi    |
         ibm        |
         intel      |
         matshita   |
         maxtor     |
+        nvidia     |
         \bnec\b    |
         pioneer    |
         samsung    |
         sony       |
+        supermicro |
         toshiba    |
         transcend
     )/xi) {

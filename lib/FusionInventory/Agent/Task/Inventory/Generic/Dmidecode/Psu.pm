@@ -7,6 +7,7 @@ use parent 'FusionInventory::Agent::Task::Inventory::Module';
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Generic;
+use FusionInventory::Agent::Tools::PartNumber;
 
 sub isEnabled {
     my (%params) = @_;
@@ -49,7 +50,22 @@ sub doInventory {
             $psu->{$key} = $info->{$fields{$key}};
         }
 
-        # Filter out PSU if nothing interesting is found
+        # Get canonical manufacturer
+        $psu->{'MANUFACTURER'} = getCanonicalManufacturer($psu->{'MANUFACTURER'})
+            if $psu->{'MANUFACTURER'};
+
+        # Validate PartNumber, as example, this fixes Dell PartNumbers
+        if ($psu->{'PARTNUM'} && $psu->{'MANUFACTURER'}) {
+            my $partnumber = FusionInventory::Agent::Tools::PartNumber->new(
+                partnumber      => $psu->{'PARTNUM'},
+                manufacturer    => $psu->{'MANUFACTURER'},
+                category        => "controller",
+            );
+            $psu->{'PARTNUM'} = $partnumber->get
+                if defined($partnumber);
+        }
+
+        # Filter out PSU is nothing interesting is found
         next unless $psu;
         next unless ($psu->{'NAME'} || $psu->{'SERIALNUMBER'} || $psu->{'PARTNUM'});
 
