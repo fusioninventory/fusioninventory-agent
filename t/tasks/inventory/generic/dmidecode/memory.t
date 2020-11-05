@@ -1296,7 +1296,7 @@ my %tests = (
             CAPTION          => 'DIMM_A',
             MEMORYCORRECTION => 'None',
             DESCRIPTION      => 'DIMM',
-            MANUFACTURER     => undef,
+            MANUFACTURER     => 'Elpida',
             MODEL            => 'EBE21UE8ACUA-8G-E',
             CAPACITY         => '2048'
         },
@@ -1308,7 +1308,7 @@ my %tests = (
             CAPTION          => 'DIMM_B',
             MEMORYCORRECTION => 'None',
             DESCRIPTION      => 'DIMM',
-            MANUFACTURER     => undef,
+            MANUFACTURER     => 'Elpida',
             MODEL            => 'EBE21UE8ACUA-8G-E',
             CAPACITY         => '2048'
         }
@@ -2067,7 +2067,7 @@ my %tests = (
     ],
     'dell-r620' => [
         {
-            'MANUFACTURER'     => '00AD00B300AD',
+            'MANUFACTURER'     => 'Hynix',
             'TYPE'             => 'DDR3',
             'CAPTION'          => 'DIMM_A1',
             'MODEL'            => 'HMT42GR7AFR4A-PB',
@@ -2080,7 +2080,7 @@ my %tests = (
         },
         {
             'CAPTION'          => 'DIMM_A2',
-            'MANUFACTURER'     => '00AD00B300AD',
+            'MANUFACTURER'     => 'Hynix',
             'TYPE'             => 'DDR3',
             'SERIALNUMBER'     => '1E50FA98',
             'SPEED'            => '1600',
@@ -2098,7 +2098,7 @@ my %tests = (
             'SPEED'            => '1600',
             'DESCRIPTION'      => 'DIMM',
             'NUMSLOTS'         => 3,
-            'MANUFACTURER'     => '00AD00B300AD',
+            'MANUFACTURER'     => 'Hynix',
             'TYPE'             => 'DDR3',
             'CAPTION'          => 'DIMM_A3'
         },
@@ -2110,14 +2110,14 @@ my %tests = (
             'SERIALNUMBER'     => '1E20FA5F',
             'NUMSLOTS'         => 4,
             'DESCRIPTION'      => 'DIMM',
-            'MANUFACTURER'     => '00AD00B300AD',
+            'MANUFACTURER'     => 'Hynix',
             'TYPE'             => 'DDR3',
             'CAPTION'          => 'DIMM_A4'
         },
         {
             'CAPTION'          => 'DIMM_A5',
             'TYPE'             => 'DDR3',
-            'MANUFACTURER'     => '00AD00B300AD',
+            'MANUFACTURER'     => 'Hynix',
             'NUMSLOTS'         => 5,
             'DESCRIPTION'      => 'DIMM',
             'SERIALNUMBER'     => '0D7A9A0A',
@@ -2128,7 +2128,7 @@ my %tests = (
         },
         {
             'TYPE'             => 'DDR3',
-            'MANUFACTURER'     => '00AD00B300AD',
+            'MANUFACTURER'     => 'Hynix',
             'CAPTION'          => 'DIMM_A6',
             'MEMORYCORRECTION' => 'Multi-bit ECC',
             'CAPACITY'         => '16384',
@@ -2147,7 +2147,7 @@ my %tests = (
             'MEMORYCORRECTION' => 'Multi-bit ECC',
             'CAPACITY'         => '16384',
             'CAPTION'          => 'DIMM_A7',
-            'MANUFACTURER'     => '00AD00B300AD',
+            'MANUFACTURER'     => 'Hynix',
             'TYPE'             => 'DDR3'
         },
         {
@@ -2158,7 +2158,7 @@ my %tests = (
             'SPEED'            => '1600',
             'DESCRIPTION'      => 'DIMM',
             'NUMSLOTS'         => 8,
-            'MANUFACTURER'     => '00AD00B300AD',
+            'MANUFACTURER'     => 'Hynix',
             'TYPE'             => 'DDR3',
             'CAPTION'          => 'DIMM_A8'
         },
@@ -2204,7 +2204,7 @@ my %tests = (
         },
         {
             'TYPE'             => 'DDR3',
-            'MANUFACTURER'     => '00AD00B300AD',
+            'MANUFACTURER'     => 'Hynix',
             'CAPTION'          => 'DIMM_B1',
             'MEMORYCORRECTION' => 'Multi-bit ECC',
             'CAPACITY'         => '16384',
@@ -2223,12 +2223,12 @@ my %tests = (
             'CAPACITY'         => '16384',
             'MEMORYCORRECTION' => 'Multi-bit ECC',
             'CAPTION'          => 'DIMM_B2',
-            'MANUFACTURER'     => '00AD00B300AD',
+            'MANUFACTURER'     => 'Hynix',
             'TYPE'             => 'DDR3'
         },
         {
             'TYPE'             => 'DDR3',
-            'MANUFACTURER'     => '00AD00B300AD',
+            'MANUFACTURER'     => 'Hynix',
             'CAPTION'          => 'DIMM_B3',
             'CAPACITY'         => '16384',
             'MEMORYCORRECTION' => 'Multi-bit ECC',
@@ -2246,13 +2246,13 @@ my %tests = (
             'SERIALNUMBER'     => '1E40FA91',
             'NUMSLOTS'         => 16,
             'DESCRIPTION'      => 'DIMM',
-            'MANUFACTURER'     => '00AD00B300AD',
+            'MANUFACTURER'     => 'Hynix',
             'TYPE'             => 'DDR3',
             'CAPTION'          => 'DIMM_B4'
         },
         {
             'TYPE'             => 'DDR3',
-            'MANUFACTURER'     => '00AD00B300AD',
+            'MANUFACTURER'     => 'Hynix',
             'CAPTION'          => 'DIMM_B5',
             'MEMORYCORRECTION' => 'Multi-bit ECC',
             'CAPACITY'         => '16384',
@@ -2264,7 +2264,7 @@ my %tests = (
         },
         {
             'CAPTION'          => 'DIMM_B6',
-            'MANUFACTURER'     => '00AD00B300AD',
+            'MANUFACTURER'     => 'Hynix',
             'TYPE'             => 'DDR3',
             'SERIALNUMBER'     => '0B6B0D9E',
             'SPEED'            => '1600',
@@ -2277,7 +2277,7 @@ my %tests = (
         {
             'CAPTION'          => 'DIMM_B7',
             'TYPE'             => 'DDR3',
-            'MANUFACTURER'     => '00AD00B300AD',
+            'MANUFACTURER'     => 'Hynix',
             'NUMSLOTS'         => 19,
             'DESCRIPTION'      => 'DIMM',
             'SERIALNUMBER'     => '1E70FA94',
@@ -2288,7 +2288,7 @@ my %tests = (
         },
         {
             'TYPE'             => 'DDR3',
-            'MANUFACTURER'     => '00AD00B300AD',
+            'MANUFACTURER'     => 'Hynix',
             'CAPTION'          => 'DIMM_B8',
             'MEMORYCORRECTION' => 'Multi-bit ECC',
             'CAPACITY'         => '16384',
