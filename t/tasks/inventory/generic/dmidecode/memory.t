@@ -742,8 +742,8 @@ my %tests = (
             CAPTION          => 'PROC 1 DIMM 2A',
             MANUFACTURER     => 'Micron',
             MODEL            => '18JSF25672AZ-1G4F1',
-            MEMORYCORRECTION => 'Single-bit ECC'
-
+            MEMORYCORRECTION => 'Single-bit ECC',
+            TYPE             => 'DDR3',
         },
         {
             NUMSLOTS         => 2,
@@ -765,7 +765,8 @@ my %tests = (
             CAPTION          => 'PROC 1 DIMM 4B',
             MANUFACTURER     => 'Micron',
             MODEL            => '18JSF25672AZ-1G4F1',
-            MEMORYCORRECTION => 'Single-bit ECC'
+            MEMORYCORRECTION => 'Single-bit ECC',
+            TYPE             => 'DDR3',
         },
         {
             NUMSLOTS         => 4,
@@ -2528,7 +2529,273 @@ my %tests = (
             'CAPTION'          => 'PROC 2 DIMM 9C',
             'DESCRIPTION'      => 'DIMM'
         }
-    ]
+    ],
+    'dell-r640-1' => [
+        {
+            'CAPACITY'         => 8192,
+            'CAPTION'          => 'A1',
+            'DESCRIPTION'      => 'DIMM',
+            'MANUFACTURER'     => 'Micron',
+            'MEMORYCORRECTION' => 'Multi-bit ECC',
+            'MODEL'            => '9ASF1G72PZ-3G2E2',
+            'NUMSLOTS'         => 1,
+            'SERIALNUMBER'     => 'F16A7647',
+            'SPEED'            => '3200',
+            'TYPE'             => 'DDR4'
+        },
+        {
+            'CAPACITY'         => 8192,
+            'CAPTION'          => 'A2',
+            'DESCRIPTION'      => 'DIMM',
+            'MANUFACTURER'     => 'Micron',
+            'MEMORYCORRECTION' => 'Multi-bit ECC',
+            'MODEL'            => '9ASF1G72PZ-3G2E2',
+            'NUMSLOTS'         => 2,
+            'SERIALNUMBER'     => 'F16A798E',
+            'SPEED'            => '3200',
+            'TYPE'             => 'DDR4'
+        },
+        {
+            'CAPACITY'         => 8192,
+            'CAPTION'          => 'A3',
+            'DESCRIPTION'      => 'DIMM',
+            'MANUFACTURER'     => 'Micron',
+            'MEMORYCORRECTION' => 'Multi-bit ECC',
+            'MODEL'            => '9ASF1G72PZ-3G2E2',
+            'NUMSLOTS'         => 3,
+            'SERIALNUMBER'     => 'F16A808F',
+            'SPEED'            => '3200',
+            'TYPE'             => 'DDR4'
+        },
+        {
+            'CAPACITY'         => 8192,
+            'CAPTION'          => 'A4',
+            'DESCRIPTION'      => 'DIMM',
+            'MANUFACTURER'     => 'Micron',
+            'MEMORYCORRECTION' => 'Multi-bit ECC',
+            'MODEL'            => '9ASF1G72PZ-3G2E2',
+            'NUMSLOTS'         => 4,
+            'SERIALNUMBER'     => 'F16A7991',
+            'SPEED'            => '3200',
+            'TYPE'             => 'DDR4'
+        },
+        {
+            'CAPACITY'         => 8192,
+            'CAPTION'          => 'A5',
+            'DESCRIPTION'      => 'DIMM',
+            'MANUFACTURER'     => 'Micron',
+            'MEMORYCORRECTION' => 'Multi-bit ECC',
+            'MODEL'            => '9ASF1G72PZ-3G2E2',
+            'NUMSLOTS'         => 5,
+            'SERIALNUMBER'     => 'F16A7966',
+            'SPEED'            => '3200',
+            'TYPE'             => 'DDR4'
+        },
+        {
+            'CAPACITY'         => 8192,
+            'CAPTION'          => 'A6',
+            'DESCRIPTION'      => 'DIMM',
+            'MANUFACTURER'     => 'Micron',
+            'MEMORYCORRECTION' => 'Multi-bit ECC',
+            'MODEL'            => '9ASF1G72PZ-3G2E2',
+            'NUMSLOTS'         => 6,
+            'SERIALNUMBER'     => 'F16A7965',
+            'SPEED'            => '3200',
+            'TYPE'             => 'DDR4'
+        },
+        {
+            'CAPTION'          => 'A7',
+            'DESCRIPTION'      => undef,
+            'MANUFACTURER'     => undef,
+            'MEMORYCORRECTION' => 'Multi-bit ECC',
+            'NUMSLOTS'         => 7,
+            'SERIALNUMBER'     => undef,
+            'SPEED'            => undef,
+            'TYPE'             => undef
+        },
+        {
+            'CAPTION'          => 'A8',
+            'DESCRIPTION'      => undef,
+            'MANUFACTURER'     => undef,
+            'MEMORYCORRECTION' => 'Multi-bit ECC',
+            'NUMSLOTS'         => 8,
+            'SERIALNUMBER'     => undef,
+            'SPEED'            => undef,
+            'TYPE'             => undef
+        },
+        {
+            'CAPTION'          => 'A9',
+            'DESCRIPTION'      => undef,
+            'MANUFACTURER'     => undef,
+            'MEMORYCORRECTION' => 'Multi-bit ECC',
+            'NUMSLOTS'         => 9,
+            'SERIALNUMBER'     => undef,
+            'SPEED'            => undef,
+            'TYPE'             => undef
+        },
+        {
+            'CAPTION'          => 'A10',
+            'DESCRIPTION'      => undef,
+            'MANUFACTURER'     => undef,
+            'MEMORYCORRECTION' => 'Multi-bit ECC',
+            'NUMSLOTS'         => 10,
+            'SERIALNUMBER'     => undef,
+            'SPEED'            => undef,
+            'TYPE'             => undef
+        },
+        {
+            'CAPTION'          => 'A11',
+            'DESCRIPTION'      => undef,
+            'MANUFACTURER'     => undef,
+            'MEMORYCORRECTION' => 'Multi-bit ECC',
+            'NUMSLOTS'         => 11,
+            'SERIALNUMBER'     => undef,
+            'SPEED'            => undef,
+            'TYPE'             => undef
+        },
+        {
+            'CAPTION'          => 'A12',
+            'DESCRIPTION'      => undef,
+            'MANUFACTURER'     => undef,
+            'MEMORYCORRECTION' => 'Multi-bit ECC',
+            'NUMSLOTS'         => 12,
+            'SERIALNUMBER'     => undef,
+            'SPEED'            => undef,
+            'TYPE'             => undef
+        },
+        {
+            'CAPACITY'         => 8192,
+            'CAPTION'          => 'B1',
+            'DESCRIPTION'      => 'DIMM',
+            'MANUFACTURER'     => 'Micron',
+            'MEMORYCORRECTION' => 'Multi-bit ECC',
+            'MODEL'            => '9ASF1G72PZ-3G2E2',
+            'NUMSLOTS'         => 13,
+            'SERIALNUMBER'     => 'F16A7982',
+            'SPEED'            => '3200',
+            'TYPE'             => 'DDR4'
+        },
+        {
+            'CAPACITY'         => 8192,
+            'CAPTION'          => 'B2',
+            'DESCRIPTION'      => 'DIMM',
+            'MANUFACTURER'     => 'Micron',
+            'MEMORYCORRECTION' => 'Multi-bit ECC',
+            'MODEL'            => '9ASF1G72PZ-3G2E2',
+            'NUMSLOTS'         => 14,
+            'SERIALNUMBER'     => 'F16A7ADB',
+            'SPEED'            => '3200',
+            'TYPE'             => 'DDR4'
+        },
+        {
+            'CAPACITY'         => 8192,
+            'CAPTION'          => 'B3',
+            'DESCRIPTION'      => 'DIMM',
+            'MANUFACTURER'     => 'Micron',
+            'MEMORYCORRECTION' => 'Multi-bit ECC',
+            'MODEL'            => '9ASF1G72PZ-3G2E2',
+            'NUMSLOTS'         => 15,
+            'SERIALNUMBER'     => 'F16A798C',
+            'SPEED'            => '3200',
+            'TYPE'             => 'DDR4'
+        },
+        {
+            'CAPACITY'         => 8192,
+            'CAPTION'          => 'B4',
+            'DESCRIPTION'      => 'DIMM',
+            'MANUFACTURER'     => 'Micron',
+            'MEMORYCORRECTION' => 'Multi-bit ECC',
+            'MODEL'            => '9ASF1G72PZ-3G2E2',
+            'NUMSLOTS'         => 16,
+            'SERIALNUMBER'     => 'F16A7984',
+            'SPEED'            => '3200',
+            'TYPE'             => 'DDR4'
+        },
+        {
+            'CAPACITY'         => 8192,
+            'CAPTION'          => 'B5',
+            'DESCRIPTION'      => 'DIMM',
+            'MANUFACTURER'     => 'Micron',
+            'MEMORYCORRECTION' => 'Multi-bit ECC',
+            'MODEL'            => '9ASF1G72PZ-3G2E2',
+            'NUMSLOTS'         => 17,
+            'SERIALNUMBER'     => 'F16A7AD9',
+            'SPEED'            => '3200',
+            'TYPE'             => 'DDR4'
+        },
+        {
+            'CAPACITY'         => 8192,
+            'CAPTION'          => 'B6',
+            'DESCRIPTION'      => 'DIMM',
+            'MANUFACTURER'     => 'Micron',
+            'MEMORYCORRECTION' => 'Multi-bit ECC',
+            'MODEL'            => '9ASF1G72PZ-3G2E2',
+            'NUMSLOTS'         => 18,
+            'SERIALNUMBER'     => 'F16A796C',
+            'SPEED'            => '3200',
+            'TYPE'             => 'DDR4'
+        },
+        {
+            'CAPTION'          => 'B7',
+            'DESCRIPTION'      => undef,
+            'MANUFACTURER'     => undef,
+            'MEMORYCORRECTION' => 'Multi-bit ECC',
+            'NUMSLOTS'         => 19,
+            'SERIALNUMBER'     => undef,
+            'SPEED'            => undef,
+            'TYPE'             => undef
+        },
+        {
+            'CAPTION'          => 'B8',
+            'DESCRIPTION'      => undef,
+            'MANUFACTURER'     => undef,
+            'MEMORYCORRECTION' => 'Multi-bit ECC',
+            'NUMSLOTS'         => 20,
+            'SERIALNUMBER'     => undef,
+            'SPEED'            => undef,
+            'TYPE'             => undef
+        },
+        {
+            'CAPTION'          => 'B9',
+            'DESCRIPTION'      => undef,
+            'MANUFACTURER'     => undef,
+            'MEMORYCORRECTION' => 'Multi-bit ECC',
+            'NUMSLOTS'         => 21,
+            'SERIALNUMBER'     => undef,
+            'SPEED'            => undef,
+            'TYPE'             => undef
+        },
+        {
+            'CAPTION'          => 'B10',
+            'DESCRIPTION'      => undef,
+            'MANUFACTURER'     => undef,
+            'MEMORYCORRECTION' => 'Multi-bit ECC',
+            'NUMSLOTS'         => 22,
+            'SERIALNUMBER'     => undef,
+            'SPEED'            => undef,
+            'TYPE'             => undef
+        },
+        {
+            'CAPTION'          => 'B11',
+            'DESCRIPTION'      => undef,
+            'MANUFACTURER'     => undef,
+            'MEMORYCORRECTION' => 'Multi-bit ECC',
+            'NUMSLOTS'         => 23,
+            'SERIALNUMBER'     => undef,
+            'SPEED'            => undef,
+            'TYPE'             => undef
+        },
+        {
+            'CAPTION'          => 'B12',
+            'DESCRIPTION'      => undef,
+            'MANUFACTURER'     => undef,
+            'MEMORYCORRECTION' => 'Multi-bit ECC',
+            'NUMSLOTS'         => 24,
+            'SERIALNUMBER'     => undef,
+            'SPEED'            => undef,
+            'TYPE'             => undef
+        },
+    ],
 );
 
 plan tests => (2 * scalar keys %tests) + 1;
