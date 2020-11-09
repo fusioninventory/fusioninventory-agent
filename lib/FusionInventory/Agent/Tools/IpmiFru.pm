@@ -125,7 +125,8 @@ sub parseFru {
     # Validate PartNumber, as example, this fixes Dell PartNumbers
     my $partnum = $device->{PARTNUM} // $device->{MODEL};
     if ($partnum) {
-        my $partnumber = FusionInventory::Agent::Tools::PartNumber->new(
+        my $partnumber_factory = FusionInventory::Agent::Tools::PartNumber->new();
+        my $partnumber = $partnumber_factory->match(
             partnumber      => $partnum,
             manufacturer    => $device->{MANUFACTURER},
             category        => "controller",

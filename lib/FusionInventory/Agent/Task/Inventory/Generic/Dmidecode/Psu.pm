@@ -56,7 +56,10 @@ sub doInventory {
 
         # Validate PartNumber, as example, this fixes Dell PartNumbers
         if ($psu->{'PARTNUM'} && $psu->{'MANUFACTURER'}) {
-            my $partnumber = FusionInventory::Agent::Tools::PartNumber->new(
+            my $partnumber_factory = FusionInventory::Agent::Tools::PartNumber->new(
+                logger  => $params{logger},
+            );
+            my $partnumber = $partnumber_factory->match(
                 partnumber      => $psu->{'PARTNUM'},
                 manufacturer    => $psu->{'MANUFACTURER'},
                 category        => "controller",
@@ -65,7 +68,7 @@ sub doInventory {
                 if defined($partnumber);
         }
 
-        # Filter out PSU is nothing interesting is found
+        # Filter out PSU if nothing interesting is found
         next unless $psu;
         next unless ($psu->{'NAME'} || $psu->{'SERIALNUMBER'} || $psu->{'PARTNUM'});
 

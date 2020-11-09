@@ -20,8 +20,6 @@ my @subclasses;
 sub new {
     my ($class, %params) = @_;
 
-    return unless defined($params{partnumber});
-
     my $logger = $params{logger} || FusionInventory::Agent::Logger->new();
 
     unless (@subclasses) {
@@ -45,7 +43,17 @@ sub new {
         @subclasses = sort { $priority{$a} <=> $priority{$b} } sort keys(%priority);
     }
 
-    my $self = bless { _partnumber => $params{partnumber} }, $class;
+    my $self = {
+        logger => $logger,
+    };
+
+    return bless $self, $class;
+}
+
+sub match {
+    my ($self, %params) = @_;
+
+    return unless defined($params{partnumber});
 
     foreach my $subclass (@subclasses) {
         # Filter out by category and eventually by manufacturer
@@ -111,9 +119,18 @@ hash:
 
 the logger object to use (default: a new stderr logger)
 
+=back
+
+=head2 match(%params)
+
+This is the method checking for supported PartNumber sub-class handling the set
+PartNumber. The following parameters are allowed, as keys of the %params hash:
+
+=over
+
 =item I<partnumber>
 
-the partnumber string
+the partnumber string (mandatory)
 
 =item I<category>
 

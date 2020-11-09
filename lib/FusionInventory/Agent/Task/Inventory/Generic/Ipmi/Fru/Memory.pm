@@ -63,7 +63,10 @@ sub doInventory {
 
             $mems[0]->{$field} = $parsed_fru->{$field};
             if ($field eq 'MODEL') {
-                my $partnumber = FusionInventory::Agent::Tools::PartNumber->new(
+                my $partnumber_factory = FusionInventory::Agent::Tools::PartNumber->new(
+                    logger  => $logger
+                );
+                my $partnumber = $partnumber_factory->match(
                     partnumber  => $mems[0]->{$field},
                     category    => "memory",
                 );

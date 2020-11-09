@@ -122,7 +122,8 @@ sub _getMemories {
                 $memory->{MODEL} = trimWhitespace(
                     getSanitizedString( hex2char($info->{'Part Number'}) )
                 );
-                my $partnumber = FusionInventory::Agent::Tools::PartNumber->new(
+                my $partnumber_factory = FusionInventory::Agent::Tools::PartNumber->new(@_);
+                my $partnumber = $partnumber_factory->match(
                     partnumber  => $memory->{MODEL},
                     category    => "memory",
                 );
