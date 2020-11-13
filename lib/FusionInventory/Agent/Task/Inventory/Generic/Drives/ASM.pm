@@ -29,7 +29,8 @@ sub doInventory {
         or return;
 
     # Then lookup GRID_HOME in user's environment
-    my $grid_home = $user eq 'root' ? $ENV{GRID_HOME} : getFirstLine(command => "su - $user -c 'echo \$GRID_HOME'");
+    my $root = $user eq 'root' ? 1 : 0;
+    my $grid_home = $root ? $ENV{GRID_HOME} : getFirstLine(command => "su - $user -c 'echo \$GRID_HOME'");
     if (!$grid_home && -e "/etc/oratab") {
         my @oratab = getAllLines(file => "/etc/oratab");
         my $asm_for_re = $asm;
@@ -41,8 +42,10 @@ sub doInventory {
     # Oracle documentation:
     # see https://docs.oracle.com/cd/E11882_01/server.112/e18951/asm_util004.htm#OSTMG94549
     # But also try oracle user if grid user doesn't exist, and finally try as root
-    my $cmd = ($grid_home ? "ORACLE_SID=$asm ORACLE_HOME=$grid_home $grid_home/bin/" : "")."asmcmd lsdg";
-    $cmd = "su - $user -c \"$cmd\"" unless $user eq "root";
+    my $cmd = ($grid_home ? "$grid_home/bin/" : "")."asmcmd lsdg";
+    local $ENV{ORACLE_SID}  = $asm       if $root;
+    local $ENV{ORACLE_HOME} = $grid_home if $root && $grid_home;
+    $cmd = "su - $user -c \"ORACLE_SID=$asm ORACLE_HOME=$grid_home $cmd\"" unless $root;
     my $diskgroups = _getDisksGroups(
         command => $cmd,
         logger  => $logger
