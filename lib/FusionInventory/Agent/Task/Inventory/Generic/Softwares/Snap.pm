@@ -5,6 +5,7 @@ use warnings;
 
 use parent 'FusionInventory::Agent::Task::Inventory::Module';
 
+use English qw(-no_match_vars);
 use File::stat;
 use YAML::Tiny;
 
@@ -55,7 +56,7 @@ sub _getPackagesList {
         next if $infos[0] eq 'Name' && $infos[1] eq 'Version';
 
         # Skip base and snapd
-        next if $infos[5] && $infos[5] =~ /^base|snapd$/;
+        next if $infos[5] && $infos[5] =~ /^base|core|snapd$/;
 
         my $snap = {
             NAME            => $infos[0],
@@ -73,7 +74,7 @@ sub _getPackagesList {
             );
         }
 
-        push @packages, $snap,
+        push @packages, $snap;
     }
     close $handle;
 
@@ -83,15 +84,25 @@ sub _getPackagesList {
 sub _getPackagesInfo {
     my (%params) = @_;
 
+    # snap info command may wrongly output some long infos
+    local $ENV{COLUMNS} = 100;
+
     my $snap = delete $params{snap};
     my $lines = getAllLines(%params)
         or return;
 
-    my $yaml  = YAML::Tiny->read_string($lines);
-    my $infos = $yaml->[0]
-        or return;
+    my ($yaml, $infos);
+    eval {
+        $yaml  = YAML::Tiny->read_string($lines);
+        $infos = $yaml->[0];
+    };
 
-    return unless $infos->{name};
+    if ($EVAL_ERROR && $params{logger}) {
+        $params{logger}->warning("Wrong $snap->{NAME} snap info output: $EVAL_ERROR");
+        $params{logger}->info("Please report snap info output:\n$lines");
+    }
+
+    return unless $infos && $infos->{name};
 
     $snap->{PUBLISHER} = $infos->{publisher};
     # Cleanup publisher from 'starred' if verified
