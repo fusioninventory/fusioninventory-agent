@@ -5,6 +5,9 @@ Revision history for FusionInventory agent
 core:
 * Fix #643, #863: Force XML UTF-8 encoding when communicating with server
 
+inventory:
+* Fix #897: Fix cpu analysis on win32 to support inventory of different cpus
+
 2.6 Thu, 26 Nov 2020
 
 core:
