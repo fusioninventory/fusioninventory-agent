@@ -7,6 +7,7 @@ core:
 
 inventory:
 * Fix #897: Fix cpu analysis on win32 to support inventory of different cpus
+* Fix #898: Refactor cpu analysis to make dmidecode safer to use under win32
 
 2.6 Thu, 26 Nov 2020
 

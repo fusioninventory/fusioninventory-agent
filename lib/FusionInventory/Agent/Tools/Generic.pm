@@ -126,10 +126,12 @@ sub getCpusFromDmidecode {
             MANUFACTURER => $manufacturer
         };
         $cpu->{NAME} =
-            ($cpu->{MANUFACTURER} =~ /Intel/ ? $info->{'Family'} : undef) ||
             $info->{'Version'}                                     ||
+            $info->{'Family'}                                      ||
             $info->{'Processor Family'}                            ||
             $info->{'Processor Version'};
+        # Cleanup cpu NAME
+        $cpu->{NAME} =~ s/\((R|TM)\)//gi if $cpu->{NAME};
 
        if ($cpu->{ID}) {
 
