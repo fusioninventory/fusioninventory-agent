@@ -122,16 +122,13 @@ Project IRC channel:
 
 Please report any issues on Github.
 
-## Active authors
-
-* Guillaume Rousse <guillomovitch@gmail.com>
-* Guillaume Bougard <gbougard@teclib.com>
+## Copyrights
 
 Copyright 2006-2010 [OCS Inventory contributors](https://www.ocsinventory-ng.org/)
 
-Copyright 2010-2019 [FusionInventory Team](http://fusioninventory.org)
+Copyright 2010-2021 [FusionInventory Team](https://fusioninventory.org)
 
-Copyright 2011-2019 [Teclib Editions](http://www.teclib-edition.com/)
+Copyright 2011-2021 [Teclib Editions](https://www.teclib-edition.com/)
 
 ## License
 
