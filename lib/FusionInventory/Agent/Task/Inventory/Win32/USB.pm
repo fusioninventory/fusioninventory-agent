@@ -70,7 +70,7 @@ sub _getDevicesFromWMI {
         class      => 'CIM_LogicalDevice',
         properties => [ qw/Caption DeviceID Name/ ]
     )) {
-        next unless $object->{DeviceID} =~ /^USB\\VID_(\w+)&PID_(\w+)\\(.*)/;
+        next unless $object->{DeviceID} =~ /^USB\\VID_(\w+)&PID_(\w+)(?:&MI_\w+){0,1}\\(.*)/;
 
         push @devices, {
             CAPTION   => $object->{Caption},
