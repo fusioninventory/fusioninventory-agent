@@ -635,6 +635,7 @@ sub _setPrinterProperties {
     my $unit_ids       = $snmp->walk('.1.3.6.1.2.1.43.11.1.1.7.1');
     my $max_levels     = $snmp->walk('.1.3.6.1.2.1.43.11.1.1.8.1');
     my $current_levels = $snmp->walk('.1.3.6.1.2.1.43.11.1.1.9.1');
+    my $paper_roll     = $snmp->get('.1.3.6.1.4.1.10642.200.17.3.0');
 
     foreach my $consumable_id (sort keys %$descriptions) {
         my $max         = $max_levels->{$consumable_id};
@@ -733,6 +734,14 @@ sub _setPrinterProperties {
 
         next unless defined $value;
         $device->{CARTRIDGES}->{$type} = $value;
+    }
+    # consumable paper roll on thermal printer
+    if (defined $paper_roll) {
+        my $paper_rolld = getCanonicalString($paper_roll);
+        my @paper_values = $paper_rolld =~ /^(\d+) INCHES, (\d+) CENTIMETERS$/;
+        last unless $paper_values[1];
+        $device->{CARTRIDGES}->{PAPERROLL}->{INCHES} = $paper_values[0];
+        $device->{CARTRIDGES}->{PAPERROLL}->{CENTIMETERS} = $paper_values[1];
     }
 
     # page counters
