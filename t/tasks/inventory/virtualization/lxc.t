@@ -21,6 +21,7 @@ my %container_tests = (
         version => 2.0,
         result  => {
             NAME    => 'config',
+            UTS_NAME    => 'name1',
             VMTYPE  => 'lxc',
             STATUS  => STATUS_OFF,
             MEMORY  => '2048000',
