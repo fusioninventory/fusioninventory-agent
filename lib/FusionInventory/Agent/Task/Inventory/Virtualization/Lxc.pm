@@ -70,8 +70,10 @@ sub  _getVirtualMachine {
     if ($params{version} < 2.1) {
         # Before 2.1, we need to find MAC as lxc.network.hwaddr in config
         $command .= "; grep lxc.network.hwaddr $params{config}";
+        $command .= "; grep lxc.utsname $params{config}";
     } else {
         $command .= " -c lxc.net.0.hwaddr";
+        $command .= " -c lxc.uts.name";
     }
 
     my $handle = getFileHandle(
@@ -87,6 +89,10 @@ sub  _getVirtualMachine {
 
         my $key = $1;
         my $val = $2;
+        if ($key eq 'lxc.uts.name' || $key eq 'lxc.utsname') {
+            $container->{UTS_NAME} = $val;
+        }
+
         if ($key eq 'lxc.network.hwaddr' || $key eq 'lxc.net.0.hwaddr') {
             $container->{MAC} = lc($val)
                 if $val =~ $mac_address_pattern;
@@ -190,6 +196,8 @@ sub  _getVirtualMachines {
 
         my $uuid = getVirtualUUID($machineid, $hostname);
         $container->{UUID} = $uuid if $uuid;
+        my $utsname = delete $container->{UTS_NAME};
+        $container->{NAME} = $utsname if $utsname && $container->{NAME} =~ /^\d+$/;
 
         push @machines, $container;
     }
