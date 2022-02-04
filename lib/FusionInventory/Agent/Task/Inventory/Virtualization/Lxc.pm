@@ -196,7 +196,8 @@ sub  _getVirtualMachines {
 
         my $uuid = getVirtualUUID($machineid, $hostname);
         $container->{UUID} = $uuid if $uuid;
-	$container->{NAME} = $container->{UTS_NAME} if $container->{UTS_NAME};
+        my $utsname = delete $container->{UTS_NAME};
+        $container->{NAME} = $utsname if $utsname && $container->{NAME} =~ /^\d+$/;
 
         push @machines, $container;
     }
