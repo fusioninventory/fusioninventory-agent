@@ -8,7 +8,6 @@ use parent 'FusionInventory::Agent::Task::Inventory::Module';
 use English qw(-no_match_vars);
 use MIME::Base64;
 use UNIVERSAL::require;
-
 use File::Find;
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Screen;
@@ -148,8 +147,11 @@ sub _getScreensFromWindows {
 
     foreach my $screen (@screens) {
         next unless $screen->{id};
-        $screen->{edid} = getRegistryValue(
-            path => "HKEY_LOCAL_MACHINE/SYSTEM/CurrentControlSet/Enum/$screen->{id}/Device Parameters/EDID",
+        # $screen->{id} =~ s/\\/\//g;
+        $screen->{edid} = getNewRegistryValues(
+            root => "HKEY_LOCAL_MACHINE",
+            path => "SYSTEM/CurrentControlSet/Enum/$screen->{id}/Device Parameters",
+            keyName => "EDID",
             logger => $params{logger}
         );
         $screen->{edid} =~ s/^\s+$// if $screen->{edid};

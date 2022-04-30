@@ -461,31 +461,25 @@ sub _setNortonInfos {
 sub _getSoftwareRegistryKeys {
     my ($base, $values, $callback) = @_;
 
-    my $reg;
     if (is64bit()) {
-        $reg = getRegistryKey(
-            path => 'HKEY_LOCAL_MACHINE/SOFTWARE/Wow6432Node/'.$base,
-            wmiopts => { # Only used for remote WMI optimization
-                values  => $values
-            }
+        my %reg = getNewRegistryValues(
+            root   => "HKEY_LOCAL_MACHINE",
+            path   => 'SOFTWARE/Wow6432Node/'.$base
         );
-        if ($reg) {
+        if (%reg) {
             if ($callback) {
-                my $filter = &{$callback}($reg);
+                my $filter = &{$callback}(%reg);
                 return $filter if $filter;
             } else {
-                return $reg;
+                return %reg;
             }
         }
     }
-
-    $reg = getRegistryKey(
-        path => 'HKEY_LOCAL_MACHINE/SOFTWARE/'.$base,
-        wmiopts => { # Only used for remote WMI optimization
-            values  => $values
-        }
+    my %reg = getNewRegistryValues(
+        root   => "HKEY_LOCAL_MACHINE",
+        path   => 'SOFTWARE/'.$base
     );
-    return ($callback && $reg) ? &{$callback}($reg) : $reg;
+    return ($callback && %reg) ? &{$callback}(%reg) : %reg;
 }
 
 1;

@@ -15,7 +15,7 @@ use constant KEY_WOW64_64 => 0x100;
 use constant KEY_WOW64_32 => 0x200;
 
 use Cwd;
-use Encode;
+use Encode qw( encode decode is_utf8 );
 use English qw(-no_match_vars);
 use File::Temp qw(:seekable tempfile);
 use File::Basename qw(basename);
@@ -25,6 +25,7 @@ use Win32::TieRegistry (
     ArrayValues => 0,
     qw/KEY_READ/
 );
+use Win32API::Registry qw( :ALL );
 
 use FusionInventory::Agent::Tools;
 use FusionInventory::Agent::Tools::Expiration;
@@ -50,6 +51,8 @@ our @EXPORT = qw(
     FreeAgentMem
     getWMIService
     getFormatedWMIDateTime
+    getNewRegistryAll
+    getNewRegistryValues
 );
 
 my $_is64bits = undef;
@@ -83,7 +86,7 @@ sub encodeFromRegistry {
     ## no critic (ExplicitReturnUndef)
     return undef unless $string;
 
-    return $string if Encode::is_utf8($string);
+    return $string if is_utf8($string);
 
     return decode(getLocalCodepage(), $string);
 }
@@ -215,6 +218,155 @@ sub _getWMIObjects {
     return @objects;
 }
 
+
+############## NEW REGISTRY ##############
+
+sub getNewRegistryAll {
+    my (%params) = @_;
+
+    # my %ret;
+    if (!$params{path}) {
+        $params{logger}->error(
+            "No registry value path provided"
+        ) if $params{logger};
+        return;
+    }
+    if (!$params{root}) {
+        $params{logger}->error(
+            "No registry value root provided"
+        ) if $params{logger};
+        return;
+    }
+
+    my %ret;
+
+    my %keys = getNewRegistrySubKeys(
+        logger => $params{logger},
+        root   => $params{root},
+        path   => $params{path}
+    );
+    foreach my $keyName (keys %keys) {
+        my %values = getNewRegistryValues(
+            logger    => $params{logger},
+            root      => $params{root},
+            path      => $params{path}.'/'.$keyName,
+            lastwrite => $keys{$keyName}
+        );
+        $ret{$keyName} = { %values };
+    }
+    return %ret;
+}
+
+sub getNewRegistrySubKeys {
+    my (%params) = @_;
+
+    my %ret;
+
+    my $swKey;
+    my $keyIndex = 0;
+    my $keyName;
+    my $keyLastWrite;
+
+    my $path = $params{path};
+    $path =~ s/\//\\\\/g;
+
+    my $root = _getNewRegistryRoot(
+        root => $params{root}
+    );
+
+    RegOpenKeyExW($root, encode("UTF-16LE", $path), 0, KEY_ENUMERATE_SUB_KEYS, $swKey);
+    for ($keyIndex = 0; RegEnumKeyExW($swKey, $keyIndex, $keyName, 0, [], [], [], $keyLastWrite); $keyIndex++) {
+        $keyName =~ s/^((?:..)*)\0\0//s;
+        $ret{decode("UTF-16LE", $keyName)} = $keyLastWrite;
+        # push @ret, decode("UTF-16LE", $keyName);
+    }
+    return %ret;
+}
+
+sub getNewRegistryValues {
+    my (%params) = @_;
+
+    my %ret;
+    my $keyIndex = 0;
+    my $keyName;
+    my $keyType;
+    my $keyValue;
+    my $swKey;
+    my $path = $params{path};
+    my $root = _getNewRegistryRoot(
+        root => $params{root}
+    );
+
+    $path =~ s/\//\\\\/g;
+
+    if (defined $params{lastwrite}) {
+        $ret{_lastWrite} = $params{lastwrite};
+    }
+
+    RegOpenKeyExW($root, encode("UTF-16LE", $path), 0, KEY_READ, $swKey);
+
+    for ($keyIndex = 0; RegEnumValueW($swKey, $keyIndex, $keyName, 100, [], $keyType, $keyValue, 100); $keyIndex++) {
+        my $newKeyValue;
+        if ($keyType == REG_DWORD) {
+            $newKeyValue = unpack("L", $keyValue);
+        } else {
+            $keyValue =~ s/\x00$//;
+            $newKeyValue = decode("UTF-16LE", $keyValue);
+            # $newKeyValue =~ s/^((?:..)*)\0\0//s;
+        }
+        $keyName =~ s/^((?:..)*)\0\0//s;
+        $ret{decode("UTF-16LE", $keyName)} = $newKeyValue;
+    }
+    return %ret;
+}
+
+sub getNewRegistryValue {
+    my (%params) = @_;
+
+    my $swKey;
+    my $keyType;
+    my $keyValue;
+    my $path = $params{path};
+    my $root = _getNewRegistryRoot(
+        root => $params{root}
+    );
+
+    RegOpenKeyExW($root, encode("UTF-16LE", $path), 0, KEY_READ, $swKey);
+    RegQueryValueExW($swKey, encode("UTF-16LE", $params{keyName}), [], $keyType, $keyValue, 100);
+    return $keyValue;
+
+    $keyValue =~ s/^((?:..)*)\0\0//s;
+    if ($keyType == REG_DWORD) {
+        $keyValue = unpack("L", $keyValue);
+    } else {
+        $keyValue = decode("UTF-16LE", $keyValue);
+    }
+    return $keyValue;
+}
+
+sub _getNewRegistryRoot {
+    my (%params) = @_;
+
+    my $root = $params{root};
+    if ($root eq "HKEY_CLASSES_ROOT") {
+        $root = HKEY_CLASSES_ROOT;
+    } elsif ($root eq "HKEY_CURRENT_USER") {
+        $root = HKEY_CURRENT_USER;
+    } elsif ($root eq "HKEY_LOCAL_MACHINE") {
+        $root = HKEY_LOCAL_MACHINE;
+    } elsif ($root eq "HKEY_USER") {
+        $root = HKEY_USERS;
+    }
+    return $root;
+}
+
+
+
+
+
+########## END NEW REGISTRY ##############
+
+
 sub getRegistryValue {
     my (%params) = @_;
 
@@ -259,6 +411,13 @@ sub getRegistryValue {
             withtype  => $params{withtype}
         );
     }
+
+    return _getRegistryDynamic(
+        logger    => $params{logger},
+        path      => $params{path},
+        valueName => '',
+        withtype  => ''
+    );
 
     my $key = _getRegistryKey(
         logger  => $params{logger},
