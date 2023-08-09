@@ -36,18 +36,26 @@ sub doInventory {
 
     my @licenses;
 
-    my $officeKey = getRegistryKey(
-        path => "HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Office"
+    my %officeKey = getNewRegistryAll(
+        logger => $params{logger},
+        root   => "HKEY_LOCAL_MACHINE",
+        path   => "SOFTWARE/Microsoft/Office",
+        %params
     );
-    _scanOfficeLicences($officeKey) if $officeKey;
+
+    _scanOfficeLicences(%officeKey) if %officeKey;
 
     my $fileAdobe = 'C:\Program Files\Common Files\Adobe\Adobe PCD\cache\cache.db';
     if (is64bit()) {
         $fileAdobe = 'C:\Program Files (x86)\Common Files\Adobe\Adobe PCD\cache\cache.db';
-        my $officeKey32 = getRegistryKey(
-            path => "HKEY_LOCAL_MACHINE/SOFTWARE/Wow6432Node/Microsoft/Office"
+        my %officeKey32 = getNewRegistryAll(
+            logger => $params{logger},
+            root   => "HKEY_LOCAL_MACHINE",
+            path   => "SOFTWARE/Wow6432Node/Microsoft/Office",
+            %params
         );
-        _scanOfficeLicences($officeKey32) if $officeKey32;
+
+        _scanOfficeLicences(%officeKey32) if %officeKey32;
     }
 
     push @licenses, getAdobeLicensesWithoutSqlite($fileAdobe) if (-e $fileAdobe);
@@ -116,7 +124,7 @@ sub _scanWmiSoftwareLicensingProducts {
 }
 
 sub _scanOfficeLicences {
-    my ($key) = @_;
+    my (%key) = @_;
 
     # registry data structure:
     # SOFTWARE/Microsoft/Office
@@ -127,8 +135,8 @@ sub _scanOfficeLicences {
     #             └── ProductID:value
     #             └── ...
 
-    foreach my $versionKey (keys %{$key}) {
-        my $registrationKey = $key->{$versionKey}->{'Registration/'};
+    foreach my $versionKey (keys %key) {
+        my $registrationKey = $key{$versionKey}->{Registration};
         next unless $registrationKey;
 
         foreach my $uuidKey (keys %{$registrationKey}) {

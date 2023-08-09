@@ -66,7 +66,7 @@ sub doInventory {
 
     if ($is64bit) {
         my $softwares32 = _getSoftwaresList(
-            path    => "HKEY_LOCAL_MACHINE/SOFTWARE/Wow6432Node/Microsoft/Windows/CurrentVersion/Uninstall",
+            path    => "SOFTWARE/Wow6432Node/Microsoft/Windows/CurrentVersion/Uninstall",
             is64bit => 0
         ) || [];
         foreach my $software (@$softwares32) {
@@ -120,12 +120,13 @@ sub _loadUserSoftware {
         my $userName = $userList->{$profileName}
             or next;
 
-        my $profileSoft = "HKEY_USERS/$profileName/SOFTWARE/";
+        my $profileSoft = "$profileName/SOFTWARE/";
         $profileSoft .= is64bit() && !$is64bit ?
                 "Wow6432Node/Microsoft/Windows/CurrentVersion/Uninstall" :
                 "Microsoft/Windows/CurrentVersion/Uninstall";
 
         my $softwares = _getSoftwaresList(
+            root      => "HKEY_USERS",
             path      => $profileSoft,
             is64bit   => $is64bit,
             userid    => $profileName,
@@ -143,22 +144,22 @@ sub _loadUserSoftware {
 sub _getUsersFromRegistry {
     my (%params) = @_;
 
-    my $profileList = getRegistryKey(
-        path => 'HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Windows NT/CurrentVersion/ProfileList',
-        wmiopts => { # Only used for remote WMI optimization
-            values  => [ qw/ProfileImagePath Sid/ ],
-        }
+    my %profileList = getNewRegistryAll(
+        logger => $params{logger},
+        root   => "HKEY_LOCAL_MACHINE",
+        path   => "SOFTWARE/Microsoft/Windows NT/CurrentVersion/ProfileList",
+        %params
     );
 
-    next unless $profileList;
+    return unless %profileList;
 
     my $userList;
-    foreach my $profileName (keys %$profileList) {
+    foreach my $profileName (keys %profileList) {
         next unless $profileName =~ m{/$};
         next unless length($profileName) > 10;
 
-        my $profilePath = $profileList->{$profileName}{'/ProfileImagePath'};
-        my $sid = $profileList->{$profileName}{'/Sid'};
+        my $profilePath = $profileList{$profileName}->{ProfileImagePath};
+        my $sid = $profileList{$profileName}->{Sid};
         next unless $sid;
         next unless $profilePath;
         my $user = basename($profilePath);
@@ -196,9 +197,7 @@ sub _keyLastWriteDateString {
 
     return unless ($OSNAME eq 'MSWin32');
 
-    return unless (ref($key) eq "Win32::TieRegistry");
-
-    my @lastWrite = FileTimeToSystemTime($key->Information("LastWrite"));
+    my @lastWrite = FileTimeToSystemTime($key->{_lastWrite});
 
     return unless (@lastWrite > 3);
 
@@ -208,53 +207,52 @@ sub _keyLastWriteDateString {
 sub _getSoftwaresList {
     my (%params) = @_;
 
-    my $softwares = getRegistryKey(
-        path    => "HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall",
-        wmiopts => { # Only used for remote WMI optimization
-            values  => [ qw/
-                DisplayName Comments HelpLink ReleaseType DisplayVersion
-                Publisher URLInfoAbout UninstallString InstallDate MinorVersion
-                MajorVersion NoRemove SystemComponent
-                / ]
-        },
+    my $path = "SOFTWARE/Microsoft/Windows/CurrentVersion/Uninstall";
+    my $root = "HKEY_LOCAL_MACHINE";
+    if (defined $params{path}) {
+        $path = $params{path};
+    }
+    if (defined $params{root}) {
+        $root = $params{root};
+    }
+
+    my %softwares = getNewRegistryAll(
+        logger => $params{logger},
+        root   => $root,
+        path   => $path,
         %params
     );
+    return unless %softwares;
 
     my @list;
 
-    return unless $softwares;
-
-    foreach my $rawGuid (keys %$softwares) {
+    foreach my $rawGuid (keys %softwares) {
         # skip variables
         next if $rawGuid =~ m{^/};
 
         # only keep subkeys with more than 1 value
-        my $data = $softwares->{$rawGuid};
+        my $data = $softwares{$rawGuid};
         next unless keys %$data > 1;
-
-        my $guid = $rawGuid;
-        $guid =~ s/\/$//; # drop the tailing /
 
         my $software = {
             FROM             => "registry",
-            NAME             => encodeFromRegistry($data->{'/DisplayName'}) ||
-                                encodeFromRegistry($guid), # folder name
-            COMMENTS         => encodeFromRegistry($data->{'/Comments'}),
-            HELPLINK         => encodeFromRegistry($data->{'/HelpLink'}),
-            RELEASE_TYPE     => encodeFromRegistry($data->{'/ReleaseType'}),
-            VERSION          => encodeFromRegistry($data->{'/DisplayVersion'}),
-            PUBLISHER        => encodeFromRegistry($data->{'/Publisher'}),
-            URL_INFO_ABOUT   => encodeFromRegistry($data->{'/URLInfoAbout'}),
-            UNINSTALL_STRING => encodeFromRegistry($data->{'/UninstallString'}),
-            INSTALLDATE      => _dateFormat($data->{'/InstallDate'}),
-            VERSION_MINOR    => hex2dec($data->{'/MinorVersion'}),
-            VERSION_MAJOR    => hex2dec($data->{'/MajorVersion'}),
-            NO_REMOVE        => hex2dec($data->{'/NoRemove'}),
+            NAME             => $data->{DisplayName} || $rawGuid, # folder name
+            COMMENTS         => $data->{Comments},
+            HELPLINK         => $data->{HelpLink},
+            RELEASE_TYPE     => $data->{ReleaseType},
+            VERSION          => $data->{DisplayVersion},
+            PUBLISHER        => $data->{Publisher},
+            URL_INFO_ABOUT   => $data->{URLInfoAbout},
+            UNINSTALL_STRING => $data->{UninstallString},
+            INSTALLDATE      => _dateFormat($data->{InstallDate}),
+            VERSION_MINOR    => $data->{MinorVersion},
+            VERSION_MAJOR    => $data->{MajorVersion},
+            NO_REMOVE        => $data->{NoRemove},
             ARCH             => $params{is64bit} ? 'x86_64' : 'i586',
-            GUID             => $guid,
+            GUID             => $rawGuid,
             USERNAME         => $params{username},
             USERID           => $params{userid},
-            SYSTEM_CATEGORY  => $data->{'/SystemComponent'} && hex2dec($data->{'/SystemComponent'}) ?
+            SYSTEM_CATEGORY  => $data->{SystemComponent} ?
                 CATEGORY_SYSTEM_COMPONENT : CATEGORY_APPLICATION
         };
 
@@ -347,17 +345,17 @@ sub _processMSIE {
         "Internet Explorer (64bit)" : "Internet Explorer";
 
     # Will use key last write date as INSTALLDATE
-    my $installedkey = getRegistryKey(
+    my %installedkey = getNewRegistryValues(
+        logger => $params{logger},
+        root   => "HKEY_LOCAL_MACHINE",
         path   => is64bit() && !$params{is64bit} ?
-            "HKEY_LOCAL_MACHINE/SOFTWARE/Wow6432Node/Microsoft/Internet Explorer" :
-            "HKEY_LOCAL_MACHINE/SOFTWARE/Microsoft/Internet Explorer",
-        wmiopts => { # Only used for remote WMI optimization
-            values  => [ qw/svcVersion Version/ ],
-            subkeys => 0
-        }
+            "SOFTWARE/Wow6432Node/Microsoft/Internet Explorer" :
+            "SOFTWARE/Microsoft/Internet Explorer",
+        %params
     );
 
-    my $version = $installedkey->{"/svcVersion"} || $installedkey->{"/Version"};
+
+    my $version = $installedkey{svcVersion} || $installedkey{Version};
 
     return unless $version; # Not installed
 
@@ -368,8 +366,8 @@ sub _processMSIE {
             ARCH        => $params{is64bit} ? 'x86_64' : 'i586',
             NAME        => $name,
             VERSION     => $version,
-            PUBLISHER   => "Microsoft Corporation",
-            INSTALLDATE => _dateFormat(_keyLastWriteDateString($installedkey))
+            PUBLISHER   => "Microsoft Corporation"
+            # INSTALLDATE => _dateFormat(_keyLastWriteDateString(%installedkey))
         }
     );
 

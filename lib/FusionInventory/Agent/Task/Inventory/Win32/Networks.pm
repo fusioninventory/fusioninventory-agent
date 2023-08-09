@@ -27,7 +27,7 @@ sub doInventory {
     my $inventory = $params{inventory};
     my (@gateways, @dns, @ips);
 
-    my $keys;
+    my %keys;
 
     foreach my $interface (getInterfaces()) {
         push @gateways, $interface->{IPGATEWAY}
@@ -44,14 +44,13 @@ sub doInventory {
         delete $interface->{GUID};
 
         # Don't reload registry keys between interfaces checks
-        $keys = getRegistryKey(
-            path   => "HKEY_LOCAL_MACHINE/SYSTEM/CurrentControlSet/Control/Network/{4D36E972-E325-11CE-BFC1-08002BE10318}",
-            wmiopts => { # Only used for remote WMI optimization
-                values  => [ qw/PnpInstanceID MediaSubType/ ]
-            }
-        ) unless $keys;
+        %keys = getNewRegistryAll(
+            logger => $params{logger},
+            root   => "HKEY_LOCAL_MACHINE", 
+            path   => "SYSTEM/CurrentControlSet/Control/Network/{4D36E972-E325-11CE-BFC1-08002BE10318}",
+        ) unless %keys;
 
-        $interface->{TYPE} = _getMediaType($interface->{PNPDEVICEID}, $keys);
+        $interface->{TYPE} = _getMediaType($interface->{PNPDEVICEID}, %keys);
 
         $inventory->addEntry(
             section => 'NETWORKS',
@@ -68,23 +67,23 @@ sub doInventory {
 }
 
 sub _getMediaType {
-    my ($deviceid, $keys) = @_;
+    my ($deviceid, %keys) = @_;
 
-    return unless defined $deviceid && $keys;
+    return unless defined $deviceid && %keys;
 
     my $subtype;
 
-    foreach my $subkey_name (keys %{$keys}) {
+    foreach my $subkey_name (keys %keys) {
         # skip variables
         next if $subkey_name =~ m{^/};
-        my $subkey_connection = $keys->{$subkey_name}->{'Connection/'}
+        my $subkey_connection = $keys{$subkey_name}->{Connection}
             or next;
-        my $subkey_deviceid   = $subkey_connection->{'/PnpInstanceID'}
+        my $subkey_deviceid   = $subkey_connection->{PnpInstanceID}
             or next;
         # Normalize PnpInstanceID
         $subkey_deviceid =~ s/\\\\/\\/g;
         if (lc($subkey_deviceid) eq lc($deviceid)) {
-            $subtype = $subkey_connection->{'/MediaSubType'};
+            $subtype = $subkey_connection->{MediaSubType};
             last;
         }
     }

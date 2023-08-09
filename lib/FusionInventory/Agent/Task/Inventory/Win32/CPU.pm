@@ -53,12 +53,11 @@ sub _getCPUs {
     my @dmidecodeInfos = $remotewmi || Win32::GetOSName() eq 'Win2003' ?
         () : getCpusFromDmidecode();
 
-    # the CPU description in WMI is false, we use the registry instead
-    my $registryInfos = getRegistryKey(
-        path   => "HKEY_LOCAL_MACHINE/Hardware/Description/System/CentralProcessor",
-        wmiopts => { # Only used for remote WMI optimization
-            values  => [ qw/Identifier ProcessorNameString VendorIdentifier/ ]
-        }
+    my %registryInfos = getNewRegistryAll(
+        logger => $params{logger},
+        root   => "HKEY_LOCAL_MACHINE",
+        path   => "Hardware/Description/System/CentralProcessor",
+        %params
     );
 
     my $cpuId = 0;
@@ -77,26 +76,26 @@ sub _getCPUs {
     )) {
 
         my $dmidecodeInfo = $dmidecodeInfos[$cpuId];
-        my $registryInfo  = $registryInfos->{"$logicalId/"};
+        my $registryInfo  = $registryInfos{"$logicalId"};
 
         # Compute WMI threads for this CPU if not available in dmidecode, this is the case on win2003r2 with 932370 hotfix applied (see #2894)
         my $wmi_threads   = !$dmidecodeInfo->{THREAD} && $object->{NumberOfCores} ? $object->{NumberOfLogicalProcessors}/$object->{NumberOfCores} : undef;
 
         # Split CPUID from its value inside registry
-        my @splitted_identifier = split(/ |\n/, $registryInfo->{'/Identifier'} || $object->{Description});
+        my @splitted_identifier = split(/ |\n/, $registryInfo->{Identifier} || $object->{Description});
 
         my $name = $dmidecodeInfo->{NAME};
         unless ($name) {
-            $name = trimWhitespace($registryInfo->{'/ProcessorNameString'} || $object->{Name});
+            $name = trimWhitespace($registryInfo->{ProcessorNameString} || $object->{Name});
             $name =~ s/\((R|TM)\)//gi if $name;
         }
 
         my $cpu = {
             CORE         => $dmidecodeInfo->{CORE} || $object->{NumberOfCores},
             THREAD       => $dmidecodeInfo->{THREAD} || $wmi_threads,
-            DESCRIPTION  => $dmidecodeInfo->{DESCRIPTION} || $registryInfo->{'/Identifier'} || $object->{Description},
+            DESCRIPTION  => $dmidecodeInfo->{DESCRIPTION} || $registryInfo->{Identifier} || $object->{Description},
             NAME         => $name,
-            MANUFACTURER => $dmidecodeInfo->{MANUFACTURER} || getCanonicalManufacturer($registryInfo->{'/VendorIdentifier'} || $object->{Manufacturer}),
+            MANUFACTURER => $dmidecodeInfo->{MANUFACTURER} || getCanonicalManufacturer($registryInfo->{VendorIdentifier} || $object->{Manufacturer}),
             SERIAL       => $dmidecodeInfo->{SERIAL} || $object->{SerialNumber},
             SPEED        => $dmidecodeInfo->{SPEED} || $object->{MaxClockSpeed},
             FAMILYNUMBER => $dmidecodeInfo->{FAMILYNUMBER} || $splitted_identifier[2],
